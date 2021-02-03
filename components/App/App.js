@@ -23,9 +23,9 @@ class App extends Component {
         <div className={styles.topBanner}>
           {/* <img src={require('../../assets/images/wordmark.png')} alt={'wordmark'} className={styles.brand} /> */}
         </div>
-        { !this.props.user.id &&
+        {/* { !this.props.user.id &&
           <Login setUser={this.props.setUser} />
-        }
+        } */}
 
           <MainContainer />
 

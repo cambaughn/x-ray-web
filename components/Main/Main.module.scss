@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.cardImage {
+  width: 80px;
+  height: auto;
+
+  margin-top: 5px;
+  margin-bottom: 15px;
+
+  box-shadow: 0px 2px 5px #95a5a6;
+}
+
+.cardName {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

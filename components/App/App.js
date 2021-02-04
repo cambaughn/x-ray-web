@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import MainContainer from '../Main/MainContainer';
 import SubscribeContainer from '../Subscribe/SubscribeContainer';
 import Login from '../Login/Login';
+import SearchContainer from '../Search/SearchContainer';
 
 // Utility Functions
 import { setCard, setSales, setUser } from '../../redux/actionCreators';
@@ -27,7 +28,8 @@ class App extends Component {
           <Login setUser={this.props.setUser} />
         } */}
 
-        <MainContainer />
+        <SearchContainer />
+        {/* <MainContainer /> */}
 
         {/* { this.props.user.id && this.props.user.status !== 'subscribed' &&
           <SubscribeContainer />

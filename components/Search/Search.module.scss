@@ -1,0 +1,17 @@
+.container {
+  width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  .searchBar, .searchBar:focus {
+    width: 400px;
+    padding: 15px;
+    outline: none;
+    border: 1px solid grey;
+    border-radius: 2px;
+  }
+}

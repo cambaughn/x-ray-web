@@ -6,7 +6,7 @@ import App from '../components/App/App';
 
 export default () => (
   <Provider store={store}>
-    <Head title="Home" />
+    <Head title="X-ray" />
     <App />
   </Provider>
 );

@@ -13,8 +13,12 @@ export default function Search({}) {
 
   const liveSearch = async () => {
     try {
-      let searchResults = await searchCard(searchTerm);
-      setResults(searchResults);
+      if (searchTerm.length > 0) {
+        let searchResults = await searchCard(searchTerm);
+        setResults(searchResults);
+      } else {
+        setResults([]);
+      }
     } catch(error) {
       console.error(error);
     }

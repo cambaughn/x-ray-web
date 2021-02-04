@@ -7,7 +7,7 @@ import Pricing from '../Pricing/Pricing';
 
 // Utility functions
 
-export default function Main({ card, listing, sales, user }) {
+export default function Main({ card,  sales, user }) {
   return (
     <div className={styles.container}>
       { card.image_url &&
@@ -21,7 +21,7 @@ export default function Main({ card, listing, sales, user }) {
         </div>
       }
 
-      <Pricing sales={sales} listing={listing} />
+      <Pricing sales={sales} />
     </div>
   )
 }

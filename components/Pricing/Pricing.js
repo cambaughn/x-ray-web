@@ -8,15 +8,17 @@ import styles from './Pricing.module.scss';
 import { sortSalesByDate } from '../../util/sorting.js';
 import { isLastMonth } from '../../util/date.js';
 
-export default function Pricing({ sales, listing }) {
+export default function Pricing({ sales }) {
   const [price, setPrice] = useState(null);
   const [priceChange, setPriceChange] = useState(null);
 
   const findPrice = async () => {
     try {
       if (sales.length > 0) {
-        let salesForGrade = listing.grade ? sales.filter(sale => {
-          return sale.grade === listing.grade && sale.grading_authority === listing.grading_authority;
+        let grade = null;
+        let grading_authority = 'PSA';
+        let salesForGrade = grade ? sales.filter(sale => {
+          return sale.grade === grade && sale.grading_authority === grading_authority;
         }) : sales.filter(sale => !sale.grade);
 
         salesForGrade = salesForGrade.map(sale => {
@@ -60,7 +62,7 @@ export default function Pricing({ sales, listing }) {
     }
   }
 
-  useEffect(findPrice, [sales, listing.grade]);
+  useEffect(findPrice, [sales]);
 
   return (
     <div className={styles.container}>

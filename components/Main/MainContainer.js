@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Main from './Main';
 
 // Utility Functions
-import { setListing, setCard, setSales, setUser } from '../../redux/actionCreators';
+import { setCard, setSales, setUser } from '../../redux/actionCreators';
 import { searchCard, configureSearchTerm } from '../../util/algolia/algoliaHelpers';
 import pokeCard from '../../util/api/card';
 import { getSalesForCard } from '../../util/api/sales';
@@ -15,17 +15,15 @@ import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI';
 class MainContainer extends Component {
 
   componentDidMount = () => {
-    if (this.props.listing.title) {
-      this.setUpComponent();
-    }
+    this.setUpComponent();
   }
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.listing.title !== this.props.listing.title) { // if there's a new listing that wasn't there before
-      this.setUpComponent();
-    } else if (this.props.listing.title && !this.props.card.id) { // if there is a listing and not a card yet
-      this.setUpComponent();
-    }
+    // if (prevProps.listing.title !== this.props.listing.title) { // if there's a new listing that wasn't there before
+    //   this.setUpComponent();
+    // } else if (this.props.listing.title && !this.props.card.id) { // if there is a listing and not a card yet
+    //   this.setUpComponent();
+    // }
   }
 
   setUpComponent = async () => {
@@ -42,7 +40,8 @@ class MainContainer extends Component {
 
   findCard = async () => {
     try {
-      let searchTerm = configureSearchTerm(this.props.listing);
+      // let searchTerm = configureSearchTerm();
+      let searchTerm = 'Pikachu';
       let results = await searchCard(searchTerm);
       let card = {};
       if (results && results.length > 0) {
@@ -87,7 +86,7 @@ class MainContainer extends Component {
 
   render() {
     return (
-      <Main user={this.props.user} card={this.props.card} listing={this.props.listing} sales={this.props.sales} />
+      <Main user={this.props.user} card={this.props.card} sales={this.props.sales} />
     );
   }
 }
@@ -99,7 +98,6 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     card: state.card,
-    listing: state.listing,
     sales: state.sales,
   }
 }
@@ -107,7 +105,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setUser: user => dispatch(setUser(user)),
-    setListing: details => dispatch(setListing(details)),
     setCard: details => dispatch(setCard(details)),
     setSales: sales => dispatch(setSales(sales))
   }

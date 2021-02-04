@@ -19,15 +19,6 @@ const card = (state = {}, action) => {
   }
 }
 
-const listing = (state = {}, action) => {
-  switch (action.type) {
-    case 'SET_LISTING':
-      return action.listing;
-    default:
-      return state;
-  }
-}
-
 const sales = (state = [], action) => {
   switch (action.type) {
     case 'SET_SALES':
@@ -42,7 +33,6 @@ const sales = (state = [], action) => {
 const xRayApp = combineReducers({
   user,
   card,
-  listing,
   sales
 });
 

@@ -17,13 +17,6 @@ function setCard(card) {
   }
 }
 
-function setListing(listing) {
-  return {
-    type: 'SET_LISTING',
-    listing
-  }
-}
-
 function setSales(sales) {
   return {
     type: 'SET_SALES',
@@ -35,6 +28,5 @@ function setSales(sales) {
 export {
   setUser,
   setCard,
-  setListing,
   setSales
 };

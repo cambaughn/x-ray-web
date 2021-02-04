@@ -8,7 +8,7 @@ import SubscribeContainer from '../Subscribe/SubscribeContainer';
 import Login from '../Login/Login';
 
 // Utility Functions
-import { setListing, setCard, setSales, setUser } from '../../redux/actionCreators';
+import { setCard, setSales, setUser } from '../../redux/actionCreators';
 import { searchCard, configureSearchTerm } from '../../util/algolia/algoliaHelpers';
 import pokeCard from '../../util/api/card';
 import { getSalesForCard } from '../../util/api/sales';
@@ -27,7 +27,7 @@ class App extends Component {
           <Login setUser={this.props.setUser} />
         } */}
 
-          <MainContainer />
+        <MainContainer />
 
         {/* { this.props.user.id && this.props.user.status !== 'subscribed' &&
           <SubscribeContainer />
@@ -44,7 +44,6 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    listing: state.listing,
     card: state.card,
     sales: state.sales,
   }
@@ -53,7 +52,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setUser: user => dispatch(setUser(user)),
-    setListing: details => dispatch(setListing(details)),
     setCard: details => dispatch(setCard(details)),
     setSales: sales => dispatch(setSales(sales))
   }

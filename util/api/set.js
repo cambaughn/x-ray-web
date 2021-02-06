@@ -1,4 +1,5 @@
 import db from '../firebase/firebaseInit';
+import { convertSnapshot, convertDoc } from './general';
 
 const pokeSet = {};
 

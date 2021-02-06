@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './CardDetails.module.scss';
 
 // Components
+import Tag from '../Tag/Tag';
+import Pricing from '../Pricing/Pricing';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -38,9 +40,14 @@ export default function CardDetails({ card_id }) {
     <div className={styles.container}>
       <img src={card.thumbnail} className={styles.image} />
       <h3 className={styles.cardName}>{card.name}</h3>
-      <span className={styles.cardNumber}>{card.number}/{set.num_cards}</span>
-      <span className={styles.setTitle}>{set.title}</span>
-      <span className={styles.setTitle}>{set.title}</span>
+
+      <div className={styles.tags}>
+        <Tag text={`${card.number}/${set.num_cards}`} color={'#f1c40f'} />
+        <Tag text={card.rarity} color={'#EE5253'} />
+        <Tag text={card.set_title} color={'#5F27CD'} />
+      </div>
+
+      <Pricing sales={sales} />
     </div>
   )
 }

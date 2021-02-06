@@ -10,6 +10,7 @@ import { isLastMonth } from '../../util/date.js';
 
 export default function Pricing({ sales }) {
   const [price, setPrice] = useState(null);
+  const [grade, setGrade] = useState('ungraded');
   const [priceChange, setPriceChange] = useState(null);
 
   const findPrice = async () => {
@@ -67,7 +68,10 @@ export default function Pricing({ sales }) {
   return (
     <div className={styles.container}>
       { price &&
-        <h3 className={styles.price}>${price}</h3>
+        <>
+          <h3 className={styles.price}>${price}</h3>
+          <span className={styles.grade}>{grade}</span>
+        </>
       }
       { priceChange &&
         <span className={styles.priceChange}>+$15 (10%)</span>

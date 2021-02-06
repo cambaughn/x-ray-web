@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Search.module.scss';
+import Link from 'next/link';
 
 // Components
 
@@ -40,10 +41,12 @@ export default function Search({}) {
       <div className={styles.searchResults}>
         { results.map(result => {
           return (
-            <div className={styles.resultWrapper} key={result.id} >
-              <img src={result.thumbnail} className={styles.thumbnail} />
-              {/* <span className={styles.cardName}>{result.name}</span> */}
-            </div>
+            <Link href={`card/${result.id}`} key={result.id}>
+              <div className={styles.resultWrapper}>
+                <img src={result.thumbnail} className={styles.thumbnail} />
+                {/* <span className={styles.cardName}>{result.name}</span> */}
+              </div>
+            </Link>
           )
         })}
       </div>

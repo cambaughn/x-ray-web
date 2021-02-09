@@ -44,7 +44,7 @@ export default function Search({}) {
             <Link href={`card/${result.id}`} key={result.id}>
               <div className={styles.resultWrapper}>
                 <img src={result.thumbnail} className={styles.thumbnail} />
-                {/* <span className={styles.cardName}>{result.name}</span> */}
+                <span className={styles.cardName}>{result.name}</span>
               </div>
             </Link>
           )

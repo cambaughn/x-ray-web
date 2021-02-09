@@ -18,7 +18,7 @@
   }
 
   .searchResults {
-    width: 60%;
+    width: 80%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -36,9 +36,10 @@
       cursor: pointer;
 
       .thumbnail {
-        width: 100px;
+        width: 150px;
         height: auto;
         margin-bottom: 10px;
+        box-shadow: 0px 2px 5px #95a5a6;
       }
 
       .cardName {

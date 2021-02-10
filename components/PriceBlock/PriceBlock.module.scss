@@ -1,6 +1,26 @@
+.container {
+  width: 80%;
+  margin-bottom: 30px;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
 .price {
-  font-size: 35px;
+  font-size: 28px;
+  line-height: 28px;
   font-weight: 500;
   margin: 0px;
-  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.grade {
+  color: grey;
+  font-size: 15px;
+  font-weight: 400;
+  padding-bottom: 1px;
 }

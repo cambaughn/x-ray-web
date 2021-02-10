@@ -8,7 +8,7 @@ import { sortSalesByDate } from '../../util/sorting.js';
 import { isLastMonth } from '../../util/date.js';
 
 
-export default function PriceBlock({ sales }) {
+export default function PriceBlock({ sales, ungraded, gradingAuthority, grade }) {
   const [averagePrice, setAveragePrice] = useState(0);
 
   const findPrice = () => {
@@ -24,7 +24,7 @@ export default function PriceBlock({ sales }) {
        //   }
        // }
 
-       sales = sales.map(sale => {
+       recentSales = recentSales.map(sale => {
          let price = sale.price;
          if (sale.currency !== 'USD') {
            return null;
@@ -33,22 +33,33 @@ export default function PriceBlock({ sales }) {
        })
        .filter(price => !!price)
 
-       let total = sales.reduce((total, current) => {
+       let total = recentSales.reduce((total, current) => {
          total += current;
          return total;
        }, 0)
 
-       let avg = total / sales.length;
+       let avg = total / recentSales.length;
        avg = Math.round((avg + Number.EPSILON) * 100) / 100;
        console.log('average price ', total, avg);
-       setAveragePrice(averagePrice);
+       setAveragePrice(avg);
      }
   }
 
   useEffect(findPrice, [sales])
   return (
     <div className={styles.container}>
-      <h2>{averagePrice}</h2>
+
+      <div className={styles.details}>
+        <h2 className={styles.price}>${averagePrice}</h2>
+        
+        { ungraded &&
+          <span className={styles.grade}>Ungraded</span>
+        }
+
+        { gradingAuthority && grade &&
+          <span className={styles.grade}>{gradingAuthority} {grade}</span>
+        }
+      </div>
     </div>
   )
 }

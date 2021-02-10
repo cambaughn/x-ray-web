@@ -11,7 +11,7 @@ import { isLastMonth } from '../../util/date.js';
 export default function PriceDetails({ sales }) {
   const [salesByType, setSalesByType] = useState({});
 
-  const findPrice = async () => {
+  const sortSalesByType = async () => {
     try {
       if (sales.length > 0) {
         let typeRecord = {};
@@ -31,22 +31,19 @@ export default function PriceDetails({ sales }) {
 
         setSalesByType(typeRecord);
 
-        // TODO: Figure out how to filter based on recency. Maybe that just happens in the PriceBlock component below
-
         // let sortedSalesByDate = sortSalesByDate(salesForGrade);
-
       }
     } catch (error) {
       console.error(error);
     }
   }
 
-  useEffect(findPrice, [sales]);
+  useEffect(sortSalesByType, [sales]);
 
   return (
     <div className={styles.container}>
-      <PriceBlock sales={salesByType.ungraded} />
-      {/* <PriceBlock /> */}
+      <PriceBlock sales={salesByType.ungraded || []} ungraded={true} />
+      <PriceBlock sales={salesByType.PSA[10] || []} gradingAuthority={'PSA'} grade={10} />
     </div>
   )
 }

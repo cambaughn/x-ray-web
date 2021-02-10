@@ -23,7 +23,7 @@ export default function CardDetails({ card_id }) {
       let setData = await pokeSet.get(cardData.set_id);
 
       setCard(cardData);
-      setSales(salesData);
+      setSales(salesData || []);
 
       if (!Array.isArray(setData)) {
         setSet(setData);
@@ -48,7 +48,9 @@ export default function CardDetails({ card_id }) {
         </div>
       </div>
 
-      <PriceDetails sales={sales} />
+      <div className={styles.rightSection}>
+        <PriceDetails sales={sales} />
+      </div>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import styles from './CardDetails.module.scss';
 // Components
 import Tag from '../Tag/Tag';
 import Pricing from '../Pricing/Pricing';
+import PriceDetails from '../PriceDetails/PriceDetails';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -47,7 +48,7 @@ export default function CardDetails({ card_id }) {
         </div>
       </div>
 
-      <Pricing sales={sales} />
+      <PriceDetails sales={sales} />
     </div>
   )
 }

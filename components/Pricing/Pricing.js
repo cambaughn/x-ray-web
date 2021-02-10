@@ -5,15 +5,14 @@ import styles from './Pricing.module.scss';
 // Components
 
 // Utility functions
-import { sortSalesByDate } from '../../util/sorting.js';
-import { isLastMonth } from '../../util/date.js';
+
 
 export default function Pricing({ sales }) {
   const [price, setPrice] = useState(null);
   const [grade, setGrade] = useState('ungraded');
   const [priceChange, setPriceChange] = useState(null);
 
-  const findPrice = async () => {
+  const formatSales = async () => {
     try {
       if (sales.length > 0) {
         let grade = null;
@@ -63,7 +62,7 @@ export default function Pricing({ sales }) {
     }
   }
 
-  useEffect(findPrice, [sales]);
+  useEffect(formatSales, [sales]);
 
   return (
     <div className={styles.container}>

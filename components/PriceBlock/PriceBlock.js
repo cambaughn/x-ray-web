@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './PriceBlock.module.scss';
 
 // Components
+import PriceChart from '../PriceChart/PriceChart';
 
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
@@ -40,7 +41,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
 
        let avg = total / recentSales.length;
        avg = Math.round((avg + Number.EPSILON) * 100) / 100;
-       console.log('average price ', total, avg);
+       console.log(`total sales: ${total}, average price: ${avg}`);
        setAveragePrice(avg);
      }
   }
@@ -51,7 +52,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
 
       <div className={styles.details}>
         <h2 className={styles.price}>${averagePrice}</h2>
-        
+
         { ungraded &&
           <span className={styles.grade}>Ungraded</span>
         }
@@ -60,6 +61,8 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
           <span className={styles.grade}>{gradingAuthority} {grade}</span>
         }
       </div>
+
+      <PriceChart sales={sales} />
     </div>
   )
 }

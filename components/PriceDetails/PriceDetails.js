@@ -43,7 +43,7 @@ export default function PriceDetails({ sales }) {
   return (
     <div className={styles.container}>
       <PriceBlock sales={salesByType.ungraded || []} ungraded={true} />
-      <PriceBlock sales={salesByType.PSA[10] || []} gradingAuthority={'PSA'} grade={10} />
+      <PriceBlock sales={salesByType.PSA && salesByType.PSA[10] ? salesByType.PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
     </div>
   )
 }

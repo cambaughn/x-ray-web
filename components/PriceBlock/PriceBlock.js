@@ -11,10 +11,12 @@ import { isLastMonth } from '../../util/date.js';
 
 export default function PriceBlock({ sales, ungraded, gradingAuthority, grade }) {
   const [averagePrice, setAveragePrice] = useState(0);
+  const [recentSales, setRecentSales] = useState([]);
 
-  const findPrice = () => {
+  const formatSales = () => {
      if (sales.length) {
-       let recentSales = sales.filter(sale => isLastMonth(sale.date));
+       let mostRecentSales = sales.filter(sale => isLastMonth(sale.date));
+       setRecentSales(mostRecentSales);
 
        // If there aren't enough recent sales, keep going through the history until you find at least 5, or run out of listings
        // if (recentSales.length < 5) {
@@ -25,7 +27,8 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
        //   }
        // }
 
-       recentSales = recentSales.map(sale => {
+
+       let total = mostRecentSales.map(sale => {
          let price = sale.price;
          if (sale.currency !== 'USD') {
            return null;
@@ -33,20 +36,21 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
          return price;
        })
        .filter(price => !!price)
-
-       let total = recentSales.reduce((total, current) => {
+       .reduce((total, current) => {
          total += current;
          return total;
-       }, 0)
+       }, 0);
 
-       let avg = total / recentSales.length;
+
+       let avg = total / mostRecentSales.length;
        avg = Math.round((avg + Number.EPSILON) * 100) / 100;
        console.log(`total sales: ${total}, average price: ${avg}`);
-       setAveragePrice(avg);
+       setAveragePrice(avg || 0);
      }
   }
 
-  useEffect(findPrice, [sales])
+  useEffect(formatSales, [sales]);
+
   return (
     <div className={styles.container}>
 
@@ -62,7 +66,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
         }
       </div>
 
-      <PriceChart sales={sales} />
+      <PriceChart recentSales={recentSales} />
     </div>
   )
 }

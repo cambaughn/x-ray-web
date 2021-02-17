@@ -6,7 +6,7 @@ import PriceBlock from '../PriceBlock/PriceBlock';
 
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
-import { isLastMonth } from '../../util/date.js';
+import { isLastMonth, dateSoldToObject } from '../../util/date.js';
 
 export default function PriceDetails({ sales }) {
   const [salesByType, setSalesByType] = useState({});
@@ -16,7 +16,7 @@ export default function PriceDetails({ sales }) {
       if (sales.length > 0) {
         let typeRecord = {};
         sales.forEach(sale => {
-          sale.date = Date.parse(sale.date_sold);
+          sale.date = dateSoldToObject(sale.date_sold);
 
           if (sale.grading_authority && sale.grade) { // is a graded card
             // Ex. typeRecord.PSA.10 = [all_psa_10_sales]

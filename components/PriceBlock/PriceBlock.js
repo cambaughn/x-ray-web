@@ -55,15 +55,21 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
     <div className={styles.container}>
 
       <div className={styles.details}>
-        <h2 className={styles.price}>${averagePrice}</h2>
+        <div className={styles.leftSide}>
+          { ungraded &&
+            <span className={styles.grade}>Ungraded</span>
+          }
 
-        { ungraded &&
-          <span className={styles.grade}>Ungraded</span>
-        }
+          { gradingAuthority && grade &&
+            <span className={styles.grade}>{gradingAuthority} {grade}</span>
+          }
 
-        { gradingAuthority && grade &&
-          <span className={styles.grade}>{gradingAuthority} {grade}</span>
-        }
+          <span className={styles.period}>last 30 days</span>
+        </div>
+        <div className={styles.rightSide}>
+          <h2 className={styles.price}>${averagePrice}</h2>
+        </div>
+
       </div>
 
       <PriceChart recentSales={recentSales} />

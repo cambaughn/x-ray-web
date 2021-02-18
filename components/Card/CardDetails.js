@@ -41,14 +41,16 @@ export default function CardDetails({ card_id }) {
         <div className={styles.imageWrapper}>
           <img src={card.thumbnail} className={styles.image} />
         </div>
-        
+
         <h3 className={styles.cardName}>{card.name}</h3>
 
-        <div className={styles.tags}>
-          <Tag text={`${card.number}/${set.num_cards}`} color={'#f1c40f'} />
-          <Tag text={card.rarity} color={'#EE5253'} />
-          <Tag text={card.set_title} color={'#5F27CD'} />
-        </div>
+        { card.name &&
+          <div className={styles.tags}>
+            <Tag text={`${card.number}/${set.num_cards}`} color={'#f1c40f'} />
+            <Tag text={card.rarity} color={'#EE5253'} />
+            <Tag text={card.set_title} color={'#5F27CD'} />
+          </div>
+        }
       </div>
 
       <div className={styles.rightSection}>

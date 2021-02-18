@@ -38,7 +38,10 @@ export default function CardDetails({ card_id }) {
   return (
     <div className={styles.container}>
       <div className={styles.leftRail}>
-        <img src={card.thumbnail} className={styles.image} />
+        <div className={styles.imageWrapper}>
+          <img src={card.thumbnail} className={styles.image} />
+        </div>
+        
         <h3 className={styles.cardName}>{card.name}</h3>
 
         <div className={styles.tags}>

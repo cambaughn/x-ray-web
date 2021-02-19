@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './NavBar.module.scss';
+import Link from 'next/link';
 
 // Components
 
@@ -8,7 +9,9 @@ import styles from './NavBar.module.scss';
 export default function NavBar({}) {
   return (
     <div className={styles.container}>
-
+      <Link href="/">
+        <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
+      </Link>
     </div>
   )
 }

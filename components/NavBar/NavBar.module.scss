@@ -1,0 +1,18 @@
+.container {
+  width: 100vw;
+  height: 60px;
+  background-color: white;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.brand {
+  height: 55%;
+  width: auto;
+  margin-left: 30px;
+  cursor: pointer;
+}

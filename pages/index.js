@@ -9,7 +9,7 @@ export default () => (
   <Provider store={store}>
     <MainLayout>
       <Head title="X-ray" />
-      <SearchContainer />
+      {/* <SearchContainer /> */}
     </MainLayout>
   </Provider>
 );

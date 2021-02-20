@@ -9,7 +9,6 @@ import { searchCard } from '../../util/algolia/algoliaHelpers';
 
 export default function Search({}) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searching, setSearching] = useState(false);
   const [results, setResults] = useState([]);
 
   const liveSearch = async () => {

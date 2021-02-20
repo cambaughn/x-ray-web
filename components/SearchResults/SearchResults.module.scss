@@ -1,0 +1,50 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  width: 100vw;
+  padding-top: 80px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  background-color: white;
+  z-index: -1;
+}
+
+.searchResults {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+
+.resultWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+
+.thumbnail {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 5px #95a5a6;
+}
+
+.cardName {
+  font-size: 0.9em;
+}

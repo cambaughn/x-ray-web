@@ -29,6 +29,10 @@ export default function NavBar({}) {
 
   useEffect(liveSearch, [searchTerm]);
 
+  const clearSearch = () => {
+    setSearchTerm('');
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.brandWrapper}>
@@ -37,12 +41,12 @@ export default function NavBar({}) {
         </Link>
       </div>
 
-      <SearchBar setSearchTerm={setSearchTerm} />
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <div className={styles.placeholder}></div>
 
       { searchTerm.length > 0 &&
-        <SearchResults results={results} />
+        <SearchResults results={results} clearSearch={clearSearch} />
       }
     </div>
   )

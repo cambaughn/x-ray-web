@@ -16,6 +16,7 @@ export default function CardDetails({ card_id }) {
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
 
+
   const getCardDetails = async () => {
     try {
       let cardData = await pokeCard.get(card_id);
@@ -46,7 +47,7 @@ export default function CardDetails({ card_id }) {
 
         { card.name &&
           <div className={styles.tags}>
-            <Tag text={`${card.number}/${set.num_cards}`} color={'#f1c40f'} />
+            <Tag text={`${card.number}/${set.num_cards}`} color={'#2ecc71'} />
             <Tag text={card.rarity} color={'#EE5253'} />
             <Tag text={card.set_title} color={'#5F27CD'} />
           </div>

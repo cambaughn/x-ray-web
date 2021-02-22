@@ -1,0 +1,14 @@
+.container {
+  width: 100vw;
+  height: calc(100vh - 150px);
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  font-style: bold;
+  font-size: 18px;
+  color: #bdc3c7;
+}

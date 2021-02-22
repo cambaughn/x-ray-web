@@ -1,19 +1,18 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Head from '../../components/Head/Head';
 
 // Components
-import CardDetails from '../../components/Card/CardDetails';
 import MainLayout from '../../components/MainLayout/MainLayout';
+import AdminContainer from '../../components/Admin/AdminContainer';
 
 
-export default function CardPage({}) {
+export default function AdminHome({}) {
   const router = useRouter();
   const { card_id } = router.query;
 
   return (
     <MainLayout>
-      <CardDetails card_id={card_id} />
+      <AdminContainer />
     </MainLayout>
   )
 }

@@ -9,6 +9,9 @@ export default function Admin({}) {
   return (
     <div className={styles.container}>
       <p>I am the admin</p>
+      <div className={styles.leftNav}>
+
+      </div>
     </div>
   )
 }

@@ -2,3 +2,18 @@
   padding-top: 60px;
   padding-left: 250px;
 }
+
+.cardRow {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.image {
+  width: 130px;
+  height: auto;
+
+  margin-right: 30px;
+}

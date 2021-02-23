@@ -4,7 +4,7 @@ import Head from '../../components/Head/Head';
 
 // Components
 import CardDetails from '../../components/Card/CardDetails';
-import MainLayout from '../../components/MainLayout/MainLayout';
+import MainLayout from '../../components/Layouts/MainLayout/MainLayout';
 
 
 export default function CardPage({}) {

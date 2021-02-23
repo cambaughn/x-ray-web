@@ -3,16 +3,19 @@ import { useRouter } from 'next/router';
 
 // Components
 import MainLayout from '../../components/Layouts/MainLayout/MainLayout';
-import AdminContainer from '../../components/Admin/AdminContainer';
+import AdminLayout from '../../components/Layouts/AdminLayout/AdminLayout';
+import CardImage from '../../components/CardImage/CardImage';
 
 
 export default function AdminHome({}) {
   const router = useRouter();
-  const { card_id } = router.query;
+  const { card } = router.query;
 
   return (
     <MainLayout>
-      <AdminContainer />
+      <AdminLayout>
+        <CardImage />
+      </AdminLayout>
     </MainLayout>
   )
 }

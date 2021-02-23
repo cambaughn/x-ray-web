@@ -9,7 +9,8 @@ import AdminNavButton from './AdminNavButton';
 export default function AdminNav({}) {
   return (
     <div className={styles.container}>
-      <AdminNavButton text={'Card images'} linkTo={'/admin/card-images'} />
+      <AdminNavButton text={'Admin Home'} linkTo={'/admin'} />
+      <AdminNavButton text={'Card Images'} linkTo={'/admin/card-images'} />
     </div>
   )
 }

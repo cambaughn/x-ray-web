@@ -6,7 +6,7 @@ const pokeSet = {};
 // Be careful with this one, it doesn't check whether it already exists first
 pokeSet.create = async (id, newSet) => {
   try {
-    return db.collection('en_pokemon_sets').doc(id).set(newSet);
+    return db.collection('pokemon_sets').doc(id).set(newSet);
   } catch(error) {
     console.error(error);
   }
@@ -14,7 +14,7 @@ pokeSet.create = async (id, newSet) => {
 
 pokeSet.search = async (key, value) => {
   try {
-    return db.collection('en_pokemon_sets').where(key, '==', value).get()
+    return db.collection('pokemon_sets').where(key, '==', value).get()
     .then(function(snapshot) {
       let sets = convertSnapshot(snapshot);
       return sets;
@@ -27,12 +27,12 @@ pokeSet.search = async (key, value) => {
 pokeSet.get = async (id) =>  {
   try {
     if (id) { // get specific set
-      return db.collection('en_pokemon_sets').doc(id).get()
+      return db.collection('pokemon_sets').doc(id).get()
       .then(function(doc) {
         return convertDoc(doc);
       })
     } else { // get all sets
-      return db.collection('en_pokemon_sets').get()
+      return db.collection('pokemon_sets').get()
       .then(function(snapshot) {
         let sets = convertSnapshot(snapshot);
         return sets;
@@ -45,7 +45,7 @@ pokeSet.get = async (id) =>  {
 
 pokeSet.update = async (id, updates) => {
   try {
-    return db.collection('en_pokemon_sets').doc(id).update(updates)
+    return db.collection('pokemon_sets').doc(id).update(updates)
   } catch(error) {
     console.error(error);
   }

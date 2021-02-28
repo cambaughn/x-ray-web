@@ -6,7 +6,7 @@ const pokeCard = {};
 
 pokeCard.create = async (id, newCard) => {
   try {
-    return db.collection('en_pokemon_cards').doc(id).set(newCard);
+    return db.collection('pokemon_cards').doc(id).set(newCard);
   } catch(error) {
     console.error(error);
   }
@@ -14,7 +14,7 @@ pokeCard.create = async (id, newCard) => {
 
 pokeCard.update = async (id, updates) => {
   try {
-    return db.collection('en_pokemon_cards').doc(id).update(updates);
+    return db.collection('pokemon_cards').doc(id).update(updates);
   } catch(error) {
     console.error(error);
   }
@@ -23,12 +23,12 @@ pokeCard.update = async (id, updates) => {
 pokeCard.get = async (id) => {
   try {
     if (id) { // get specific card
-      return db.collection('en_pokemon_cards').doc(id).get()
+      return db.collection('pokemon_cards').doc(id).get()
       .then(function(doc) {
         return convertDoc(doc);
       })
     } else { // get all cards
-      return db.collection('en_pokemon_cards').get()
+      return db.collection('pokemon_cards').get()
       .then(function(snapshot) {
         let sets = convertSnapshot(snapshot);
         return sets;

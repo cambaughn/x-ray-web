@@ -22,6 +22,7 @@ export default function CardDetails({ card_id }) {
       let cardData = await pokeCard.get(card_id);
       let salesData = await getSalesForCard(card_id);
       let setData = await pokeSet.get(cardData.set_id);
+      console.log('got set dataa ', setData);
 
       setCard(cardData);
       setSales(salesData || []);
@@ -40,16 +41,16 @@ export default function CardDetails({ card_id }) {
     <div className={styles.container}>
       <div className={styles.leftRail}>
         <div className={styles.imageWrapper}>
-          <img src={card.thumbnail} className={styles.image} />
+          <img src={card.images.small} className={styles.image} />
         </div>
 
         <h3 className={styles.cardName}>{card.name}</h3>
 
         { card.name &&
           <div className={styles.tags}>
-            <Tag text={`${card.number}/${set.num_cards}`} color={'#2ecc71'} />
+            <Tag text={`${card.number}/${set.printedTotal}`} color={'#2ecc71'} />
             <Tag text={card.rarity} color={'#EE5253'} />
-            <Tag text={card.set_title} color={'#5F27CD'} />
+            <Tag text={card.set_name} color={'#5F27CD'} />
           </div>
         }
       </div>

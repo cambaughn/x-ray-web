@@ -5,6 +5,7 @@ const searchCard = async (searchTerm) => {
   try {
     let result = await index.search(searchTerm);
     let hits = result.hits;
+    console.log('hits => ', result);
     return hits;
   } catch(error) {
     console.error(index);

@@ -5,7 +5,7 @@ import pokeCard from './card';
 
 const getCardsWithoutImages = async () => {
   try {
-    return db.collection('en_pokemon_cards').where('hero_image', '==', null).limit(100).get()
+    return db.collection('pokemon_cards').where('hero_image', '==', null).limit(100).get()
     .then((snapshot) => {
       let cards = convertSnapshot(snapshot);
       return cards;

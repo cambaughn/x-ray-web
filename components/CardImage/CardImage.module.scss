@@ -3,8 +3,36 @@
   padding-left: 250px;
 }
 
+.optionsBar {
+  width: 100%;
+  padding-right: 50px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.approveButton {
+  background-color: #2ecc71;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+
+  .approveText {
+    color: white;
+  }
+}
+
 .cardRow {
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.cardImages {
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -22,7 +22,8 @@ export default function CardDetails({ card_id }) {
       let cardData = await pokeCard.get(card_id);
       let salesData = await getSalesForCard(card_id);
       let setData = await pokeSet.get(cardData.set_id);
-      console.log('got set dataa ', setData);
+      console.log('got set data ', setData);
+      console.log('got sales data ', salesData);
 
       setCard(cardData);
       setSales(salesData || []);
@@ -41,7 +42,9 @@ export default function CardDetails({ card_id }) {
     <div className={styles.container}>
       <div className={styles.leftRail}>
         <div className={styles.imageWrapper}>
-          <img src={card.images.small} className={styles.image} />
+          { card.images && card.images.small &&
+            <img src={card.images.small} className={styles.image} />
+          }
         </div>
 
         <h3 className={styles.cardName}>{card.name}</h3>

@@ -10,6 +10,7 @@ export default function AdminNav({}) {
   return (
     <div className={styles.container}>
       <AdminNavButton text={'Admin Home'} linkTo={'/admin'} />
+      <AdminNavButton text={'Sales Data'} linkTo={'/admin/sales-data'} />
       <AdminNavButton text={'Card Images'} linkTo={'/admin/card-images'} />
     </div>
   )

@@ -7,8 +7,6 @@ import PriceChart from '../PriceChart/PriceChart';
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
 import { isLastMonth } from '../../util/date.js';
-import { removeSale } from '../../util/api/sales';
-
 
 export default function PriceBlock({ sales, ungraded, gradingAuthority, grade }) {
   const [averagePrice, setAveragePrice] = useState(0);
@@ -32,9 +30,6 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
        let total = mostRecentSales.map(sale => {
          let price = sale.price;
 
-         // if (price < 20) {
-         //   removeSale(sale.id);
-         // }
          if (sale.currency !== 'USD') {
            return null;
          }

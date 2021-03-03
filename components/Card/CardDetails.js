@@ -9,7 +9,7 @@ import PriceDetails from '../PriceDetails/PriceDetails';
 // Utility functions
 import pokeCard from '../../util/api/card';
 import pokeSet from '../../util/api/set';
-import { getSalesForCard } from '../../util/api/sales';
+import sale from '../../util/api/sales';
 
 export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
@@ -20,7 +20,7 @@ export default function CardDetails({ card_id }) {
   const getCardDetails = async () => {
     try {
       let cardData = await pokeCard.get(card_id);
-      let salesData = await getSalesForCard(card_id);
+      let salesData = await sale.getForCard(card_id);
       let setData = await pokeSet.get(cardData.set_id);
       console.log('got set data ', setData);
       console.log('got sales data ', salesData);

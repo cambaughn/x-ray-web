@@ -1,7 +1,9 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot } from './general';
 
-const getSalesForCard = async (card_id) => {
+const sale = {};
+
+sale.getForCard = async (card_id) => {
   try {
     console.log('getting sales data for ', card_id);
     let sales = await db.collection('pokemon_sales').where('card_id', '==', card_id).get();
@@ -13,12 +15,12 @@ const getSalesForCard = async (card_id) => {
   }
 }
 
-const removeSale = async (sale_id) => {
+sale.reject = async (sale_id) => {
   if (sale_id) {
     db.collection('pokemon_sales').doc(sale_id).update({ status: 'rejected' });
-    console.log('removed sale');
+    console.log('rejected sale');
   }
 }
 
 
-export { getSalesForCard, removeSale }
+export default sale;

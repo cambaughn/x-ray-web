@@ -12,7 +12,6 @@ import SearchContainer from '../Search/SearchContainer';
 import { setCard, setSales, setUser } from '../../redux/actionCreators';
 import { searchCard, configureSearchTerm } from '../../util/algolia/algoliaHelpers';
 import pokeCard from '../../util/api/card';
-import { getSalesForCard } from '../../util/api/sales';
 import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI';
 
 

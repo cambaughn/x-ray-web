@@ -8,7 +8,7 @@ import Main from './Main';
 import { setCard, setSales, setUser } from '../../redux/actionCreators';
 import { searchCard, configureSearchTerm } from '../../util/algolia/algoliaHelpers';
 import pokeCard from '../../util/api/card';
-import { getSalesForCard } from '../../util/api/sales';
+import sale from '../../util/api/sales';
 import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI';
 
 
@@ -57,7 +57,7 @@ class MainContainer extends Component {
   getSalesData = async (card_id) => {
     try {
       if (card_id) {
-        let sales = await getSalesForCard(card_id);
+        let sales = await sale.getForCard(card_id);
         this.props.setSales(sales);
       }
     } catch(error) {

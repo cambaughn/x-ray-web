@@ -1,0 +1,99 @@
+.container {
+  width: 100vw;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  padding-top: 20px;
+}
+
+// CARD DATA
+.cardDetails {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  position: fixed;
+}
+
+.imageWrapper {
+  width: 170px;
+  height: auto;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  box-shadow: 0px 2px 5px #95a5a6;
+}
+
+.cardName {
+  font-size: 25px;
+  text-align: center;
+}
+
+.tags {
+  width: 200px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+
+// SALE
+.saleWrapper {
+  padding: 30px;
+  border-bottom: 1px solid #ecf0f1;
+  margin-left: 250px;
+}
+
+.listingDetail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.price {
+
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listingLink {
+  color: black;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.rejectButton {
+  background-color: #e74c3c;
+  color: white;
+  cursor: pointer;
+
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  font-size: 0.9em;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

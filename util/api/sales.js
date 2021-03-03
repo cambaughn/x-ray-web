@@ -5,8 +5,7 @@ const sale = {};
 
 sale.getForCard = async (card_id) => {
   try {
-    console.log('getting sales data for ', card_id);
-    let sales = await db.collection('pokemon_sales').where('card_id', '==', card_id).get();
+    let sales = await db.collection('pokemon_sales').where('card_id', '==', card_id).where('status', '==', 'pending').limit(50).get();
     sales = convertSnapshot(sales);
     sales = sales.filter(sale => sale.status !== 'removed');
     return Promise.resolve(sales);
@@ -15,10 +14,23 @@ sale.getForCard = async (card_id) => {
   }
 }
 
+sale.update = async (id, updates) => {
+  try {
+    return db.collection('pokemon_sales').doc(id).set(updates, { merge: true });
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 sale.reject = async (sale_id) => {
-  if (sale_id) {
-    db.collection('pokemon_sales').doc(sale_id).update({ status: 'rejected' });
-    console.log('rejected sale');
+  try {
+    if (sale_id) {
+      await sale.update(sale_id, { status: 'rejected' });
+      console.log('rejected sale ', sale_id);
+      Promise.resolve(true);
+    }
+  } catch(error) {
+    console.error(error);
   }
 }
 

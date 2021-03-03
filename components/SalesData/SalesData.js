@@ -14,19 +14,22 @@ export default function SalesData({}) {
   const [pendingSales, setPendingSales] = useState([]);
   // const [rejectedSales, setRejectedSales] = useState([]);
   const [card, setCard] = useState({});
-  const [listingImages, setListingImages] = useState({});
+  const [loading, setLoading] = useState({});
 
   const getSales = async () => {
+    setLoading(true);
     let salesData = await sale.getForCard('swsh4-188');
     salesData = sortSalesByPrice(salesData, 'ascending');
+
+    console.log('got sales ', salesData);
+
+    setLoading(false);
     setPendingSales(salesData);
 
-    if (salesData[0].card_id && salesData[0].card_id !== card.id) {
+    if (salesData[0] && salesData[0].card_id && salesData[0].card_id !== card.id) {
       let cardData = await pokeCard.get(salesData[0].card_id);
       setCard(cardData);
     }
-
-    console.log('got sales ', salesData);
   }
 
   const rejectSale = async (sale_id) => {
@@ -35,32 +38,47 @@ export default function SalesData({}) {
     setPendingSales(salesData);
   }
 
+  const approveAll = async () => {
+    let updateRefs = pendingSales.map(listing => sale.approve(listing.id));
+    await Promise.all(updateRefs);
+    console.log('approved all sales on page');
+    setPendingSales([]);
+    getSales();
+    window.scrollTo(0, 0);
+  }
+
 
   useEffect(getSales, []);
 
   return (
     <div className={styles.container}>
       { card.id &&
-        <div className={styles.leftColumn}>
-          <div className={styles.cardDetails}>
-            <div className={styles.imageWrapper}>
-              { card.images && card.images.small &&
-                <img src={card.images.small} className={styles.image} />
-              }
-            </div>
+        <div className={styles.cardDetails}>
+          <div className={styles.imageWrapper}>
+            { card.images && card.images.small &&
+              <img src={card.images.small} className={styles.image} />
+            }
+          </div>
 
-            <h3 className={styles.cardName}>{card.name}</h3>
+          <h3 className={styles.cardName}>{card.name}</h3>
 
-            <div className={styles.tags}>
-              <Tag text={`${card.number}`} color={'#2ecc71'} />
-              <Tag text={card.rarity} color={'#EE5253'} />
-              <Tag text={card.set_name} color={'#5F27CD'} />
-            </div>
+          <div className={styles.tags}>
+            <Tag text={`${card.number}`} color={'#3498db'} />
+            <Tag text={card.rarity} color={'#EE5253'} />
+            <Tag text={card.set_name} color={'#5F27CD'} />
+          </div>
+
+          <div className={styles.approveAllButton} onClick={approveAll}>
+            <span>Approve all</span>
           </div>
         </div>
       }
 
       <div className={styles.salesList}>
+        { !loading && pendingSales.length === 0 &&
+          <h3>No listings available</h3>
+        }
+
         { pendingSales.map((sale, index) => {
           return (
             <div className={styles.saleWrapper} key={sale.id}>

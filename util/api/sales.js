@@ -22,6 +22,15 @@ sale.update = async (id, updates) => {
   }
 }
 
+sale.approve = async (sale_id) => {
+  try {
+    await sale.update(sale_id, { status: 'approved' });
+    Promise.resolve(true);
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 sale.reject = async (sale_id) => {
   try {
     if (sale_id) {

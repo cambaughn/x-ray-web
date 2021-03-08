@@ -14,6 +14,24 @@ sale.getForCard = async (card_id) => {
   }
 }
 
+sale.getPending = async () => {
+  try {
+    let sales = await db.collection('pokemon_sales').where('status', '==', 'pending').orderBy('card_id').limit(50).get();
+    // let sales = await db.collection('pokemon_sales').where('status', '==', 'pending').limit(50).get();
+    sales = convertSnapshot(sales);
+    console.log('getting sales ', sales);
+    let card_id = sales[0] ? sales[0].card_id : null;
+    if (card_id) {
+      // Keep only sales for a single card
+      sales = sales.filter(sale => sale.card_id === card_id);
+    }
+    return Promise.resolve(sales);
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+// Statuses: approved, rejected, pending, incorrect_card, deleted
 sale.update = async (id, updates) => {
   try {
     return db.collection('pokemon_sales').doc(id).set(updates, { merge: true });
@@ -42,6 +60,17 @@ sale.reject = async (sale_id) => {
     console.error(error);
   }
 }
+
+// db.collection('pokemon_sales').where('status', '==', 'pending').get()
+// .then(async (listings) => {
+//   listings = convertSnapshot(listings);
+//   listings = listings.filter(listing => listing.card_id !== 'swsh4-188');
+//   console.log('listings here ', listings);
+//   let updateRefs = listings.map(listing => sale.update(listing.id, { status: 'deleted' }))
+//   console.log('updating listings');
+//   await Promise.all(updateRefs)
+//   console.log('deleted all listings not for pikachu card');
+// })
 
 
 export default sale;

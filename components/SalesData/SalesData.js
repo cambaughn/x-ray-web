@@ -18,7 +18,7 @@ export default function SalesData({}) {
 
   const getSales = async () => {
     setLoading(true);
-    let salesData = await sale.getForCard('swsh4-188');
+    let salesData = await sale.getPending();
     salesData = sortSalesByPrice(salesData, 'ascending');
 
     console.log('got sales ', salesData);
@@ -52,7 +52,7 @@ export default function SalesData({}) {
 
   return (
     <div className={styles.container}>
-      { card.id &&
+      { card.name &&
         <div className={styles.cardDetails}>
           <div className={styles.imageWrapper}>
             { card.images && card.images.small &&
@@ -92,9 +92,11 @@ export default function SalesData({}) {
 
               <div className={styles.actions}>
                 <a href={sale.url} className={styles.listingLink} target="_blank">View listing on eBay</a>
-                <div className={styles.rejectButton} onClick={() => rejectSale(sale.id)}>
-                  <span>Reject listing</span>
-                </div>
+                { card.name &&
+                  <div className={styles.rejectButton} onClick={() => rejectSale(sale.id)}>
+                    <span>Reject listing</span>
+                  </div>
+                }
               </div>
             </div>
           )

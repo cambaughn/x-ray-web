@@ -2,13 +2,46 @@
   width: 100vw;
   height: calc(100vh - 150px);
   display: flex;
+  flex-direction: column;
   flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+
+  padding-top: 5vh;
 }
 
-.message {
-  font-style: bold;
-  font-size: 18px;
-  color: #bdc3c7;
+.textBlock {
+  width: 60vw;
+  margin-bottom: 75px;
+}
+
+.header {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+.bodyText {
+  width: 90%;
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.featureSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 50px;
+}
+
+.featureIcon {
+  width: 100px;
+  height: 100px;
+  margin-right: 30px;
+}
+
+.featuresText {
+  width: calc(80% - 50px);
 }

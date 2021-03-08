@@ -1,50 +1,14 @@
 .container {
   width: 100vw;
-  min-height: 100vh;
-
+  height: calc(100vh - 150px);
   display: flex;
-  flex-direction: column;
+  flex: 1;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+}
 
-  .searchBar, .searchBar:focus {
-    width: 400px;
-    padding: 15px;
-    outline: none;
-    border: 1px solid grey;
-    border-radius: 2px;
-
-    margin-bottom: 30px;
-  }
-
-  .searchResults {
-    width: 80%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-
-    .resultWrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      margin-left: 20px;
-      margin-right: 20px;
-      margin-bottom: 20px;
-      cursor: pointer;
-
-      .thumbnail {
-        width: 150px;
-        height: auto;
-        margin-bottom: 10px;
-        box-shadow: 0px 2px 5px #95a5a6;
-      }
-
-      .cardName {
-        font-size: 0.9em;
-      }
-    }
-  }
+.message {
+  font-style: bold;
+  font-size: 18px;
+  color: #bdc3c7;
 }

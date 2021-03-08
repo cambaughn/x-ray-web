@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './NavBar.module.scss';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -13,6 +14,7 @@ import { searchCard } from '../../util/algolia/algoliaHelpers';
 export default function NavBar({}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
+  const router = useRouter();
 
   const liveSearch = async () => {
     try {
@@ -41,8 +43,9 @@ export default function NavBar({}) {
         </Link>
       </div>
 
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
+      { router.pathname !== '/' &&
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      }
       <div className={styles.placeholder}></div>
 
       { searchTerm.length > 0 &&

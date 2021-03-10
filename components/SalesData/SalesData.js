@@ -82,22 +82,31 @@ export default function SalesData({}) {
         { pendingSales.map((sale, index) => {
           return (
             <div className={styles.saleWrapper} key={sale.id}>
-              <h3>{sale.title}</h3>
-              <div className={styles.listingDetail}>
-                <h2 className={styles.price}>${sale.price}</h2>
-                { sale.grade &&
-                  <h2>&nbsp;- {sale.grading_authority} {sale.grade}</h2>
+              <div className={styles.listingImageWrapper}>
+                { sale.listing_image &&
+                  <img src={sale.listing_image} className={styles.listingImage} />
                 }
               </div>
 
-              <div className={styles.actions}>
-                <a href={sale.url} className={styles.listingLink} target="_blank">View listing on eBay</a>
-                { card.name &&
-                  <div className={styles.rejectButton} onClick={() => rejectSale(sale.id)}>
-                    <span>Reject listing</span>
-                  </div>
-                }
+              <div className={styles.textDetails}>
+                <h3 className={styles.listingTitle}>{sale.title}</h3>
+                <div className={styles.listingDetail}>
+                  <h2 className={styles.price}>${sale.price}</h2>
+                  { sale.grade &&
+                    <h2>&nbsp;- {sale.grading_authority} {sale.grade}</h2>
+                  }
+                </div>
+
+                <div className={styles.actions}>
+                  <a href={sale.url} className={styles.listingLink} target="_blank">View listing on eBay</a>
+                  { card.name &&
+                    <div className={styles.rejectButton} onClick={() => rejectSale(sale.id)}>
+                      <span>Reject listing</span>
+                    </div>
+                  }
+                </div>
               </div>
+
             </div>
           )
         })}

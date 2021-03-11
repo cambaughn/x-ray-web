@@ -109,13 +109,51 @@
 
 .listingDetail {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.priceWrapper {
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
 }
 
 .price {
+  margin-right: 10px;
+}
 
+.priceInput {
+  width: 75px;
+  padding: 10px;
+  outline: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  border: none;
+}
+
+.gradeWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.gradeInput {
+  width: 75px;
+  padding: 10px;
+  outline: none;
+  font-size: 0.9em;
+  font-weight: bold;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  border: none;
+  margin-right: 10px;
 }
 
 .actions {

@@ -40,9 +40,11 @@ sale.update = async (id, updates) => {
   }
 }
 
-sale.approve = async (sale_id) => {
+sale.approve = async (sale_id, updates = {}) => {
   try {
-    await sale.update(sale_id, { status: 'approved' });
+    // console.log('updating card! ', updates);
+
+    await sale.update(sale_id, { status: 'approved', ...updates });
     Promise.resolve(true);
   } catch(error) {
     console.error(error);
@@ -60,6 +62,8 @@ sale.reject = async (sale_id) => {
     console.error(error);
   }
 }
+
+// sale.approve("174664840899", { grading_authority: 'PSA', grade: 8, price: 498})
 
 // db.collection('pokemon_sales').where('status', '==', 'pending').get()
 // .then(async (listings) => {

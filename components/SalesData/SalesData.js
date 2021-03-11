@@ -39,12 +39,33 @@ export default function SalesData({}) {
   }
 
   const approveAll = async () => {
-    let updateRefs = pendingSales.map(listing => sale.approve(listing.id));
+    let updateRefs = pendingSales.map(listing => {
+      let updates = {
+        price: listing.price || null,
+        grading_authority: listing.grading_authority || null,
+        grade: listing.grade || null
+      }
+
+      return sale.approve(listing.id, updates);
+    });
     await Promise.all(updateRefs);
     console.log('approved all sales on page');
     setPendingSales([]);
     getSales();
     window.scrollTo(0, 0);
+  }
+
+  const updatePrice = (price, index) => {
+    let updatedSales = [ ...pendingSales ];
+    updatedSales[index].price = price;
+    setPendingSales(updatedSales);
+  }
+
+  const updateGrade = (key, value, index) => {
+    let updatedSales = [ ...pendingSales ];
+    updatedSales[index][key] = value;
+    console.log('updating grade ', updatedSales[index]);
+    setPendingSales(updatedSales);
   }
 
 
@@ -91,10 +112,32 @@ export default function SalesData({}) {
               <div className={styles.textDetails}>
                 <h3 className={styles.listingTitle}>{sale.title}</h3>
                 <div className={styles.listingDetail}>
-                  <h2 className={styles.price}>${sale.price}</h2>
-                  { sale.grade &&
-                    <h2>&nbsp;- {sale.grading_authority} {sale.grade}</h2>
-                  }
+                  <div className={styles.priceWrapper}>
+                    <h2 className={styles.price}>$</h2>
+                    <input
+                      type='text'
+                      value={sale.price}
+                      className={styles.priceInput}
+                      onChange={event => updatePrice(event.target.value, index)}
+                      placeholder='N/A'
+                    />
+                  </div>
+                    <div className={styles.gradeWrapper}>
+                      <input
+                        type='text'
+                        value={sale.grading_authority}
+                        className={styles.gradeInput}
+                        onChange={event => updateGrade('grading_authority', event.target.value, index)}
+                        placeholder='Grader...'
+                      />
+                      <input
+                        type='text'
+                        value={sale.grade}
+                        className={styles.gradeInput}
+                        onChange={event => updateGrade('grade', event.target.value, index)}
+                        placeholder='1-10...'
+                      />
+                    </div>
                 </div>
 
                 <div className={styles.actions}>

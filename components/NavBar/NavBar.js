@@ -11,7 +11,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import { searchCard } from '../../util/algolia/algoliaHelpers';
 
 
-export default function NavBar({}) {
+export default function NavBar({ user }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function NavBar({}) {
   return (
     <div className={styles.container}>
       <div className={styles.brandWrapper}>
-        <Link href="/">
+        <Link href={!!user.id ? '/search' : '/'}>
           <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
         </Link>
       </div>

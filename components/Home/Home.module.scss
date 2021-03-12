@@ -12,7 +12,7 @@
 
 .textBlock {
   width: 60vw;
-  margin-bottom: 75px;
+  margin-bottom: 30px;
 }
 
 .header {
@@ -44,4 +44,14 @@
 
 .featuresText {
   width: calc(80% - 50px);
+}
+
+.getStartedWrapper {
+  width: 60vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-bottom: 75px;
 }

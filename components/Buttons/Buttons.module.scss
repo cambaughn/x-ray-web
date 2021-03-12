@@ -1,0 +1,43 @@
+// Common
+.darkButton {
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+// Get started button - appears on homepage
+
+.getStartedButton {
+  padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 5px;
+}
+
+.getStartedText {
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+
+// Sign in button - appears in nav when not signed in
+
+.signInButton {
+
+}
+
+.signInText {
+  color: white;
+  font-size: 0.9em;
+  font-weight: bold;
+}

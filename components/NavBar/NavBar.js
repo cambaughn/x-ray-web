@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 // Components
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
+import SignInButton from '../Buttons/SignInButton';
 
 // Utility functions
 import { searchCard } from '../../util/algolia/algoliaHelpers';
@@ -46,7 +47,11 @@ export default function NavBar({ user }) {
       { !!user.id &&
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       }
-      <div className={styles.placeholder}></div>
+      <div className={styles.rightSide}>
+        { !user.id && router.pathname !== '/sign-in' &&
+          <SignInButton />
+        }
+      </div>
 
       { searchTerm.length > 0 &&
         <SearchResults results={results} clearSearch={clearSearch} />

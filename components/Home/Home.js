@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Home.module.scss';
 
 // Components
+import GetStartedButton from '../Buttons/GetStartedButton';
 
 // Utility functions
 
@@ -15,12 +16,18 @@ export default function Home({}) {
         <p className={styles.bodyText}>X-ray gives you deep insights into current trends and sales history across platforms, enabling you to make smart decisions when selling or buying new cards.</p>
       </div>
 
+      <div className={styles.getStartedWrapper}>
+        <GetStartedButton />
+      </div>
+
+
       {/* Product Features */}
       <div className={styles.textBlock}>
         <div className={styles.featureSection}>
           <img src={'/images/stocks.png'} alt={'stocks icon'} className={styles.featureIcon} />
           <p className={`${styles.bodyText} ${styles.featuresText}`}>See specifics on individual sales across time and track overall trends on the items you care about.</p>
         </div>
+
         <div className={styles.featureSection}>
           <img src={'/images/smart.png'} alt={'brain icon'} className={styles.featureIcon} />
           <p className={`${styles.bodyText} ${styles.featuresText}`}>Get the info you need to make smart decisions with constantly-updated data from the major e-commerce platforms.</p>

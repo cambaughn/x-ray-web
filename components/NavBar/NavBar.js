@@ -43,7 +43,7 @@ export default function NavBar({ user }) {
         </Link>
       </div>
 
-      { router.pathname !== '/' &&
+      { !!user.id &&
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       }
       <div className={styles.placeholder}></div>

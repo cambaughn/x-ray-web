@@ -36,7 +36,7 @@
 
 .emailInput {
   margin-right: 15px;
-  width: 250px;
+  width: 350px;
   padding-left: 15px;
   padding-right: 15px;
   box-sizing: border-box;
@@ -66,7 +66,16 @@
   background-color: #2ecc71;
 }
 
-.check {
+.icon {
   color: white;
   font-weight: bold;
+}
+
+.check {
+
+}
+
+.send {
+  transform: rotate(45deg);
+  margin-left: -5px;
 }

@@ -17,6 +17,7 @@
     "algoliasearch": "^4.8.3",
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",
+    "classnames": "^2.2.6",
     "email-validator": "^2.0.4",
     "firebase": "^8.2.2",
     "nanoid": "^3.1.20",

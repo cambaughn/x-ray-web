@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import styles from './SignIn.module.scss';
 import validator from 'email-validator';
-import { Check } from 'react-feather';
+import classNames from 'classnames';
+import { Check, Send } from 'react-feather';
 
 // Components
 
 // Utility functions
+import { sendEmailLink } from '../../util/firebase/firebaseAuth';
 
 export default function SignIn({}) {
   const [email, setEmail] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
   const [buttonActive, setButtonActive] = useState(false);
 
   const updateEmail = (string) => {
@@ -16,9 +19,16 @@ export default function SignIn({}) {
     setEmail(string);
   }
 
-  const handleSubmit = () => {
-    if (buttonActive) {
-
+  const handleSubmit = async () => {
+    try {
+      if (buttonActive && !emailSent) {
+        await sendEmailLink(email);
+        console.log('sent authentication email');
+        setEmailSent(true);
+      }
+    } catch(error) {
+      console.error(error);
+      setEmailSent(false);
     }
   }
 
@@ -38,8 +48,11 @@ export default function SignIn({}) {
             autoFocus
           />
 
-          <div className={buttonActive ? `${styles.submitButton} ${styles.submitButtonActive}` : styles.submitButton} onClick={handleSubmit}>
-            <Check className={styles.check} size={20} />
+          <div className={classNames({[styles.submitButton]: true, [styles.submitButtonActive]: buttonActive})} onClick={handleSubmit}>
+            { emailSent
+              ? (<Check className={classNames(styles.icon, styles.check)} size={20} />)
+              : <Send className={classNames(styles.icon, styles.send)} size={20} />
+            }
           </div>
         </div>
       </div>

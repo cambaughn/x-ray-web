@@ -63,11 +63,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 
 .submitButtonActive {
   background-color: #2ecc71;
+  cursor: pointer;
 }
 
 .icon {
@@ -75,11 +75,20 @@
   font-weight: bold;
 }
 
-.check {
-
-}
-
 .send {
   transform: rotate(45deg);
   margin-left: -5px;
+}
+
+.loader {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
 }

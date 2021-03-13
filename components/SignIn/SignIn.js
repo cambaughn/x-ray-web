@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SignIn.module.scss';
 import validator from 'email-validator';
 import classNames from 'classnames';
-import { Check, Send } from 'react-feather';
+import { Loader, Send } from 'react-feather';
 
 // Components
 
 // Utility functions
 import { sendEmailLink } from '../../util/firebase/firebaseAuth';
+import { localStorageKeys } from '../../util/localStorage';
 
 export default function SignIn({}) {
   const [email, setEmail] = useState('');
+  const [sendingEmail, setSendingEmail] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [buttonActive, setButtonActive] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
 
   const updateEmail = (string) => {
     validator.validate(string) ? setButtonActive(true) : setButtonActive(false);
@@ -21,16 +24,27 @@ export default function SignIn({}) {
 
   const handleSubmit = async () => {
     try {
-      if (buttonActive && !emailSent) {
+      if (buttonActive && !sendingEmail) {
+        setSendingEmail(true);
         await sendEmailLink(email);
-        console.log('sent authentication email');
         setEmailSent(true);
+        console.log('sent authentication email');
       }
     } catch(error) {
       console.error(error);
       setEmailSent(false);
     }
   }
+
+  const checkForEmail = () => {
+    let storedEmail = window.localStorage.getItem(localStorageKeys.email);
+    if (storedEmail) {
+      console.log('got stored email ', storedEmail);
+      setUserEmail(storedEmail);
+    }
+  }
+
+  useEffect(checkForEmail, []);
 
   return (
     <div className={styles.container}>
@@ -53,7 +67,10 @@ export default function SignIn({}) {
               autoFocus
             />
               <div className={classNames({[styles.submitButton]: true, [styles.submitButtonActive]: buttonActive})} onClick={handleSubmit}>
-                <Send className={classNames(styles.icon, styles.send)} size={20} />
+                { !sendingEmail
+                  ? <Send className={classNames(styles.icon, styles.send)} size={20} />
+                  : <Loader className={classNames(styles.icon, styles.loader)} size={20} />
+                }
               </div>
           </div>
         }

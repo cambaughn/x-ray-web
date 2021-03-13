@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import db from './firebaseInit';
 import { isBrowser } from '../client';
+import { localStorageKeys } from '../localStorage';
 
 let actionCodeSettings = {
   // URL you want to redirect back to. The domain (www.example.com) for this
@@ -14,7 +15,7 @@ const sendEmailLink = async (email) => {
   try {
     await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
     if (isBrowser()) {
-      await window.localStorage.setItem('xrayEmail', email);
+      window.localStorage.setItem(localStorageKeys.email, email);
     }
     return Promise.resolve(true);
   } catch (error) {

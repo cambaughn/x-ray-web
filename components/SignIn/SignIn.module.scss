@@ -30,9 +30,14 @@
   text-decoration: underline #f1c40f dotted;
 }
 
-.closeMessage {
+.smallText {
   color: grey;
   margin-top: 10px;
+}
+
+.link {
+  cursor: pointer;
+  text-decoration: underline #f1c40f dotted;
 }
 
 .inputWrapper {

@@ -47,8 +47,9 @@ export default function NavBar({ user }) {
       { !!user.id &&
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       }
+      
       <div className={styles.rightSide}>
-        { !user.id && router.pathname !== '/sign-in' &&
+        { !user.id && !router.pathname.includes('sign-in') &&
           <SignInButton />
         }
       </div>

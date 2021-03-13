@@ -1,7 +1,9 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
 
-const getUser = async (id) => {
+const userAPI = {}
+
+userAPI.get = async (id) => {
   try {
     let user = await db.collection('users').doc(id).get();
     return Promise.resolve(convertDoc(user));
@@ -10,27 +12,31 @@ const getUser = async (id) => {
   }
 }
 
-const createUser = async (id, newUser) => {
+userAPI.exists = async (id) => {
   try {
-    return db.collection('users').doc(id).set(newUser, {merge: true});
+    let userDoc = await db.collection('users').doc(id).get();
+    return Promise.resolve(userDoc.exists);
   } catch(error) {
     console.error(error);
   }
 }
 
-const loginUser = async (authUser) => {
+userAPI.create = async (email) => {
   try {
-    let id = authUser.email;
-    let user = await getUser(id);
-    if (user.exists) {
-      return Promise.resolve(convertDoc(user));
-    } else {
-      await createUser(id, authUser);
-      return getUser(id);
+    let user = await userAPI.get(email);
+    if (!user.email) {
+      let newUser = {
+        email,
+        handle: null,
+        display_name: null
+      }
+      await db.collection('users').doc(email).set(newUser, { merge: true });
+      user = await userAPI.get(email);
     }
+    return Promise.resolve(user);
   } catch(error) {
     console.error(error);
   }
 }
 
-export { getUser, createUser, loginUser }
+export default userAPI;

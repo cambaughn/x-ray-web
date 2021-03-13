@@ -36,7 +36,11 @@ export default function SignIn({}) {
     <div className={styles.container}>
       <div className={styles.mainContent}>
         <h2 className={styles.headline}>Ready to be the very best?</h2>
-        <h2 className={`${styles.headline} ${styles.subhead}`}>Let's get you signed in.</h2>
+        { emailSent
+          ? <h2 className={classNames(styles.headline, styles.subhead)}>We've sent an email to you at {email} <span aria-label="thumbs up" role="img">👍</span></h2>
+          : <h2 className={classNames(styles.headline, styles.subhead)}>Let's get you signed in.</h2>
+        }
+
 
         <div className={styles.inputWrapper}>
           <input
@@ -47,13 +51,11 @@ export default function SignIn({}) {
             placeholder={'email'}
             autoFocus
           />
-
-          <div className={classNames({[styles.submitButton]: true, [styles.submitButtonActive]: buttonActive})} onClick={handleSubmit}>
-            { emailSent
-              ? (<Check className={classNames(styles.icon, styles.check)} size={20} />)
-              : <Send className={classNames(styles.icon, styles.send)} size={20} />
-            }
-          </div>
+          { !emailSent &&
+            <div className={classNames({[styles.submitButton]: true, [styles.submitButtonActive]: buttonActive})} onClick={handleSubmit}>
+              <Send className={classNames(styles.icon, styles.send)} size={20} />
+            </div>
+          }
         </div>
       </div>
 

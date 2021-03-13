@@ -7,7 +7,7 @@ import { Loader, Send } from 'react-feather';
 // Components
 
 // Utility functions
-import { sendEmailLink } from '../../util/firebase/firebaseAuth';
+import { sendEmailLink, userSignedInWithLink, signInUser } from '../../util/firebase/firebaseAuth';
 import { localStorageKeys } from '../../util/localStorage';
 
 export default function SignIn({}) {
@@ -15,7 +15,6 @@ export default function SignIn({}) {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [buttonActive, setButtonActive] = useState(false);
-  const [userEmail, setUserEmail] = useState(null);
 
   const updateEmail = (string) => {
     validator.validate(string) ? setButtonActive(true) : setButtonActive(false);
@@ -25,8 +24,11 @@ export default function SignIn({}) {
   const handleSubmit = async () => {
     try {
       if (buttonActive && !sendingEmail) {
+        // Set the spinner state
         setSendingEmail(true);
-        await sendEmailLink(email);
+        // Send the email via Firebase
+        await sendEmailLink(email.trim());
+        // Set the state to show the sent email messaging
         setEmailSent(true);
         console.log('sent authentication email');
       }
@@ -36,15 +38,12 @@ export default function SignIn({}) {
     }
   }
 
-  const checkForEmail = () => {
-    let storedEmail = window.localStorage.getItem(localStorageKeys.email);
-    if (storedEmail) {
-      console.log('got stored email ', storedEmail);
-      setUserEmail(storedEmail);
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter'){
+      handleSubmit();
     }
   }
 
-  useEffect(checkForEmail, []);
 
   return (
     <div className={styles.container}>
@@ -55,6 +54,10 @@ export default function SignIn({}) {
           : <h2 className={classNames(styles.headline, styles.subhead)}>Let's get you signed in.</h2>
         }
 
+        { emailSent &&
+          <span className={styles.closeMessage}>(You can close out of this screen)</span>
+        }
+
 
         { !emailSent &&
           <div className={styles.inputWrapper}>
@@ -62,6 +65,7 @@ export default function SignIn({}) {
               type="email"
               value={email}
               onChange={event => updateEmail(event.target.value)}
+              onKeyDown={handleEnterKey}
               className={styles.emailInput}
               placeholder={'email'}
               autoFocus

@@ -24,4 +24,21 @@ const sendEmailLink = async (email) => {
   }
 }
 
-export { sendEmailLink }
+const userSignedInWithLink = () => {
+  if (isBrowser()) {
+    return firebase.auth().isSignInWithEmailLink(window.location.href);
+  }
+  return false;
+}
+
+const signInUser = async (email) => {
+  try {
+    let result = await firebase.auth().signInWithEmailLink(email, window.location.href);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+export { sendEmailLink, userSignedInWithLink, signInUser }

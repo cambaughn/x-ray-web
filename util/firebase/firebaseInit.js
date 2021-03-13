@@ -4,8 +4,13 @@ require('firebase/firestore')
 
 const firebaseConfig = require('./firebaseConfig');
 
-
-firebase.default.initializeApp(firebaseConfig);
+try {
+  firebase.default.initializeApp(firebaseConfig);
+} catch(error) {
+  if (!/already exists/.test(error.message)) {
+  console.error('Firebase initialization error', error.stack)
+  }
+}
 
 
 // Initialize Cloud Firestore through Firebase

@@ -7,7 +7,7 @@ import { Loader, Send } from 'react-feather';
 // Components
 
 // Utility functions
-import { sendEmailLink, userSignedInWithLink, signInUser } from '../../util/firebase/firebaseAuth';
+import { sendEmailLink } from '../../util/firebase/firebaseAuth';
 import { localStorageKeys } from '../../util/localStorage';
 
 export default function SignIn({}) {

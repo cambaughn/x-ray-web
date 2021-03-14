@@ -39,7 +39,7 @@ export default function NavBar({ user }) {
   return (
     <div className={styles.container}>
       <div className={styles.brandWrapper}>
-        <Link href={!!user.id ? '/search' : '/'}>
+        <Link href={'/'}>
           <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
         </Link>
       </div>
@@ -47,7 +47,7 @@ export default function NavBar({ user }) {
       { !!user.id &&
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       }
-      
+
       <div className={styles.rightSide}>
         { !user.id && !router.pathname.includes('sign-in') &&
           <SignInButton />

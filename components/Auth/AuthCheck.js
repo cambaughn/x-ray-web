@@ -36,10 +36,7 @@ class AuthCheck extends Component {
       if (userAuth) {
         // User is signed in.
         let user = await userAPI.get(userAuth.email);
-        console.log('found user!~!! ', user.email);
-        this.props.setUser(user)
-      } else {
-        console.log('no user');
+        this.props.setUser(user);
       }
 
       this.setState({ loading: false });

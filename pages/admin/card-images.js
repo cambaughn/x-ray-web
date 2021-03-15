@@ -7,7 +7,7 @@ import AdminLayout from '../../components/Layouts/AdminLayout/AdminLayout';
 import CardImage from '../../components/CardImage/CardImage';
 
 
-export default function AdminHome({}) {
+export default function CardImagePage({}) {
   const router = useRouter();
   const { card } = router.query;
 

@@ -44,7 +44,7 @@ export default function NavBar({ user }) {
         </Link>
       </div>
 
-      { !!user.id &&
+      { !!user.username &&
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       }
 

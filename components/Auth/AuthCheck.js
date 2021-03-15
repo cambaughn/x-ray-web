@@ -51,11 +51,7 @@ class AuthCheck extends Component {
         </>
       )
     } else {
-      return (
-        <div>
-
-        </div>
-      )
+      return null
     }
   }
 }

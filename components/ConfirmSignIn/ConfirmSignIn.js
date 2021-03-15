@@ -19,9 +19,7 @@ export default function ConfirmSignIn({ user, setUser }) {
 
   const checkForSignIn = async () => {
     try {
-      if (user.id) { // if the user is already logged in and loaded into redux
-        router.push('/');
-      } else if (userSignedInWithLink()) {
+      if (userSignedInWithLink()) {
         // First, check if we have the user's email in local storage
         let userEmail = window.localStorage.getItem(localStorageKeys.email);
 

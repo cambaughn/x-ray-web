@@ -11,12 +11,13 @@ import './styles.css';
 export default function Xray({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <AuthCheck>
-        <MainLayout>
-          <Head title="X-ray" />
-          <Component {...pageProps} />
-        </MainLayout>
-      </AuthCheck>
+      <Head title="X-ray" />
+
+      <MainLayout>
+        <AuthCheck>
+            <Component {...pageProps} />
+        </AuthCheck>
+      </MainLayout>
     </Provider>
   )
 }

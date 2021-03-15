@@ -4,7 +4,6 @@ import Head from '../../components/Head/Head';
 
 // Components
 import CardDetails from '../../components/Card/CardDetails';
-import MainLayout from '../../components/Layouts/MainLayout/MainLayout';
 
 
 export default function CardPage({}) {
@@ -12,8 +11,6 @@ export default function CardPage({}) {
   const { card_id } = router.query;
 
   return (
-    <MainLayout>
-      <CardDetails card_id={card_id} />
-    </MainLayout>
+    <CardDetails card_id={card_id} />
   )
 }

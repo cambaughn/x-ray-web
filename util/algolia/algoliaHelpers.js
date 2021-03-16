@@ -1,9 +1,9 @@
-import index from './algoliaInit';
+import { cardsIndex, usersIndex } from './algoliaInit';
 
 
 const searchCard = async (searchTerm) => {
   try {
-    let result = await index.search(searchTerm);
+    let result = await cardsIndex.search(searchTerm);
     let hits = result.hits;
     console.log('hits => ', result);
     return hits;
@@ -21,4 +21,41 @@ const configureSearchTerm = (listing) => {
   return searchTerm;
 }
 
-export { searchCard, configureSearchTerm };
+const searchUser = async (searchTerm) => {
+  try {
+    let result = await usersIndex.search(searchTerm);
+    let hits = result.hits;
+    console.log('hits => ', result.hits);
+    return hits;
+  } catch(error) {
+    console.error(index);
+  }
+}
+
+const usernameAvailable = async(username) => {
+  try {
+    let lowercase = username.toLowerCase();
+    let users = await searchUser(lowercase);
+    let usernames = users.map(user => user.username.toLowerCase());
+    let available = !usernames.includes(lowercase);
+    console.log('available ? ', available);
+    return available;
+  } catch(error) {
+    console.error(index);
+  }
+}
+
+const addUserToIndex = async(user) => {
+  try {
+    let userInfo = {
+      objectID: user.id,
+      ...user
+    }
+    await usersIndex.saveObject(userInfo);
+    return Promise.resolve(true);
+  } catch(error) {
+    console.error(index);
+  }
+}
+
+export { searchCard, configureSearchTerm, usernameAvailable, addUserToIndex };

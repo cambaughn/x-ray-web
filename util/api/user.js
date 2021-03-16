@@ -1,12 +1,14 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
+import { addUserToIndex } from '../algolia/algoliaHelpers';
 
 const userAPI = {}
 
 userAPI.get = async (id) => {
   try {
     let user = await db.collection('users').doc(id).get();
-    return Promise.resolve(convertDoc(user));
+    user = convertDoc(user);
+    return Promise.resolve(user);
   } catch(error) {
     console.error(error);
   }

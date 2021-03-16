@@ -9,10 +9,13 @@ import styles from './AccountSetup.module.scss';
 
 // Utility functions
 import userAPI from '../../util/api/user';
+import { usernameAvailable } from '../../util/algolia/algoliaHelpers';
 
 export default function AccountSetup({ }) {
   const [name, setName] = useState('');
   const [username, setUserName] = useState('');
+  const [checkedUsernameAvail, setCheckedUsernameAvail] = useState(false);
+  const [usernameIsAvailable, setUsernameIsAvailable] = useState(true);
   const router = useRouter();
   const usernameInput = useRef(null);
 
@@ -21,6 +24,20 @@ export default function AccountSetup({ }) {
       usernameInput.current.focus();
     }
   }
+
+  const checkUserName = async () => {
+    setCheckedUsernameAvail(false);
+    if (username.length > 0) {
+      let available = await usernameAvailable(username);
+      console.log('available ====> ', available);
+      setUsernameIsAvailable(available);
+      setCheckedUsernameAvail(true);
+    }
+  }
+
+  // TODO: set up algolia and db update logic
+
+  useEffect(checkUserName, [username]);
 
   return (
     <div className={styles.container}>
@@ -52,6 +69,10 @@ export default function AccountSetup({ }) {
             ref={usernameInput}
           />
         </div>
+
+        { checkedUsernameAvail &&
+          <span className={classNames({ [styles.usernameStatus]: true, [styles.available]: usernameIsAvailable })}>{usernameIsAvailable ? 'username available' : 'username taken'}</span>
+        }
       </div>
     </div>
   )

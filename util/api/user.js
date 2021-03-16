@@ -28,7 +28,7 @@ userAPI.create = async (email) => {
       let newUser = {
         email,
         username: null,
-        display_name: null
+        name: null
       }
       await db.collection('users').doc(email).set(newUser, { merge: true });
       user = await userAPI.get(email);

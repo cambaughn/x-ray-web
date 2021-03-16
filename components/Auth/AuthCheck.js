@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
-import AllowRoutes from '../HOC/AllowRoutes';
-import Setup from '../Setup/Setup';
+// import AccountSetup from '../AccountSetup/AccountSetup';
 
 // Utility Functions
 import { setUser } from '../../redux/actionCreators';
@@ -14,25 +13,30 @@ import firebase from 'firebase';
 
 export default function AuthCheck({ children }) {
   const user = useSelector(state => state.user);
+
   const [loading, setLoading] = useState(true);
+  const [accountSetup, setAccountSetup] = useState(false);
+  const [routeIsPublic, setRouteIsPublic] = useState(false);
+
   const router = useRouter();
   const dispatch = useDispatch();
+  const publicRoutes = new Set(['/', '/sign-in', '/confirm-sign-in']);
 
-  const protectRoutes = () => {
-    let isLoggedIn = !!user.username;
-    let isProtected = false;
 
-    if (!isLoggedIn && isProtected) {
+  const checkRouteProtection = () => {
+    setRouteIsPublic(publicRoutes.has(router.pathname));
+
+    if (!user.username && !publicRoutes.has(router.pathname)) {
       console.log('protected route');
-      router.push('/');
+      router.replace('/');
     }
   }
 
-  const directToAccountSetup = () => {
+  const determineAccountSetup = () => {
     // If the user is mid-setup, only allow them to access the /account-setup route
     if (router.pathname !== '/account-setup' && !!user.email && !user.username) {
       console.log('setting up account');
-      router.push('/account-setup');
+      // router.push('/account-setup');
     }
   }
 
@@ -43,16 +47,15 @@ export default function AuthCheck({ children }) {
         let user = await userAPI.get(userAuth.email);
         dispatch(setUser(user));
       }
-
-      setLoading(false);
     });
   }
 
   useEffect(checkUserLogin, []);
-  useEffect(directToAccountSetup, [router.pathname]);
-  useEffect(protectRoutes);
+  // useEffect(determineAccountSetup, [user.username]);
+  // Call if either the route changes
+  useEffect(checkRouteProtection);
 
-  if (!loading) { // if we're done loading
+  if (!!user.username || routeIsPublic) { // if user is logged in and route is public
     return <>
       { children }
     </>

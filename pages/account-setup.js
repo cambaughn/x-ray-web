@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import SetUp from '../components/SetUp/SetUp';
+import AccountSetup from '../components/AccountSetup/AccountSetup';
 
 export default function AccountSetUpPage() {
   return (
-    <SetUp />
+    <AccountSetup />
   )
 }

@@ -27,7 +27,7 @@ userAPI.create = async (email) => {
     if (!user.email) {
       let newUser = {
         email,
-        handle: null,
+        username: null,
         display_name: null
       }
       await db.collection('users').doc(email).set(newUser, { merge: true });

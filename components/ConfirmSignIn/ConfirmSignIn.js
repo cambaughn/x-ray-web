@@ -13,7 +13,6 @@ import { localStorageKeys } from '../../util/localStorage';
 import userAPI from '../../util/api/user';
 
 export default function ConfirmSignIn({ user, setUser }) {
-  const [confirmed, setConfirmed] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const router = useRouter();
 
@@ -39,20 +38,16 @@ export default function ConfirmSignIn({ user, setUser }) {
           // Otherwise, create entry in the database for them
           let newUser = await userAPI.create(userEmail);
           if (newUser) {
-            console.log('new user here ! ', newUser);
             setUser(newUser);
-          } else {
-            setLoginError(true);
+            return;
           }
-        } else { // was not able to log in
-          // Present error message - send back to sign in page
-          setLoginError(true);
         }
-      } else { // did not visit this page from email link
-        setLoginError(true);
       }
     } catch(error) {
       console.error(error);
+    }
+
+    if (!user.email) {
       setLoginError(true);
     }
   }
@@ -61,16 +56,12 @@ export default function ConfirmSignIn({ user, setUser }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.mainContent}>
-        { confirmed &&
-          <span className={styles.smallText}>Your email is confirmed.</span>
-        }
-        <h2 className={styles.headline}>{!loginError ? 'Welcome to X-ray!' : 'Oops, looks like something went wrong!'}</h2>
-        { !loginError
-          ? <h2 className={classNames(styles.headline, styles.subhead)}>First things first. Let's get you a username.</h2>
-          : <Link href={'/sign-in'}><h2 className={classNames(styles.headline, styles.subhead, styles.link)}>Click here to go back to sign in.</h2></Link>
-        }
-      </div>
+      { loginError &&
+        <div className={styles.mainContent}>
+          <h2 className={styles.headline}>{'Oops, looks like something went wrong!'}</h2>
+          <Link href={'/sign-in'}><h2 className={classNames(styles.headline, styles.subhead, styles.link)}>Click here to go back to sign in.</h2></Link>
+        </div>
+      }
     </div>
   )
 }

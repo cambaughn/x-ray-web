@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
-// import AccountSetup from '../AccountSetup/AccountSetup';
+import AccountSetup from '../AccountSetup/AccountSetup';
 
 // Utility Functions
 import { setUser } from '../../redux/actionCreators';
@@ -15,7 +15,7 @@ export default function AuthCheck({ children }) {
   const user = useSelector(state => state.user);
 
   const [loading, setLoading] = useState(true);
-  const [accountSetup, setAccountSetup] = useState(false);
+  const [needAccountSetup, setNeedAccountSetup] = useState(false);
   const [routeIsPublic, setRouteIsPublic] = useState(false);
 
   const router = useRouter();
@@ -27,16 +27,15 @@ export default function AuthCheck({ children }) {
     setRouteIsPublic(publicRoutes.has(router.pathname));
 
     if (!user.username && !publicRoutes.has(router.pathname)) {
-      console.log('protected route');
       router.replace('/');
     }
   }
 
   const determineAccountSetup = () => {
-    // If the user is mid-setup, only allow them to access the /account-setup route
-    if (router.pathname !== '/account-setup' && !!user.email && !user.username) {
-      console.log('setting up account');
-      // router.push('/account-setup');
+    // If the user is mid-setup, only allow them to access the account setup page
+    if (!!user.email && !user.username) {
+      router.replace('/');
+      setNeedAccountSetup(true);
     }
   }
 
@@ -51,15 +50,16 @@ export default function AuthCheck({ children }) {
   }
 
   useEffect(checkUserLogin, []);
-  // useEffect(determineAccountSetup, [user.username]);
-  // Call if either the route changes
-  useEffect(checkRouteProtection);
+  useEffect(determineAccountSetup, [user]);
+  useEffect(checkRouteProtection, [router]);
 
-  if (!!user.username || routeIsPublic) { // if user is logged in and route is public
+  if (needAccountSetup) { // if they need to sign in, just allow the account setup page
+    return <AccountSetup />
+  } else if (!!user.username || routeIsPublic) { // if user is logged in and route is public
     return <>
       { children }
     </>
-  } else {
+  } else { // if we haven't checked everything, just don't load the page
     return null
   }
 }

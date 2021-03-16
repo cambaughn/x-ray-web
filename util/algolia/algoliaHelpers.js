@@ -5,7 +5,6 @@ const searchCard = async (searchTerm) => {
   try {
     let result = await cardsIndex.search(searchTerm);
     let hits = result.hits;
-    console.log('hits => ', result);
     return hits;
   } catch(error) {
     console.error(index);
@@ -25,7 +24,6 @@ const searchUser = async (searchTerm) => {
   try {
     let result = await usersIndex.search(searchTerm);
     let hits = result.hits;
-    console.log('hits => ', result.hits);
     return hits;
   } catch(error) {
     console.error(index);
@@ -38,7 +36,6 @@ const usernameAvailable = async(username) => {
     let users = await searchUser(lowercase);
     let usernames = users.map(user => user.username.toLowerCase());
     let available = !usernames.includes(lowercase);
-    console.log('available ? ', available);
     return available;
   } catch(error) {
     console.error(index);

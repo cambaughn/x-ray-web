@@ -29,7 +29,6 @@ export default function AccountSetup({ }) {
     setCheckedUsernameAvail(false);
     if (username.length > 0) {
       let available = await usernameAvailable(username);
-      console.log('available ====> ', available);
       setUsernameIsAvailable(available);
       setCheckedUsernameAvail(true);
     }
@@ -53,7 +52,7 @@ export default function AccountSetup({ }) {
             onChange={event => setName(event.target.value)}
             onKeyDown={focusUsernameInput}
             className={styles.textInput}
-            placeholder={'Your real name'}
+            placeholder={'Name'}
             autoFocus
           />
         </div>
@@ -65,7 +64,7 @@ export default function AccountSetup({ }) {
             value={username}
             onChange={event => setUserName(event.target.value)}
             className={styles.textInput}
-            placeholder={'Your username'}
+            placeholder={'Username'}
             ref={usernameInput}
           />
         </div>

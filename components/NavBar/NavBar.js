@@ -10,6 +10,7 @@ import SignInButton from '../Buttons/SignInButton';
 
 // Utility functions
 import { searchCard } from '../../util/algolia/algoliaHelpers';
+import analytics from '../../util/analytics/segment';
 
 
 export default function NavBar({ user }) {
@@ -36,6 +37,18 @@ export default function NavBar({ user }) {
     setSearchTerm('');
   }
 
+  const changeSearchTerm = (term) => {
+    // Treat zero to one term as a new search
+    if (searchTerm.length === 0 && term.length === 1) {
+      analytics.track({
+        userId: user.id,
+        event: 'Card searched'
+      });
+    }
+    
+    setSearchTerm(term);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.brandWrapper}>
@@ -45,7 +58,7 @@ export default function NavBar({ user }) {
       </div>
 
       { !!user.username &&
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
       }
 
       <div className={styles.rightSide}>

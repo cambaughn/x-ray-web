@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import styles from './CardDetails.module.scss';
 
 // Components
@@ -10,12 +12,13 @@ import PriceDetails from '../PriceDetails/PriceDetails';
 import pokeCard from '../../util/api/card';
 import pokeSet from '../../util/api/set';
 import sale from '../../util/api/sales';
+import analytics from '../../util/analytics/segment';
 
 export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
-
+  const user = useSelector(state => state.user);
 
   const getCardDetails = async () => {
     try {
@@ -36,6 +39,22 @@ export default function CardDetails({ card_id }) {
     }
   }
 
+  const recordPageView = () => {
+
+    analytics.page({
+      userId: user.id,
+      category: 'Card',
+      name: 'Card Details',
+      properties: {
+        url: window.location.href,
+        path: `/${card_id}`,
+        card_id: card_id,
+        title: 'Card Details'
+      }
+    });
+  }
+
+  useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
 
   return (

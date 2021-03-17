@@ -54,7 +54,6 @@ export default function AccountSetup({ }) {
         await userAPI.update(user.id, { name, username });
         let updatedUser = await userAPI.get(user.id);
         dispatch(setUser(updatedUser));
-        console.log('new user ', updatedUser);
         addUserToIndex(updatedUser);
       }
     } catch(error) {

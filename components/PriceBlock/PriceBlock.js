@@ -43,7 +43,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
 
 
        let avg = total / mostRecentSales.length;
-       avg = Math.round((avg + Number.EPSILON) * 100) / 100;
+       avg = avg.toFixed(2);
        console.log(`total sales: ${total}, average price: ${avg}`);
        setAveragePrice(avg || 0);
      }

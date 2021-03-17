@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import firebase from 'firebase';
+import { nanoid } from 'nanoid';
 
 // Components
 import AccountSetup from '../AccountSetup/AccountSetup';
@@ -9,7 +11,7 @@ import AccountSetup from '../AccountSetup/AccountSetup';
 import { setUser } from '../../redux/actionCreators';
 import { localStorageKeys } from '../../util/localStorage';
 import userAPI from '../../util/api/user';
-import firebase from 'firebase';
+import analytics from '../../util/analytics/segment';
 
 export default function AuthCheck({ children }) {
   const user = useSelector(state => state.user);
@@ -46,8 +48,22 @@ export default function AuthCheck({ children }) {
     // Check auth state from firebase
     firebase.auth().onAuthStateChanged(async (userAuth) => {
       if (userAuth) { // User is signed in.
-        let user = await userAPI.get(userAuth.email);
-        dispatch(setUser(user));
+        let userDetails = await userAPI.get(userAuth.email);
+        dispatch(setUser(userDetails));
+
+        // Identify the user for segment
+        analytics.identify({
+          userId: userDetails.id,
+          traits: {
+            email: userDetails.email,
+            name: userDetails.name || null,
+            username: userDetails.username || null
+          }
+        });
+      } else {
+        analytics.identify({
+          userId: nanoid()
+        });
       }
       setCheckedUserAuth(true);
     });

@@ -25,8 +25,6 @@ export default function CardDetails({ card_id }) {
       let cardData = await pokeCard.get(card_id);
       let salesData = await sale.getForCard(card_id);
       let setData = await pokeSet.get(cardData.set_id);
-      console.log('got set data ', setData);
-      console.log('got sales data ', salesData);
 
       setCard(cardData);
       setSales(salesData || []);

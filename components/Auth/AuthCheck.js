@@ -17,6 +17,7 @@ export default function AuthCheck({ children }) {
   const [loading, setLoading] = useState(true);
   const [needAccountSetup, setNeedAccountSetup] = useState(false);
   const [routeIsPublic, setRouteIsPublic] = useState(false);
+  const [checkedUserAuth, setCheckedUserAuth] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function AuthCheck({ children }) {
   const checkRouteProtection = () => {
     setRouteIsPublic(publicRoutes.has(router.pathname));
 
-    if (!user.username && !publicRoutes.has(router.pathname)) {
+    if (checkedUserAuth && !user.username && !publicRoutes.has(router.pathname)) {
       router.replace('/');
     }
   }
@@ -48,12 +49,13 @@ export default function AuthCheck({ children }) {
         let user = await userAPI.get(userAuth.email);
         dispatch(setUser(user));
       }
+      setCheckedUserAuth(true);
     });
   }
 
   useEffect(checkUserLogin, []);
   useEffect(determineAccountSetup, [user]);
-  useEffect(checkRouteProtection, [router]);
+  useEffect(checkRouteProtection, [router, checkedUserAuth]);
 
   if (needAccountSetup) { // if they need to sign in, just allow the account setup page
     return <AccountSetup />

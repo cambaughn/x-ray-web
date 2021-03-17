@@ -31,9 +31,27 @@
   margin-bottom: 25px;
 }
 
+.labelWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
 .label {
   font-weight: bold;
-  margin-bottom: 10px;
+}
+
+.usernameStatus {
+  font-size: 0.9em;
+  color: #e74c3c;
+
+  margin-left: 10px;
+}
+
+.available {
+  color: #2ecc71;
 }
 
 .textInput {
@@ -50,28 +68,20 @@
   border: none;
 }
 
-.usernameStatus {
-  font-size: 0.9em;
-  color: #e74c3c;
-}
-
-.available {
-  color: #2ecc71;
-}
-
 .submitButton {
   background-color: #ecf0f1;
   border-radius: 5px;
-  width: 50px;
+  width: 350px;
   height: 50px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.5s linear;
 }
 
-.submitButtonActive {
+.canSubmit {
   background-color: #2ecc71;
   cursor: pointer;
 }
@@ -81,9 +91,8 @@
   font-weight: bold;
 }
 
-.send {
-  transform: rotate(45deg);
-  margin-left: -5px;
+.check {
+
 }
 
 .loader {

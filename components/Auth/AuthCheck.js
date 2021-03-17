@@ -36,6 +36,8 @@ export default function AuthCheck({ children }) {
     if (!!user.email && !user.username) {
       router.replace('/');
       setNeedAccountSetup(true);
+    } else if (!!user.email && !!user.username) {
+      setNeedAccountSetup(false);
     }
   }
 

@@ -14,6 +14,14 @@ userAPI.get = async (id) => {
   }
 }
 
+userAPI.update = async (id, updates) => {
+  try {
+    return db.collection('users').doc(id).set(updates, { merge: true });
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 userAPI.exists = async (id) => {
   try {
     let userDoc = await db.collection('users').doc(id).get();

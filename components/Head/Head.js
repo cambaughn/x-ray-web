@@ -15,7 +15,7 @@ const Head = (props) => (
     <meta name="keywords" content={props.keywords || defaultKeywords} />
     <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png" />
-    <link rel="shortcut icon" href="/static/favicon.ico" />
+    {/* <link rel="shortcut icon" href="/static/favicon.ico" /> */}
     <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png" />
     <link rel="mask-icon" href="/static/favicon-mask.svg" color="#000000" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />

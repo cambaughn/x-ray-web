@@ -38,7 +38,6 @@ export default function CardDetails({ card_id }) {
   }
 
   const recordPageView = () => {
-
     analytics.page({
       userId: user.id,
       category: 'Card',

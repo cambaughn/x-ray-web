@@ -1,6 +1,7 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
 import { addUserToIndex } from '../algolia/algoliaHelpers';
+import analytics from '../analytics/segment';
 
 const userAPI = {}
 
@@ -42,6 +43,12 @@ userAPI.create = async (email) => {
       }
       await db.collection('users').doc(email).set(newUser, { merge: true });
       user = await userAPI.get(email);
+
+      // Track sign up
+      analytics.track({
+        userId: email,
+        event: 'Signed up'
+      });
     }
     return Promise.resolve(user);
   } catch(error) {

@@ -7,7 +7,6 @@ import Link from 'next/link';
 // Utility functions
 
 export default function SearchResults({ results, clearSearch }) {
-  console.log('got results ', results);
   return (
     <div className={styles.container}>
       <div className={styles.searchResults}>

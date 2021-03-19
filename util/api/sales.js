@@ -5,9 +5,9 @@ const sale = {};
 
 sale.getForCard = async (card_id) => {
   try {
-    let sales = await db.collection('pokemon_sales').where('card_id', '==', card_id).where('status', '==', 'pending').limit(50).get();
+    let sales = await db.collection('pokemon_sales').where('card_id', '==', card_id).get();
     sales = convertSnapshot(sales);
-    sales = sales.filter(sale => sale.status !== 'removed');
+    sales = sales.filter(sale => sale.status !== 'rejected');
     return Promise.resolve(sales);
   } catch(error) {
     console.error(error);

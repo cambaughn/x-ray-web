@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './SearchResults.module.scss';
 import Link from 'next/link';
+import classNames from 'classnames';
 
 // Components
 
@@ -15,7 +16,14 @@ export default function SearchResults({ results, clearSearch }) {
             <Link href={`/card/${result.id}`} key={result.id}>
               <div className={styles.resultWrapper} onClick={clearSearch}>
                 <img src={result.images.small} className={styles.thumbnail} />
-                <span className={styles.cardName}>{result.name}</span>
+                <div className={styles.details}>
+                  <div className={styles.leftSide}>
+                    <span className={classNames(styles.topLine, styles.setName)}>{result.set_name}</span>
+                    <span className={styles.cardName}>{result.name}</span>
+                  </div>
+
+                  <span className={classNames(styles.topLine, styles.cardNumber)}>#{result.number}</span>
+                </div>
               </div>
             </Link>
           )

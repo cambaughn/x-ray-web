@@ -3,12 +3,14 @@ import styles from './PriceDetails.module.scss';
 
 // Components
 import PriceBlock from '../PriceBlock/PriceBlock';
+import VariantButtons from '../VariantButtons/VariantButtons';
 
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
 import { isLastMonth, dateSoldToObject } from '../../util/date.js';
 
 export default function PriceDetails({ sales }) {
+  const [selectedVariant, setSelectedVariant] = useState('non-holo');
   const [salesByType, setSalesByType] = useState({});
   const [variants, setVariants] = useState({});
 
@@ -45,15 +47,15 @@ export default function PriceDetails({ sales }) {
   }
 
 
-  // Variants - regular, reverse_holo, holo
+  // Variants - non-holo, reverse_holo, holo
   // Note that variants are NOT rarity. They simply relate to the finish of the card.
   const determineVariant = (title) => {
-    let variant = 'regular';
+    let variant = 'non-holo';
     title = title.toLowerCase();
     // First check for "reverse holo"
     if (title.includes('reverse')) {
       variant = 'reverse_holo';
-    } else if (title.includes('holo')) {
+    } else if (title.includes('holo') || title.includes('foil')) {
       variant = 'holo';
     }
 
@@ -64,8 +66,14 @@ export default function PriceDetails({ sales }) {
 
   return (
     <div className={styles.container}>
-      <PriceBlock sales={salesByType.ungraded || []} ungraded={true} />
-      <PriceBlock sales={salesByType.PSA && salesByType.PSA[10] ? salesByType.PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
+      <VariantButtons variants={Object.keys(salesByType)} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
+      { salesByType[selectedVariant] &&
+        <>
+          <PriceBlock sales={salesByType[selectedVariant].ungraded || []} ungraded={true} />
+          <PriceBlock sales={salesByType[selectedVariant].PSA && salesByType[selectedVariant].PSA[10] ? salesByType[selectedVariant].PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
+        </>
+      }
+
     </div>
   )
 }

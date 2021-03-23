@@ -1,0 +1,40 @@
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 30px;
+}
+
+.button {
+  width: 100px;
+  padding: 10px;
+  outline: none;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  margin-right: 30px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.selectedButton {
+  background-color: #27273f;
+}
+
+.button > span {
+  color: #27273f;
+}
+
+.selectedButton > span {
+  color: white;
+
+}

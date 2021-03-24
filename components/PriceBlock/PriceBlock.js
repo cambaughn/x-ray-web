@@ -6,7 +6,7 @@ import PriceChart from '../PriceChart/PriceChart';
 
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
-import { isLastMonth } from '../../util/date.js';
+import { isLastMonth, isLastThreeMonths } from '../../util/date.js';
 
 export default function PriceBlock({ sales, ungraded, gradingAuthority, grade }) {
   const [averagePrice, setAveragePrice] = useState(0);
@@ -14,8 +14,11 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
 
   const formatSales = () => {
      if (sales.length) {
-       let mostRecentSales = sales.filter(sale => isLastMonth(sale.date));
+       // Get for last three months
+       let mostRecentSales = sales.filter(sale => isLastThreeMonths(sale.date));
        setRecentSales(mostRecentSales);
+
+       console.log('mostRecentSales ', mostRecentSales);
 
        // If there aren't enough recent sales, keep going through the history until you find at least 5, or run out of listings
        // if (recentSales.length < 5) {

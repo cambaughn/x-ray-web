@@ -64,6 +64,13 @@ const isLastMonth = (date) => {
   return date >= monthAgo;
 }
 
+const isLastThreeMonths = (date) => {
+  let threeMonthsAgo = new Date();
+  // Set it to one month ago
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+  return date >= threeMonthsAgo;
+}
 
 const datesAreSameDay = (first, second) => {
   return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
@@ -97,4 +104,4 @@ const formatDateObjects = (dates) => {
 }
 
 
-export { dateStringToObject, isLastMonth, getDatesForMonth, datesAreSameDay, formatDateLabelForChart, dateSoldToObject }
+export { dateStringToObject, isLastMonth, isLastThreeMonths, getDatesForMonth, datesAreSameDay, formatDateLabelForChart, dateSoldToObject }

@@ -12,7 +12,7 @@ import { isLastMonth, dateSoldToObject } from '../../util/date.js';
 export default function PriceDetails({ sales }) {
   const [selectedVariant, setSelectedVariant] = useState('non-holo');
   const [salesByType, setSalesByType] = useState({});
-  const [variants, setVariants] = useState({});
+  const [variants, setVariants] = useState([]);
 
   const sortSalesByType = async () => {
     try {
@@ -62,28 +62,32 @@ export default function PriceDetails({ sales }) {
     return variant;
   }
 
-  const orderVariantButtons = () => {
-    let variantButtons = Object.keys(salesByType);
-    variantButtons.sort((a, b) => {
-      if (salesByType[a].ungraded && salesByType[b].ungraded) {
-        if (salesByType[a].ungraded.length > salesByType[b].ungraded.length) {
-          return -1;
-        } else if (salesByType[a].ungraded.length < salesByType[b].ungraded.length) {
-          return 1;
+  const setAvailableVariants = () => {
+    if (variants.length === 0) {
+      let availableVariants = Object.keys(salesByType).sort((a, b) => {
+        if (salesByType[a].ungraded && salesByType[b].ungraded) {
+          if (salesByType[a].ungraded.length > salesByType[b].ungraded.length) {
+            return -1;
+          } else if (salesByType[a].ungraded.length < salesByType[b].ungraded.length) {
+            return 1;
+          }
         }
-      }
-      return 0;
-    });
+        return 0;
+      })
+      .filter(variant => Object.keys(salesByType[variant]).length > 0)
 
-    console.log(salesByType);
-    return variantButtons;
+      console.log(availableVariants);
+      setVariants(availableVariants);
+      setSelectedVariant(availableVariants[0]);
+    }
   }
 
   useEffect(sortSalesByType, [sales]);
+  useEffect(setAvailableVariants, [salesByType]);
 
   return (
     <div className={styles.container}>
-      <VariantButtons variants={orderVariantButtons()} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
+      <VariantButtons variants={variants} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
       { salesByType[selectedVariant] &&
         <>
           <PriceBlock sales={salesByType[selectedVariant].ungraded || []} ungraded={true} />

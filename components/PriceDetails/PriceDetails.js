@@ -91,7 +91,9 @@ export default function PriceDetails({ sales }) {
       { salesByType[selectedVariant] &&
         <>
           <PriceBlock sales={salesByType[selectedVariant].ungraded || []} ungraded={true} />
-          <PriceBlock sales={salesByType[selectedVariant].PSA && salesByType[selectedVariant].PSA[10] ? salesByType[selectedVariant].PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
+          { salesByType[selectedVariant].PSA && salesByType[selectedVariant].PSA[10] &&
+            <PriceBlock sales={salesByType[selectedVariant].PSA && salesByType[selectedVariant].PSA[10] ? salesByType[selectedVariant].PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
+          }
         </>
       }
 

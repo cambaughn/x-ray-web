@@ -81,6 +81,13 @@ const formatDateLabelForChart = (date) => {
   return `${months[date.getMonth()]} ${date.getDate()}`
 }
 
+const formatWeekLabel = (start, end) => {
+  let startMonth = months[start.getMonth()];
+  let endMonth = months[end.getMonth()];
+  
+  return `${startMonth} ${start.getDate()}-${startMonth !== endMonth ? endMonth + ' ' : ''}${end.getDate()}`
+}
+
 const getDatesForMonth = (numDays) => {
   let dates = [];
   let i = 0;
@@ -96,6 +103,36 @@ const getDatesForMonth = (numDays) => {
   return dates;
 }
 
+const getDates = (numDays = 30) => {
+  let dates = [];
+  let i = 0;
+
+  while (dates.length <= numDays) {
+    let targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() - i);
+
+    dates.unshift(targetDate);
+    i++;
+  }
+
+  return dates;
+}
+
+const getWeeks = (numWeeks = 12) => {
+  let weeks = [];
+  let i = 0;
+
+  while (weeks.length <= numWeeks) {
+    let weekStart = new Date();
+    weekStart.setDate(weekStart.getDate() - (i * 7));
+
+    weeks.unshift(weekStart);
+    i++;
+  }
+
+  return weeks;
+}
+
 
 const formatDateObjects = (dates) => {
   return dates.map(date => {
@@ -104,4 +141,4 @@ const formatDateObjects = (dates) => {
 }
 
 
-export { dateStringToObject, isLastMonth, isLastThreeMonths, getDatesForMonth, datesAreSameDay, formatDateLabelForChart, dateSoldToObject }
+export { dateStringToObject, isLastMonth, isLastThreeMonths, getDates, getWeeks, datesAreSameDay, formatDateLabelForChart, formatWeekLabel, dateSoldToObject }

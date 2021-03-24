@@ -62,11 +62,28 @@ export default function PriceDetails({ sales }) {
     return variant;
   }
 
+  const orderVariantButtons = () => {
+    let variantButtons = Object.keys(salesByType);
+    variantButtons.sort((a, b) => {
+      if (salesByType[a].ungraded && salesByType[b].ungraded) {
+        if (salesByType[a].ungraded.length > salesByType[b].ungraded.length) {
+          return -1;
+        } else if (salesByType[a].ungraded.length < salesByType[b].ungraded.length) {
+          return 1;
+        }
+      }
+      return 0;
+    });
+
+    console.log(salesByType);
+    return variantButtons;
+  }
+
   useEffect(sortSalesByType, [sales]);
 
   return (
     <div className={styles.container}>
-      <VariantButtons variants={Object.keys(salesByType)} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
+      <VariantButtons variants={orderVariantButtons()} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
       { salesByType[selectedVariant] &&
         <>
           <PriceBlock sales={salesByType[selectedVariant].ungraded || []} ungraded={true} />

@@ -33,6 +33,28 @@
   text-align: center;
 }
 
+.cardData {
+  width: 200px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.85em;
+  color: grey;
+}
+
+.detail {
+  margin-bottom: 25px;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
 .tags {
   width: 200px;
 

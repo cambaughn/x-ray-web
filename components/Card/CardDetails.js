@@ -69,12 +69,24 @@ export default function CardDetails({ card_id }) {
         <h3 className={styles.cardName}>{card.name}</h3>
 
         { card.name &&
+          <div className={styles.cardData}>
+            <span className={styles.label}>Set</span>
+            <span className={styles.detail}>{card.set_name}</span>
+
+            <span className={styles.label}>Number</span>
+            <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
+            
+            <span className={styles.label}>Rarity</span>
+            <span className={styles.detail}>{card.rarity}</span>
+          </div>
+        }
+        {/* { card.name &&
           <div className={styles.tags}>
             <Tag text={`${card.number}/${set.printedTotal}`} color={'#2ecc71'} />
             <Tag text={card.rarity} color={'#EE5253'} />
             <Tag text={card.set_name} color={'#5F27CD'} />
           </div>
-        }
+        } */}
       </div>
 
       <div className={styles.rightSection}>

@@ -7,47 +7,97 @@ import PriceChart from '../PriceChart/PriceChart';
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
 import { isLastMonth, isLastThreeMonths } from '../../util/date.js';
+import { getDates, getWeeks, datesAreSameDay, formatWeekLabel } from '../../util/date.js';
+import { flatten } from '../../util/array.js';
+
 
 export default function PriceBlock({ sales, ungraded, gradingAuthority, grade }) {
   const [averagePrice, setAveragePrice] = useState(0);
   const [weeklyAverage, setWeeklyAverage] = useState(0);
-  const [recentSales, setRecentSales] = useState([]);
+  const [salesData, setSalesData] = useState([]);
 
   const formatSales = () => {
      if (sales.length) {
        // Get sales for last three months
-       let mostRecentSales = sales.filter(sale => isLastThreeMonths(sale.date));
-       setRecentSales(mostRecentSales);
+       let recentSales = sales.filter(sale => isLastThreeMonths(sale.date));
 
-       // If there aren't enough recent sales, keep going through the history until you find at least 5, or run out of listings
-       // if (recentSales.length < 5) {
-       //   for (let i = recentSales.length; i < sortedSalesByDate.length; i++) {
-       //     if (recentSales.length < 5) {
-       //       recentSales.push(sortedSalesByDate[i]);
-       //     }
-       //   }
-       // }
+       // Map out the last 12 weeks as days
+       let data = getDates(84);
 
-       let total = mostRecentSales.map(sale => {
-         let price = sale.price;
-
-         if (sale.currency !== 'USD') {
-           return null;
-         }
-         return price;
+       // Create sales lookup object to easily get sales for day
+       let salesLookup = {};
+       recentSales.forEach(sale => {
+         let key = `${sale.date.getMonth()}-${sale.date.getDate()}`;
+         salesLookup[key] = salesLookup[key] || [];
+         salesLookup[key].push(sale.price);
        })
-       .filter(price => !!price) // make sure listing has a price to use
-       .reduce((total, current) => {
-         total += current;
-         return total;
-       }, 0);
 
+       // Convert dates into useful data objects with date[object] and sales[array]
+       data = data.map(date => {
+         let key = `${date.getMonth()}-${date.getDate()}`;
+         let sales = salesLookup[key] || null;
+         return { date, sales }
+       })
+       .filter(day => !!day.sales)
 
-       let avg = total / mostRecentSales.length;
-       avg = avg.toFixed(2);
-       console.log(`total sales: ${total}, average price: ${avg}`);
-       setAveragePrice(avg || 0);
+       // Slice data into weeks
+       let weeks = getWeeks(12).map(week => {
+         return { weekStart: week, sales: [] }
+       })
+       let focused = 0;
+
+       data.forEach(day => {
+         let focusedWeek = weeks[focused];
+         let nextWeek = weeks[focused + 1];
+
+         if (focusedWeek && nextWeek) { // make sure we stop at the end of the array and don't get undefined
+           if (day.date >= focusedWeek.weekStart && day.date < nextWeek.weekStart) {
+             if (day.sales.length) {
+               focusedWeek.sales.push(day.sales);
+             }
+           } else if (day.date >= nextWeek.weekStart) {
+             focused++;
+           }
+         }
+       })
+
+       let prevWeekPrice = 0;
+
+       let formattedWeeks = weeks.map((week, index) => {
+         if (weeks[index + 1]) {
+           let label = formatWeekLabel(week.weekStart, weeks[index + 1].weekStart);
+           let sales = flatten(week.sales);
+
+           let total = sales.reduce((a, b) => {
+             return a + b;
+           }, 0);
+
+           // Determine average
+           let avg = total / sales.length;
+           avg = Math.round((avg + Number.EPSILON) * 100) / 100;
+           let averagePrice = avg || prevWeekPrice;
+           prevWeekPrice = averagePrice;
+
+           return { label, sales, total, averagePrice }
+         }
+
+         return null;
+       })
+       .filter(week => !!week)
+
+       setSalesData(formattedWeeks)
+
+       let priceToShow = formattedWeeks[formattedWeeks.length - 1].averagePrice;
+       priceToShow = priceToShow.toFixed(2);
+       // console.log(`total sales: ${total}, average price: ${priceToShow}`);
+       console.log(`average price: ${priceToShow}`);
+       setAveragePrice(priceToShow || 0);
      }
+  }
+
+
+  const formatData = () => {
+
   }
 
   useEffect(formatSales, [sales]);
@@ -69,11 +119,12 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
         </div>
         <div className={styles.rightSide}>
           <h2 className={styles.price}>${averagePrice}</h2>
+          <span className={styles.period}>avg. last week</span>
         </div>
 
       </div>
 
-      <PriceChart recentSales={recentSales} />
+      <PriceChart salesData={salesData} />
     </div>
   )
 }

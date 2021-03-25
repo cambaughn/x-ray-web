@@ -6,21 +6,25 @@ import PriceBlock from '../PriceBlock/PriceBlock';
 import VariantButtons from '../VariantButtons/VariantButtons';
 
 // Utility functions
-import { sortSalesByDate } from '../../util/sorting.js';
-import { isLastMonth, dateSoldToObject } from '../../util/date.js';
+import { isLastThreeMonths, dateSoldToObject } from '../../util/date.js';
 
 export default function PriceDetails({ sales }) {
-  const [selectedVariant, setSelectedVariant] = useState('non-holo');
-  const [salesByType, setSalesByType] = useState({});
   const [variants, setVariants] = useState([]);
+  const [selectedVariant, setSelectedVariant] = useState('non-holo');
+  const [recentSales, setRecentSales] = useState([])
+  const [salesByType, setSalesByType] = useState({});
 
   const sortSalesByType = async () => {
     try {
       if (sales.length > 0) {
-        let typeRecord = {};
         sales.forEach(sale => {
           sale.date = dateSoldToObject(sale.date_sold);
+        })
 
+        let recentSales = sales.filter(sale => isLastThreeMonths(sale.date));
+
+        let typeRecord = {};
+        recentSales.forEach(sale => {
           // Determine variant: 'regular', 'reverse_holo', 'holo'
           let variant = determineVariant(sale.title);
           typeRecord[variant] = typeRecord[variant] || {};
@@ -56,6 +60,7 @@ export default function PriceDetails({ sales }) {
     if (title.includes('reverse')) {
       variant = 'reverse_holo';
     } else if (title.includes('holo') || title.includes('foil')) {
+      console.log(title);
       variant = 'holo';
     }
 
@@ -81,6 +86,7 @@ export default function PriceDetails({ sales }) {
       setSelectedVariant(availableVariants[0]);
     }
   }
+
 
   useEffect(sortSalesByType, [sales]);
   useEffect(setAvailableVariants, [salesByType]);

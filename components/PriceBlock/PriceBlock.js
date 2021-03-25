@@ -17,20 +17,18 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
   const [salesData, setSalesData] = useState([]);
 
   const formatSales = () => {
-     if (sales.length) {
-       // Get sales for last three months
-       let recentSales = sales.filter(sale => isLastThreeMonths(sale.date));
-
+     if (sales.length > 0) {
        // Map out the last 12 weeks as days
        let data = getDates(84);
 
        // Create sales lookup object to easily get sales for day
        let salesLookup = {};
-       recentSales.forEach(sale => {
+       sales.forEach(sale => {
          let key = `${sale.date.getMonth()}-${sale.date.getDate()}`;
          salesLookup[key] = salesLookup[key] || [];
          salesLookup[key].push(sale.price);
        })
+
 
        // Convert dates into useful data objects with date[object] and sales[array]
        data = data.map(date => {
@@ -44,20 +42,21 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
        let weeks = getWeeks(12).map(week => {
          return { weekStart: week, sales: [] }
        })
-       let focused = 0;
 
-       data.forEach(day => {
-         let focusedWeek = weeks[focused];
-         let nextWeek = weeks[focused + 1];
+       weeks.forEach((week, index) => {
+         let nextWeek = weeks[index + 1] || null;
 
-         if (focusedWeek && nextWeek) { // make sure we stop at the end of the array and don't get undefined
-           if (day.date >= focusedWeek.weekStart && day.date < nextWeek.weekStart) {
-             if (day.sales.length) {
-               focusedWeek.sales.push(day.sales);
-             }
-           } else if (day.date >= nextWeek.weekStart) {
-             focused++;
+         if (nextWeek) {
+           for (let i = 0; i < data.length; i) {
+             let day = data[i];
+
+            if (day.date >= week.weekStart && day.date < nextWeek.weekStart) {
+              week.sales.push(data.splice(i, 1)[0].sales)
+            } else {
+              i++;
+            }
            }
+
          }
        })
 
@@ -95,10 +94,6 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
      }
   }
 
-
-  const formatData = () => {
-
-  }
 
   useEffect(formatSales, [sales]);
 

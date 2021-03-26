@@ -15,11 +15,18 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
   const [averagePrice, setAveragePrice] = useState(0);
   const [weeklyAverage, setWeeklyAverage] = useState(0);
   const [salesData, setSalesData] = useState([]);
+  const [analysis, setAnalysis] = useState({});
 
   const formatSales = () => {
      if (sales.length > 0) {
        // Map out the last 12 weeks as days
        let data = getDates(84);
+
+       let analysisDetails = {
+         volume: 0,
+         highestPrice: null,
+         lowestPrice: null,
+       }
 
        // Create sales lookup object to easily get sales for day
        let salesLookup = {};
@@ -27,8 +34,21 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
          let key = `${sale.date.getMonth()}-${sale.date.getDate()}`;
          salesLookup[key] = salesLookup[key] || [];
          salesLookup[key].push(sale.price);
+
+         analysisDetails.volume += sale.price;
+
+         if (!analysisDetails.lowestPrice || sale.price < analysisDetails.lowestPrice) {
+           analysisDetails.lowestPrice = sale.price;
+         }
+
+         if (!analysisDetails.highestPrice || sale.price > analysisDetails.highestPrice) {
+           analysisDetails.highestPrice = sale.price;
+         }
        })
 
+       analysisDetails.volume = analysisDetails.volume.toLocaleString(undefined, { maximumFractionDigits: 2 });
+       analysisDetails.highestPrice = analysisDetails.highestPrice.toLocaleString(undefined, { maximumFractionDigits: 2 });
+       analysisDetails.lowestPrice = analysisDetails.lowestPrice.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
        // Convert dates into useful data objects with date[object] and sales[array]
        data = data.map(date => {
@@ -85,6 +105,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
        .filter(week => !!week)
 
        setSalesData(formattedWeeks)
+       setAnalysis(analysisDetails);
 
        let priceToShow = formattedWeeks[formattedWeeks.length - 1].averagePrice;
        priceToShow = priceToShow.toFixed(2);
@@ -94,32 +115,63 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
      }
   }
 
+  const displayTable = () => {
+    return analysis.volume || analysis.highestPrice || analysis.lowestPrice;
+  }
+
 
   useEffect(formatSales, [sales]);
 
   return (
     <div className={styles.container}>
 
-      <div className={styles.details}>
-        <div className={styles.leftSide}>
-          { ungraded &&
-            <span className={styles.grade}>Ungraded</span>
-          }
+      <div className={styles.chart}>
+        <div className={styles.details}>
+          <div className={styles.leftSide}>
+            { ungraded &&
+              <span className={styles.grade}>Ungraded</span>
+            }
 
-          { gradingAuthority && grade &&
-            <span className={styles.grade}>{gradingAuthority} {grade}</span>
-          }
+            { gradingAuthority && grade &&
+              <span className={styles.grade}>{gradingAuthority} {grade}</span>
+            }
 
-          <span className={styles.period}>last 90 days</span>
+            <span className={styles.period}>last 90 days</span>
+          </div>
+          <div className={styles.rightSide}>
+            <h2 className={styles.price}>${averagePrice}</h2>
+            <span className={styles.period}>avg. last week</span>
+          </div>
+
         </div>
-        <div className={styles.rightSide}>
-          <h2 className={styles.price}>${averagePrice}</h2>
-          <span className={styles.period}>avg. last week</span>
-        </div>
 
+        <PriceChart salesData={salesData} />
       </div>
 
-      <PriceChart salesData={salesData} />
+      { displayTable() &&
+        <table className={styles.table}>
+          <tbody>
+            { analysis.volume &&
+              <tr>
+                <td className={styles.label}>Total Volume:</td>
+                <td className={styles.data}>${analysis.volume}</td>
+              </tr>
+            }
+            { analysis.highestPrice &&
+              <tr>
+                <td className={styles.label}>Highest Price:</td>
+                <td className={styles.data}>${analysis.highestPrice}</td>
+              </tr>
+            }
+            { analysis.lowestPrice &&
+              <tr>
+                <td className={styles.label}>Lowest Price:</td>
+                <td className={styles.data}>${analysis.lowestPrice}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
     </div>
   )
 }

@@ -1,7 +1,13 @@
 .container {
-  width: 700px;
-  // height: 300px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
   margin-bottom: 40px;
+}
+
+.chart {
+  width: 700px;
 
   background-color: #27273f;
   border-radius: 10px;
@@ -11,6 +17,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  margin-right: 30px;
 }
 
 .details {
@@ -53,4 +61,30 @@
   color: white;
   font-size: 14px;
   font-weight: 400;
+}
+
+.table {
+  background-color: #27273f;
+  border-radius: 10px;
+  padding: 15px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-collapse: separate;
+  border-spacing: 25px 15px;
+
+  max-height: 375px;
+
+  tr {
+    color: white;
+  }
+}
+
+.label {
+  // font-weight: 500;
+  font-size: 1em;
+}
+
+.data {
+  font-weight: bold;
+  font-size: 1.1em;
 }

@@ -27,10 +27,10 @@ export default function PriceChart({ salesData }) {
             }
           ]
         }}
-        height={400}
-        width={900}
+        height={300}
+        width={700}
         options={{
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
           responsive: true,
           legend: {
             labels: {

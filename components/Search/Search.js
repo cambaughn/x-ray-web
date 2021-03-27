@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './Search.module.scss';
 import { useSelector } from 'react-redux';
 
+
 // Components
 
 // Utility functions

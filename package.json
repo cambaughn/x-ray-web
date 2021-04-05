@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@stripe/react-stripe-js": "^1.2.0",
-    "@stripe/stripe-js": "^1.11.0",
+    "@stripe/stripe-js": "^1.13.2",
     "algoliasearch": "^4.8.3",
     "analytics-node": "^4.0.1",
     "axios": "^0.21.1",

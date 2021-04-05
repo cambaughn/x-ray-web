@@ -30,7 +30,9 @@ export default function PaymentPrompt({}) {
 
   return (
     <div className={styles.container}>
-      <button id="checkout-button">Checkout</button>
+      <button role="link">
+        Checkout
+      </button>
     </div>
   )
 }

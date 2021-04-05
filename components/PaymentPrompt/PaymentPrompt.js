@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './PaymentPrompt.module.scss';
 import StripeCheckout from 'react-stripe-checkout';
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+import { loadStripe } from '@stripe/stripe-js';
 
 // Components
 
 // Utility functions
+
+
+const stripePromise = loadStripe('pk_test_9YRaJEJThomoL3InPMbzYmi5');
 
 export default function PaymentPrompt({}) {
   // const handleToken = (token) => {

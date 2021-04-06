@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './PaymentPrompt.module.scss';
 import StripeCheckout from 'react-stripe-checkout';
 import { loadStripe } from '@stripe/stripe-js';
@@ -12,28 +13,13 @@ import { createCheckoutSession } from 'next-stripe/client';
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function PaymentPrompt({}) {
-  // const handleToken = (token) => {
-  //   console.log('got token, ', token);
-  // }
-  //
-  // const setUpSession = async () => {
-  //   const session = await stripe.checkout.sessions.create({
-  //     payment_method_types: ['card'],
-  //     line_items: [{
-  //       price: 'price_1HKiSf2eZvKYlo2CxjF9qwbr',
-  //       quantity: 1,
-  //     }],
-  //     mode: 'subscription',
-  //     success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
-  //     cancel_url: 'https://example.com/cancel',
-  //   });
-  //
-  //   console.log('session ', session);
-  // }
+  const [showError, setShowError] = useState(false);
+  const user = useSelector(state => state.user);
 
   const handleClick = async () => {
     const session = await createCheckoutSession({
-      success_url: window.location.href,
+      customer_email: user.email || null,
+      success_url: `${window.location.href}`,
       cancel_url: window.location.href,
       line_items: [{ price: "price_1IBGHuIp4rvRKVTPIgaKmH56", quantity: 1 }],
       payment_method_types: ['card'],
@@ -41,12 +27,27 @@ export default function PaymentPrompt({}) {
     })
 
     const stripe = await stripePromise;
+    const result = stripe.redirectToCheckout({ sessionId: session.id });
 
-    const result = stripe.redirectToCheckout({ sessionId: session.id })
+    if (result.error) {
+      setShowError(true);
+    }
   }
+
+  const checkCustomer = async () => {
+    const stripe = await stripePromise;
+
+    console.log('customer ', customer);
+  }
+
 
   return (
     <div className={styles.container}>
+      { showError &&
+        <div>
+          <span>Uh oh! Looks like there was an error. Click the button to try again.</span>
+        </div>
+      }
       <button role="link" onClick={handleClick}>
         Checkout
       </button>

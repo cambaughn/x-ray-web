@@ -4,10 +4,12 @@ import styles from './PaymentPrompt.module.scss';
 import StripeCheckout from 'react-stripe-checkout';
 import { loadStripe } from '@stripe/stripe-js';
 import { createCheckoutSession } from 'next-stripe/client';
+import axios from 'axios';
 
 // Components
 
 // Utility functions
+import userAPI from '../../util/api/user';
 
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
@@ -16,32 +18,45 @@ export default function PaymentPrompt({}) {
   const [showError, setShowError] = useState(false);
   const user = useSelector(state => state.user);
 
-  const handleClick = async () => {
-    // TODO: Need to create a Customer via Stripe so I can connect the subscription to them.
+  const createCustomer = async () => {
+    try {
+      const { data } = await axios.post(`${window.location.origin}/api/create_customer`, { email: user.email, name: user.name });
+      let { customer } = data;
+      console.log('created customer ==>', customer);
 
-    const session = await createCheckoutSession({
-      customer_email: user.email || null,
-      success_url: `${window.location.href}`,
-      cancel_url: window.location.href,
-      line_items: [{ price: "price_1IBGHuIp4rvRKVTPIgaKmH56", quantity: 1 }],
-      payment_method_types: ['card'],
-      mode: 'subscription'
-    })
+      await userAPI.update(user.id, { stripe_customer_id: customer.id });
 
-    const stripe = await stripePromise;
-    const result = stripe.redirectToCheckout({ sessionId: session.id });
+      return Promise.resolve(customer.id);
+    } catch (error) { // Not subscribed
 
-    if (result.error) {
-      setShowError(true);
     }
   }
 
-  const checkCustomer = async () => {
-    const stripe = await stripePromise;
+  const handleClick = async () => {
+    // TODO: Need to create a Customer via Stripe so I can connect the subscription to them.
 
-    console.log('customer ', customer);
+    try {
+      let customerId = await createCustomer();
+
+      const session = await createCheckoutSession({
+        customer: customerId || null,
+        success_url: `${window.location.href}`,
+        cancel_url: window.location.href,
+        line_items: [{ price: "price_1IBGHuIp4rvRKVTPIgaKmH56", quantity: 1 }],
+        payment_method_types: ['card'],
+        mode: 'subscription'
+      })
+
+      const stripe = await stripePromise;
+      const result = stripe.redirectToCheckout({ sessionId: session.id });
+
+      if (result.error) {
+        setShowError(true);
+      }
+    } catch(error) {
+
+    }
   }
-
 
   return (
     <div className={styles.container}>

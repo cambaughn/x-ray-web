@@ -75,13 +75,16 @@ export default function AuthCheck({ children }) {
 
   const checkSubscriptionStatus = async () => {
     try {
+
+      // TODO: replace with actual user email
       const { data } = await axios.post(`${window.location.origin}/api/subscription`, { email: 'cam.baughn@gmail.com' });
 
       console.log('response ==>', data);
-    } catch (error) {
-      console.log(error);
+    } catch (error) { // Not subscribed
+
     }
   }
+
   useEffect(checkUserLogin, []);
   useEffect(checkSubscriptionStatus, []);
   useEffect(determineAccountSetup, [user]);

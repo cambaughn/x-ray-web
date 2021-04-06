@@ -17,6 +17,8 @@ export default function PaymentPrompt({}) {
   const user = useSelector(state => state.user);
 
   const handleClick = async () => {
+    // TODO: Need to create a Customer via Stripe so I can connect the subscription to them.
+
     const session = await createCheckoutSession({
       customer_email: user.email || null,
       success_url: `${window.location.href}`,

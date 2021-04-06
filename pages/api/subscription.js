@@ -5,13 +5,17 @@ export default async (request, response) => {
   const { email } = request.body;
 
   try {
-    const customer = await stripe.customers.retrieve(
-      'cam.baughn@gmail.com'
-    );
-
+    console.log('email ===> ', email);
+    const customer = await stripe.customers.retrieve(email);
     console.log('customer ===> ', customer);
-    return response.status(200).json({ status: 'subscribed' })
-  } catch(error) {
 
+    // TODO: set subscribed to whatever we find on the customer object
+    let subscribed = false;
+
+
+    return response.status(200).json({ subscribed })
+  } catch(error) {
+    console.log(' error    ', error)
+    return response.status(400).json({ subscribed: false });
   }
 }

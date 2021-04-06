@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import firebase from 'firebase';
 import { nanoid } from 'nanoid';
+import axios from 'axios';
 
 // Components
 import AccountSetup from '../AccountSetup/AccountSetup';
@@ -71,7 +72,18 @@ export default function AuthCheck({ children }) {
     });
   }
 
+
+  const checkSubscriptionStatus = async () => {
+    try {
+      const { data } = await axios.post(`${window.location.origin}/api/subscription`, { email: 'cam.baughn@gmail.com' });
+
+      console.log('response ==>', data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(checkUserLogin, []);
+  useEffect(checkSubscriptionStatus, []);
   useEffect(determineAccountSetup, [user]);
   useEffect(checkRouteProtection, [router, checkedUserAuth]);
 

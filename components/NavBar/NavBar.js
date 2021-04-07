@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './NavBar.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -13,7 +14,10 @@ import { searchCard } from '../../util/algolia/algoliaHelpers';
 import analytics from '../../util/analytics/segment';
 
 
-export default function NavBar({ user }) {
+export default function NavBar({}) {
+  const user = useSelector(state => state.user);
+  const subscriptionStatus = useSelector(state => state.subscriptionStatus);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const router = useRouter();
@@ -45,7 +49,7 @@ export default function NavBar({ user }) {
         event: 'Card searched'
       });
     }
-    
+
     setSearchTerm(term);
   }
 
@@ -57,7 +61,7 @@ export default function NavBar({ user }) {
         </Link>
       </div>
 
-      { !!user.username &&
+      { subscriptionStatus === 'active' &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
       }
 

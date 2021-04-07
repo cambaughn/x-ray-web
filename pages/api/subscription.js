@@ -9,9 +9,9 @@ export default async (request, response) => {
     let subscriptionData = customer.subscriptions.data[0];
     let subscribed = subscriptionData && subscriptionData.status === 'active';
 
-    return response.status(200).json({ subscribed })
+    return response.status(200).json({ subscriptionStatus: 'active' })
   } catch(error) {
     console.log(' error    ', error)
-    return response.status(400).json({ subscribed: false });
+    return response.status(400).json({ subscriptionStatus: 'not_subscribed' });
   }
 }

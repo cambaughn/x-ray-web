@@ -28,12 +28,22 @@ const sales = (state = [], action) => {
   }
 }
 
+const subscriptionStatus = (state = '', action) => {
+  switch (action.type) {
+    case 'SET_SUBSCRIPTION_STATUS':
+      return action.subscriptionStatus;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
   user,
   card,
-  sales
+  sales,
+  subscriptionStatus
 });
 
 export { xRayApp };

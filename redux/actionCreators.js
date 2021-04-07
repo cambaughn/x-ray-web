@@ -24,9 +24,17 @@ function setSales(sales) {
   }
 }
 
+function setSubscriptionStatus(subscriptionStatus) {
+  return {
+    type: 'SET_SUBSCRIPTION_STATUS',
+    subscriptionStatus
+  }
+}
+
 
 export {
   setUser,
   setCard,
-  setSales
+  setSales,
+  setSubscriptionStatus
 };

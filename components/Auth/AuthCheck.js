@@ -9,13 +9,14 @@ import axios from 'axios';
 import AccountSetup from '../AccountSetup/AccountSetup';
 
 // Utility Functions
-import { setUser } from '../../redux/actionCreators';
+import { setUser, setSubscriptionStatus } from '../../redux/actionCreators';
 import { localStorageKeys } from '../../util/localStorage';
 import userAPI from '../../util/api/user';
 import analytics from '../../util/analytics/segment';
 
 export default function AuthCheck({ children }) {
   const user = useSelector(state => state.user);
+  const subscriptionStatus = useSelector(state => state.subscriptionStatus);
 
   const [loading, setLoading] = useState(true);
   const [needAccountSetup, setNeedAccountSetup] = useState(false);
@@ -79,12 +80,12 @@ export default function AuthCheck({ children }) {
         // TODO: replace with actual user email
         const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id: user.stripe_customer_id });
 
-        console.log('response ==>', data);
+        dispatch(setSubscriptionStatus(data.subscriptionStatus));
       } else if (!!user.id) { // user is signed in but not yet subscribed
-
+        dispatch(setSubscriptionStatus('not_subscribed'));
       }
     } catch (error) { // Not subscribed
-
+      dispatch(setSubscriptionStatus('not_subscribed'));
     }
   }
 

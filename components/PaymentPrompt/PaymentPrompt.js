@@ -79,10 +79,19 @@ export default function PaymentPrompt({}) {
 
       <div className={styles.mainContent}>
           <h2 className={styles.headline}>Almost there!</h2>
-          <h2 className={classNames(styles.headline, styles.subhead)}>Start your free trial of <span className={styles.bold}>X-ray Standard</span>.</h2>
+          <h2 className={classNames(styles.headline, styles.subhead)}>Your <span className={styles.bold}>X-ray Standard</span> subscription unlocks a world of data and resources.</h2>
+
+          <h3 className={styles.label}>X-ray Standard includes:</h3>
+          <ul className={styles.featuresList}>
+            <li className={styles.feature}>13k+ English Pokémon cards</li>
+            <li className={styles.feature}>100k+ sales data points</li>
+            <li className={styles.feature}>Detailed charts and graphs</li>
+            <li className={styles.feature}>Sales breakdowns for each card</li>
+            <li className={styles.feature}>More cards, languages, and products coming soon!</li>
+          </ul>
 
           <button role="link" className={styles.button} onClick={handleClick}>
-            <span className={styles.buttonText}>Subscribe</span>
+            <span className={styles.buttonText}>1 week free, then $15 per month</span>
           </button>
       </div>
     </div>

@@ -27,7 +27,7 @@ export default function SignIn({}) {
         // Set the spinner state
         setSendingEmail(true);
         // Send the email via Firebase
-        await sendEmailLink(email.trim());
+        await sendEmailLink(email.trim().toLowerCase());
         // Set the state to show the sent email messaging
         setEmailSent(true);
         console.log('sent authentication email');
@@ -64,7 +64,7 @@ export default function SignIn({}) {
             <input
               type="email"
               value={email}
-              onChange={event => updateEmail(event.target.value)}
+              onChange={event => updateEmail(event.target.value.toLowerCase())}
               onKeyDown={handleEnterKey}
               className={styles.emailInput}
               placeholder={'email'}

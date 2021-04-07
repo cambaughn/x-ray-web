@@ -5,6 +5,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import { loadStripe } from '@stripe/stripe-js';
 import { createCheckoutSession } from 'next-stripe/client';
 import axios from 'axios';
+import classNames from 'classnames';
 
 // Components
 
@@ -75,9 +76,15 @@ export default function PaymentPrompt({}) {
           <span>Uh oh! Looks like there was an error. Click the button to try again.</span>
         </div>
       }
-      <button role="link" onClick={handleClick}>
-        Checkout
-      </button>
+
+      <div className={styles.mainContent}>
+          <h2 className={styles.headline}>Almost there!</h2>
+          <h2 className={classNames(styles.headline, styles.subhead)}>Start your free trial of <span className={styles.bold}>X-ray Standard</span>.</h2>
+
+          <button role="link" className={styles.button} onClick={handleClick}>
+            <span className={styles.buttonText}>Subscribe</span>
+          </button>
+      </div>
     </div>
   )
 }

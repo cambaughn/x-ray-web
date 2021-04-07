@@ -2,16 +2,12 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async (request, response) => {
-  const { email } = request.body;
+  const { customer_id } = request.body;
 
   try {
-    console.log('email ===> ', email);
-    const customer = await stripe.customers.retrieve(email);
-    console.log('customer ===> ', customer);
-
-    // TODO: set subscribed to whatever we find on the customer object
-    let subscribed = false;
-
+    const customer = await stripe.customers.retrieve(customer_id);
+    let subscriptionData = customer.subscriptions.data[0];
+    let subscribed = subscriptionData && subscriptionData.status === 'active';
 
     return response.status(200).json({ subscribed })
   } catch(error) {

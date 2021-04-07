@@ -75,18 +75,21 @@ export default function AuthCheck({ children }) {
 
   const checkSubscriptionStatus = async () => {
     try {
+      if (!!user.id && !!user.stripe_customer_id) { // if user is signed in and is potentially a customer
+        // TODO: replace with actual user email
+        const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id: user.stripe_customer_id });
 
-      // TODO: replace with actual user email
-      const { data } = await axios.post(`${window.location.origin}/api/subscription`, { email: 'cam.baughn@gmail.com' });
+        console.log('response ==>', data);
+      } else if (!!user.id) { // user is signed in but not yet subscribed
 
-      console.log('response ==>', data);
+      }
     } catch (error) { // Not subscribed
 
     }
   }
 
   useEffect(checkUserLogin, []);
-  useEffect(checkSubscriptionStatus, []);
+  useEffect(checkSubscriptionStatus, [user]); // check only once the user exists
   useEffect(determineAccountSetup, [user]);
   useEffect(checkRouteProtection, [router, checkedUserAuth]);
 

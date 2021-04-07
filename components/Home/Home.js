@@ -18,6 +18,7 @@ export default function Home({}) {
 
       <div className={styles.getStartedWrapper}>
         <GetStartedButton />
+        <span className={styles.priceText}>1 week free trial, then $15 per month</span>
       </div>
 
 
@@ -30,7 +31,7 @@ export default function Home({}) {
 
         <div className={styles.featureSection}>
           <img src={'/images/smart.png'} alt={'brain icon'} className={styles.featureIcon} />
-          <p className={`${styles.bodyText} ${styles.featuresText}`}>Get the info you need to make smart decisions with constantly-updated data from the major e-commerce platforms.</p>
+          <p className={`${styles.bodyText} ${styles.featuresText}`}>Get the info you need to make smart decisions with constantly-updated data from major e-commerce platforms.</p>
         </div>
         <div className={styles.featureSection}>
           <img src={'/images/details.png'} alt={'shovel icon'} className={styles.featureIcon} />

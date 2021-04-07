@@ -47,9 +47,9 @@ export default function PaymentPrompt({}) {
       if (customerId) {
         const session = await createCheckoutSession({
           customer: customerId || null,
-          success_url: `${window.location.href}`,
+          success_url: `${window.location.href}/success`,
           cancel_url: window.location.href,
-          line_items: [{ price: "price_1IBGHuIp4rvRKVTPIgaKmH56", quantity: 1 }],
+          line_items: [{ price: process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION, quantity: 1 }],
           payment_method_types: ['card'],
           mode: 'subscription'
         })
@@ -87,7 +87,7 @@ export default function PaymentPrompt({}) {
             <li className={styles.feature}>100k+ sales data points</li>
             <li className={styles.feature}>Detailed charts and graphs</li>
             <li className={styles.feature}>Sales breakdowns for each card</li>
-            <li className={styles.feature}>More cards, languages, and products coming soon!</li>
+            <li className={classNames(styles.feature, styles.highlightedFeature)}>More cards, languages, and products coming soon!</li>
           </ul>
 
           <button role="link" className={styles.button} onClick={handleClick}>

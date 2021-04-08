@@ -38,6 +38,7 @@ export default function ConfirmSignIn({ user, setUser }) {
           // Otherwise, create entry in the database for them
           let newUser = await userAPI.create(userEmail);
           if (newUser) {
+            console.log('found user! ');
             setUser(newUser);
             return;
           }
@@ -52,7 +53,14 @@ export default function ConfirmSignIn({ user, setUser }) {
     }
   }
 
+  const navigateHome = () => {
+    if (!!user.id && !!user.email) { // if the user is signed in
+      router.replace('/');
+    }
+  }
+
   useEffect(checkForSignIn, []);
+  useEffect(navigateHome, [user]);
 
   return (
     <div className={styles.container}>

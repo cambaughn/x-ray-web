@@ -1,14 +1,14 @@
 import React from 'react';
 
 // Components
-import NavBarContainer from '../../NavBar/NavBarContainer';
+import NavBar from '../../NavBar/NavBar';
 
 // Utility functions
 
 export default function MainLayout({ children }) {
   return (
     <div>
-      <NavBarContainer />
+      <NavBar />
       { children }
     </div>
   )

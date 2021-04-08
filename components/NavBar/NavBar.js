@@ -61,9 +61,12 @@ export default function NavBar({}) {
         </Link>
       </div>
 
-      { subscriptionStatus === 'active' &&
+      { !!user.id &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
       }
+      {/* { subscriptionStatus === 'active' &&
+        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
+      } */}
 
       <div className={styles.rightSide}>
         { !user.id && !router.pathname.includes('sign-in') &&

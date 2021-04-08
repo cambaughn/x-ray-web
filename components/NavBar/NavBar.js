@@ -41,6 +41,7 @@ export default function NavBar({}) {
     setSearchTerm('');
   }
 
+
   const changeSearchTerm = (term) => {
     // Treat zero to one term as a new search
     if (searchTerm.length === 0 && term.length === 1) {

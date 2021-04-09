@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 // Components
 import MainContainer from '../Main/MainContainer';
-import SubscribeContainer from '../Subscribe/SubscribeContainer';
 import Login from '../Login/Login';
 import SearchContainer from '../Search/SearchContainer';
 
@@ -29,10 +28,6 @@ class App extends Component {
 
         <SearchContainer />
         {/* <MainContainer /> */}
-
-        {/* { this.props.user.id && this.props.user.status !== 'subscribed' &&
-          <SubscribeContainer />
-        } */}
 
       </div>
     );

@@ -16,6 +16,8 @@ import { setUser } from '../../redux/actionCreators';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
+console.log('environment variables: ', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY, process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION);
+
 export default function PaymentPrompt({}) {
   const [showError, setShowError] = useState(false);
   const user = useSelector(state => state.user);

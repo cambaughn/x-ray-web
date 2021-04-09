@@ -29,6 +29,8 @@ export default function Xray({ Component, pageProps }) {
 export async function getServerSideProps(context) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+  console.log('server side env variables ', process.env.STRIPE_SECRET_KEY);
+
   // const customer = await stripe.customers.retrieve(
   //   'cam.baughn@gmail.com'
   // );

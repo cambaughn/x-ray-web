@@ -16,6 +16,7 @@ export default function ConfirmSignIn({ user, setUser }) {
   const [loginError, setLoginError] = useState(false);
   const router = useRouter();
 
+
   const checkForSignIn = async () => {
     try {
       if (userSignedInWithLink()) {

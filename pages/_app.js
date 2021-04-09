@@ -11,8 +11,6 @@ import './styles.css';
 // This default export is required in a new `pages/_app.js` file.
 export default function Xray({ Component, pageProps }) {
 
-  console.log('page props ===> ', pageProps);
-
   return (
     <Provider store={store}>
       <Head title="X-ray" />

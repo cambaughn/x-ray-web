@@ -2,8 +2,6 @@ import Stripe from 'stripe';
 import PaymentPrompt from '../../components/PaymentPrompt/PaymentPrompt';
 
 export default function Subscribe({ prices }) {
-  console.log('got prices ', prices);
-
   return (
     <PaymentPrompt />
   )

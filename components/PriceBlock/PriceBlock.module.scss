@@ -30,6 +30,10 @@
     margin-right: 0px;
     margin-bottom: 10px;
     border-radius: 0px;
+    width: 100vw;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
   }
 }
 
@@ -41,6 +45,10 @@
   justify-content: space-between;
 
   color: white;
+
+  @include media(mobile) {
+    width: 100%;
+  }
 }
 
 .price {
@@ -48,6 +56,10 @@
   line-height: 28px;
   font-weight: bold;
   margin: 0px;
+
+  @include media(mobile) {
+    font-size: 20px;
+  }
 }
 
 .leftSide {

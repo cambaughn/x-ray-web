@@ -1,3 +1,5 @@
+@import '../../util/design/mixins.module.scss';
+
 .container {
   width: 100vw;
   height: calc(100vh - 150px);
@@ -13,11 +15,19 @@
 .textBlock {
   width: 60vw;
   margin-bottom: 30px;
+
+  @include media(mobile) {
+    width: 80vw;
+  }
 }
 
 .header {
   font-size: 80px;
   margin-bottom: 20px;
+
+  @include media(mobile) {
+    font-size: 40px;
+  }
 }
 
 .bodyText {
@@ -26,6 +36,10 @@
   line-height: 30px;
   font-weight: 300;
   margin-bottom: 10px;
+
+  @include media(mobile) {
+    font-size: 16px;
+  }
 }
 
 .featureSection {
@@ -40,10 +54,21 @@
   width: 100px;
   height: 100px;
   margin-right: 30px;
+
+  @include media(mobile) {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 .featuresText {
   width: calc(80% - 50px);
+
+  @include media(mobile) {
+    font-size: 14px;
+    line-height: 25px;
+    width: 100%;
+  }
 }
 
 .getStartedWrapper {

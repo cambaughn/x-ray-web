@@ -75,6 +75,17 @@
   font-weight: 400;
 }
 
+.tableWrapper {
+  @include media(mobile) {
+    width: 100vw;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
+
 .table {
   background-color: #27273f;
   border-radius: 10px;

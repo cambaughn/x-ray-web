@@ -149,28 +149,30 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
       </div>
 
       { displayTable() &&
-        <table className={styles.table}>
-          <tbody>
-            { analysis.volume &&
-              <tr>
-                <td className={styles.label}>Total Volume:</td>
-                <td className={styles.data}>${analysis.volume}</td>
-              </tr>
-            }
-            { analysis.highestPrice &&
-              <tr>
-                <td className={styles.label}>Highest Price:</td>
-                <td className={styles.data}>${analysis.highestPrice}</td>
-              </tr>
-            }
-            { analysis.lowestPrice &&
-              <tr>
-                <td className={styles.label}>Lowest Price:</td>
-                <td className={styles.data}>${analysis.lowestPrice}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <tbody>
+              { analysis.volume &&
+                <tr>
+                  <td className={styles.label}>Total Volume:</td>
+                  <td className={styles.data}>${analysis.volume}</td>
+                </tr>
+              }
+              { analysis.highestPrice &&
+                <tr>
+                  <td className={styles.label}>Highest Price:</td>
+                  <td className={styles.data}>${analysis.highestPrice}</td>
+                </tr>
+              }
+              { analysis.lowestPrice &&
+                <tr>
+                  <td className={styles.label}>Lowest Price:</td>
+                  <td className={styles.data}>${analysis.lowestPrice}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       }
     </div>
   )

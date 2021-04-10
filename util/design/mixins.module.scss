@@ -1,0 +1,23 @@
+//  map for breakpoint values
+$breakpoints: (
+  mobile : 'screen and (min-width: 0px) and (max-width: 1023px)',
+  tablet : 'screen and (min-width: 1024px) and (max-width: 1499px)',
+  desktop : 'screen and (min-width: 1500px)'
+);
+
+//  mixin to print out media queries (based on map keys passed)
+@mixin media($keys...) {
+  $conditions : ();
+  @each $key in $keys {
+    // If the key exists in the map
+    $conditions: append(
+      $conditions,
+      #{inspect(map-get($breakpoints, $key))},
+      comma
+    );
+  }
+
+  @media #{$conditions} {
+    @content;
+  }
+};

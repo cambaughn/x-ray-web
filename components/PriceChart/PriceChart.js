@@ -8,7 +8,11 @@ import { Line, defaults } from 'react-chartjs-2';
 
 
 export default function PriceChart({ salesData }) {
+  const isMobile = () => {
+    return window.innerWidth < 1024;
+  }
 
+  console.log('isMobile ====>', isMobile());
 
   return (
     <div className={styles.container}>
@@ -27,15 +31,22 @@ export default function PriceChart({ salesData }) {
             }
           ]
         }}
-        height={300}
-        width={700}
+        // height={isMobile() ? 200 : 300}
+        // width={isMobile() ? 100 : 700}
         options={{
           maintainAspectRatio: true,
           responsive: true,
           legend: {
+            display: false,
             labels: {
               fontColor: 'white',
               fontSize: 14,
+            }
+          },
+          tooltips: {
+            callbacks: {
+              label: tooltipItem => `${tooltipItem.xLabel}: $${tooltipItem.yLabel}`,
+              title: () => null,
             }
           },
           scales: {

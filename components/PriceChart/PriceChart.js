@@ -42,6 +42,7 @@ export default function PriceChart({ salesData }) {
             }
           },
           tooltips: {
+            mode: 'x-axis',
             callbacks: {
               label: tooltipItem => `${tooltipItem.xLabel}: $${tooltipItem.yLabel}`,
               title: () => null,
@@ -50,6 +51,9 @@ export default function PriceChart({ salesData }) {
           scales: {
             yAxes: [
               {
+                gridLines: {
+                  color: 'rgba(0, 0, 0, 0)',
+                },
                 ticks: {
                   beginAtZero: true,
                   display: !isMobile() ? true : false
@@ -58,6 +62,9 @@ export default function PriceChart({ salesData }) {
             ],
             xAxes: [
               {
+                gridLines: {
+                  color: 'rgba(0, 0, 0, 0)',
+                },
                 ticks: {
                   display: false //this will remove only the label
                 }

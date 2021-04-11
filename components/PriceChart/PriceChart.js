@@ -56,7 +56,7 @@ export default function PriceChart({ salesData }) {
                 },
                 ticks: {
                   beginAtZero: true,
-                  display: !isMobile() ? true : false
+                  // display: !isMobile() ? true : false
                 }
               }
             ],

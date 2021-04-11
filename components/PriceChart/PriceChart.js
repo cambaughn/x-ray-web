@@ -12,8 +12,6 @@ export default function PriceChart({ salesData }) {
     return window.innerWidth < 1024;
   }
 
-  console.log('isMobile ====>', isMobile());
-
   return (
     <div className={styles.container}>
       <Line
@@ -53,14 +51,15 @@ export default function PriceChart({ salesData }) {
             yAxes: [
               {
                 ticks: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  display: !isMobile() ? true : false
                 }
               }
             ],
             xAxes: [
               {
                 ticks: {
-                    display: false //this will remove only the label
+                  display: false //this will remove only the label
                 }
               }
             ]

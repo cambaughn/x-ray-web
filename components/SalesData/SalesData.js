@@ -8,7 +8,7 @@ import Tag from '../Tag/Tag';
 import sale from '../../util/api/sales';
 import pokeCard from '../../util/api/card';
 import { sortSalesByPrice } from '../../util/sorting';
-import { getImageForListings } from '../../util/eBay/eBayHelpers';
+
 
 export default function SalesData({}) {
   const [pendingSales, setPendingSales] = useState([]);

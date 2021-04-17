@@ -40,8 +40,8 @@ const replaceCharacters = (string) => {
 const hasNonAlphanumeric = (string) => {
   let regex = /[^a-zA-Z0-9áéíóú#\+\']/g;
   let matches = string.match(regex);
-
-  return matches && matches.length > 0 ? true : false;
+  let result = matches && matches.length > 0 ? true : false;
+  return result;
 }
 
 export { replaceCharacters, hasNonAlphanumeric }

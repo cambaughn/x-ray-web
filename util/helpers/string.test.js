@@ -1,4 +1,4 @@
-import { replaceCharacters, hasNonAlphanumeric } from './stringHelpers';
+import { replaceCharacters, hasNonAlphanumeric } from './string';
 
 describe('Verify alphanumeric checker', () => {
   test('Returns false for blank string', () => {
@@ -98,5 +98,9 @@ describe('Replaces characters', () => {
 
   test("Handle Blaine's Quiz #1 - Gym Heroes", () => {
     expect(replaceCharacters("Blaine's Quiz #1 - Gym Heroes")).toBe("Blaine's+Quiz+#1+Gym+Heroes");
+  });
+
+  test("Handle Blastoise Prism Star", () => {
+    expect(replaceCharacters("Blastoise ◇")).toBe("Blastoise+prism+star");
   });
 })

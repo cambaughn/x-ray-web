@@ -3,40 +3,14 @@ import axios from 'axios';
 import db from '../firebase/firebaseInit';
 import pokeCard from '../api/card.js';
 import sale from '../api/sales.js';
-// import { convertToUSD } from '../helpers/currency.js';
-import { hasNonAlphanumeric, replaceCharacters } from '../stringHelpers.js';
+import { convertToUSD } from '../helpers/currency.js';
+import { checkForUnhandledName, createCardSearchNames } from './helpers.js';
 import fs from 'fs';
 import { makeProxyRequest } from './proxy/proxyHelpers';
-
 
 const gradeMap = {
   BECKETT: 'BGS',
   BECKET: 'BGS',
-}
-
-const checkForUnhandledNames = (cards) => {
-  let unhandledNames = false;
-
-  // Look ahead at all the cards we're about to search and see if any have any non-alphanumeric characters that we don't have in the map yet
-  // Since we're looking at the names here anyway, we'll set up a new property to prep them for search
-  for (let i = 0; i < cards.length; i++) {
-    let card = cards[i];
-    // Replace any non-alphanumeric character in the using the characterMap
-    // For card.name, card.set_name
-    card.search_name = replaceCharacters(card.name);
-    card.search_set_name = replaceCharacters(card.set_name);
-
-    // Check if either name has non-alphanumeric
-    if (hasNonAlphanumeric(card.search_name) || hasNonAlphanumeric(card.search_set_name)) {
-      // If it still has some non-alphanumeric characters (aside from a '+'), then go ahead and break the loop and stop the program
-      console.log(`Not able to search due to unhandled characters: ${card.name} - ${card.set_name}`);
-      unhandledNames = true;
-      break;
-    }
-  }
-
-
-  return unhandledNames;
 }
 
 // Request cards from database that we will want to search
@@ -374,8 +348,13 @@ const updateSalesForCard = async (card) => {
     // links.push('https://www.ebay.com/itm/PSA-10-Pokemon-Vivid-Voltage-Secret-Rare-Rainbow-Pikachu-VMAX-188-185/203232237074?hash=item2f5195d612:g:4RgAAOSwBSpf6juV');
     // links.push('https://www.ebay.com/itm/Beckett-9-MINT-Umbreon-PRIME-HeartGold-SoulSilver-Undaunted-Pokemon-Card-86-90/353344764020?hash=item5244fd3874:g:OowAAOSwde5f9oxc')
 
-    card.search_name = replaceCharacters(card.name);
-    card.search_set_name = replaceCharacters(card.set_name);
+    // Create search_name and set_search_name
+    card = createCardSearchNames(card);
+
+    // Check for name that isn't handled by our string helpers
+    if (!checkForUnhandledName(card)) {
+
+    }
 
     let links = [];
     let linkLookup = {};
@@ -486,4 +465,4 @@ const handleSearch = async () => {
 
 // searchSingleCard('swsh4-188');
 
-export { checkForUnhandledNames, updateSalesForCard }
+export { updateSalesForCard }

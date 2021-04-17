@@ -22,5 +22,4 @@ const convertToUSD = (currency, price) => {
 }
 
 
-
 export { currencyMap, convertToUSD }

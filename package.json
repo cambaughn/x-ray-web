@@ -18,6 +18,7 @@
     "analytics-node": "^4.0.1",
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",
+    "cheerio": "^1.0.0-rc.6",
     "classnames": "^2.2.6",
     "email-validator": "^2.0.4",
     "firebase": "^8.2.2",
@@ -26,6 +27,7 @@
     "next": "^10.0.5",
     "next-stripe": "^1.0.0-beta.9",
     "node-sass": "4.14.1",
+    "path": "^0.12.7",
     "pokemontcgsdk": "^2.0.0",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
@@ -35,6 +37,7 @@
     "react-redux": "^7.2.2",
     "react-stripe-checkout": "^2.6.3",
     "redux": "^4.0.5",
+    "request-promise": "^4.2.6",
     "stripe": "^8.142.0",
     "tls": "^0.0.1"
   }

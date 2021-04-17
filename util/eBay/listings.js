@@ -6,9 +6,8 @@ import sale from '../api/sales.js';
 // import { convertCurrency } from '../currency.js';
 // import { convertToUSD } from '../currencyHelpers.js';
 import { hasNonAlphanumeric, replaceCharacters } from '../stringHelpers.js';
-import request from 'postman-request';
 import fs from 'fs';
-import { makeProxyRequest } from '../proxy/proxyHelpers';
+import { makeProxyRequest } from './proxy/proxyHelpers';
 
 
 const gradeMap = {

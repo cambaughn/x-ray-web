@@ -1,4 +1,3 @@
-import request from 'postman-request';
 import fs from 'fs';
 import rp from 'request-promise';
 import path from 'path';

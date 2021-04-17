@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import styles from './CardDetails.module.scss';
 
 // Components
@@ -18,7 +19,21 @@ export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
+  const [salesUpdated, setSalesUpdated] = useState(false);
   const user = useSelector(state => state.user);
+
+  const updateCardSales = async () => {
+    try {
+      if (card.id && !salesUpdated) {
+        console.log('getting sales for card ');
+        const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });
+        console.log('response data', data);
+      }
+
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
   const getCardDetails = async () => {
     try {
@@ -56,6 +71,7 @@ export default function CardDetails({ card_id }) {
 
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
+  useEffect(updateCardSales, [card]);
 
   return (
     <div className={styles.container}>
@@ -75,7 +91,7 @@ export default function CardDetails({ card_id }) {
 
             <span className={styles.label}>Number</span>
             <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
-            
+
             <span className={styles.label}>Rarity</span>
             <span className={styles.detail}>{card.rarity}</span>
           </div>

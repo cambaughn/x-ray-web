@@ -77,7 +77,6 @@ export default function AuthCheck({ children }) {
   const checkSubscriptionStatus = async () => {
     try {
       if (!!user.id && !!user.stripe_customer_id) { // if user is signed in and is potentially a customer
-        // TODO: replace with actual user email
         const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id: user.stripe_customer_id });
 
         dispatch(setSubscriptionStatus(data.subscriptionStatus));

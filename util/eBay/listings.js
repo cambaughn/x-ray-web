@@ -351,8 +351,10 @@ const updateSalesForCard = async (card) => {
     // Create search_name and set_search_name
     card = createCardSearchNames(card);
 
+
     // Check for name that isn't handled by our string helpers
-    if (!checkForUnhandledName(card)) { // if the name can't be handled, return updated = false
+    if (checkForUnhandledName(card)) { // if the name can't be handled, return updated = false
+      console.log("can't do the search");
       return false;
     }
 

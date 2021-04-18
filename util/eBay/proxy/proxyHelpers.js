@@ -7,9 +7,11 @@ const makeProxyRequest = async (url) => {
       'proxy': 'http://c4008d90e89c4800b345c98249003ddd:@proxy.crawlera.com:8011'
   });
 
+  console.log('path for proxy cert ', path.resolve(__dirname, "./zyte-proxy-ca.crt"));
+
   let options = {
       url,
-      ca: fs.readFileSync(path.resolve(__dirname, "./zyte-proxy-ca.crt")),
+      ca: fs.readFileSync("./zyte-proxy-ca.crt"),
       requestCert: true,
       rejectUnauthorized: false
   };

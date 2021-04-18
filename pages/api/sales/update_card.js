@@ -5,7 +5,7 @@ export default async (request, response) => {
 
   try {
     if (card.name) {
-      console.log('getting sales');
+      console.log('getting sales ===>');
       let updated = await updateSalesForCard(card);
       return response.status(200).json({ updated: true })
     } else { // could not update card

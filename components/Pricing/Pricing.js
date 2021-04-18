@@ -54,7 +54,7 @@ export default function Pricing({ sales }) {
 
         let averagePrice = total / recentSales.length;
         averagePrice = Math.round((averagePrice + Number.EPSILON) * 100) / 100;
-        console.log('average price ', total, averagePrice);
+        // console.log('average price ', total, averagePrice);
         setPrice(averagePrice);
       }
     } catch (error) {

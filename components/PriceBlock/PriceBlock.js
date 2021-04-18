@@ -110,7 +110,6 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
        let priceToShow = formattedWeeks[formattedWeeks.length - 1].averagePrice;
        priceToShow = priceToShow.toFixed(2);
        // console.log(`total sales: ${total}, average price: ${priceToShow}`);
-       console.log(`average price: ${priceToShow}`);
        setAveragePrice(priceToShow || 0);
      }
   }

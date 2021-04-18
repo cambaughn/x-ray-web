@@ -14,7 +14,7 @@ const makeProxyRequest = async (url) => {
       return Promise.resolve(body);
     }
     else {
-      console.log(error, response, body);
+      // console.log(error, response, body);
       return Promise.resolve(null);
     }
   }
@@ -32,10 +32,6 @@ const makeProxyRequest = async (url) => {
     requestCert: true,
     rejectUnauthorized: false
   };
-
-
-
-  console.log('callback ====>', returnPromise);
 
   return proxyRequest(options, returnPromise);
 }

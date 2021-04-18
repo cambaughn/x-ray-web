@@ -4,5 +4,8 @@ module.exports = {
       fs: 'empty'
     }
     return config
+  },
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname
   }
 };

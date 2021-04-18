@@ -3,7 +3,7 @@ import axios from 'axios';
 import db from '../firebase/firebaseInit';
 import pokeCard from '../api/card.js';
 import sale from '../api/sales.js';
-import { convertToUSD } from '../helpers/currency.js';
+import { convertToUSD, currencyMap } from '../helpers/currency.js';
 import { checkForUnhandledName, createCardSearchNames } from './helpers.js';
 import fs from 'fs';
 import { makeProxyRequest } from './proxy/proxyHelpers';

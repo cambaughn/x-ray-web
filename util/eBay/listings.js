@@ -426,7 +426,7 @@ const handleSearch = async () => {
   try {
     let searched = 0;
     let limit = 50;
-    let lastCard = "Blaziken";
+    let lastCard = null;
     let cards;
 
     do {

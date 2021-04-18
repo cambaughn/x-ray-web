@@ -31,6 +31,14 @@ sale.getPending = async () => {
   }
 }
 
+sale.create = async (listing) => {
+  if (listing.item_number) {
+    return db.collection('pokemon_sales').doc(listing.item_number).set(listing);
+  } else {
+    return Promise.resolve(true);
+  }
+}
+
 // Statuses: approved, rejected, pending, incorrect_card, deleted
 sale.update = async (id, updates) => {
   try {

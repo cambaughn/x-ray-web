@@ -352,8 +352,8 @@ const updateSalesForCard = async (card) => {
     card = createCardSearchNames(card);
 
     // Check for name that isn't handled by our string helpers
-    if (!checkForUnhandledName(card)) {
-
+    if (!checkForUnhandledName(card)) { // if the name can't be handled, return updated = false
+      return false;
     }
 
     let links = [];
@@ -381,17 +381,10 @@ const updateSalesForCard = async (card) => {
         keepSearching = false;
       }
 
-
       page++;
-
-      // if (searchedLinks.length > 0 && searchedLinks[searchedLinks.length - 1] !== links[links.length - 1] && !links.includes(searchedLinks[searchedLinks.length - 1])) {
-      //   links = [...links, ...searchedLinks];
-      //   page++;
-      // } else {
-      //   keepSearching = false;
-      // }
     }
 
+    // Make sure none of the links are null
     links = links.filter(link => !!link);
 
     // Go to each of the links and get the details from each

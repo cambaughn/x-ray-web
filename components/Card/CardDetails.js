@@ -20,12 +20,11 @@ export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
-  const [salesUpdated, setSalesUpdated] = useState(false);
   const user = useSelector(state => state.user);
 
   const updateCardSales = async () => {
     try {
-      if (card.id && !salesUpdated) {
+      if (card.id) {
         let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
 
         if (updateCard) {

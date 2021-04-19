@@ -7,6 +7,7 @@ import axios from 'axios';
 
 // Components
 import AccountSetup from '../AccountSetup/AccountSetup';
+import PaymentPrompt from '../PaymentPrompt/PaymentPrompt';
 
 // Utility Functions
 import { setUser, setSubscriptionStatus } from '../../redux/actionCreators';
@@ -21,6 +22,7 @@ export default function AuthCheck({ children }) {
   const [loading, setLoading] = useState(true);
   const [needAccountSetup, setNeedAccountSetup] = useState(false);
   const [routeIsPublic, setRouteIsPublic] = useState(false);
+  const [checkedSubscription, setCheckedSubscription] = useState(false);
   const [checkedUserAuth, setCheckedUserAuth] = useState(false);
 
   const router = useRouter();
@@ -73,26 +75,24 @@ export default function AuthCheck({ children }) {
 
 
   const checkSubscriptionStatus = async () => {
+    let status = 'not_subscribed';
+
     try {
-      if (!!user.id) { // if user is signed in
+      if (!!user.username) { // if user is signed in
         let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
         customer_id = customer_id || null;
 
-        if (user.role === 'admin' || user.role === 'contributor') { // user gets a free pass
-          console.log('user is admin or contributor');
-          dispatch(setSubscriptionStatus('active'));
-          return;
-        } else if (customer_id) { // user is potentially a customer
-          console.log('window.location.origin ', window.location.hostname);
-          const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id });
-          dispatch(setSubscriptionStatus(data.subscriptionStatus));
-          return;
-        }
-      }
 
-      dispatch(setSubscriptionStatus('not_subscribed'));
+        if (user.role === 'admin' || user.role === 'contributor') { // user gets a free pass
+          status = 'active';
+        } else if (customer_id) { // user is potentially a customer
+          const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id });
+          status = data.subscriptionStatus;
+        }
+        dispatch(setSubscriptionStatus(status));
+      }
     } catch (error) { // Not subscribed
-      dispatch(setSubscriptionStatus('not_subscribed'));
+      dispatch(setSubscriptionStatus(status));
     }
   }
 
@@ -100,10 +100,13 @@ export default function AuthCheck({ children }) {
   useEffect(checkSubscriptionStatus, [user]); // check only once the user exists
   useEffect(determineAccountSetup, [user]);
   useEffect(checkRouteProtection, [router, checkedUserAuth]);
+  // useEffect(() => setCheckedSubscription(true), [subscriptionStatus]);
 
   if (needAccountSetup) { // if they need to sign in, just allow the account setup page
     return <AccountSetup />
-  } else if (!!user.username || routeIsPublic) { // if user is logged in and route is public
+  } else if (user.username && subscriptionStatus === 'not_subscribed') { // logged in, just needs to subscribe
+    return <PaymentPrompt />
+  } else if (subscriptionStatus === 'active' || routeIsPublic) { // if user is logged in or route is public
     return <>
       { children }
     </>

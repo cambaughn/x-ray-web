@@ -16,7 +16,7 @@ export default function Xray({ Component, pageProps }) {
       <Head title="X-ray" />
 
       <MainLayout>
-        <AuthCheck subscriptionActive={pageProps.subscriptionActive}>
+        <AuthCheck>
             <Component {...pageProps} />
         </AuthCheck>
       </MainLayout>

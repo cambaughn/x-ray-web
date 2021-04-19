@@ -61,7 +61,7 @@ export default function NavBar({}) {
         </Link>
       </div>
 
-      { !!user.id &&
+      { subscriptionStatus === 'active' &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
       }
       {/* { subscriptionStatus === 'active' &&

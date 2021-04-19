@@ -76,13 +76,23 @@ export default function AuthCheck({ children }) {
 
   const checkSubscriptionStatus = async () => {
     try {
-      if (!!user.id && !!user.stripe_customer_id) { // if user is signed in and is potentially a customer
-        const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id: user.stripe_customer_id });
+      if (!!user.id) { // if user is signed in
+        let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
+        customer_id = customer_id || null;
 
-        dispatch(setSubscriptionStatus(data.subscriptionStatus));
-      } else if (!!user.id) { // user is signed in but not yet subscribed
-        dispatch(setSubscriptionStatus('not_subscribed'));
+        if (user.role === 'admin' || user.role === 'contributor') { // user gets a free pass
+          console.log('user is admin or contributor');
+          dispatch(setSubscriptionStatus('active'));
+          return;
+        } else if (customer_id) { // user is potentially a customer
+          console.log('window.location.origin ', window.location.hostname);
+          const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id });
+          dispatch(setSubscriptionStatus(data.subscriptionStatus));
+          return;
+        }
       }
+
+      dispatch(setSubscriptionStatus('not_subscribed'));
     } catch (error) { // Not subscribed
       dispatch(setSubscriptionStatus('not_subscribed'));
     }

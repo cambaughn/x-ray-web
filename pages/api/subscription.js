@@ -6,6 +6,8 @@ export default async (request, response) => {
 
   try {
     const customer = await stripe.customers.retrieve(customer_id);
+
+    console.log('customer ', customer);
     let subscriptionData = customer.subscriptions.data[0];
     let subscribed = subscriptionData && subscriptionData.status === 'active';
 

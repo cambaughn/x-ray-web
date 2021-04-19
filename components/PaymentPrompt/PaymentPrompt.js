@@ -16,7 +16,7 @@ import { setUser } from '../../redux/actionCreators';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-console.log('environment variables: ', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY, process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION);
+// console.log('environment variables: ', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY, process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION);
 
 export default function PaymentPrompt({}) {
   const [showError, setShowError] = useState(false);
@@ -25,7 +25,10 @@ export default function PaymentPrompt({}) {
 
   const createCustomer = async () => {
     try {
-      if (!user.stripe_customer_id) { // make sure user doesn't already have stripe customer id - otherwise will be duplicating customers in stripe
+      let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
+      customer_id = customer_id || null;
+
+      if (customer_id) { // make sure user doesn't already have stripe customer id - otherwise will be duplicating customers in stripe
         const { data } = await axios.post(`${window.location.origin}/api/create_customer`, { email: user.email, name: user.name });
         let { customer } = data;
 

@@ -410,7 +410,11 @@ const updateSalesForCard = async (card) => {
     console.log('uploaded: ', uploadRefs.length);
 
     // Update the card itself to say when it was last updated
-    
+    let cardUpdate = {
+      last_updated: getNowAsStringWithTime()
+    }
+
+    await pokeCard.update(card.id, cardUpdate);
 
     // Completed updating card
     return Promise.resolve(true);

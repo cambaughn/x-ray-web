@@ -195,6 +195,8 @@ const getDateInPast = (daysInPast) => {
 export {
   formatDateAsString,
   formatDateAsStringWithTime,
+  getNowAsString,
+  getNowAsStringWithTime,
   dateStringToObject,
   isLastMonth,
   isLastThreeMonths,

@@ -4,6 +4,7 @@ import db from '../firebase/firebaseInit';
 import pokeCard from '../api/card.js';
 import sale from '../api/sales.js';
 import { convertToUSD, currencyMap } from '../helpers/currency.js';
+import { getNowAsStringWithTime } from '../helpers/date.js';
 import { checkForUnhandledName, createCardSearchNames } from './helpers.js';
 import fs from 'fs';
 import { makeProxyRequest } from './proxy/proxyHelpers';
@@ -31,8 +32,6 @@ const getCardsToSearch = async (startingPoint, limit) => {
 
       // Filter out all the cards that have already been found
       let unfoundCards = cards.filter(card => !salesLookup[card.id]);
-
-      console.log('unfound cards ', unfoundCards.length);
 
     }
 
@@ -67,7 +66,7 @@ const configureUrl = (card, pageNum = 1) => {
   const ignoredString = ignoredTerms.length > 0 ? '+-' + ignoredTerms.join('-') : '';
 
   const url = `${baseUrl}&_nkw=${configureSearchTerms(card)}${ignoredString + sold + complete + itemsPerPage + pageParam}`;
-  console.log(url);
+  // console.log(url);
   return url;
 }
 
@@ -82,18 +81,8 @@ const configureUrl = (card, pageNum = 1) => {
 const getSearchLinksForPage = async (card, pageNum = 1) => {
   try {
     let url = configureUrl(card, pageNum);
-    // let searchPage = await axios.get(url);
-    // searchPage = searchPage.data;
     let searchPage = await makeProxyRequest(url);
-    // request({
-    //     uri: url,
-    //     proxy: 'http://c4008d90e89c4800b345c98249003ddd:@proxy.crawlera.com:8014'
-    // }, function callback(error, response, body) {
-    //     console.log('got body here ', response, body);
-    // });
-
     let $ = cheerio.load(searchPage, null, false);
-    // console.log(searchPage);
 
     if ($("title").text() === 'Security Measure') {
       console.log('----Hit Captcha----');
@@ -105,11 +94,6 @@ const getSearchLinksForPage = async (card, pageNum = 1) => {
         console.log('----Hit Captcha a second time----');
       }
     }
-
-
-    // let allLinks = $("a.s-item__link").map((index, element) => {
-    //   return $(element).attr('href');
-    // }).get();
 
     let links = $("div.s-item__info").map(function() {
       let link = $(this).find('a.s-item__link').attr('href');
@@ -355,7 +339,6 @@ const updateSalesForCard = async (card) => {
 
     // Check for name that isn't handled by our string helpers
     if (checkForUnhandledName(card)) { // if the name can't be handled, return updated = false
-      console.log("can't do the search");
       return false;
     }
 

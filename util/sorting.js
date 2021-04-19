@@ -1,4 +1,4 @@
-import { dateStringToObject } from './date.js';
+import { dateStringToObject } from './helpers/date.js';
 
 const sortSalesByDate = (sales) => {
   return sales.sort((a, b) => {

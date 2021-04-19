@@ -13,6 +13,7 @@ import PriceDetails from '../PriceDetails/PriceDetails';
 import pokeCard from '../../util/api/card';
 import pokeSet from '../../util/api/set';
 import sale from '../../util/api/sales';
+import { isPastWeek } from '../../util/helpers/date';
 import analytics from '../../util/analytics/segment';
 
 export default function CardDetails({ card_id }) {
@@ -25,9 +26,15 @@ export default function CardDetails({ card_id }) {
   const updateCardSales = async () => {
     try {
       if (card.id && !salesUpdated) {
-        console.log('getting sales for card ');
-        const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });
-        console.log('response data', data);
+        let updateCard = card.last_updated && !isPastWeek(card.last_updated);
+
+        if (updateCard) {
+          const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });
+
+          if (data.updated) {
+            getCardDetails();
+          }
+        }
       }
     } catch(error) {
       console.error(error);

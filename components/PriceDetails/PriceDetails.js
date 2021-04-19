@@ -6,7 +6,7 @@ import PriceBlock from '../PriceBlock/PriceBlock';
 import VariantButtons from '../VariantButtons/VariantButtons';
 
 // Utility functions
-import { isLastThreeMonths, dateSoldToObject } from '../../util/date.js';
+import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 
 export default function PriceDetails({ sales }) {
   const [variants, setVariants] = useState([]);
@@ -43,7 +43,6 @@ export default function PriceDetails({ sales }) {
         })
 
         setSalesByType(typeRecord);
-        console.log(typeRecord);
       }
     } catch (error) {
       console.error(error);
@@ -60,7 +59,6 @@ export default function PriceDetails({ sales }) {
     if (title.includes('reverse')) {
       variant = 'reverse_holo';
     } else if (title.includes('holo') || title.includes('foil')) {
-      console.log(title);
       variant = 'holo';
     }
 
@@ -81,7 +79,6 @@ export default function PriceDetails({ sales }) {
       })
       .filter(variant => Object.keys(salesByType[variant]).length > 0)
 
-      console.log(availableVariants);
       setVariants(availableVariants);
       setSelectedVariant(availableVariants[0]);
     }

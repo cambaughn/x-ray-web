@@ -171,9 +171,9 @@ const formatDateObjects = (dates) => {
   })
 }
 
-const isPastWeek = (dateString, numDays) => {
+const isPastWeek = (dateString) => {
   let dateToCheck = complexDateStringToObject(dateString);
-  let dateInPast = getDateInPast(numDays || 7);
+  let dateInPast = getDateInPast(7);
 
   return dateToCheck >= dateInPast;
 }
@@ -198,6 +198,7 @@ export {
   getNowAsString,
   getNowAsStringWithTime,
   dateStringToObject,
+  complexDateStringToObject,
   isLastMonth,
   isLastThreeMonths,
   getDates,
@@ -205,5 +206,6 @@ export {
   datesAreSameDay,
   formatDateLabelForChart,
   formatWeekLabel,
-  dateSoldToObject
+  dateSoldToObject,
+  isPastWeek
 }

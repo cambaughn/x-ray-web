@@ -62,8 +62,6 @@ export default function AuthCheck({ children }) {
             username: userDetails.username || null
           }
         });
-
-        console.log('identified user with traits');
       } else {
         analytics.identify({
           userId: nanoid()

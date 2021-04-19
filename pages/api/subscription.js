@@ -4,6 +4,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export default async (request, response) => {
   const { customer_id } = request.body;
 
+  console.log('getting customer id ===>', customer_id);
+
+
   try {
     const customer = await stripe.customers.retrieve(customer_id);
 

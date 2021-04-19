@@ -30,7 +30,14 @@ export default function PaymentPrompt({}) {
         let { customer } = data;
 
         // Update the user in our database to help
-        await userAPI.update(user.id, { stripe_customer_id: customer.id });
+        let updates = {};
+        if (window.location.hostname === 'localhost') { // local, for testing/development
+          updates.test_stripe_customer_id = customer.id;
+        } else { // production
+          updates.stripe_customer_id = customer.id;
+        }
+
+        await userAPI.update(user.id, updates);
         let updatedUser = await userAPI.get(user.id);
         await dispatch(setUser(updatedUser));
 

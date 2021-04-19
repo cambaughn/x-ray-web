@@ -23,6 +23,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
 
        let analysisDetails = {
          volume: 0,
+         numSales: 0,
          highestPrice: null,
          lowestPrice: null,
        }
@@ -35,6 +36,7 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
          salesLookup[key].push(sale.price);
 
          analysisDetails.volume += sale.price;
+         analysisDetails.numSales += 1;
 
          if (!analysisDetails.lowestPrice || sale.price < analysisDetails.lowestPrice) {
            analysisDetails.lowestPrice = sale.price;
@@ -150,6 +152,12 @@ export default function PriceBlock({ sales, ungraded, gradingAuthority, grade })
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <tbody>
+              { analysis.numSales > 0 &&
+                <tr>
+                  <td className={styles.label}># of Sales:</td>
+                  <td className={styles.data}>{analysis.numSales}</td>
+                </tr>
+              }
               { analysis.volume &&
                 <tr>
                   <td className={styles.label}>Total Volume:</td>

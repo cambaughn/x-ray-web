@@ -59,7 +59,7 @@ export default function PaymentPrompt({}) {
       if (customerId) {
         const session = await createCheckoutSession({
           customer: customerId || null,
-          success_url: `${window.location.href}/success`,
+          success_url: `${window.location.origin}/subscribe/success`,
           cancel_url: window.location.href,
           line_items: [{ price: process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION, quantity: 1 }],
           payment_method_types: ['card'],

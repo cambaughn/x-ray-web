@@ -26,7 +26,7 @@ export default function CardDetails({ card_id }) {
   const updateCardSales = async () => {
     try {
       if (card.id && !salesUpdated) {
-        let updateCard = card.last_updated && !isPastWeek(card.last_updated);
+        let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
 
         if (updateCard) {
           const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });

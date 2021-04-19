@@ -28,8 +28,6 @@ export default function PaymentPrompt({}) {
       let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
       customer_id = customer_id || null;
 
-      console.log(customer_id);
-
       if (!customer_id) { // make sure user doesn't already have stripe customer id - otherwise will be duplicating customers in stripe
         const { data } = await axios.post(`${window.location.origin}/api/create_customer`, { email: user.email, name: user.name });
         let { customer } = data;

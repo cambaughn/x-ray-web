@@ -25,6 +25,30 @@ const months = {
   11: 'Dec'
 }
 
+// Turns a date object into the stringified format YYYY-MM-DD for input into streak_dates
+const formatDateAsString = (date) => {
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
+// Turns a date object into the stringified format YYYY-MM-DD-H-M
+const formatDateAsStringWithTime = (date) => {
+  let dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`
+  return dateString;
+}
+
+
+// Returns today's date as a string in the format YYYY-MM-DD
+const getNowAsString = () => {
+  let today = new Date();
+  today = formatDateAsString(today);
+  return today;
+}
+
+// Returns today's date as a string in the format YYYY-MM-DD-H-M
+const getNowAsStringWithTime = () => {
+  let today = new Date();
+  return formatDateAsStringWithTime(today);
+}
 
 // Turn a date string into a date object
 const dateStringToObject = (dateString) => {
@@ -34,6 +58,13 @@ const dateStringToObject = (dateString) => {
   let year = parseInt(dates[2]);
 
   let date = new Date(year, month, day, 12, 0, 0, 0);
+  return date;
+}
+
+// Turn a date string (with hours and minutes) into a date object
+const complexDateStringToObject = (dateString) => {
+  let dates = dateString.split('-').map(number => +number);
+  let date = new Date(dates[0], dates[1], dates[2], dates[3], dates[4], 0, 0);
   return date;
 }
 
@@ -84,7 +115,7 @@ const formatDateLabelForChart = (date) => {
 const formatWeekLabel = (start, end) => {
   let startMonth = months[start.getMonth()];
   let endMonth = months[end.getMonth()];
-  
+
   return `${startMonth} ${start.getDate()}-${startMonth !== endMonth ? endMonth + ' ' : ''}${end.getDate()}`
 }
 
@@ -140,5 +171,37 @@ const formatDateObjects = (dates) => {
   })
 }
 
+const isPastWeek = (dateString, numDays) => {
+  let dateToCheck = complexDateStringToObject(dateString);
+  let dateInPast = getDateInPast(numDays || 7);
 
-export { dateStringToObject, isLastMonth, isLastThreeMonths, getDates, getWeeks, datesAreSameDay, formatDateLabelForChart, formatWeekLabel, dateSoldToObject }
+  return dateToCheck >= dateInPast;
+}
+
+// Get a date some number of days in the future
+const getDateInFuture = (daysInFuture) => {
+  let date = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * daysInFuture);
+  date = formatDateAsString(date);
+  return date;
+}
+
+// Get a date some number of days in the past
+const getDateInPast = (daysInPast) => {
+  let date = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * -daysInPast);
+  return date;
+}
+
+
+export {
+  formatDateAsString,
+  formatDateAsStringWithTime,
+  dateStringToObject,
+  isLastMonth,
+  isLastThreeMonths,
+  getDates,
+  getWeeks,
+  datesAreSameDay,
+  formatDateLabelForChart,
+  formatWeekLabel,
+  dateSoldToObject
+}

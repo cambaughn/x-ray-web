@@ -33,6 +33,7 @@ const getCardsToSearch = async (startingPoint, limit) => {
       let unfoundCards = cards.filter(card => !salesLookup[card.id]);
 
       console.log('unfound cards ', unfoundCards.length);
+
     }
 
     // For testing, only getting single pikachu card
@@ -407,6 +408,9 @@ const updateSalesForCard = async (card) => {
     await Promise.all(uploadRefs);
 
     console.log('uploaded: ', uploadRefs.length);
+
+    // Update the card itself to say when it was last updated
+    
 
     // Completed updating card
     return Promise.resolve(true);

@@ -1,3 +1,5 @@
+@import '../../util/design/mixins.module.scss';
+
 .container {
 
 }
@@ -9,4 +11,8 @@
   background-color: #ecf0f1;
   border-radius: 5px;
   border: none;
+
+  @include media(mobile) {
+    font-size: 15px;
+  }
 }

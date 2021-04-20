@@ -10,7 +10,7 @@ const Head = (props) => (
   <NextHead>
     <meta charSet="UTF-8" />
     <title>{props.title || ''}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <meta name="description" content={props.description || defaultDescription} />
     <meta name="keywords" content={props.keywords || defaultKeywords} />
     <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png"/>

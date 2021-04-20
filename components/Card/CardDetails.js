@@ -31,6 +31,7 @@ export default function CardDetails({ card_id }) {
           const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });
 
           if (data.updated) {
+            console.log('updated!');
             getCardDetails();
           }
         }

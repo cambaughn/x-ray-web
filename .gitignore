@@ -2,6 +2,7 @@
 
 util/algolia/algoliaInit.js
 util/firebase/firebaseConfig.js
+ssl/
 
 # dependencies
 /node_modules

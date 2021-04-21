@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { createCheckoutSession } from 'next-stripe/client';
 import axios from 'axios';
 import classNames from 'classnames';
+import { Loader } from 'react-feather';
 
 // Components
 
@@ -20,6 +21,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function PaymentPrompt({}) {
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
@@ -54,30 +56,36 @@ export default function PaymentPrompt({}) {
   }
 
   const handleClick = async () => {
-    try {
-      let customerId = await createCustomer();
-      if (customerId) {
-        const session = await createCheckoutSession({
-          customer: customerId || null,
-          success_url: `${window.location.origin}/subscribe/success`,
-          cancel_url: window.location.href,
-          line_items: [{ price: process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION, quantity: 1 }],
-          payment_method_types: ['card'],
-          mode: 'subscription'
-        })
+    if (!loading) {
+      try {
+        setLoading(true);
+        let customerId = await createCustomer();
+        if (customerId) {
+          const session = await createCheckoutSession({
+            customer: customerId || null,
+            success_url: `${window.location.origin}/subscribe/success`,
+            cancel_url: window.location.href,
+            line_items: [{ price: process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION, quantity: 1 }],
+            payment_method_types: ['card'],
+            mode: 'subscription'
+          })
 
-        const stripe = await stripePromise;
-        const result = stripe.redirectToCheckout({ sessionId: session.id });
+          const stripe = await stripePromise;
+          const result = stripe.redirectToCheckout({ sessionId: session.id });
 
-        if (result.error) { // if there is an error with the result, show error
+          if (result.error) { // if there is an error with the result, show error
+            setShowError(true);
+            setLoading(false);
+          }
+
+        } else { // if there is no customerId, show error
+          setLoading(false);
           setShowError(true);
         }
-
-      } else { // if there is no customerId, show error
+      } catch(error) {
+        setLoading(false);
         setShowError(true);
       }
-    } catch(error) {
-      setShowError(true);
     }
   }
 
@@ -103,7 +111,10 @@ export default function PaymentPrompt({}) {
           </ul>
 
           <button role="link" className={styles.button} onClick={handleClick}>
-            <span className={styles.buttonText}>1 week free, then $15 per month</span>
+            { !loading
+              ? <span className={styles.buttonText}>1 week free, then $15 per month</span>
+              : <Loader className={classNames(styles.loader)} size={20} />
+            }
           </button>
       </div>
     </div>

@@ -13,7 +13,6 @@ export default function Xray({ Component, pageProps }) {
   const checkForSSL = () => {
     // Check the URL starts with 'http://xxxxx' protocol, if it does then redirect to 'https://xxxxx' url of same resource
     let httpTokens = /^http:\/\/(.*)$/.exec(window.location.href);
-    console.log('httpTokens ', httpTokens);
 
     if (httpTokens && !httpTokens[0].includes('localhost')) {
       window.location.replace('https://' + httpTokens[1]);

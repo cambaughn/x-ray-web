@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import App, { Container } from 'next/app';
 import { Provider } from 'react-redux';
 import Stripe from 'stripe';
@@ -10,6 +10,17 @@ import './styles.css';
 
 // This default export is required in a new `pages/_app.js` file.
 export default function Xray({ Component, pageProps }) {
+  const checkForSSL = () => {
+    // Check the URL starts with 'http://xxxxx' protocol, if it does then redirect to 'https://xxxxx' url of same resource
+    let httpTokens = /^http:\/\/(.*)$/.exec(window.location.href);
+    console.log('httpTokens ', httpTokens);
+
+    if (httpTokens && !httpTokens[0].includes('localhost')) {
+      window.location.replace('https://' + httpTokens[1]);
+    }
+  }
+
+  useEffect(checkForSSL);
 
   return (
     <Provider store={store}>

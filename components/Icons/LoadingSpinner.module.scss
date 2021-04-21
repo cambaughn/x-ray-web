@@ -1,0 +1,14 @@
+.loader {
+  color: white;
+  font-weight: bold;
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

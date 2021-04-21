@@ -8,6 +8,7 @@ import styles from './CardDetails.module.scss';
 import Tag from '../Tag/Tag';
 import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
+import LoadingSpinner from '../Icons/LoadingSpinner';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -20,14 +21,17 @@ export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
+  const [updatingSales, setUpdatingSales] = useState(false);
   const user = useSelector(state => state.user);
 
   const updateCardSales = async () => {
     try {
       if (card.id) {
-        let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
+        // let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
+        let updateCard = true;
 
         if (updateCard) {
+          setUpdatingSales(true);
           const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });
 
           if (data.updated) {
@@ -39,6 +43,8 @@ export default function CardDetails({ card_id }) {
     } catch(error) {
       console.error(error);
     }
+
+    setUpdatingSales(false);
   }
 
   const getCardDetails = async () => {
@@ -100,6 +106,12 @@ export default function CardDetails({ card_id }) {
 
             <span className={styles.label}>Rarity</span>
             <span className={styles.detail}>{card.rarity}</span>
+          </div>
+        }
+
+        { !!updatingSales &&
+          <div className={styles.loaderWrapper}>
+            <LoadingSpinner color={'grey'} />
           </div>
         }
         {/* { card.name &&

@@ -375,12 +375,14 @@ const updateSalesForCard = async (card) => {
     }
 
     let attempt = 1;
-    let links = [];
+    let links = await findLinksForCard(card, attempt);
 
-    do {
-      links = await findLinksForCard(card, attempt);
+    console.log('links => ', links.length);
+    if (links.length === 0) {
       attempt++;
-    } while (links.length === 0 || attempt <= 2);
+      links = await findLinksForCard(card, attempt);
+      console.log('links => ', links.length);
+    }
 
     // Go to each of the links and get the details from each
     let salesInfo = await getSalesInfoForCards(card, links);

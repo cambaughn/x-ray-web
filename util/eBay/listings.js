@@ -47,8 +47,11 @@ const getCardsToSearch = async (startingPoint, limit) => {
 }
 // after completed search for Seaking - Sword & Shield - 47
 
-const configureSearchTerms = (card) => {
+const configureSearchTerms = (card, attempt) => {
   let terms = [card.search_name, card.search_set_name, card.number];
+  if (attempt > 1) {
+    terms.pop();
+  }
   return terms.map(term => {
     return term.trim()
   })
@@ -56,17 +59,17 @@ const configureSearchTerms = (card) => {
   .replace(/\s/g, '+');
 }
 
-const configureUrl = (card, pageNum = 1) => {
+const configureUrl = (card, pageNum = 1, attempt) => {
   const baseUrl = 'https://www.ebay.com/sch/i.html?_from=R40';
   const sold = '&LH_Sold=1';
   const complete = '&LH_Complete=1';
   const itemsPerPage = '&_ipg=200';
   const pageParam = `&_pgn=${pageNum}`;
-  const ignoredTerms = ['repack', 'custom', 'PTCGO', 'online', 'mystery', 'lot', 'read', 'nendoroid', 'digital'];
+  const ignoredTerms = attempt > 1 ? [] : ['repack', 'custom', 'PTCGO', 'online', 'mystery', 'lot', 'read', 'nendoroid', 'digital'];
   const ignoredString = ignoredTerms.length > 0 ? '+-' + ignoredTerms.join('-') : '';
 
-  const url = `${baseUrl}&_nkw=${configureSearchTerms(card)}${ignoredString + sold + complete + itemsPerPage + pageParam}`;
-  // console.log(url);
+  const url = `${baseUrl}&_nkw=${configureSearchTerms(card, attempt)}${ignoredString + sold + complete + itemsPerPage + pageParam}`;
+  console.log(url);
   return url;
 }
 
@@ -78,9 +81,8 @@ const configureUrl = (card, pageNum = 1) => {
  * @param {object} card - The card details
  * @return {Promise<array>} The array of links to listings as individual strings.
  */
-const getSearchLinksForPage = async (card, pageNum = 1) => {
+const getSearchLinksForPage = async (card, url) => {
   try {
-    let url = configureUrl(card, pageNum);
     let searchPage = await makeProxyRequest(url);
     let $ = cheerio.load(searchPage, null, false);
 
@@ -320,28 +322,8 @@ const getSalesInfoForCards = async (card, links) => {
   }
 }
 
-
-// Search ebay for card
-// Specifically, this function handles getting all the links from every search page, then passes those links off to a separate function to get info from the pages
-const updateSalesForCard = async (card) => {
+const findLinksForCard = async (card, attempt = 1) => {
   try {
-    // For testing:
-    // let links = await getSearchLinksForPage(card, 1);
-    // let links = ['https://www.ebay.com/itm/Pokemon-Card-SWSH-Vivid-Voltage-Pikachu-Vmax-Rainbow-Hyper-188-185-PSA-9-Mint/353344290291?hash=item5244f5fdf3:g:E4MAAOSwdrVf9e6x', 'https://www.ebay.com/itm/Pokemon-Vivid-Voltage-Secret-Rare-Hyper-Rainbow-Pikachu-VMAX-188-185/254822570103?hash=item3b549bd877:g:7dEAAOSwIFBf7onp', 'https://www.ebay.com/itm/PSA-10-Pokemon-Vivid-Voltage-Secret-Rare-Rainbow-Pikachu-VMAX-188-185/203232237074?hash=item2f5195d612:g:4RgAAOSwBSpf6juV']
-    // links.push('https://www.ebay.com/itm/2001-PSA-CGC-BGS-4-Charizard-Non-HOLO-RARE-Pokemon-Card/174578531953?hash=item28a5b0fe71:g:5FQAAOSwGAhf3X5k');
-    // links.push('https://www.ebay.com/itm/MINT-Pokemon-Card-Vivid-Voltage-044-185-44-185-Pikachu-VMAX-Ultra-Rare/174588484662?hash=item28a648dc36:g:lQUAAOSwDv1f-N~J');
-    // links.push('https://www.ebay.com/itm/PSA-10-Pokemon-Vivid-Voltage-Secret-Rare-Rainbow-Pikachu-VMAX-188-185/203232237074?hash=item2f5195d612:g:4RgAAOSwBSpf6juV');
-    // links.push('https://www.ebay.com/itm/Beckett-9-MINT-Umbreon-PRIME-HeartGold-SoulSilver-Undaunted-Pokemon-Card-86-90/353344764020?hash=item5244fd3874:g:OowAAOSwde5f9oxc')
-
-    // Create search_name and set_search_name
-    card = createCardSearchNames(card);
-
-
-    // Check for name that isn't handled by our string helpers
-    if (checkForUnhandledName(card)) { // if the name can't be handled, return updated = false
-      return false;
-    }
-
     let links = [];
     let linkLookup = {};
     let keepSearching = true;
@@ -349,7 +331,8 @@ const updateSalesForCard = async (card) => {
 
     // Basically, increment through the search pages until we get the same page twice
     while (keepSearching) {
-      let searchedLinks = await getSearchLinksForPage(card, page);
+      let url = configureUrl(card, page, attempt);
+      let searchedLinks = await getSearchLinksForPage(card, url);
       console.log('page: ', page, ', links: ', searchedLinks.length);
 
       if (searchedLinks.length > 0) {
@@ -372,6 +355,32 @@ const updateSalesForCard = async (card) => {
 
     // Make sure none of the links are null
     links = links.filter(link => !!link);
+    return Promise.resolve(links);
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+
+// Search ebay for card
+// Specifically, this function handles getting all the links from every search page, then passes those links off to a separate function to get info from the pages
+const updateSalesForCard = async (card) => {
+  try {
+    // Create search_name and set_search_name
+    card = createCardSearchNames(card);
+
+    // Check for name that isn't handled by our string helpers
+    if (checkForUnhandledName(card)) { // if the name can't be handled, return updated = false
+      return Promise.resolve(false);
+    }
+
+    let attempt = 1;
+    let links = [];
+
+    do {
+      links = await findLinksForCard(card, attempt);
+      attempt++;
+    } while (links.length === 0 || attempt <= 2);
 
     // Go to each of the links and get the details from each
     let salesInfo = await getSalesInfoForCards(card, links);
@@ -384,6 +393,7 @@ const updateSalesForCard = async (card) => {
       existingSales[sale.id] = true;
     })
 
+
     console.log('all links found:', links.length);
     console.log('listings with data: ', salesInfo.length);
 
@@ -392,12 +402,14 @@ const updateSalesForCard = async (card) => {
 
     console.log('uploaded: ', uploadRefs.length);
 
-    // Update the card itself to say when it was last updated
-    let cardUpdate = {
-      last_updated: getNowAsStringWithTime()
-    }
+    if (links.length > 0) { // only update the card if we were able to find links
+      // Update the card itself to say when it was last updated
+      let cardUpdate = {
+        last_updated: getNowAsStringWithTime()
+      }
 
-    await pokeCard.update(card.id, cardUpdate);
+      await pokeCard.update(card.id, cardUpdate);
+    }
 
     // Completed updating card
     return Promise.resolve(true);

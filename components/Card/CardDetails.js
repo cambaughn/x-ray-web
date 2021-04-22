@@ -27,8 +27,7 @@ export default function CardDetails({ card_id }) {
   const updateCardSales = async () => {
     try {
       if (card.id) {
-        // let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
-        let updateCard = true;
+        let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
 
         if (updateCard) {
           setUpdatingSales(true);
@@ -49,6 +48,7 @@ export default function CardDetails({ card_id }) {
 
   const getCardDetails = async () => {
     try {
+      // await pokeCard.update(card_id, { last_updated: null });
       let cardData = await pokeCard.get(card_id);
       let salesData = await sale.getForCard(card_id);
       let setData = await pokeSet.get(cardData.set_id);

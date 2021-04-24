@@ -30,7 +30,6 @@ export default function SignIn({}) {
         await sendEmailLink(email.trim().toLowerCase());
         // Set the state to show the sent email messaging
         setEmailSent(true);
-        console.log('sent authentication email');
       }
     } catch(error) {
       console.error(error);
@@ -55,7 +54,7 @@ export default function SignIn({}) {
         }
 
         { emailSent &&
-          <span className={styles.smallText}>(You can close out of this screen)</span>
+          <span className={styles.smallText}>\(You can close out of this screen)</span>
         }
 
 

@@ -10,7 +10,7 @@ import AccountSetup from '../AccountSetup/AccountSetup';
 import PaymentPrompt from '../PaymentPrompt/PaymentPrompt';
 
 // Utility Functions
-import { setUser, setSubscriptionStatus } from '../../redux/actionCreators';
+import { setUser, setSubscriptionStatus, setOnFreeTrial } from '../../redux/actionCreators';
 import { localStorageKeys } from '../../util/localStorage';
 import { onTrialPeriod } from '../../util/helpers/date';
 import userAPI from '../../util/api/user';
@@ -84,8 +84,11 @@ export default function AuthCheck({ children }) {
         customer_id = customer_id || null;
 
 
-        if (user.role === 'admin' || user.role === 'contributor' || onTrialPeriod(user) || !user.trial_end) { // user gets a free pass
+        if (user.role === 'admin' || user.role === 'contributor' || !user.trial_end) { // user gets a free pass
           status = 'active';
+        } else if (onTrialPeriod(user) ) {
+          status = 'active';
+          dispatch(setOnFreeTrial(true));
         } else if (customer_id) { // user is potentially a customer
           const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id });
           status = data.subscriptionStatus;

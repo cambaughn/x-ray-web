@@ -201,7 +201,7 @@ const onTrialPeriod = (user) => {
   }
 }
 
-console.log('date in future ', formatDateAsStringWithTime(getDateInPast(14)));
+// console.log('date in future ', formatDateAsStringWithTime(getDateInFuture(14)));
 
 
 export {

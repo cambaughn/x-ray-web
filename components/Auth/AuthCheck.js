@@ -84,7 +84,7 @@ export default function AuthCheck({ children }) {
         customer_id = customer_id || null;
 
 
-        if (user.role === 'admin' || user.role === 'contributor' || onTrialPeriod(user)) { // user gets a free pass
+        if (user.role === 'admin' || user.role === 'contributor' || onTrialPeriod(user) || !user.trial_end) { // user gets a free pass
           status = 'active';
         } else if (customer_id) { // user is potentially a customer
           const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id });

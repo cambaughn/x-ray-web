@@ -1,5 +1,6 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
+import { formatDateAsStringWithTime, getNowAsStringWithTime, getDateInFuture } from '../helpers/date';
 import { addUserToIndex } from '../algolia/algoliaHelpers';
 import analytics from '../analytics/segment';
 
@@ -39,8 +40,11 @@ userAPI.create = async (email) => {
       let newUser = {
         email,
         username: null,
-        name: null
+        name: null,
+        trial_end: formatDateAsStringWithTime(getDateInFuture(7)),
+        signup_date: getNowAsStringWithTime(),
       }
+      
       await db.collection('users').doc(email).set(newUser, { merge: true });
       user = await userAPI.get(email);
 

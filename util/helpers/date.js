@@ -191,6 +191,16 @@ const getDateInPast = (daysInPast) => {
   return date;
 }
 
+// Determine if the user is on their trial period
+const onTrialPeriod = (user) => {
+  let now = new Date();
+  if (user.trial_end && complexDateStringToObject(user.trial_end) > now) { // if the user has not yet passed their free trial end date
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 export {
   formatDateAsString,
@@ -207,5 +217,6 @@ export {
   formatDateLabelForChart,
   formatWeekLabel,
   dateSoldToObject,
-  isPastWeek
+  isPastWeek,
+  onTrialPeriod
 }

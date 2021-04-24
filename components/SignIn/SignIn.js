@@ -54,7 +54,7 @@ export default function SignIn({}) {
         }
 
         { emailSent &&
-          <span className={styles.smallText}>\(You can close out of this screen)</span>
+          <span className={styles.smallText}>(You can close out of this screen)</span>
         }
 
 

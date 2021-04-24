@@ -92,10 +92,17 @@ export default function PaymentPrompt({}) {
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
-          <h2 className={styles.headline}>Almost there!</h2>
-          <h2 className={classNames(styles.headline, styles.subhead)}>Your <span className={styles.bold}>X-ray Standard</span> subscription unlocks a world of data and resources.</h2>
+          <h3 className={styles.headline}>Your trial has expired</h3>
+          <h2 className={styles.subhead}>Subscribe to continue enjoying X-ray</h2>
 
-          <h3 className={styles.label}>X-ray Standard includes:</h3>
+          <button role="link" className={styles.button} onClick={handleClick}>
+            { !loading
+              ? <span className={styles.buttonText}>Subscribe</span>
+              : <Loader className={classNames(styles.loader)} size={20} />
+            }
+          </button>
+
+          <h3 className={styles.label}><span className={styles.bold}>X-ray Standard</span> unlocks a world of data and resources:</h3>
           <ul className={styles.featuresList}>
             <li className={styles.feature}>13k+ English Pokémon cards</li>
             <li className={styles.feature}>100k+ sales data points</li>
@@ -103,13 +110,6 @@ export default function PaymentPrompt({}) {
             <li className={styles.feature}>Sales breakdowns for each card</li>
             <li className={classNames(styles.feature, styles.highlightedFeature)}>More cards, languages, and products coming soon!</li>
           </ul>
-
-          <button role="link" className={styles.button} onClick={handleClick}>
-            { !loading
-              ? <span className={styles.buttonText}>1 week free, then $15 per month</span>
-              : <Loader className={classNames(styles.loader)} size={20} />
-            }
-          </button>
       </div>
 
       { showError &&

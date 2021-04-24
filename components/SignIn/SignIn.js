@@ -63,6 +63,7 @@ export default function SignIn({}) {
           <div className={styles.inputWrapper}>
             <input
               type="email"
+              name="email"
               value={email}
               onChange={event => updateEmail(event.target.value.toLowerCase())}
               onKeyDown={handleEnterKey}

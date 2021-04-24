@@ -91,12 +91,6 @@ export default function PaymentPrompt({}) {
 
   return (
     <div className={styles.container}>
-      { showError &&
-        <div>
-          <span>Uh oh! Looks like there was an error. Click the button to try again.</span>
-        </div>
-      }
-
       <div className={styles.mainContent}>
           <h2 className={styles.headline}>Almost there!</h2>
           <h2 className={classNames(styles.headline, styles.subhead)}>Your <span className={styles.bold}>X-ray Standard</span> subscription unlocks a world of data and resources.</h2>
@@ -117,6 +111,13 @@ export default function PaymentPrompt({}) {
             }
           </button>
       </div>
+
+      { showError &&
+        <div className={styles.errorMessage}>
+          <p>Uh oh! Looks like there was an error. Click the button to try again.</p>
+          <p>If the issue persists, please email support@x-ray.fun</p>
+        </div>
+      }
     </div>
   )
 }

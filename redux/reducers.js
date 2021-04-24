@@ -37,13 +37,23 @@ const subscriptionStatus = (state = '', action) => {
   }
 }
 
+const onFreeTrial = (state = false, action) => {
+  switch (action.type) {
+    case 'SET_ON_FREE_TRIAL':
+      return action.onFreeTrial;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
   user,
   card,
   sales,
-  subscriptionStatus
+  subscriptionStatus,
+  onFreeTrial
 });
 
 export { xRayApp };

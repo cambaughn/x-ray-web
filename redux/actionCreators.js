@@ -31,10 +31,18 @@ function setSubscriptionStatus(subscriptionStatus) {
   }
 }
 
+function setOnFreeTrial(onFreeTrial) {
+  return {
+    type: 'SET_ON_FREE_TRIAL',
+    onFreeTrial
+  }
+}
+
 
 export {
   setUser,
   setCard,
   setSales,
-  setSubscriptionStatus
+  setSubscriptionStatus,
+  setOnFreeTrial
 };

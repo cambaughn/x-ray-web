@@ -201,7 +201,7 @@ const onTrialPeriod = (user) => {
   }
 }
 
-console.log('date in future ', formatDateAsStringWithTime(getDateInFuture(7)));
+// console.log('date in future ', formatDateAsStringWithTime(getDateInFuture(7)));
 
 
 export {
@@ -215,6 +215,8 @@ export {
   isLastThreeMonths,
   getDates,
   getWeeks,
+  getDateInPast,
+  getDateInFuture,
   datesAreSameDay,
   formatDateLabelForChart,
   formatWeekLabel,

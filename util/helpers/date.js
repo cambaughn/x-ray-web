@@ -181,7 +181,6 @@ const isPastWeek = (dateString) => {
 // Get a date some number of days in the future
 const getDateInFuture = (daysInFuture) => {
   let date = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * daysInFuture);
-  date = formatDateAsString(date);
   return date;
 }
 
@@ -190,6 +189,7 @@ const getDateInPast = (daysInPast) => {
   let date = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * -daysInPast);
   return date;
 }
+
 
 // Determine if the user is on their trial period
 const onTrialPeriod = (user) => {
@@ -200,6 +200,8 @@ const onTrialPeriod = (user) => {
     return false;
   }
 }
+
+console.log('date in future ', formatDateAsStringWithTime(getDateInFuture(7)));
 
 
 export {

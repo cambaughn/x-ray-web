@@ -8,7 +8,10 @@ import styles from './ProfileSettings.module.scss';
 export default function ProfileSettings({}) {
   return (
     <div className={styles.container}>
-      sldfkjdlsf
+      <div className={styles.mainContent}>
+        <h2>Settings</h2>
+        
+      </div>
     </div>
   )
 }

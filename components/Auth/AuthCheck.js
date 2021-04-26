@@ -90,7 +90,7 @@ export default function AuthCheck({ children }) {
           status = 'active';
           dispatch(setOnFreeTrial(true));
         } else if (customer_id) { // user is potentially a customer
-          const { data } = await axios.post(`${window.location.origin}/api/subscription`, { customer_id });
+          const { data } = await axios.post(`${window.location.origin}/api/subscription/status`, { customer_id });
           status = data.subscriptionStatus;
         }
         dispatch(setSubscriptionStatus(status));

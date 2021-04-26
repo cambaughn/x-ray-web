@@ -20,6 +20,7 @@
   position: relative;
   height: 60px;
   width: 50%;
+  padding-top: 3px;
   padding-left: 25px;
   box-sizing: border-box;
 
@@ -58,7 +59,7 @@
   color: #e74c3c;
 }
 
-.cancelButton {
+.cancelSubscriptionButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,4 +72,59 @@
 
 .cancelText {
   color: grey;
+  font-size: 0.9em;
+}
+
+// Confirmation modal
+.confirmationModal {
+  width: 400px;
+  padding: 30px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.confirmHeading {
+  margin: 0px;
+  margin-bottom: 20px;
+}
+
+.promptText {
+
+}
+
+.buttons {
+  margin-top: 30px;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.button {
+  cursor: pointer;
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.cancelButton {
+  margin-bottom: 20px;
+  background-color: black;
+}
+
+.cancelButtonText {
+  color: white;
+  font-weight: 500;
+}
+
+.confirmButton {
+  border: 2px solid black;
 }

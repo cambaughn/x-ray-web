@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 // Components
+import FullScreenModal from '../Modal/FullScreenModal';
 
 // Utility functions
 
@@ -12,6 +13,7 @@ export default function ProfileSettings({}) {
   const onFreeTrial = useSelector(state => state.onFreeTrial);
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
   const [subscriptionText, setSubscriptionText] = useState('');
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const determineSubscriptionStatus = () => {
     if (onFreeTrial) {
@@ -25,6 +27,10 @@ export default function ProfileSettings({}) {
     }
   }
 
+  const toggleModal = () => {
+    setShowConfirmationModal(!showConfirmationModal);
+  }
+
   useEffect(determineSubscriptionStatus, [user, onFreeTrial, subscriptionStatus]);
 
   return (
@@ -36,12 +42,32 @@ export default function ProfileSettings({}) {
           <span className={styles.label}>Subscription</span>
           <span className={classNames({ [styles.status]: true, [styles.active]: subscriptionText !== 'Not subscribed', [styles.inactive]: subscriptionText === 'Not subscribed' })}>{subscriptionText}</span>
           { subscriptionStatus === 'active' &&
-            <div className={styles.cancelButton}>
+            <div className={styles.cancelSubscriptionButton} onClick={() => setShowConfirmationModal(true)}>
               <span className={styles.cancelText}>cancel</span>
             </div>
           }
         </div>
       </div>
+
+      { showConfirmationModal &&
+        <FullScreenModal toggleModal={toggleModal}>
+          <div className={styles.confirmationModal}>
+            <h2 className={styles.confirmHeading}>Cancel Subscription</h2>
+            <span className={styles.promptText}>Are you sure you want to cancel your X-ray subscription?</span>
+
+            <div className={styles.buttons}>
+              <div className={classNames(styles.button, styles.cancelButton)} onClick={toggleModal}>
+                <span className={classNames(styles.buttonText, styles.cancelButtonText)}>No thanks, take me back</span>
+              </div>
+
+              <div className={classNames(styles.button, styles.confirmButton)}>
+                <span className={classNames(styles.buttonText, styles.confirmButtonText)}>Yes, I'm sure</span>
+              </div>
+            </div>
+
+          </div>
+        </FullScreenModal>
+      }
     </div>
   )
 }

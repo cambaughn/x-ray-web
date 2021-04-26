@@ -3,6 +3,7 @@ import styles from './NavBar.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { User } from 'react-feather';
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -71,6 +72,14 @@ export default function NavBar({}) {
       <div className={styles.rightSide}>
         { !user.id && !router.pathname.includes('sign-in') &&
           <SignInButton />
+        }
+
+        { subscriptionStatus === 'active' &&
+          <Link href={'/profile/settings'}>
+            <div className={styles.userButton}>
+              <User />
+            </div>
+          </Link>
         }
       </div>
 

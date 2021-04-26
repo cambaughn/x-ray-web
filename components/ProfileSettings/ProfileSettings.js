@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './ProfileSettings.module.scss';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import axios from 'axios';
 
 // Components
 import FullScreenModal from '../Modal/FullScreenModal';
@@ -17,6 +18,7 @@ export default function ProfileSettings({}) {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [confirmingCancellation, setConfirmingCancellation] = useState(false);
   const [canceled, setCanceled] = useState(false);
+  const [cancellationError, setCancellationError] = useState(false);
 
   const determineSubscriptionStatus = () => {
     if (onFreeTrial) {
@@ -35,8 +37,33 @@ export default function ProfileSettings({}) {
     setConfirmingCancellation(false);
   }
 
-  const handleConfirm = () => {
-    setConfirmingCancellation(true);
+
+  const handleConfirm = async () => {
+    try {
+      setConfirmingCancellation(true);
+      if (!!user.username) { // if user is signed in
+        let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
+        customer_id = customer_id || null;
+
+        if (customer_id) {
+          const { data } = await axios.post(`${window.location.origin}/api/subscription/cancel`, { customer_id });
+          let canceled = data.canceled;
+
+          if (canceled) {
+            setCanceled(true);
+            setTimeout(toggleModal, 3000);
+            return;
+          }
+        }
+      }
+
+      setCancellationError(true);
+      setTimeout(toggleModal, 3000);
+    } catch (error) {
+      setCancellationError(true);
+      setTimeout(toggleModal, 3000);
+      console.error(error);
+    }
   }
 
   useEffect(determineSubscriptionStatus, [user, onFreeTrial, subscriptionStatus]);
@@ -49,7 +76,7 @@ export default function ProfileSettings({}) {
         <div className={styles.settingWrapper}>
           <span className={styles.label}>Subscription</span>
           <span className={classNames({ [styles.status]: true, [styles.active]: subscriptionText !== 'Not subscribed', [styles.inactive]: subscriptionText === 'Not subscribed' })}>{subscriptionText}</span>
-          { subscriptionStatus === 'active' &&
+          { subscriptionText === 'Subscribed' &&
             <div className={styles.cancelSubscriptionButton} onClick={() => setShowConfirmationModal(true)}>
               <span className={styles.cancelText}>cancel</span>
             </div>
@@ -89,6 +116,13 @@ export default function ProfileSettings({}) {
             { canceled &&
               <div className={styles.canceledWrapper}>
                 <span>Subscription canceled successfully.</span>
+              </div>
+            }
+
+            { cancellationError &&
+              <div className={styles.canceledWrapper}>
+                <span className={styles.errorMessage}>There's been an error</span>
+                <span className={styles.errorMessage}>If the problem persists, please email support@x-ray.fun</span>
               </div>
             }
 

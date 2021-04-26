@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 // Components
 import FullScreenModal from '../Modal/FullScreenModal';
+import LoadingSpinner from '../Icons/LoadingSpinner';
 
 // Utility functions
 
@@ -14,6 +15,8 @@ export default function ProfileSettings({}) {
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
   const [subscriptionText, setSubscriptionText] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [confirmingCancellation, setConfirmingCancellation] = useState(false);
+  const [canceled, setCanceled] = useState(false);
 
   const determineSubscriptionStatus = () => {
     if (onFreeTrial) {
@@ -29,6 +32,11 @@ export default function ProfileSettings({}) {
 
   const toggleModal = () => {
     setShowConfirmationModal(!showConfirmationModal);
+    setConfirmingCancellation(false);
+  }
+
+  const handleConfirm = () => {
+    setConfirmingCancellation(true);
   }
 
   useEffect(determineSubscriptionStatus, [user, onFreeTrial, subscriptionStatus]);
@@ -50,20 +58,39 @@ export default function ProfileSettings({}) {
       </div>
 
       { showConfirmationModal &&
-        <FullScreenModal toggleModal={toggleModal}>
+        <FullScreenModal toggleModal={!confirmingCancellation ? toggleModal : null}>
           <div className={styles.confirmationModal}>
-            <h2 className={styles.confirmHeading}>Cancel Subscription</h2>
-            <span className={styles.promptText}>Are you sure you want to cancel your X-ray subscription?</span>
 
-            <div className={styles.buttons}>
-              <div className={classNames(styles.button, styles.cancelButton)} onClick={toggleModal}>
-                <span className={classNames(styles.buttonText, styles.cancelButtonText)}>No thanks, take me back</span>
-              </div>
-
-              <div className={classNames(styles.button, styles.confirmButton)}>
-                <span className={classNames(styles.buttonText, styles.confirmButtonText)}>Yes, I'm sure</span>
-              </div>
+            <div className={styles.cancelTextWrapper}>
+              <h2 className={styles.confirmHeading}>Cancel Subscription</h2>
+              <span className={styles.promptText}>Are you sure you want to cancel your X-ray subscription?</span>
             </div>
+
+
+            { !confirmingCancellation && !canceled &&
+              <div className={styles.buttons}>
+                <div className={classNames(styles.button, styles.cancelButton)} onClick={toggleModal}>
+                  <span className={classNames(styles.buttonText, styles.cancelButtonText)}>No thanks, take me back</span>
+                </div>
+
+                <div className={classNames(styles.button, styles.confirmButton)} onClick={handleConfirm}>
+                  <span className={classNames(styles.buttonText, styles.confirmButtonText)}>Yes, I'm sure</span>
+                </div>
+              </div>
+            }
+
+            { confirmingCancellation && !canceled &&
+              <div className={styles.confirmationWrapper}>
+                <LoadingSpinner color={'black'} />
+                <span className={styles.confirmingText}>Confirming cancellation...</span>
+              </div>
+            }
+
+            { canceled &&
+              <div className={styles.canceledWrapper}>
+                <span>Subscription canceled successfully.</span>
+              </div>
+            }
 
           </div>
         </FullScreenModal>

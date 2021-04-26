@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ProfileSettings.module.scss';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import axios from 'axios';
 
@@ -9,6 +9,8 @@ import FullScreenModal from '../Modal/FullScreenModal';
 import LoadingSpinner from '../Icons/LoadingSpinner';
 
 // Utility functions
+import { setSubscriptionStatus } from '../../redux/actionCreators';
+import analytics from '../../util/analytics/segment';
 
 export default function ProfileSettings({}) {
   const user = useSelector(state => state.user);
@@ -19,6 +21,7 @@ export default function ProfileSettings({}) {
   const [confirmingCancellation, setConfirmingCancellation] = useState(false);
   const [canceled, setCanceled] = useState(false);
   const [cancellationError, setCancellationError] = useState(false);
+  const dispatch = useDispatch();
 
   const determineSubscriptionStatus = () => {
     if (onFreeTrial) {
@@ -50,8 +53,18 @@ export default function ProfileSettings({}) {
           let canceled = data.canceled;
 
           if (canceled) {
+            // Track sign up
+            analytics.track({
+              userId: user.id,
+              event: 'Canceled subscription'
+            });
+
             setCanceled(true);
-            setTimeout(toggleModal, 3000);
+            setSubscriptionText('Not subscribed');
+            setTimeout(() => {
+              toggleModal();
+              dispatch(setSubscriptionStatus('not_subscribed'));
+            }, 3000);
             return;
           }
         }
@@ -66,6 +79,15 @@ export default function ProfileSettings({}) {
     }
   }
 
+  const recordPageView = () => {
+    analytics.page({
+      userId: user.id,
+      category: 'Settings',
+      name: 'Profile Settings'
+    });
+  }
+
+  useEffect(recordPageView, []);
   useEffect(determineSubscriptionStatus, [user, onFreeTrial, subscriptionStatus]);
 
   return (

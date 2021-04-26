@@ -10,3 +10,65 @@
   margin-top: 50px;
   width: 50%;
 }
+
+.heading {
+  cursor: default;
+  margin-bottom: 40px;
+}
+
+.settingWrapper {
+  position: relative;
+  height: 60px;
+  width: 50%;
+  padding-left: 25px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 2px solid black;
+  border-radius: 3px;
+}
+
+.label {
+  position: absolute;
+  top: -12px;
+  left: 15px;
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  font-weight: 500;
+  font-size: 18px;
+  cursor: default;
+}
+
+.status {
+  font-weight: 500;
+  cursor: default;
+}
+
+.active {
+  color: #2ecc71;
+}
+
+.inactive {
+  color: #e74c3c;
+}
+
+.cancelButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 25px;
+  padding-left: 25px;
+
+  cursor: pointer;
+  height: 100%;
+}
+
+.cancelText {
+  color: grey;
+}

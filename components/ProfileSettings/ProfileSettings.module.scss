@@ -1,3 +1,4 @@
+@import '../../util/design/mixins.module.scss';
 
 .container {
   width: 100vw;
@@ -9,11 +10,19 @@
 .mainContent {
   margin-top: 50px;
   width: 50%;
+
+  @include media(mobile) {
+    width: 85%;
+  }
 }
 
 .heading {
   cursor: default;
   margin-bottom: 40px;
+
+  @include media(mobile) {
+    margin-bottom: 30px;
+  }
 }
 
 .settingWrapper {
@@ -31,6 +40,10 @@
 
   border: 2px solid black;
   border-radius: 3px;
+
+  @include media(mobile) {
+    width: 100%;
+  }
 }
 
 .label {

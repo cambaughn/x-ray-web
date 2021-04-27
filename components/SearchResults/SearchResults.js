@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './SearchResults.module.scss';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { connectInfiniteHits } from 'react-instantsearch-dom';
 
 // Components
 

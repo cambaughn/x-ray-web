@@ -9,6 +9,7 @@ import classNames from 'classnames';
 // Components
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
+import InfiniteSearch from '../InfiniteSearch/InfiniteSearch';
 import SignInButton from '../Buttons/SignInButton';
 
 // Utility functions
@@ -85,7 +86,7 @@ export default function NavBar({}) {
       </div>
 
       { searchTerm.length > 0 &&
-        <SearchResults results={results} clearSearch={clearSearch} />
+        <InfiniteSearch hits={results} clearSearch={clearSearch} />
       }
     </div>
   )

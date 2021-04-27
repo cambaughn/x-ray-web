@@ -1,3 +1,5 @@
+@import '../../util/design/mixins.module.scss';
+
 .container {
   width: 100vw;
   display: flex;
@@ -15,6 +17,10 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+
+  @include media(mobile) {
+    width: 85vw;
+  }
 }
 
 .headline {

@@ -43,6 +43,7 @@
 
   @include media(mobile) {
     width: 100%;
+    padding-top: 2px;
   }
 }
 
@@ -88,22 +89,35 @@
   font-size: 0.9em;
 }
 
-// Confirmation modal
+// Confirmation modal ------------------------------------------------
 .confirmationModal {
-  width: 400px;
+  width: 475px;
   padding: 30px;
+  box-sizing: border-box;
   background-color: white;
   border: 2px solid black;
   border-radius: 5px;
+
+  @include media(mobile) {
+    width: 85%;
+  }
 }
 
 .cancelTextWrapper {
   margin-bottom: 30px;
+
+  @include media(mobile) {
+    margin-bottom: 25px;
+  }
 }
 
 .confirmHeading {
   margin: 0px;
   margin-bottom: 20px;
+
+  @include media(mobile) {
+    margin-bottom: 15px;
+  }
 }
 
 .promptText {
@@ -117,6 +131,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  @include media(mobile) {
+    height: 120px;
+  }
 }
 
 .button {
@@ -151,6 +169,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @include media(mobile) {
+    height: 120px;
+  }
 }
 
 .confirmingText {
@@ -163,6 +185,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @include media(mobile) {
+    height: 120px;
+  }
 }
 
 .errorMessage {

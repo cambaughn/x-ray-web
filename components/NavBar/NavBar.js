@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { User } from 'react-feather';
 import classNames from 'classnames';
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -15,6 +16,7 @@ import SignInButton from '../Buttons/SignInButton';
 // Utility functions
 import { searchCard } from '../../util/algolia/algoliaHelpers';
 import analytics from '../../util/analytics/segment';
+import { searchClient } from '../../util/algolia/algoliaInit';
 
 
 export default function NavBar({}) {
@@ -58,6 +60,8 @@ export default function NavBar({}) {
 
   return (
     <div className={styles.container}>
+
+
       <div className={classNames({ [styles.brandWrapper]: true, [styles.signedInBrand]: !!user.id }) }>
         <Link href={'/'}>
           <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
@@ -85,9 +89,11 @@ export default function NavBar({}) {
         }
       </div>
 
-      { searchTerm.length > 0 &&
-        <InfiniteSearch hits={results} clearSearch={clearSearch} />
-      }
+      <InstantSearch searchClient={searchClient} indexName='pokemon_cards'>
+        { searchTerm.length > 0 &&
+            <InfiniteSearch hits={results} clearSearch={clearSearch} />
+        }
+      </InstantSearch>
     </div>
   )
 }

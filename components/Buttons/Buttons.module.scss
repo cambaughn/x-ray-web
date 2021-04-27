@@ -1,3 +1,5 @@
+@import '../../util/design/mixins.module.scss';
+
 // Common
 .darkButton {
   background-color: black;
@@ -35,7 +37,9 @@
 // Sign in button - appears in nav when not signed in
 
 .signInButton {
-
+  @include media(mobile) {
+    display: none;
+  }
 }
 
 .signInText {

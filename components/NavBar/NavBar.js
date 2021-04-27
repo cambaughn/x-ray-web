@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { User } from 'react-feather';
+import classNames from 'classnames';
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -56,7 +57,7 @@ export default function NavBar({}) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.brandWrapper}>
+      <div className={classNames({ [styles.brandWrapper]: true, [styles.signedInBrand]: !!user.id }) }>
         <Link href={'/'}>
           <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
         </Link>

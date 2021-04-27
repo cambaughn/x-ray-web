@@ -29,7 +29,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+}
 
+.signedInBrand {
   @include media(mobile) {
     display: none;
   }
@@ -56,4 +58,5 @@
 
 .userButton {
   cursor: pointer;
+  color: grey;
 }

@@ -15,6 +15,11 @@
   box-sizing: border-box;
   position: relative;
   z-index: 1;
+
+  @include media(mobile) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 .brandWrapper {
@@ -24,6 +29,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  @include media(mobile) {
+    display: none;
+  }
 }
 
 .brand {
@@ -41,7 +50,7 @@
   justify-content: center;
 
   @include media(mobile) {
-    display: none;
+    width: 10vw;
   }
 }
 

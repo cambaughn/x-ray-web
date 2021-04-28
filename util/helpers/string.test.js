@@ -1,4 +1,4 @@
-import { replaceCharacters, hasNonAlphanumeric } from './string';
+import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2 } from './string';
 
 describe('Verify alphanumeric checker', () => {
   test('Returns false for blank string', () => {
@@ -103,4 +103,32 @@ describe('Replaces characters', () => {
   test("Handle Blastoise Prism Star", () => {
     expect(replaceCharacters("Blastoise ◇")).toBe("Blastoise+prism+star");
   });
+
+  test("Is special name", () => {
+    expect(replaceCharacters("Blastoise ◇")).toBe("Blastoise+prism+star");
+  });
+})
+
+describe('Find cards with special names', () => {
+  let cases = [['M Charizard-GX', true], ['Charizard-EX', true], ['Pikachu VMAX', true], ['Squirtle', false]]
+
+  test.each(cases)(
+    "given %o as an argument, returns %p",
+    (name, expectedResult) => {
+      const result = isSpecialCard(name);
+      expect(result).toEqual(expectedResult);
+    }
+  );
+})
+
+describe('Find base set cards', () => {
+  let cases = [['Base', true], ['Base Set 2', true], ['Expedition Base Set', false], ['Sun & Moon Base', false]]
+
+  test.each(cases)(
+    "given %o as an argument, returns %p",
+    (set_name, expectedResult) => {
+      const result = isBaseOrBase2(set_name);
+      expect(result).toEqual(expectedResult);
+    }
+  );
 })

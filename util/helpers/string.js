@@ -44,4 +44,24 @@ const hasNonAlphanumeric = (string) => {
   return result;
 }
 
-export { replaceCharacters, hasNonAlphanumeric }
+const isSpecialCard = (name) => {
+  name = name.toLowerCase();
+  let terms = ['-gx', '-ex', 'vmax'];
+
+  for (let i = 0; i < terms.length; i++) {
+    let term = terms[i];
+    if (name.includes(term)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const isBaseOrBase2 = (set_name) => {
+  set_name = set_name.toLowerCase().trim();
+
+  return set_name === 'base' || set_name === 'base set 2';
+}
+
+export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2 }

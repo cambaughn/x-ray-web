@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SearchResults.module.scss';
 import Link from 'next/link';
 import classNames from 'classnames';
@@ -7,11 +7,22 @@ import classNames from 'classnames';
 
 // Utility functions
 
+import { sortSearchResults } from '../../util/helpers/array';
+
 export default function SearchResults({ results, clearSearch }) {
+  const [sortedResults, setSortedResults] = useState([]);
+
+  const sortResults = () => {
+    let sorted = sortSearchResults(results);
+    setSortedResults(sorted);
+  }
+
+  useEffect(sortResults, [results])
+
   return (
     <div className={styles.container}>
       <div className={styles.searchResults}>
-        { results.map(result => {
+        { sortedResults.map(result => {
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
               <div className={styles.resultWrapper} onClick={clearSearch}>

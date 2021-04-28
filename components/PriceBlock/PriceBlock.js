@@ -7,7 +7,7 @@ import PriceChart from '../PriceChart/PriceChart';
 // Utility functions
 import { sortSalesByDate } from '../../util/sorting.js';
 import { isLastMonth, isLastThreeMonths, getDates, getWeeks, datesAreSameDay, formatWeekLabel } from '../../util/helpers/date.js';
-import { flatten } from '../../util/array.js';
+import { flatten } from '../../util/helpers/array.js';
 
 
 export default function PriceBlock({ sales, ungraded, gradingAuthority, grade }) {

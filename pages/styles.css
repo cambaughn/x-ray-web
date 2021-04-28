@@ -9,3 +9,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+// SearchBox
+button.ais-SearchBox-submit, button.ais-SearchBox-reset {
+  display: none;
+}

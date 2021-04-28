@@ -11,7 +11,7 @@ class InfiniteSearch extends Component {
         <ul className="ais-InfiniteHits-list">
           {hits.map(hit => (
             <li key={hit.objectID} className="ais-InfiniteHits-item">
-              <span>{hit.objectID}</span>
+              <span>{hit.name}</span>
             </li>
           ))}
         </ul>

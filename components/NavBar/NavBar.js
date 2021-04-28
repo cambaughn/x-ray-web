@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { User } from 'react-feather';
 import classNames from 'classnames';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
+import 'instantsearch.css/themes/reset.css';
+
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -60,38 +62,41 @@ export default function NavBar({}) {
 
   return (
     <div className={styles.container}>
+      <InstantSearch searchClient={searchClient} indexName='pokemon_cards'>
 
 
-      <div className={classNames({ [styles.brandWrapper]: true, [styles.signedInBrand]: !!user.id }) }>
-        <Link href={'/'}>
-          <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
-        </Link>
-      </div>
-
-      { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
-      }
-      {/* { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
-      } */}
-
-      <div className={styles.rightSide}>
-        { !user.id && !router.pathname.includes('sign-in') &&
-          <SignInButton />
-        }
+        <div className={classNames({ [styles.brandWrapper]: true, [styles.signedInBrand]: !!user.id }) }>
+          <Link href={'/'}>
+            <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
+          </Link>
+        </div>
 
         { subscriptionStatus === 'active' &&
-          <Link href={'/profile/settings'}>
-            <div className={styles.userButton}>
-              <User />
-            </div>
-          </Link>
+          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
         }
-      </div>
+        {/* { subscriptionStatus === 'active' &&
+          <SearchBox />
+        } */}
+        {/* { subscriptionStatus === 'active' &&
+          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
+        } */}
 
-      <InstantSearch searchClient={searchClient} indexName='pokemon_cards'>
+        <div className={styles.rightSide}>
+          { !user.id && !router.pathname.includes('sign-in') &&
+            <SignInButton />
+          }
+
+          { subscriptionStatus === 'active' &&
+            <Link href={'/profile/settings'}>
+              <div className={styles.userButton}>
+                <User />
+              </div>
+            </Link>
+          }
+        </div>
+
         { searchTerm.length > 0 &&
-            <InfiniteSearch hits={results} clearSearch={clearSearch} />
+          <InfiniteSearch clearSearch={clearSearch} />
         }
       </InstantSearch>
     </div>

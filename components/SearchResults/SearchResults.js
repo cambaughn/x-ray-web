@@ -8,11 +8,11 @@ import { connectInfiniteHits } from 'react-instantsearch-dom';
 
 // Utility functions
 
-export default function SearchResults({ results, clearSearch }) {
+const SearchResults = ({ hits, clearSearch }) => {
   return (
     <div className={styles.container}>
       <div className={styles.searchResults}>
-        { results.map(result => {
+        { hits.map(result => {
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
               <div className={styles.resultWrapper} onClick={clearSearch}>
@@ -33,3 +33,5 @@ export default function SearchResults({ results, clearSearch }) {
     </div>
   )
 }
+
+export default connectInfiniteHits(SearchResults);

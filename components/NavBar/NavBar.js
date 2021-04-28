@@ -91,8 +91,11 @@ export default function NavBar({}) {
           }
         </div>
 
-        { searchTerm.length > 0 &&
+        {/* { searchTerm.length > 0 &&
           <InfiniteSearch clearSearch={clearSearch} />
+        } */}
+        { searchTerm.length > 0 &&
+          <SearchResults />
         }
       </InstantSearch>
     </div>

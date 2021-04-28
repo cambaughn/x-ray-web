@@ -6,6 +6,7 @@ class InfiniteSearch extends Component {
   render() {
     const { hits } = this.props;
 
+    console.log('hits => ', hits);
     return (
       <div className="ais-InfiniteHits">
         <ul className="ais-InfiniteHits-list">

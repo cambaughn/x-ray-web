@@ -1,3 +1,5 @@
+@import '../util/design/mixins.module.scss';
+
 body {
   margin: 0;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
@@ -12,10 +14,24 @@ code {
 
 
 // SearchBox
-form .ais-SearchBox-submit {
-  display: none;
-}
+form  {
+  .ais-SearchBox-submit, .ais-SearchBox-reset {
+    display: none;
+  }
 
-form .ais-SearchBox-reset {
-  display: none;
+  .ais-SearchBox-input {
+    width: 250px;
+    padding: 10px;
+    box-sizing: border-box;
+    outline: none;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    border: none;
+
+    @include media(mobile) {
+      width: 70vw;
+      font-size: 15px;
+    }
+  }
+
 }

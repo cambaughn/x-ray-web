@@ -6,7 +6,8 @@ import store from '../redux/store';
 import Head from '../components/Head/Head';
 import MainLayout from '../components/Layouts/MainLayout/MainLayout';
 import AuthCheck from '../components/Auth/AuthCheck';
-import './styles.css';
+// import 'instantsearch.css/themes/reset.css';
+import './styles.scss';
 
 // This default export is required in a new `pages/_app.js` file.
 export default function Xray({ Component, pageProps }) {

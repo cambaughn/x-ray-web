@@ -12,6 +12,10 @@ code {
 
 
 // SearchBox
-button.ais-SearchBox-submit, button.ais-SearchBox-reset {
+form .ais-SearchBox-submit {
+  display: none;
+}
+
+form .ais-SearchBox-reset {
   display: none;
 }

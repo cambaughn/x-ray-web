@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import { User } from 'react-feather';
 import classNames from 'classnames';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
-import 'instantsearch.css/themes/reset.css';
-
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
@@ -71,12 +69,12 @@ export default function NavBar({}) {
           </Link>
         </div>
 
-        { subscriptionStatus === 'active' &&
-          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
-        }
         {/* { subscriptionStatus === 'active' &&
-          <SearchBox />
+          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
         } */}
+        { subscriptionStatus === 'active' &&
+          <SearchBox />
+        }
         {/* { subscriptionStatus === 'active' &&
           <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
         } */}

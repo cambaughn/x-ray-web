@@ -73,11 +73,9 @@ export default function NavBar({}) {
           <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
         } */}
         { subscriptionStatus === 'active' &&
-          <SearchBox />
+          <SearchBox searchAsYouType={true} showLoadingIndicator={false} translations={{ placeholder: 'Card/set name...' }} />
         }
-        {/* { subscriptionStatus === 'active' &&
-          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
-        } */}
+
 
         <div className={styles.rightSide}>
           { !user.id && !router.pathname.includes('sign-in') &&

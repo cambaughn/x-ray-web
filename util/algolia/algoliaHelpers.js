@@ -3,7 +3,7 @@ import { cardsIndex, usersIndex } from './algoliaInit';
 
 const searchCard = async (searchTerm) => {
   try {
-    let result = await cardsIndex.search(searchTerm);
+    let result = await cardsIndex.search(searchTerm, { hitsPerPage: 50 });
     let hits = result.hits;
     return hits;
   } catch(error) {

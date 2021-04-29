@@ -124,7 +124,7 @@ export default function CardDetails({ card_id }) {
       </div>
 
       <div className={styles.rightSection}>
-        <PriceDetails sales={sales} />
+        <PriceDetails sales={sales} card={card} />
       </div>
     </div>
   )

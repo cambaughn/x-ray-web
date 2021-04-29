@@ -8,7 +8,7 @@ import VariantButtons from '../VariantButtons/VariantButtons';
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 
-export default function PriceDetails({ sales }) {
+export default function PriceDetails({ card, sales }) {
   const [variants, setVariants] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState('non-holo');
   const [recentSales, setRecentSales] = useState([])
@@ -53,34 +53,45 @@ export default function PriceDetails({ sales }) {
   // Variants - non-holo, reverse_holo, holo
   // Note that variants are NOT rarity. They simply relate to the finish of the card.
   const determineVariant = (title) => {
-    let variant = 'non-holo';
-    title = title.toLowerCase();
-    // First check for "reverse holo"
-    if (title.includes('reverse')) {
-      variant = 'reverse_holo';
-    } else if (title.includes('holo') || title.includes('foil')) {
-      variant = 'holo';
-    }
+    // If the card has explicitly set variants, override whatever the title says
+    if (card.variants && card.variants.length > 0) {
+      return card.variants[0];
+    } else { // otherwise, determine based on the title like normal
+      let variant = 'non-holo';
+      title = title.toLowerCase();
+      // First check for "reverse holo"
+      if (title.includes('reverse')) {
+        variant = 'reverse_holo';
+      } else if (title.includes('holo') || title.includes('foil')) {
+        variant = 'holo';
+      }
 
-    return variant;
+      return variant;
+    }
   }
 
   const setAvailableVariants = () => {
     if (variants.length === 0) {
-      let availableVariants = Object.keys(salesByType).sort((a, b) => {
-        if (salesByType[a].ungraded && salesByType[b].ungraded) {
-          if (salesByType[a].ungraded.length > salesByType[b].ungraded.length) {
-            return -1;
-          } else if (salesByType[a].ungraded.length < salesByType[b].ungraded.length) {
-            return 1;
-          }
-        }
-        return 0;
-      })
-      .filter(variant => Object.keys(salesByType[variant]).length > 0)
 
-      setVariants(availableVariants);
-      setSelectedVariant(availableVariants[0]);
+      if (card.variants && card.variants.length > 0) {
+        setVariants(card.variants);
+        setSelectedVariant(card.variants[0]);
+      } else {
+        let availableVariants = Object.keys(salesByType).sort((a, b) => {
+          if (salesByType[a].ungraded && salesByType[b].ungraded) {
+            if (salesByType[a].ungraded.length > salesByType[b].ungraded.length) {
+              return -1;
+            } else if (salesByType[a].ungraded.length < salesByType[b].ungraded.length) {
+              return 1;
+            }
+          }
+          return 0;
+        })
+        .filter(variant => Object.keys(salesByType[variant]).length > 0)
+
+        setVariants(availableVariants);
+        setSelectedVariant(availableVariants[0]);
+      }
     }
   }
 

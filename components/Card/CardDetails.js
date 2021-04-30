@@ -22,7 +22,19 @@ export default function CardDetails({ card_id }) {
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
   const [updatingSales, setUpdatingSales] = useState(false);
+  const [updatedViewCount, setUpdatedViewCount] = useState(false);
   const user = useSelector(state => state.user);
+
+
+  const updateViewCount = async () => {
+    if (card.id && !updatedViewCount) {
+      let view_count = card.view_count || 0;
+      view_count++;
+      
+      await pokeCard.update(card.id, { view_count });
+      setUpdatedViewCount(true);
+    }
+  }
 
   const updateCardSales = async () => {
     try {
@@ -84,6 +96,7 @@ export default function CardDetails({ card_id }) {
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
   useEffect(updateCardSales, [card]);
+  useEffect(updateViewCount, [card]);
 
   return (
     <div className={styles.container}>

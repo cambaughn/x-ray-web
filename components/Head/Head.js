@@ -4,7 +4,7 @@ import { string } from 'prop-types';
 const defaultDescription = '';
 const defaultKeywords = '';
 const defaultOGURL = '';
-const defaultOGImage = '';
+const defaultOGImage = '/static/wordmark.png';
 
 const Head = (props) => (
   <NextHead>

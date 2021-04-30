@@ -2,7 +2,7 @@
 
 .container {
   width: 100vw;
-  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -10,6 +10,7 @@
   justify-content: flex-start;
 
   padding-top: 5vh;
+  padding-bottom: 5vh;
 }
 
 .textBlock {
@@ -88,4 +89,34 @@
 .priceText {
   color: grey;
   font-size: 0.8em;
+}
+
+.socialBlock {
+  margin-top: 30px;
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.socialText {
+
+}
+
+.socialLinks {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialLink {
+
+}
+
+.socialIcon {
+  width: 60px;
+  height: 60px;
 }

@@ -38,6 +38,17 @@ export default function Home({}) {
           <p className={`${styles.bodyText} ${styles.featuresText}`}>Dig into the specifics with details on grading, volume, and changes over time.</p>
         </div>
       </div>
+
+      <div className={styles.socialBlock}>
+        <h3 className={styles.socialText}>Join the conversation</h3>
+
+        <div className={styles.socialLinks}>
+          <a href={'https://discord.gg/Dfqemg8fAV'} target={'_blank'} className={styles.socialLink}>
+            <img src={'/images/discord-logo-black.png'} alt={'discord icon'} className={styles.socialIcon} />
+          </a>
+        </div>
+
+      </div>
     </div>
   )
 }

@@ -12,6 +12,7 @@
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 5px;
+  box-sizing: border-box;
 
   cursor: pointer;
 }
@@ -46,4 +47,27 @@
   color: white;
   font-size: 0.9em;
   font-weight: bold;
+}
+
+
+// Add to collection button - appears on Card details screen
+
+.addButton {
+  padding: 5px;
+  width: 100%;
+  border-radius: 15px 5px 15px 5px;
+  background-color: white;
+  border: 2px solid black;
+
+  transition: 0.3s;
+  color: black;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+.plusIcon {
+
 }

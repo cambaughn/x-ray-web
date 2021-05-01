@@ -9,6 +9,7 @@ import Tag from '../Tag/Tag';
 import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
 import LoadingSpinner from '../Icons/LoadingSpinner';
+import AddToCollectionButton from '../Buttons/AddToCollectionButton';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -30,7 +31,7 @@ export default function CardDetails({ card_id }) {
     if (card.id && !updatedViewCount) {
       let view_count = card.view_count || 0;
       view_count++;
-      
+
       await pokeCard.update(card.id, { view_count });
       setUpdatedViewCount(true);
     }
@@ -109,17 +110,24 @@ export default function CardDetails({ card_id }) {
 
         <h3 className={styles.cardName}>{card.name}</h3>
 
+        <div className={styles.addButtonWrapper}>
+          <AddToCollectionButton />
+        </div>
+
         { card.name &&
-          <div className={styles.cardData}>
-            <span className={styles.label}>Set</span>
-            <span className={styles.detail}>{card.set_name}</span>
+          <>
+            <div className={styles.cardData}>
+              <span className={styles.label}>Set</span>
+              <span className={styles.detail}>{card.set_name}</span>
 
-            <span className={styles.label}>Number</span>
-            <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
+              <span className={styles.label}>Number</span>
+              <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
 
-            <span className={styles.label}>Rarity</span>
-            <span className={styles.detail}>{card.rarity}</span>
-          </div>
+              <span className={styles.label}>Rarity</span>
+              <span className={styles.detail}>{card.rarity}</span>
+            </div>
+
+          </>
         }
 
         { !!updatingSales &&

@@ -32,7 +32,7 @@ const Head = (props) => (
 
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="twitter:image" content={'https://www.x-ray.fun/images/ogimage.png' || props.ogImage || defaultOGImage} />
+    <meta property="twitter:image" content={'https://www.x-ray.fun/images/ogimage.png' || props.ogImage || defaultOGImage} />
     <meta property="og:image" content={'https://www.x-ray.fun/images/ogimage.png' || props.ogImage || defaultOGImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

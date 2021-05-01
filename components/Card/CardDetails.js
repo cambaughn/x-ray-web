@@ -10,6 +10,7 @@ import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
 import LoadingSpinner from '../Icons/LoadingSpinner';
 import AddToCollectionButton from '../Buttons/AddToCollectionButton';
+import AddCardModal from '../AddCardModal/AddCardModal';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -24,6 +25,7 @@ export default function CardDetails({ card_id }) {
   const [set, setSet] = useState({});
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
+  const [addCardModalVisible, setAddCardModalVisible] = useState(false);
   const user = useSelector(state => state.user);
 
 
@@ -94,6 +96,10 @@ export default function CardDetails({ card_id }) {
     });
   }
 
+  const toggleCardAddition = () => {
+    setAddCardModalVisible(!addCardModalVisible)
+  }
+
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
   useEffect(updateCardSales, [card]);
@@ -111,7 +117,7 @@ export default function CardDetails({ card_id }) {
         <h3 className={styles.cardName}>{card.name}</h3>
 
         <div className={styles.addButtonWrapper}>
-          <AddToCollectionButton />
+          <AddToCollectionButton handleClick={toggleCardAddition} />
         </div>
 
         { card.name &&
@@ -147,6 +153,10 @@ export default function CardDetails({ card_id }) {
       <div className={styles.rightSection}>
         <PriceDetails sales={sales} card={card} />
       </div>
+
+      { addCardModalVisible &&
+        <AddCardModal card={card} toggleModal={toggleCardAddition} />
+      }
     </div>
   )
 }

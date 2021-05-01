@@ -1,7 +1,7 @@
 import NextHead from 'next/head';
 import { string } from 'prop-types';
 
-const defaultDescription = 'Essential tools for Pokémon TCG collectors';
+const defaultDescription = 'Essential tools for Pokémon TCG collectors. Maximize the value of your collection.';
 const defaultKeywords = '';
 const defaultOGTitle = 'X-ray: Power up your collection';
 const defaultOGURL = '';
@@ -10,7 +10,7 @@ const defaultOGImage = '';
 const Head = (props) => (
   <NextHead>
     <meta charSet="UTF-8" />
-    <title>{props.title || ''}</title>
+    <title>{props.title || defaultOGTitle}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <meta name="description" content={props.description || defaultDescription} />
     <meta name="keywords" content={props.keywords || defaultKeywords} />
@@ -31,7 +31,7 @@ const Head = (props) => (
     <meta name="twitter:site" content={props.url || defaultOGURL} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    
+
     <meta name="twitter:image" content={'/images/ogimage.png' || props.ogImage || defaultOGImage} />
     <meta property="og:image" content={'/images/ogimage.png' || props.ogImage || defaultOGImage} />
     <meta property="og:image:width" content="1200" />

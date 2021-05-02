@@ -13,32 +13,39 @@ export default function AddCardModal({ toggleModal, card }) {
   const [gradingAuthority, setGradingAuthority] = useState('');
   const [grade, setGrade] = useState(10);
   const [showHalfGrades, setShowHalfGrades] = useState(false);
+  const [possibleGrades, setPossibleGrades] = useState([]);
 
   const graders = ['PSA', 'BGS', 'CGC', 'Other'];
 
   const getGrades = () => {
-    let possibleGrades = [];
+    let grades = [];
+    let startingNum = 10;
 
-    // if (gradingAuthority === 'CGC' || gradingAuthority === 'BGS') {
-    //   for (let i = 1; i <= 10; i += 0.5) {
-    //     possibleGrades.push(i);
-    //   }
-    // } else if (gradingAuthority === 'PSA' || gradingAuthority === 'Other') {
-    //   for (let i = 1; i <= 10; i++) {
-    //     possibleGrades.push(i);
-    //   }
-    // }
-
-    for (let i = showHalfGrades ? 9.5 : 10; i >= 1; i--) {
-      possibleGrades.push(i);
+    if (gradingAuthority === 'CGC' || gradingAuthority === 'BGS') {
+      startingNum = showHalfGrades ? 9.5 : 10;
+      let selectedGrade = Number.isInteger(grade) ? grade + 0.5 : grade;
+      selectedGrade = selectedGrade > 10 ? 9.5 : selectedGrade;
+      setGrade(selectedGrade);
+    } else if (gradingAuthority === 'PSA' || gradingAuthority === 'Other') {
+      setGrade(Math.ceil(grade));
     }
 
-    return possibleGrades;
+    for (let i = startingNum; i >= 1; i--) {
+      grades.push(i);
+    }
+
+    setPossibleGrades(grades)
+  }
+
+  const handleSave = async () => {
+
   }
 
   const stopClick = (event) => {
     event.stopPropagation();
   }
+
+  useEffect(getGrades, [gradingAuthority, showHalfGrades]);
 
   return (
     <div className={styles.container} onClick={toggleModal}>
@@ -73,7 +80,7 @@ export default function AddCardModal({ toggleModal, card }) {
         { gradingAuthority.length > 0 && graded &&
           <div className={classNames({ [styles.gradeSelection]: true, [styles.gradeSelectionVisible]: gradingAuthority.length > 0 })}>
             <div className={styles.grades}>
-              { getGrades().map(possibleGrade => {
+              { possibleGrades.map(possibleGrade => {
                 return (
                   <div className={classNames({ [styles.button]: true, [styles.gradeButton]: true, [styles.selectedButton]: possibleGrade === grade })} onClick={() => setGrade(possibleGrade)} key={possibleGrade}>
                     <span>{possibleGrade}</span>
@@ -88,6 +95,10 @@ export default function AddCardModal({ toggleModal, card }) {
             }
           </div>
         }
+
+        <div className={classNames(styles.button, styles.saveButton)} onClick={handleSave}>
+          <span>Add to collection</span>
+        </div>
 
       </div>
     </div>

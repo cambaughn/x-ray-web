@@ -21,16 +21,20 @@ export default function AddCardModal({ toggleModal, card }) {
         <h2 className={styles.title}>{card.name}</h2>
 
         <div className={styles.gradedButtons}>
-          <div className={classNames({ [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
-            <span>Graded</span>
-          </div>
-
           <div className={classNames({ [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
             <span>Ungraded</span>
           </div>
 
-
+          <div className={classNames({ [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
+            <span>Graded</span>
+          </div>
         </div>
+
+        { graded &&
+          <div className={styles.gradingDetails}>
+            
+          </div>
+        }
       </div>
     </div>
   );

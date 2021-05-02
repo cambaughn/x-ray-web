@@ -10,6 +10,9 @@ import classNames from 'classnames';
 
 export default function AddCardModal({ toggleModal, card }) {
   const [graded, setGraded] = useState(false);
+  const [gradingAuthority, setGradingAuthority] = useState('');
+
+  const graders = ['PSA', 'BGS', 'CGC', 'Other'];
 
   const stopClick = (event) => {
     event.stopPropagation();
@@ -21,20 +24,31 @@ export default function AddCardModal({ toggleModal, card }) {
         <h2 className={styles.title}>{card.name}</h2>
 
         <div className={styles.gradedButtons}>
-          <div className={classNames({ [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
+          <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
             <span>Ungraded</span>
           </div>
 
-          <div className={classNames({ [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
+          <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
             <span>Graded</span>
           </div>
         </div>
 
-        { graded &&
-          <div className={styles.gradingDetails}>
-            
+
+        <div className={classNames({ [styles.gradingAuthority]: true, [styles.gradingAuthorityVisible]: graded })}>
+
+          <h4>Grading</h4>
+          <div className={styles.gradingAuthorityButtons}>
+            { graders.map((grader) => {
+              return (
+                <div className={classNames({ [styles.button]: true, [styles.gradingAuthorityButton]: true, [styles.selectedButton]: gradingAuthority === grader })} onClick={() => setGradingAuthority(grader)}>
+                  <span>{grader}</span>
+                </div>
+              )
+            })}
+
           </div>
-        }
+
+        </div>
       </div>
     </div>
   );

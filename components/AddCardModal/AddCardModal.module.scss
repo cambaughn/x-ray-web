@@ -1,3 +1,5 @@
+@import '../../util/design/mixins.module.scss';
+
 .container {
   position: fixed;
   top: 0;
@@ -16,6 +18,57 @@
 
 .card {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 400px;
+  height: 85vh;
+  padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+
+
+  @include media(mobile) {
+    width: 85vw;
+    height: 85vh;
+  }
+}
+
+.title {
+  margin-bottom: 30px;
+}
+
+.gradedButtons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.gradedButton {
+  background-color: #ecf0f1;
+  width: 35%;
+  height: 35px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.selectedButton {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: bold;
 }

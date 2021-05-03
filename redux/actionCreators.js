@@ -9,6 +9,12 @@ function setUser(user) {
     user
   }
 }
+function setCollectedItems(collectedItems) {
+  return {
+    type: 'SET_COLLECTED_ITEMS',
+    collectedItems
+  }
+}
 
 function setCard(card) {
   return {
@@ -41,6 +47,7 @@ function setOnFreeTrial(onFreeTrial) {
 
 export {
   setUser,
+  setCollectedItems,
   setCard,
   setSales,
   setSubscriptionStatus,

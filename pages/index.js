@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import Search from '../components/Search/Search';
+import UserCollection from '../components/UserCollection/UserCollection';
 import Home from '../components/Home/Home';
 
 export default function Index({}) {
@@ -9,7 +10,7 @@ export default function Index({}) {
   return (
     <>
       { !!user.email && !!user.username
-        ? <Search />
+        ? <UserCollection />
         : <Home />
       }
     </>

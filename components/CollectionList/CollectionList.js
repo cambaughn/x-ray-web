@@ -9,12 +9,15 @@ import classNames from 'classnames';
 // Utility functions
 
 export default function CollectionList({}) {
+  const collectionDetails = useSelector(state => state.collectionDetails);
   const collectedItems = useSelector(state => state.collectedItems);
 
   return (
     <div className={styles.container}>
-      { collectedItems.map(item => {
-        return (
+      { collectionDetails.map(detail => {
+        let item = collectedItems[detail.item_id];
+
+        return item ? (
           <Link href={`/card/${item.id}`} key={item.id}>
             <div className={styles.resultWrapper}>
               <img src={item.images.small} className={styles.thumbnail} />
@@ -28,7 +31,7 @@ export default function CollectionList({}) {
               </div>
             </div>
           </Link>
-        )
+        ) : null
       })}
     </div>
   )

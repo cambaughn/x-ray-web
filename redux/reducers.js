@@ -10,7 +10,16 @@ const user = (state = {}, action) => {
   }
 }
 
-const collectedItems = (state = [], action) => {
+const collectionDetails = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_COLLECTION_DETAILS':
+      return action.collectionDetails;
+    default:
+      return state;
+  }
+}
+
+const collectedItems = (state = {}, action) => {
   switch (action.type) {
     case 'SET_COLLECTED_ITEMS':
       return action.collectedItems;
@@ -60,6 +69,7 @@ const onFreeTrial = (state = false, action) => {
 const xRayApp = combineReducers({
   user,
   collectedItems,
+  collectionDetails,
   card,
   sales,
   subscriptionStatus,

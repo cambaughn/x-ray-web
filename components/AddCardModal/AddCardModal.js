@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 // Utility functions
 import { getNowAsStringWithTime } from '../../util/helpers/date';
+import collectedItem from '../../util/api/collection';
 
 
 export default function AddCardModal({ toggleModal, card }) {
@@ -56,12 +57,14 @@ export default function AddCardModal({ toggleModal, card }) {
         finish: null,
         version: null,
         grading_authority: graded ? gradingAuthority : null,
-        grade: graded ? grade : null
+        grade: graded ? grade : null,
+        type: 'pokemon'
       }
 
-      console.log('item => ', item);
 
-      // toggleModal();
+      await collectedItem.create(item);
+
+      toggleModal();
     } catch(error) {
       console.error(error);
     }

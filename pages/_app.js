@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import Stripe from 'stripe';
 import store from '../redux/store';
 import Head from '../components/Head/Head';
+import InitState from '../components/InitState/InitState';
 import MainLayout from '../components/Layouts/MainLayout/MainLayout';
 import AuthCheck from '../components/Auth/AuthCheck';
 import './styles.css';
@@ -26,6 +27,7 @@ export default function Xray({ Component, pageProps }) {
       <Head title="X-ray" />
 
       <MainLayout>
+        <InitState />
         <AuthCheck>
             <Component {...pageProps} />
         </AuthCheck>

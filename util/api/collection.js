@@ -22,4 +22,16 @@ collectedItem.update = async (id, updates) => {
   }
 }
 
+
+collectedItem.getForUser = async (user_id) => {
+  try {
+    let items = await db.collection('collected_items').where('user_id', '==', user_id).get()
+    items = convertSnapshot(items);
+    return Promise.resolve(items);
+  } catch(error) {
+    console.error(error);
+    return Promise.resolve([]);
+  }
+}
+
 export default collectedItem;

@@ -17,7 +17,7 @@ export default function AddCardModal({ toggleModal, card }) {
   const [submitted, setSubmitted] = useState(false);
   const user = useSelector(state => state.user);
 
-  const graders = ['PSA', 'BGS', 'CGC', 'GMA'];
+  const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
 
   const getGrades = () => {
     let grades = [];
@@ -60,7 +60,6 @@ export default function AddCardModal({ toggleModal, card }) {
         grade: graded ? grade : null,
         type: 'pokemon'
       }
-
 
       await collectedItem.create(item);
 

@@ -14,20 +14,29 @@ export default function AddCardModal({ toggleModal, card }) {
   const [grade, setGrade] = useState(10);
   const [showHalfGrades, setShowHalfGrades] = useState(false);
   const [possibleGrades, setPossibleGrades] = useState([]);
+  const [otherGrader, setOtherGrader] = useState('');
 
-  const graders = ['PSA', 'BGS', 'CGC', 'Other'];
+  const graders = ['PSA', 'BGS', 'CGC', 'GMA'];
 
   const getGrades = () => {
     let grades = [];
     let startingNum = 10;
 
-    if (gradingAuthority === 'CGC' || gradingAuthority === 'BGS') {
-      startingNum = showHalfGrades ? 9.5 : 10;
-      let selectedGrade = Number.isInteger(grade) ? grade + 0.5 : grade;
-      selectedGrade = selectedGrade > 10 ? 9.5 : selectedGrade;
-      setGrade(selectedGrade);
-    } else if (gradingAuthority === 'PSA' || gradingAuthority === 'Other') {
+    if (gradingAuthority === 'PSA') {
       setGrade(Math.ceil(grade));
+    } else {
+      startingNum = showHalfGrades ? 9.5 : 10;
+      let selectedGrade = grade;
+
+      if (showHalfGrades && Number.isInteger(grade)) {
+        selectedGrade = grade - 0.5;
+        selectedGrade = selectedGrade < 1 ? 1 : selectedGrade;
+      } else if (!showHalfGrades && !Number.isInteger(grade)) {
+        selectedGrade = grade + 0.5;
+        selectedGrade = selectedGrade > 10 ? 10 : selectedGrade;
+      }
+
+      setGrade(selectedGrade);
     }
 
     for (let i = startingNum; i >= 1; i--) {
@@ -75,6 +84,16 @@ export default function AddCardModal({ toggleModal, card }) {
               )
             })}
           </div>
+
+          {/* { gradingAuthority === 'Other' &&
+            <input
+              type='text'
+              value={otherGrader}
+              className={styles.otherGraderInput}
+              onChange={event => setOtherGrader(event.target.value)}
+              placeholder='Grader...'
+            />
+          } */}
         </div>
 
         { gradingAuthority.length > 0 && graded &&
@@ -88,7 +107,7 @@ export default function AddCardModal({ toggleModal, card }) {
                 )
               })}
             </div>
-            { (gradingAuthority === 'CGC' || gradingAuthority === 'BGS') &&
+            { gradingAuthority !== 'PSA' &&
               <div className={classNames({ [styles.button]: true, [styles.halfGradeButton]: true, [styles.selectedButton]: showHalfGrades })} onClick={() => setShowHalfGrades(!showHalfGrades)}>
                 <span>Show .5 grades</span>
               </div>

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddCardModal.module.scss';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 
-/**
-  This is a full screen modal that wraps around another component, providing a standard interface.
-  It's a floating card with on a semi-transparent background that hovers over the rest of the page.
-  @param {function} toggleModal - Gives the ability to toggle on/off
-*/
+// Utility functions
+import { getNowAsStringWithTime } from '../../util/helpers/date';
+
 
 export default function AddCardModal({ toggleModal, card }) {
   const [graded, setGraded] = useState(false);
-  const [gradingAuthority, setGradingAuthority] = useState('');
+  const [gradingAuthority, setGradingAuthority] = useState('PSA');
   const [grade, setGrade] = useState(10);
   const [showHalfGrades, setShowHalfGrades] = useState(false);
   const [possibleGrades, setPossibleGrades] = useState([]);
-  const [otherGrader, setOtherGrader] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const user = useSelector(state => state.user);
 
   const graders = ['PSA', 'BGS', 'CGC', 'GMA'];
 
@@ -47,7 +47,24 @@ export default function AddCardModal({ toggleModal, card }) {
   }
 
   const handleSave = async () => {
+    try {
+      let item = {
+        user_id: user.id,
+        item_id: card.id,
+        collection_id: 'pokemon_cards',
+        date_added: getNowAsStringWithTime(),
+        finish: null,
+        version: null,
+        grading_authority: graded ? gradingAuthority : null,
+        grade: graded ? grade : null
+      }
 
+      console.log('item => ', item);
+
+      // toggleModal();
+    } catch(error) {
+      console.error(error);
+    }
   }
 
   const stopClick = (event) => {

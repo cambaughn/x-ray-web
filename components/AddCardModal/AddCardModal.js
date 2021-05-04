@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddCardModal.module.scss';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Utility functions
+import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';
 import { getNowAsStringWithTime } from '../../util/helpers/date';
 import collectedItem from '../../util/api/collection';
-
+import pokeCard from '../../util/api/card';
 
 export default function AddCardModal({ toggleModal, card }) {
   const [graded, setGraded] = useState(false);
@@ -16,6 +17,7 @@ export default function AddCardModal({ toggleModal, card }) {
   const [possibleGrades, setPossibleGrades] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
 
@@ -47,8 +49,23 @@ export default function AddCardModal({ toggleModal, card }) {
     setPossibleGrades(grades)
   }
 
+  const getCollectedItems = async () => {
+    let item_details = await collectedItem.getForUser(user.id);
+    dispatch(setCollectionDetails(item_details));
+
+    let itemsToGet = item_details.map(detail => detail.item_id);
+    let items = await pokeCard.getMultiple(itemsToGet);
+    let itemLookup = {};
+    items.forEach(item => {
+      itemLookup[item.id] = item;
+    })
+    dispatch(setCollectedItems(itemLookup));
+    Promise.resolve(true);
+  }
+
   const handleSave = async () => {
     try {
+      setSubmitted(true);
       let item = {
         user_id: user.id,
         item_id: card.id,
@@ -62,6 +79,8 @@ export default function AddCardModal({ toggleModal, card }) {
       }
 
       await collectedItem.create(item);
+
+      await getCollectedItems();
 
       toggleModal();
     } catch(error) {
@@ -134,7 +153,7 @@ export default function AddCardModal({ toggleModal, card }) {
           </div>
         }
 
-        <div className={classNames(styles.button, styles.saveButton)} onClick={handleSave}>
+        <div className={classNames(styles.button, styles.saveButton)} onClick={!submitted ? handleSave : null}>
           <span>Add to collection</span>
         </div>
 

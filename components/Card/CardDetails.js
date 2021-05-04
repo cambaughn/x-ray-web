@@ -27,6 +27,7 @@ export default function CardDetails({ card_id }) {
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
   const [addCardModalVisible, setAddCardModalVisible] = useState(false);
   const user = useSelector(state => state.user);
+  const collectionDetails = useSelector(state => state.collectionDetails);
 
 
   const updateViewCount = async () => {
@@ -117,7 +118,7 @@ export default function CardDetails({ card_id }) {
         <h3 className={styles.cardName}>{card.name}</h3>
 
         <div className={styles.addButtonWrapper}>
-          <AddToCollectionButton handleClick={toggleCardAddition} />
+          <AddToCollectionButton handleClick={toggleCardAddition} showHelpText={collectionDetails.length <= 1} />
         </div>
 
         { card.name &&

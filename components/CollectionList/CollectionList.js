@@ -14,11 +14,11 @@ export default function CollectionList({}) {
 
   return (
     <div className={styles.container}>
-      { collectionDetails.map(detail => {
+      { collectionDetails.map((detail, index) => {
         let item = collectedItems[detail.item_id];
 
         return item ? (
-          <Link href={`/card/${item.id}`} key={item.id}>
+          <Link href={`/card/${item.id}`} key={`${item.id}-${index}`}>
             <div className={styles.resultWrapper}>
               <img src={item.images.small} className={styles.thumbnail} />
               <div className={styles.details}>

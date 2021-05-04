@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
+import { sortCollectionByDate } from '../../util/helpers/sorting';
 
 export default function InitState({}) {
   const user = useSelector(state => state.user);
@@ -17,6 +18,7 @@ export default function InitState({}) {
   const getCollectedItems = async () => {
     if (user.id && collectionDetails.length === 0) {
       let item_details = await collectedItem.getForUser(user.id);
+      item_details = sortCollectionByDate(item_details);
       dispatch(setCollectionDetails(item_details));
 
       let itemsToGet = item_details.map(detail => detail.item_id);

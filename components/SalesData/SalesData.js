@@ -7,7 +7,7 @@ import Tag from '../Tag/Tag';
 // Utility functions
 import sale from '../../util/api/sales';
 import pokeCard from '../../util/api/card';
-import { sortSalesByPrice } from '../../util/sorting';
+import { sortSalesByPrice } from '../../util/helpers/sorting';
 
 
 export default function SalesData({}) {

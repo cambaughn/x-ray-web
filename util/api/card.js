@@ -54,23 +54,22 @@ pokeCard.getMultiple = async (ids) => {
 
 const updateAllCards = async () => {
   let cards = await pokeCard.get();
-  let special = [];
 
   let updates = cards.map((card, i) => {
-    let variants = [];
-    if (isSpecialCard(card.name) || card.name.toLowerCase().slice(card.name.length - 2) === ' v') {
-      variants.push('holo');
-      special.push(card.name)
-    }
+    // let finishes = [];
+    // if (isSpecialCard(card.name) || card.name.toLowerCase().slice(card.name.length - 2) === ' v') {
+    //   finishes.push('holo');
+    // }
 
-    return pokeCard.update(card.id, { variants })
+    return pokeCard.update(card.id, { variants: [] })
   });
 
-  console.log('updating :', updates.length, special);
+  console.log('updating :', updates.length);
   await Promise.all(updates)
   console.log('updated all cards');
 }
 
+// updateAllCards()
 
 
 export default pokeCard;

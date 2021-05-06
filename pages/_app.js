@@ -24,7 +24,7 @@ export default function Xray({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Head title="X-ray" />
+      <Head />
 
       <MainLayout>
         <InitState />

@@ -14,6 +14,7 @@ export default function SearchBar({ searchTerm, changeSearchTerm }) {
         className={styles.searchBar}
         onChange={event => changeSearchTerm(event.target.value)}
         placeholder='Card/set name...'
+        spellCheck={false}
       />
     </div>
   )

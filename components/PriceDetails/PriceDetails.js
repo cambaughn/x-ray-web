@@ -54,8 +54,8 @@ export default function PriceDetails({ card, sales }) {
   // Note that variants are NOT rarity. They simply relate to the finish of the card.
   const determineVariant = (title) => {
     // If the card has explicitly set variants, override whatever the title says
-    if (card.variants && card.variants.length > 0) {
-      return card.variants[0];
+    if (card.finishes && card.finishes.length > 0) {
+      return card.finishes[0];
     } else { // otherwise, determine based on the title like normal
       let variant = 'non-holo';
       title = title.toLowerCase();
@@ -73,9 +73,9 @@ export default function PriceDetails({ card, sales }) {
   const setAvailableVariants = () => {
     if (variants.length === 0) {
 
-      if (card.variants && card.variants.length > 0) {
-        setVariants(card.variants);
-        setSelectedVariant(card.variants[0]);
+      if (card.finishes && card.finishes.length > 0) {
+        setVariants(card.finishes);
+        setSelectedVariant(card.finishes[0]);
       } else {
         let availableVariants = Object.keys(salesByType).sort((a, b) => {
           if (salesByType[a].ungraded && salesByType[b].ungraded) {

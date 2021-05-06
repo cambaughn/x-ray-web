@@ -17,9 +17,15 @@ export default function CollectionChart({}) {
   const getSales = async () => {
     let item_ids = collectionDetails.map(item => item.item_id);
     let allSales = await sale.getForMultiple(item_ids);
-    console.log('collected items ', allSales);
+    let salesLookup = {};
+    allSales.forEach(sale => {
+      salesLookup[sale.card_id] = salesLookup[sale.card_id] || [];
+      salesLookup[sale.card_id].push(sale);
+    })
 
-    // setSales(allSales)
+    console.log('collected items ', salesLookup);
+
+    setSales(salesLookup)
   }
 
   useEffect(getSales, [collectionDetails]);

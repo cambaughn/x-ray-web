@@ -51,5 +51,10 @@ pokeSet.update = async (id, updates) => {
   }
 }
 
+const checkSets = async () => {
+  let sets = await pokeSet.get();
+  console.log('sets =>', sets );
+}
+
 
 export default pokeSet;

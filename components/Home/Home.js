@@ -46,6 +46,10 @@ export default function Home({}) {
           <a href={'https://discord.gg/Dfqemg8fAV'} target={'_blank'} className={styles.socialLink}>
             <img src={'/images/discord-logo-black.png'} alt={'discord icon'} className={styles.socialIcon} />
           </a>
+
+          <a href={'https://twitter.com/xraydotfun'} target={'_blank'} className={styles.socialLink}>
+            <img src={'/images/twitter-logo-black.png'} alt={'twitter icon'} className={classNames(styles.socialIcon, styles.twitterIcon)} />
+          </a>
         </div>
 
       </div>

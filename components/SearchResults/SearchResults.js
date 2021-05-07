@@ -10,7 +10,7 @@ import { X } from 'react-feather';
 
 import { sortSearchResults } from '../../util/helpers/array';
 
-export default function SearchResults({ results, clearSearch, setSearching }) {
+export default function SearchResults({ results, clearSearch, setSearching, updateUrl }) {
   const [sortedResults, setSortedResults] = useState([]);
 
   const sortResults = () => {
@@ -18,11 +18,16 @@ export default function SearchResults({ results, clearSearch, setSearching }) {
     setSortedResults(sorted);
   }
 
+  const handlePreNavigation = () => {
+    updateUrl();
+    setSearching(false);
+  }
+
   useEffect(sortResults, [results])
 
   return (
     <div className={styles.container}>
-      <div className={styles.closeButton} onClick={() => setSearching(false)}>
+      <div className={styles.closeButton} onClick={handlePreNavigation}>
         <X className={styles.closeIcon} />
       </div>
       <div className={styles.searchResults}>

@@ -19,11 +19,12 @@ import analytics from '../../util/analytics/segment';
 export default function NavBar({}) {
   const user = useSelector(state => state.user);
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
+  const router = useRouter();
 
+  let queryParam = router.query.search;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
-  const router = useRouter();
 
   const liveSearch = async () => {
     try {
@@ -38,7 +39,6 @@ export default function NavBar({}) {
     }
   }
 
-  useEffect(liveSearch, [searchTerm]);
 
   const clearSearch = () => {
     setSearchTerm('');
@@ -55,6 +55,24 @@ export default function NavBar({}) {
 
     setSearchTerm(term);
   }
+
+  const loadQuery = () => {
+    if (queryParam) {
+      setSearchTerm(queryParam);
+      setSearching(true);
+    }
+  }
+
+  const updateUrl = () => {
+    let fullUrl = window.location.href;
+    let urlPieces = fullUrl.split('?search=');
+    let updatedUrl = `${urlPieces[0]}?search=${searchTerm}`
+    console.log('updating url ', fullUrl, urlPieces, updatedUrl);
+    router.push(updatedUrl)
+  }
+
+  useEffect(liveSearch, [searchTerm]);
+  useEffect(loadQuery, [queryParam]);
 
   return (
     <div className={styles.container}>
@@ -86,7 +104,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} clearSearch={clearSearch} setSearching={setSearching} />
+        <SearchResults results={results} clearSearch={clearSearch} setSearching={setSearching} updateUrl={updateUrl} />
       }
     </div>
   )

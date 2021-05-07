@@ -5,7 +5,7 @@ import styles from './SearchBar.module.scss';
 
 // Utility functions
 
-export default function SearchBar({ searchTerm, changeSearchTerm }) {
+export default function SearchBar({ searchTerm, changeSearchTerm, setSearching }) {
   return (
     <div className={styles.container}>
       <input
@@ -15,6 +15,7 @@ export default function SearchBar({ searchTerm, changeSearchTerm }) {
         onChange={event => changeSearchTerm(event.target.value)}
         placeholder='Card/set name...'
         spellCheck={false}
+        onFocus={() => setSearching(true)}
       />
     </div>
   )

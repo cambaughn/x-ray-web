@@ -22,6 +22,7 @@ export default function NavBar({}) {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
+  const [searching, setSearching] = useState(false);
   const router = useRouter();
 
   const liveSearch = async () => {
@@ -64,7 +65,7 @@ export default function NavBar({}) {
       </div>
 
       { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
+        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} />
       }
       {/* { subscriptionStatus === 'active' &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
@@ -84,8 +85,8 @@ export default function NavBar({}) {
         }
       </div>
 
-      { searchTerm.length > 0 &&
-        <SearchResults results={results} clearSearch={clearSearch} />
+      { searching &&
+        <SearchResults results={results} clearSearch={clearSearch} setSearching={setSearching} />
       }
     </div>
   )

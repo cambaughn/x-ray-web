@@ -25,6 +25,7 @@ export default function NavBar({}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [addedUrl, setAddedUrl] = useState(false);
 
   const liveSearch = async () => {
     try {
@@ -44,6 +45,23 @@ export default function NavBar({}) {
     setSearchTerm('');
   }
 
+  const updateUrlState = () => {
+    if (searching) {
+      setAddedUrl(false);
+    }
+  }
+
+  const updateUrl = (term) => {
+    let updatedUrl = `${window.location.origin}/search/${term}`;
+    console.log('updating url ', updatedUrl);
+    if (!addedUrl) {
+      router.push(updatedUrl);
+      setAddedUrl(true);
+    } else {
+      router.replace(updatedUrl, null, { shallow: true });
+    }
+  }
+
   const changeSearchTerm = (term) => {
     // Treat zero to one term as a new search
     if (searchTerm.length === 0 && term.length === 1) {
@@ -53,6 +71,7 @@ export default function NavBar({}) {
       });
     }
 
+    updateUrl(term);
     setSearchTerm(term);
   }
 
@@ -60,17 +79,14 @@ export default function NavBar({}) {
     if (queryParam) {
       setSearchTerm(queryParam);
       setSearching(true);
+    } else {
+      setSearching(false);
     }
   }
 
-  const updateUrl = () => {
-    let updatedUrl = `${window.location.origin}/search/${searchTerm}`
-    console.log('updating url ', updatedUrl);
-    router.push(updatedUrl)
-  }
-
   useEffect(liveSearch, [searchTerm]);
-  useEffect(loadQuery, [queryParam]);
+  useEffect(loadQuery, [router]);
+  useEffect(updateUrlState, [searching]);
 
   return (
     <div className={styles.container}>
@@ -102,7 +118,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} clearSearch={clearSearch} setSearching={setSearching} updateUrl={updateUrl} showExitButton={!queryParam} />
+        <SearchResults results={results} setSearching={setSearching} showExitButton={!queryParam} />
       }
     </div>
   )

@@ -10,7 +10,7 @@ import { X } from 'react-feather';
 
 import { sortSearchResults } from '../../util/helpers/array';
 
-export default function SearchResults({ results, clearSearch, setSearching, updateUrl, showExitButton }) {
+export default function SearchResults({ results, setSearching, showExitButton }) {
   const [sortedResults, setSortedResults] = useState([]);
 
   const sortResults = () => {
@@ -18,17 +18,12 @@ export default function SearchResults({ results, clearSearch, setSearching, upda
     setSortedResults(sorted);
   }
 
-  const handlePreNavigation = () => {
-    updateUrl();
-    setSearching(false);
-  }
-
   useEffect(sortResults, [results])
 
   return (
     <div className={styles.container}>
       { showExitButton &&
-        <div className={styles.closeButton} onClick={handlePreNavigation}>
+        <div className={styles.closeButton} onClick={() => setSearching(false)}>
           <X className={styles.closeIcon} />
         </div>
       }
@@ -36,7 +31,7 @@ export default function SearchResults({ results, clearSearch, setSearching, upda
         { sortedResults.map(result => {
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
-              <div className={styles.resultWrapper} onClick={() => setSearching(false)} key={result.id}>
+              <div className={styles.resultWrapper} onClick={() => setSearching(false)}>
                 <img src={result.images.small} className={styles.thumbnail} />
                 <div className={styles.details}>
                   <div className={styles.leftSide}>

@@ -23,9 +23,7 @@ export default function CollectionChart({}) {
       salesLookup[sale.card_id].push(sale);
     })
 
-    console.log('collected items ', salesLookup);
-
-    setSales(salesLookup)
+    setSales(salesLookup);
   }
 
   useEffect(getSales, [collectionDetails]);

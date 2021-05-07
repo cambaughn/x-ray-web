@@ -10,7 +10,7 @@ import { X } from 'react-feather';
 
 import { sortSearchResults } from '../../util/helpers/array';
 
-export default function SearchResults({ results, clearSearch, setSearching, updateUrl }) {
+export default function SearchResults({ results, clearSearch, setSearching, updateUrl, showExitButton }) {
   const [sortedResults, setSortedResults] = useState([]);
 
   const sortResults = () => {
@@ -27,14 +27,16 @@ export default function SearchResults({ results, clearSearch, setSearching, upda
 
   return (
     <div className={styles.container}>
-      <div className={styles.closeButton} onClick={handlePreNavigation}>
-        <X className={styles.closeIcon} />
-      </div>
+      { showExitButton &&
+        <div className={styles.closeButton} onClick={handlePreNavigation}>
+          <X className={styles.closeIcon} />
+        </div>
+      }
       <div className={styles.searchResults}>
         { sortedResults.map(result => {
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
-              <div className={styles.resultWrapper} onClick={() => setSearching(false)}>
+              <div className={styles.resultWrapper} onClick={() => setSearching(false)} key={result.id}>
                 <img src={result.images.small} className={styles.thumbnail} />
                 <div className={styles.details}>
                   <div className={styles.leftSide}>

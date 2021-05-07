@@ -21,7 +21,7 @@ export default function NavBar({}) {
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
   const router = useRouter();
 
-  let queryParam = router.query.search;
+  let queryParam = router.query.search_query;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
@@ -64,10 +64,8 @@ export default function NavBar({}) {
   }
 
   const updateUrl = () => {
-    let fullUrl = window.location.href;
-    let urlPieces = fullUrl.split('?search=');
-    let updatedUrl = `${urlPieces[0]}?search=${searchTerm}`
-    console.log('updating url ', fullUrl, urlPieces, updatedUrl);
+    let updatedUrl = `${window.location.origin}/search/${searchTerm}`
+    console.log('updating url ', updatedUrl);
     router.push(updatedUrl)
   }
 
@@ -104,7 +102,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} clearSearch={clearSearch} setSearching={setSearching} updateUrl={updateUrl} />
+        <SearchResults results={results} clearSearch={clearSearch} setSearching={setSearching} updateUrl={updateUrl} showExitButton={!queryParam} />
       }
     </div>
   )

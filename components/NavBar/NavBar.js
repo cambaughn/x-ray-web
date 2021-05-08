@@ -19,10 +19,13 @@ import analytics from '../../util/analytics/segment';
 export default function NavBar({}) {
   const user = useSelector(state => state.user);
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
+  const router = useRouter();
 
+  let queryParam = router.query.search_query;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
-  const router = useRouter();
+  const [searching, setSearching] = useState(false);
+  const [addedUrl, setAddedUrl] = useState(false);
 
   const liveSearch = async () => {
     try {
@@ -37,10 +40,26 @@ export default function NavBar({}) {
     }
   }
 
-  useEffect(liveSearch, [searchTerm]);
 
   const clearSearch = () => {
     setSearchTerm('');
+  }
+
+  const updateUrlState = () => {
+    if (searching) {
+      setAddedUrl(false);
+    }
+  }
+
+  const updateUrl = (term) => {
+    let updatedUrl = `${window.location.origin}/search/${term}`;
+    console.log('updating url ', updatedUrl);
+    if (!addedUrl) {
+      router.push(updatedUrl);
+      setAddedUrl(true);
+    } else {
+      router.replace(updatedUrl, null, { shallow: true });
+    }
   }
 
   const changeSearchTerm = (term) => {
@@ -52,8 +71,22 @@ export default function NavBar({}) {
       });
     }
 
+    updateUrl(term);
     setSearchTerm(term);
   }
+
+  const loadQuery = () => {
+    if (queryParam) {
+      setSearchTerm(queryParam);
+      setSearching(true);
+    } else {
+      setSearching(false);
+    }
+  }
+
+  useEffect(liveSearch, [searchTerm]);
+  useEffect(loadQuery, [router]);
+  useEffect(updateUrlState, [searching]);
 
   return (
     <div className={styles.container}>
@@ -64,7 +97,7 @@ export default function NavBar({}) {
       </div>
 
       { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
+        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} />
       }
       {/* { subscriptionStatus === 'active' &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
@@ -84,8 +117,8 @@ export default function NavBar({}) {
         }
       </div>
 
-      { searchTerm.length > 0 &&
-        <SearchResults results={results} clearSearch={clearSearch} />
+      { searching &&
+        <SearchResults results={results} setSearching={setSearching} showExitButton={!queryParam} />
       }
     </div>
   )

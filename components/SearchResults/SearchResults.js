@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './SearchResults.module.scss';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { X } from 'react-feather';
 
 // Components
 
@@ -9,7 +10,7 @@ import classNames from 'classnames';
 
 import { sortSearchResults } from '../../util/helpers/array';
 
-export default function SearchResults({ results, clearSearch }) {
+export default function SearchResults({ results, setSearching, showExitButton }) {
   const [sortedResults, setSortedResults] = useState([]);
 
   const sortResults = () => {
@@ -21,11 +22,16 @@ export default function SearchResults({ results, clearSearch }) {
 
   return (
     <div className={styles.container}>
+      { showExitButton &&
+        <div className={styles.closeButton} onClick={() => setSearching(false)}>
+          <X className={styles.closeIcon} />
+        </div>
+      }
       <div className={styles.searchResults}>
         { sortedResults.map(result => {
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
-              <div className={styles.resultWrapper} onClick={clearSearch}>
+              <div className={styles.resultWrapper} onClick={() => setSearching(false)}>
                 <img src={result.images.small} className={styles.thumbnail} />
                 <div className={styles.details}>
                   <div className={styles.leftSide}>

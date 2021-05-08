@@ -25,14 +25,14 @@ export default function PriceDetails({ card, sales }) {
 
         let typeRecord = {};
         recentSales.forEach(sale => {
-          // Determine variant: 'regular', 'reverse_holo', 'holo'
+          // Determine variant: 'non-holo', 'reverse_holo', 'holo'
           let variant = determineVariant(sale.title);
           typeRecord[variant] = typeRecord[variant] || {};
 
           let variantRef = typeRecord[variant];
 
           if (sale.grading_authority && sale.grade) { // is a graded card
-            // Ex. typeRecord.regular.PSA.10 = [all_psa_10_sales_for_regular_variant]
+            // Ex. typeRecord.non-holo.PSA.10 = [all_psa_10_sales_for_regular_variant]
             variantRef[sale.grading_authority] = variantRef[sale.grading_authority] || {};
             variantRef[sale.grading_authority][sale.grade] = variantRef[sale.grading_authority][sale.grade] || [];
             variantRef[sale.grading_authority][sale.grade].push(sale);

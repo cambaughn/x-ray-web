@@ -32,7 +32,6 @@ export default function NavBar({}) {
   const liveSearch = async () => {
     try {
       if (searchTerm.length > 0) {
-        console.log('live searching');
         let searchResults = await searchCard(searchTerm);
         setResults(searchResults);
       } else {
@@ -54,13 +53,14 @@ export default function NavBar({}) {
     }
   }
 
-  const updateUrl = (term) => {
+  const updateUrl = (term = '') => {
     let updatedUrl = `${window.location.origin}/search/${term.trim().replace(/\s/g, '+')}`;
-    console.log('updating url ', updatedUrl);
-    if (!addedUrl) {
+    if (!router.pathname.includes('/search')) { // if we're not on a search page, put us on one
+      console.log('updating url ', updatedUrl);
       router.push(updatedUrl);
       setAddedUrl(true);
-    } else {
+    } else { // if we are on a search page, just replace the url
+      console.log('replacing url ', updatedUrl);
       router.replace(updatedUrl, null, { shallow: true });
     }
   }
@@ -79,14 +79,40 @@ export default function NavBar({}) {
   }
 
   const loadQuery = () => {
-    if (queryParam && previousPath.length === 0) {
+    const shouldLoadQuery = !previousPath || !previousPath.includes('/search');
+
+    if (queryParam && shouldLoadQuery) {
+      console.log('loading query param');
       setPreviousPath(router.pathname);
-      setSearchTerm(queryParam);
       setSearching(true);
+      setSearchTerm(queryParam);
     } else if (!router.pathname.includes('/search')) {
       setSearching(false);
       setPreviousPath(router.pathname);
       setCanGoBack(true);
+    }
+  }
+
+  const handleFocus = () => {
+    // liveSearch();
+
+    if (searchTerm.length > 0) {
+      setSearching(true);
+      updateUrl(searchTerm);
+    }
+  }
+
+  const handleResultClick = () => {
+    setSearching(false);
+  }
+
+  const handleClose = () => {
+    let path = router.pathname;
+    if (path.includes('/search')) {
+      router.back();
+      setSearching(false);
+    } else {
+      setSearching(false);
     }
   }
 
@@ -103,11 +129,9 @@ export default function NavBar({}) {
       </div>
 
       { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} />
+        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />
       }
-      {/* { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
-      } */}
+
 
       <div className={styles.rightSide}>
         { !user.id && !router.pathname.includes('sign-in') &&
@@ -124,7 +148,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} />
+        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
       }
     </div>
   )

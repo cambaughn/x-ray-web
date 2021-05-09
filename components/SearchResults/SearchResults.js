@@ -11,7 +11,7 @@ import { X } from 'react-feather';
 
 import { sortSearchResults } from '../../util/helpers/array';
 
-export default function SearchResults({ results, setSearching, showExitButton }) {
+export default function SearchResults({ results, setSearching, showExitButton, handleResultClick, handleClose }) {
   const [sortedResults, setSortedResults] = useState([]);
   const router = useRouter();
 
@@ -20,14 +20,6 @@ export default function SearchResults({ results, setSearching, showExitButton })
     setSortedResults(sorted);
   }
 
-  const handleClose = () => {
-    let path = router.pathname;
-    if (path.includes('/search')) {
-      router.back();
-    } else {
-      setSearching(false);
-    }
-  }
 
   useEffect(sortResults, [results])
 
@@ -42,7 +34,7 @@ export default function SearchResults({ results, setSearching, showExitButton })
         { sortedResults.map(result => {
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
-              <div className={styles.resultWrapper} onClick={() => setSearching(false)}>
+              <div className={styles.resultWrapper} onClick={handleResultClick}>
                 <img src={result.images.small} className={styles.thumbnail} />
                 <div className={styles.details}>
                   <div className={styles.leftSide}>

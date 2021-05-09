@@ -8,13 +8,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import sale from '../../util/api/sales';
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { sortSalesByType } from '../../util/helpers/sales';
+import { flatten } from '../../util/helpers/array';
 
 
 export default function CollectionChart({}) {
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
-  const [sales, setSales] = useState({}); // raw sales as an object where the keys are the card_ids
+  const [salesLookup, setSalesLookup] = useState({}); // raw sales as an object where the keys are the card_ids
+  const [relevantSales, setRelevantSales] = useState([]); // all relevant sales as one single array
   const [numItems, setNumItems] = useState({}); // Object with card_id: number of cards
 
 
@@ -39,12 +41,30 @@ export default function CollectionChart({}) {
       salesLookup[key] = sortSalesByType(salesLookup[key], collectedItems[key].finishes);
     })
 
-    setSales(salesLookup);
+    setSalesLookup(salesLookup);
   }
 
   // Get all the necessary sales from the sales lookup object and put them into one single array
+  // Accounting for multiple instances of the same card, as well
   const determineRelevantSales = () => {
+    if (Object.keys(salesLookup).length > 0 && relevantSales.length === 0) {
+      let allSales = [];
+      collectionDetails.forEach(item => {
+        let salesForFinish = salesLookup[item.item_id][item.finish || 'holo'];
+        let keySales;
 
+        if (item.grading_authority && item.grade) {
+          keySales = salesForFinish[item.grading_authority][item.grade];
+        } else {
+          keySales = salesForFinish.ungraded;
+        }
+
+        allSales.push(keySales)
+      })
+
+      allSales = flatten(allSales);
+      setRelevantSales(allSales);
+    }
   }
 
 
@@ -60,7 +80,7 @@ export default function CollectionChart({}) {
 
   useEffect(getSales, [collectionDetails]);
   useEffect(findNumItems, [collectionDetails]);
-  useEffect(determineRelevantSales, [sales]);
+  useEffect(determineRelevantSales, [salesLookup]);
 
   return (
     <div className={styles.container}>

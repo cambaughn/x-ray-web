@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SearchResults.module.scss';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import { X } from 'react-feather';
 
@@ -12,10 +13,20 @@ import { sortSearchResults } from '../../util/helpers/array';
 
 export default function SearchResults({ results, setSearching, showExitButton }) {
   const [sortedResults, setSortedResults] = useState([]);
+  const router = useRouter();
 
   const sortResults = () => {
     let sorted = sortSearchResults(results);
     setSortedResults(sorted);
+  }
+
+  const handleClose = () => {
+    let path = router.pathname;
+    if (path.includes('/search')) {
+      router.goBack();
+    } else {
+      setSearching(false);
+    }
   }
 
   useEffect(sortResults, [results])
@@ -23,7 +34,7 @@ export default function SearchResults({ results, setSearching, showExitButton })
   return (
     <div className={styles.container}>
       { showExitButton &&
-        <div className={styles.closeButton} onClick={() => setSearching(false)}>
+        <div className={styles.closeButton} onClick={handleClose}>
           <X className={styles.closeIcon} />
         </div>
       }

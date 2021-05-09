@@ -21,15 +21,17 @@ export default function NavBar({}) {
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
   const router = useRouter();
 
-  let queryParam = router.query.search_query;
+  let queryParam = router.query.search_query ? router.query.search_query.replace(/\+/g, ' ') : null;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addedUrl, setAddedUrl] = useState(false);
+  const [previousPath, setPreviousPath] = useState('');
 
   const liveSearch = async () => {
     try {
       if (searchTerm.length > 0) {
+        console.log('live searching');
         let searchResults = await searchCard(searchTerm);
         setResults(searchResults);
       } else {
@@ -52,7 +54,7 @@ export default function NavBar({}) {
   }
 
   const updateUrl = (term) => {
-    let updatedUrl = `${window.location.origin}/search/${term}`;
+    let updatedUrl = `${window.location.origin}/search/${term.trim().replace(/\s/g, '+')}`;
     console.log('updating url ', updatedUrl);
     if (!addedUrl) {
       router.push(updatedUrl);
@@ -76,13 +78,17 @@ export default function NavBar({}) {
   }
 
   const loadQuery = () => {
-    if (queryParam) {
+    if (queryParam && !previousPath.includes('/search')) {
+      setPreviousPath(router.pathname);
       setSearchTerm(queryParam);
       setSearching(true);
-    } else {
+    } else if (!router.pathname.includes('/search')) {
       setSearching(false);
+      setPreviousPath(router.pathname);
     }
   }
+
+  console.log('previouse path ', router);
 
   useEffect(liveSearch, [searchTerm]);
   useEffect(loadQuery, [router]);
@@ -118,7 +124,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} setSearching={setSearching} showExitButton={!queryParam} />
+        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={!previousPath.includes('/search') && previousPath.length > 0} />
       }
     </div>
   )

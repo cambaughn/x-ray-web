@@ -56,11 +56,9 @@ export default function NavBar({}) {
   const updateUrl = (term = '') => {
     let updatedUrl = `${window.location.origin}/search/${term.trim().replace(/\s/g, '+')}`;
     if (!router.pathname.includes('/search')) { // if we're not on a search page, put us on one
-      console.log('updating url ', updatedUrl);
       router.push(updatedUrl);
       setAddedUrl(true);
     } else { // if we are on a search page, just replace the url
-      console.log('replacing url ', updatedUrl);
       router.replace(updatedUrl, null, { shallow: true });
     }
   }
@@ -82,7 +80,6 @@ export default function NavBar({}) {
     const shouldLoadQuery = !previousPath || !previousPath.includes('/search');
 
     if (queryParam && shouldLoadQuery) {
-      console.log('loading query param');
       setPreviousPath(router.pathname);
       setSearching(true);
       setSearchTerm(queryParam);

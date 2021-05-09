@@ -23,7 +23,7 @@ export default function SearchResults({ results, setSearching, showExitButton })
   const handleClose = () => {
     let path = router.pathname;
     if (path.includes('/search')) {
-      router.goBack();
+      router.back();
     } else {
       setSearching(false);
     }

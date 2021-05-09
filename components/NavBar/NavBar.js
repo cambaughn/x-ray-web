@@ -27,6 +27,7 @@ export default function NavBar({}) {
   const [searching, setSearching] = useState(false);
   const [addedUrl, setAddedUrl] = useState(false);
   const [previousPath, setPreviousPath] = useState('');
+  const [canGoBack, setCanGoBack] = useState(false);
 
   const liveSearch = async () => {
     try {
@@ -85,10 +86,9 @@ export default function NavBar({}) {
     } else if (!router.pathname.includes('/search')) {
       setSearching(false);
       setPreviousPath(router.pathname);
+      setCanGoBack(true);
     }
   }
-
-  console.log('previouse path ', router);
 
   useEffect(liveSearch, [searchTerm]);
   useEffect(loadQuery, [router]);
@@ -124,7 +124,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={!previousPath.includes('/search') && previousPath.length > 0} />
+        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} />
       }
     </div>
   )

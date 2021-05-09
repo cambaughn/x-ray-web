@@ -79,7 +79,7 @@ export default function NavBar({}) {
   }
 
   const loadQuery = () => {
-    if (queryParam && !previousPath.includes('/search')) {
+    if (queryParam && previousPath.length === 0) {
       setPreviousPath(router.pathname);
       setSearchTerm(queryParam);
       setSearching(true);

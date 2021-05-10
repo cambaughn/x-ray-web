@@ -129,9 +129,7 @@ export default function CollectionChart({}) {
     <div className={styles.container}>
       <div className={styles.details}>
         <div className={styles.leftSide}>
-          {/* { ungraded &&
-            <span className={styles.grade}>Ungraded</span>
-          } */}
+          <span className={styles.grade}>Collection</span>
 
           {/* { gradingAuthority && grade &&
             <span className={styles.grade}>{gradingAuthority} {grade}</span>

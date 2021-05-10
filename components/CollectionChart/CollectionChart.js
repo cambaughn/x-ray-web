@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // Utility functions
 import sale from '../../util/api/sales';
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
-import { sortSalesByType } from '../../util/helpers/sales';
+import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
 
 
@@ -17,31 +17,34 @@ export default function CollectionChart({}) {
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
   const [salesLookup, setSalesLookup] = useState({}); // raw sales as an object where the keys are the card_ids
   const [relevantSales, setRelevantSales] = useState([]); // all relevant sales as one single array
-  const [numItems, setNumItems] = useState({}); // Object with card_id: number of cards
+  const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
+  const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
 
 
   const getSales = async () => {
-    let item_ids = collectionDetails.map(item => item.item_id);
-    let allSales = await sale.getForMultiple(item_ids);
-    // Convert date strings on sales into objects
-    allSales.forEach(sale => {
-      sale.date = dateSoldToObject(sale.date_sold);
-    })
-    allSales = allSales.filter(sale => isLastThreeMonths(sale.date));
+    if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
+      let item_ids = collectionDetails.map(item => item.item_id);
+      let allSales = await sale.getForMultiple(item_ids);
+      // Convert date strings on sales into objects
+      allSales.forEach(sale => {
+        sale.date = dateSoldToObject(sale.date_sold);
+      })
+      allSales = allSales.filter(sale => isLastThreeMonths(sale.date));
 
-    // Create salesLookup with breakdowns by
-    let salesLookup = {};
-    allSales.forEach(sale => {
-      salesLookup[sale.card_id] = salesLookup[sale.card_id] || [];
-      salesLookup[sale.card_id].push(sale);
-    })
+      // Create salesLookup with breakdowns by
+      let salesObject = {};
+      allSales.forEach(sale => {
+        salesObject[sale.card_id] = salesObject[sale.card_id] || [];
+        salesObject[sale.card_id].push(sale);
+      })
 
-    Object.keys(salesLookup).forEach(key => {
-      let singleCardSales = salesLookup[key];
-      salesLookup[key] = sortSalesByType(salesLookup[key], collectedItems[key].finishes);
-    })
+      Object.keys(salesObject).forEach(key => {
+        let singleCardSales = salesObject[key];
+        salesObject[key] = sortSalesByType(salesObject[key], collectedItems[key].finishes);
+      })
 
-    setSalesLookup(salesLookup);
+      setSalesLookup(salesObject);
+    }
   }
 
   // Get all the necessary sales from the sales lookup object and put them into one single array
@@ -67,24 +70,23 @@ export default function CollectionChart({}) {
     }
   }
 
-
-  const findNumItems = () => {
-    let numTracker = {};
-    collectionDetails.forEach(item => {
-      numTracker[item.item_id] = numTracker[item.item_id] || 0;
-      numTracker[item.item_id]++;
-    })
-
-    setNumItems(numTracker);
+  const formatSales = () => {
+    if (relevantSales.length > 0) {
+      let formattedData = formatSalesForChart(relevantSales);
+      let priceToShow = formattedData[formattedData.length - 1].averagePrice;
+      priceToShow = priceToShow.toFixed(2);
+      setAveragePrice(priceToShow || 0);
+      setFormattedSales(formattedData);
+    }
   }
 
   useEffect(getSales, [collectionDetails]);
-  useEffect(findNumItems, [collectionDetails]);
   useEffect(determineRelevantSales, [salesLookup]);
+  useEffect(formatSales, [relevantSales]);
 
   return (
     <div className={styles.container}>
-
+      <span>{averagePrice}</span>
     </div>
   )
 }

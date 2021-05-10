@@ -6,7 +6,7 @@ import PriceChart from '../PriceChart/PriceChart';
 
 // Utility functions
 import { sortSalesByDate } from '../../util/helpers/sorting.js';
-import { isLastMonth, isLastThreeMonths, getDates, getWeeks, datesAreSameDay, formatWeekLabel } from '../../util/helpers/date.js';
+import { getDates, getWeeks, formatWeekLabel } from '../../util/helpers/date.js';
 import { flatten } from '../../util/helpers/array.js';
 
 

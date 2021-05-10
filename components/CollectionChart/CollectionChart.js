@@ -16,7 +16,8 @@ export default function CollectionChart({}) {
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
   const [salesLookup, setSalesLookup] = useState({}); // raw sales as an object where the keys are the card_ids
-  const [relevantSales, setRelevantSales] = useState([]); // all relevant sales as one single array
+  const [relevantSales, setRelevantSales] = useState({}); // salesLookup reduced to only relevant sales
+  const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
 
@@ -47,11 +48,11 @@ export default function CollectionChart({}) {
     }
   }
 
-  // Get all the necessary sales from the sales lookup object and put them into one single array
-  // Accounting for multiple instances of the same card, as well
+  // Get all the necessary sales from the sales lookup object and put them into a new object
   const determineRelevantSales = () => {
-    if (Object.keys(salesLookup).length > 0 && relevantSales.length === 0) {
-      let allSales = [];
+    if (Object.keys(salesLookup).length > 0 && Object.keys(relevantSales).length === 0) {
+      let newRelevantSales = {};
+
       collectionDetails.forEach(item => {
         let salesForFinish = salesLookup[item.item_id][item.finish || 'holo'];
         let keySales;
@@ -62,19 +63,57 @@ export default function CollectionChart({}) {
           keySales = salesForFinish.ungraded;
         }
 
-        allSales.push(keySales)
+        newRelevantSales[item.item_id] = keySales;
       })
 
-      allSales = flatten(allSales);
-      setRelevantSales(allSales);
+      // console.log('allsales ', newRelevantSales);
+      setRelevantSales(newRelevantSales);
     }
   }
 
-  const formatSales = () => {
-    if (relevantSales.length > 0) {
-      let formattedData = formatSalesForChart(relevantSales);
-      let priceToShow = formattedData[formattedData.length - 1].averagePrice;
-      priceToShow = priceToShow.toFixed(2);
+  const formatIndividualItemSales = () => {
+    if (Object.keys(formattedIndividualSales).length === 0 && Object.keys(relevantSales).length > 0) {
+      let individualSales = {};
+      Object.keys(relevantSales).forEach(key => {
+        let focusedSales = relevantSales[key];
+        let formattedData = formatSalesForChart(focusedSales);
+        individualSales[key] = formattedData;
+      })
+
+      setFormattedIndividualSales(individualSales);
+    }
+  }
+
+  // Take the formatted sales for each card and put them into one array to pass to the chart
+  const finalFormatSales = () => {
+    if (Object.keys(formattedIndividualSales).length > 0 && formattedSales.length === 0) {
+      let formattedData = [];
+      if (collectionDetails[0]) {
+        formattedData = formattedIndividualSales[collectionDetails[0].item_id];
+        formattedData = formattedData.map(data => {
+          let blankData = {
+            label: data.label,
+            itemSales: []
+          };
+          return blankData;
+        })
+      }
+
+      // Add average price for each week (for each item) to the itemSales in formatted data
+      collectionDetails.forEach(item => {
+        let formatted = formattedIndividualSales[item.item_id];
+        formatted.forEach((week, index) => {
+          formattedData[index].itemSales.push(week.averagePrice);
+        })
+      })
+
+      formattedData.forEach(week => {
+        week.total = week.itemSales.reduce((a, b) => a + b).toFixed(2);
+      })
+
+      console.log('formatted Data ', formattedData);
+
+      let priceToShow = formattedData[formattedData.length - 1].total;
       setAveragePrice(priceToShow || 0);
       setFormattedSales(formattedData);
     }
@@ -82,7 +121,8 @@ export default function CollectionChart({}) {
 
   useEffect(getSales, [collectionDetails]);
   useEffect(determineRelevantSales, [salesLookup]);
-  useEffect(formatSales, [relevantSales]);
+  useEffect(formatIndividualItemSales, [relevantSales]);
+  useEffect(finalFormatSales, [formattedIndividualSales]);
 
   return (
     <div className={styles.container}>

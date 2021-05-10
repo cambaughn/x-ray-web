@@ -35,7 +35,9 @@ export default function SearchResults({ results, setSearching, showExitButton, h
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
               <div className={styles.resultWrapper} onClick={handleResultClick}>
-                <img src={result.images.small} className={styles.thumbnail} />
+                <div className={styles.imageWrapper}>
+                  <img src={result.images.small} className={styles.thumbnail} />
+                </div>
                 <div className={styles.details}>
                   <div className={styles.leftSide}>
                     <span className={classNames(styles.topLine, styles.setName)}>{result.set_name}</span>

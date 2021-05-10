@@ -32,12 +32,15 @@
 .imageWrapper {
   width: 200px;
   height: 280px;
+
+  box-shadow: 0px 2px 5px #95a5a6;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .image {
   width: 100%;
-  height: auto;
-  box-shadow: 0px 2px 5px #95a5a6;
+  height: 100%;
 }
 
 .cardName {

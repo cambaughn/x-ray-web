@@ -9,8 +9,14 @@ import { getNowAsStringWithTime } from '../../util/helpers/date';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
 
+const finishMap = {
+  'non-holo': 'Non-holo',
+  'reverse_holo': 'Reverse holo',
+  'holo': 'Holo'
+}
+
 export default function AddCardModal({ toggleModal, card, finishes }) {
-  const [finish, setFinish] = useState(''); // holo, non-holo, reverse_holo
+  const [selectedFinish, setSelectedFinish] = useState(finishes[0]); // holo, non-holo, reverse_holo
   const [graded, setGraded] = useState(false);
   const [gradingAuthority, setGradingAuthority] = useState('PSA');
   const [grade, setGrade] = useState(10);
@@ -100,15 +106,19 @@ export default function AddCardModal({ toggleModal, card, finishes }) {
       <div className={styles.card} onClick={stopClick}>
         <h2 className={styles.title}>{card.name}</h2>
 
+        <h4 className={styles.gradingTitle}>Finish</h4>
         <div className={styles.finishButtons}>
-          <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
-            <span>Ungraded</span>
-          </div>
-
-          <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
-            <span>Graded</span>
-          </div>
+          { finishes.map(finish => {
+            return (
+              <div className={classNames({ [styles.button]: true, [styles.finishButton]: true, [styles.selectedButton]: selectedFinish === finish })} onClick={() => setSelectedFinish(finish)} key={finish}>
+                <span>{finishMap[finish]}</span>
+              </div>
+            )
+          })}
         </div>
+
+
+        <h4 className={styles.gradingTitle}>Grading</h4>
 
         <div className={styles.gradedButtons}>
           <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
@@ -122,8 +132,6 @@ export default function AddCardModal({ toggleModal, card, finishes }) {
 
 
         <div className={classNames({ [styles.gradingAuthority]: true, [styles.gradingAuthorityVisible]: graded })}>
-
-          <h4 className={styles.gradingTitle}>Grading</h4>
           <div className={styles.gradingAuthorityButtons}>
             { graders.map((grader) => {
               return (

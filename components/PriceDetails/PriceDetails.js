@@ -8,10 +8,9 @@ import FinishButtons from '../FinishButtons/FinishButtons';
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 
-export default function PriceDetails({ card, sales }) {
-  const [finishes, setFinishes] = useState([]);
+export default function PriceDetails({ card, sales, finishes, setFinishes }) {
   const [selectedFinish, setSelectedFinish] = useState('non-holo');
-  const [recentSales, setRecentSales] = useState([])
+  const [recentSales, setRecentSales] = useState([]);
   const [salesByType, setSalesByType] = useState({});
 
   const sortSalesByType = async () => {

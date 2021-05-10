@@ -61,6 +61,23 @@
 }
 
 
+// Buttons for holo, non-holo, reverse_holo
+.finishButtons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.finishButton {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 0.9em;
+}
+
 // Buttons for graded vs ungraded
 .gradedButtons {
   width: 100%;

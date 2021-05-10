@@ -3,14 +3,14 @@ import styles from './PriceDetails.module.scss';
 
 // Components
 import PriceBlock from '../PriceBlock/PriceBlock';
-import VariantButtons from '../VariantButtons/VariantButtons';
+import FinishButtons from '../FinishButtons/FinishButtons';
 
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 
 export default function PriceDetails({ card, sales }) {
-  const [variants, setVariants] = useState([]);
-  const [selectedVariant, setSelectedVariant] = useState('non-holo');
+  const [finishes, setFinishes] = useState([]);
+  const [selectedFinish, setSelectedFinish] = useState('non-holo');
   const [recentSales, setRecentSales] = useState([])
   const [salesByType, setSalesByType] = useState({});
 
@@ -25,20 +25,20 @@ export default function PriceDetails({ card, sales }) {
 
         let typeRecord = {};
         recentSales.forEach(sale => {
-          // Determine variant: 'non-holo', 'reverse_holo', 'holo'
-          let variant = determineVariant(sale.title);
-          typeRecord[variant] = typeRecord[variant] || {};
+          // Determine finish: 'non-holo', 'reverse_holo', 'holo'
+          let finish = determineFinish(sale.title);
+          typeRecord[finish] = typeRecord[finish] || {};
 
-          let variantRef = typeRecord[variant];
+          let finishRef = typeRecord[finish];
 
           if (sale.grading_authority && sale.grade) { // is a graded card
-            // Ex. typeRecord.non-holo.PSA.10 = [all_psa_10_sales_for_regular_variant]
-            variantRef[sale.grading_authority] = variantRef[sale.grading_authority] || {};
-            variantRef[sale.grading_authority][sale.grade] = variantRef[sale.grading_authority][sale.grade] || [];
-            variantRef[sale.grading_authority][sale.grade].push(sale);
+            // Ex. typeRecord.non-holo.PSA.10 = [all_psa_10_sales_for_regular_finish]
+            finishRef[sale.grading_authority] = finishRef[sale.grading_authority] || {};
+            finishRef[sale.grading_authority][sale.grade] = finishRef[sale.grading_authority][sale.grade] || [];
+            finishRef[sale.grading_authority][sale.grade].push(sale);
           } else { // is ungraded
-            variantRef.ungraded = variantRef.ungraded || [];
-            variantRef.ungraded.push(sale);
+            finishRef.ungraded = finishRef.ungraded || [];
+            finishRef.ungraded.push(sale);
           }
         })
 
@@ -50,34 +50,34 @@ export default function PriceDetails({ card, sales }) {
   }
 
 
-  // Variants - non-holo, reverse_holo, holo
-  // Note that variants are NOT rarity. They simply relate to the finish of the card.
-  const determineVariant = (title) => {
-    // If the card has explicitly set variants, override whatever the title says
+  // Finishes - non-holo, reverse_holo, holo
+  // Note that finishes are NOT rarity. They simply relate to the finish of the card.
+  const determineFinish = (title) => {
+    // If the card has explicitly set finishes, override whatever the title says
     if (card.finishes && card.finishes.length > 0) {
       return card.finishes[0];
     } else { // otherwise, determine based on the title like normal
-      let variant = 'non-holo';
+      let finish = 'non-holo';
       title = title.toLowerCase();
       // First check for "reverse holo"
       if (title.includes('reverse')) {
-        variant = 'reverse_holo';
+        finish = 'reverse_holo';
       } else if (title.includes('holo') || title.includes('foil')) {
-        variant = 'holo';
+        finish = 'holo';
       }
 
-      return variant;
+      return finish;
     }
   }
 
-  const setAvailableVariants = () => {
-    if (variants.length === 0) {
+  const setAvailableFinishes = () => {
+    if (finishes.length === 0) {
 
       if (card.finishes && card.finishes.length > 0) {
-        setVariants(card.finishes);
-        setSelectedVariant(card.finishes[0]);
+        setFinishes(card.finishes);
+        setSelectedFinish(card.finishes[0]);
       } else {
-        let availableVariants = Object.keys(salesByType).sort((a, b) => {
+        let availableFinishes = Object.keys(salesByType).sort((a, b) => {
           if (salesByType[a].ungraded && salesByType[b].ungraded) {
             if (salesByType[a].ungraded.length > salesByType[b].ungraded.length) {
               return -1;
@@ -87,26 +87,26 @@ export default function PriceDetails({ card, sales }) {
           }
           return 0;
         })
-        .filter(variant => Object.keys(salesByType[variant]).length > 0)
+        .filter(finish => Object.keys(salesByType[finish]).length > 0)
 
-        setVariants(availableVariants);
-        setSelectedVariant(availableVariants[0]);
+        setFinishes(availableFinishes);
+        setSelectedFinish(availableFinishes[0]);
       }
     }
   }
 
 
   useEffect(sortSalesByType, [sales]);
-  useEffect(setAvailableVariants, [salesByType]);
+  useEffect(setAvailableFinishes, [salesByType]);
 
   return (
     <div className={styles.container}>
-      <VariantButtons variants={variants} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
-      { salesByType[selectedVariant] &&
+      <FinishButtons finishes={finishes} selectedFinish={selectedFinish} setSelectedFinish={setSelectedFinish} />
+      { salesByType[selectedFinish] &&
         <>
-          <PriceBlock sales={salesByType[selectedVariant].ungraded || []} ungraded={true} />
-          { salesByType[selectedVariant].PSA && salesByType[selectedVariant].PSA[10] &&
-            <PriceBlock sales={salesByType[selectedVariant].PSA && salesByType[selectedVariant].PSA[10] ? salesByType[selectedVariant].PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
+          <PriceBlock sales={salesByType[selectedFinish].ungraded || []} ungraded={true} />
+          { salesByType[selectedFinish].PSA && salesByType[selectedFinish].PSA[10] &&
+            <PriceBlock sales={salesByType[selectedFinish].PSA && salesByType[selectedFinish].PSA[10] ? salesByType[selectedFinish].PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
           }
         </>
       }

@@ -9,7 +9,8 @@ import { getNowAsStringWithTime } from '../../util/helpers/date';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
 
-export default function AddCardModal({ toggleModal, card }) {
+export default function AddCardModal({ toggleModal, card, finishes }) {
+  const [finish, setFinish] = useState(''); // holo, non-holo, reverse_holo
   const [graded, setGraded] = useState(false);
   const [gradingAuthority, setGradingAuthority] = useState('PSA');
   const [grade, setGrade] = useState(10);
@@ -98,6 +99,16 @@ export default function AddCardModal({ toggleModal, card }) {
     <div className={styles.container} onClick={toggleModal}>
       <div className={styles.card} onClick={stopClick}>
         <h2 className={styles.title}>{card.name}</h2>
+
+        <div className={styles.finishButtons}>
+          <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
+            <span>Ungraded</span>
+          </div>
+
+          <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
+            <span>Graded</span>
+          </div>
+        </div>
 
         <div className={styles.gradedButtons}>
           <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>

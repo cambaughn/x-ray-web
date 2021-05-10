@@ -13,8 +13,11 @@ export default function UserCollection({}) {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.name}>{user.name}</h3>
-      <span className={styles.username}>@{user.username}</span>
+
+      <div className={styles.profileDetails}>
+        <h3 className={styles.name}>{user.name}</h3>
+        <span className={styles.username}>@{user.username}</span>
+      </div>
 
       <CollectionChart />
 

@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import axios from 'axios';
-import db from '../firebase/firebaseInit.js';
+import db from '../firebase/firebaseInit';
 import pokeCard from '../api/card.js';
 import sale from '../api/sales.js';
 import { convertToUSD, currencyMap } from '../helpers/currency.js';

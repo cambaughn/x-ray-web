@@ -1,4 +1,4 @@
-import db from '../firebase/firebaseInit.js';
+import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
 import { formatDateAsStringWithTime, getNowAsStringWithTime, getDateInFuture } from '../helpers/date';
 import { addUserToIndex } from '../algolia/algoliaHelpers';

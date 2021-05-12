@@ -1,4 +1,4 @@
-import db from '../firebase/firebaseInit.js';
+import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
 import { isSpecialCard } from '../helpers/string';
 

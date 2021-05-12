@@ -1,4 +1,4 @@
-import db from '../firebase/firebaseInit.js';
+import db from '../firebase/firebaseInit';
 
 const pokeSeries = {};
 

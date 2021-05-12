@@ -30,7 +30,7 @@ export default function CardDetails({ card_id }) {
     if (card.id && !updatedViewCount) {
       let view_count = card.view_count || 0;
       view_count++;
-      
+
       await pokeCard.update(card.id, { view_count });
       setUpdatedViewCount(true);
     }

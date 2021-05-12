@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import db from './firebaseInit';
+import db from './firebaseInit.js';
 import { isBrowser } from '../client';
 import { localStorageKeys } from '../localStorage';
 

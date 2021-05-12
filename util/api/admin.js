@@ -1,4 +1,4 @@
-import db from '../firebase/firebaseInit';
+import db from '../firebase/firebaseInit.js';
 import { convertSnapshot, convertDoc } from './general';
 import pokeCard from './card';
 

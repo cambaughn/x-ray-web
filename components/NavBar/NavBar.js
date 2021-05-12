@@ -21,11 +21,13 @@ export default function NavBar({}) {
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
   const router = useRouter();
 
-  let queryParam = router.query.search_query;
+  let queryParam = router.query.search_query ? router.query.search_query.replace(/\+/g, ' ') : null;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addedUrl, setAddedUrl] = useState(false);
+  const [previousPath, setPreviousPath] = useState('');
+  const [canGoBack, setCanGoBack] = useState(false);
 
   const liveSearch = async () => {
     try {
@@ -51,13 +53,12 @@ export default function NavBar({}) {
     }
   }
 
-  const updateUrl = (term) => {
-    let updatedUrl = `${window.location.origin}/search/${term}`;
-    console.log('updating url ', updatedUrl);
-    if (!addedUrl) {
+  const updateUrl = (term = '') => {
+    let updatedUrl = `${window.location.origin}/search/${term.trim().replace(/\s/g, '+')}`;
+    if (!router.pathname.includes('/search')) { // if we're not on a search page, put us on one
       router.push(updatedUrl);
       setAddedUrl(true);
-    } else {
+    } else { // if we are on a search page, just replace the url
       router.replace(updatedUrl, null, { shallow: true });
     }
   }
@@ -76,9 +77,37 @@ export default function NavBar({}) {
   }
 
   const loadQuery = () => {
-    if (queryParam) {
-      setSearchTerm(queryParam);
+    const shouldLoadQuery = !previousPath || !previousPath.includes('/search');
+
+    if (queryParam && shouldLoadQuery) {
+      setPreviousPath(router.pathname);
       setSearching(true);
+      setSearchTerm(queryParam);
+    } else if (!router.pathname.includes('/search')) {
+      setSearching(false);
+      setPreviousPath(router.pathname);
+      setCanGoBack(true);
+    }
+  }
+
+  const handleFocus = () => {
+    // liveSearch();
+
+    if (searchTerm.length > 0) {
+      setSearching(true);
+      updateUrl(searchTerm);
+    }
+  }
+
+  const handleResultClick = () => {
+    setSearching(false);
+  }
+
+  const handleClose = () => {
+    let path = router.pathname;
+    if (path.includes('/search')) {
+      router.back();
+      setSearching(false);
     } else {
       setSearching(false);
     }
@@ -97,11 +126,9 @@ export default function NavBar({}) {
       </div>
 
       { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} />
+        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />
       }
-      {/* { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} />
-      } */}
+
 
       <div className={styles.rightSide}>
         { !user.id && !router.pathname.includes('sign-in') &&
@@ -118,7 +145,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} setSearching={setSearching} showExitButton={!queryParam} />
+        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
       }
     </div>
   )

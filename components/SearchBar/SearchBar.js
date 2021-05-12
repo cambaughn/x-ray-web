@@ -5,7 +5,7 @@ import styles from './SearchBar.module.scss';
 
 // Utility functions
 
-export default function SearchBar({ searchTerm, changeSearchTerm, setSearching }) {
+export default function SearchBar({ searchTerm, changeSearchTerm, setSearching, handleFocus }) {
   const handleChange = (event) => {
     let updatedTerm = event.target.value;
     if (updatedTerm.length > 0) {
@@ -26,7 +26,7 @@ export default function SearchBar({ searchTerm, changeSearchTerm, setSearching }
         onChange={handleChange}
         placeholder='Card/set name...'
         spellCheck={false}
-        onFocus={() => searchTerm.length > 0 && setSearching(true)}
+        onFocus={handleFocus}
       />
     </div>
   )

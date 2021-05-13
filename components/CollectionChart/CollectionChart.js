@@ -45,8 +45,6 @@ export default function CollectionChart({}) {
         salesObject[key] = sortSalesByType(salesObject[key], collectedItems[key].finishes);
       })
 
-      console.log('getting sales', salesObject);
-
       setSalesLookup(salesObject);
     }
   }
@@ -70,7 +68,6 @@ export default function CollectionChart({}) {
         newRelevantSales[item.item_id] = keySales;
       })
 
-      // console.log('allsales ', newRelevantSales);
       setRelevantSales(newRelevantSales);
     }
   }
@@ -114,8 +111,6 @@ export default function CollectionChart({}) {
       formattedData.forEach(week => {
         week.total = week.itemSales.reduce((a, b) => a + b).toFixed(2);
       })
-
-      console.log('formatted Data ', formattedData);
 
       let priceToShow = formattedData[formattedData.length - 1].total;
       setAveragePrice(priceToShow || 0);

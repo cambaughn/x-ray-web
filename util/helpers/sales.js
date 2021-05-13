@@ -1,7 +1,7 @@
 import { getDates, getWeeks, formatWeekLabel } from './date';
 import { flatten } from './array';
 
-const sortSalesByType = (sales, finishes) => {
+const sortSalesByType = (sales = [], finishes) => {
   if (sales.length > 0) {
     let typeRecord = {};
     sales.forEach(sale => {
@@ -30,7 +30,7 @@ const sortSalesByType = (sales, finishes) => {
 
 // Finishes - non-holo, reverse_holo, holo
 // Note that finishes are NOT rarity. They simply relate to the finish of the card.
-const determineFinish = (title) => {
+const determineFinish = (title = '') => {
   let finish = 'non-holo';
   title = title.toLowerCase();
   // First check for "reverse holo"
@@ -45,7 +45,7 @@ const determineFinish = (title) => {
 
 
 // Build up the average costs, chart labels, etc.
-const formatSalesForChart = (sales) => {
+const formatSalesForChart = (sales = []) => {
    // Map out the last 12 weeks as days
    let data = getDates(84);
 

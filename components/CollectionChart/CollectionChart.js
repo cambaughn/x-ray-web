@@ -45,6 +45,8 @@ export default function CollectionChart({}) {
         salesObject[key] = sortSalesByType(salesObject[key], collectedItems[key].finishes);
       })
 
+      console.log('getting sales', salesObject);
+
       setSalesLookup(salesObject);
     }
   }
@@ -55,7 +57,8 @@ export default function CollectionChart({}) {
       let newRelevantSales = {};
 
       collectionDetails.forEach(item => {
-        let salesForFinish = salesLookup[item.item_id][item.finish || 'holo'];
+        let salesForItem = salesLookup[item.item_id];
+        let salesForFinish = item.finish ? salesForItem[item.finish] : salesForItem[Object.keys(salesForItem).includes('holo') ? 'holo' : Object.keys(salesForItem)[0]];
         let keySales;
 
         if (item.grading_authority && item.grade) {
@@ -120,7 +123,7 @@ export default function CollectionChart({}) {
     }
   }
 
-  useEffect(getSales, [collectionDetails]);
+  useEffect(getSales, [collectionDetails, collectedItems]);
   useEffect(determineRelevantSales, [salesLookup]);
   useEffect(formatIndividualItemSales, [relevantSales]);
   useEffect(finalFormatSales, [formattedIndividualSales]);

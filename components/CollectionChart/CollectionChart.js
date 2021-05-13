@@ -57,7 +57,7 @@ export default function CollectionChart({}) {
       let newRelevantSales = {};
 
       collectionDetails.forEach(item => {
-        let salesForItem = salesLookup[item.item_id];
+        let salesForItem = salesLookup[item.item_id] || { holo: [] };
         let salesForFinish = item.finish ? salesForItem[item.finish] : salesForItem[Object.keys(salesForItem).includes('holo') ? 'holo' : Object.keys(salesForItem)[0]];
         let keySales;
 

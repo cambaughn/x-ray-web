@@ -16,7 +16,7 @@ const finishMap = {
 }
 
 export default function AddCardModal({ toggleModal, card, finishes }) {
-  const [selectedFinish, setSelectedFinish] = useState(finishes[0]); // holo, non-holo, reverse_holo
+  const [selectedFinish, setSelectedFinish] = useState(finishes[0] || 'holo'); // holo, non-holo, reverse_holo
   const [graded, setGraded] = useState(false);
   const [gradingAuthority, setGradingAuthority] = useState('PSA');
   const [grade, setGrade] = useState(10);
@@ -25,6 +25,8 @@ export default function AddCardModal({ toggleModal, card, finishes }) {
   const [submitted, setSubmitted] = useState(false);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+
+  finishes = finishes.length > 0 ? finishes : ['holo', 'reverse_holo', 'non-holo'];
 
   const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
 

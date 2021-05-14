@@ -41,22 +41,34 @@ pokeCard.get = async (id) => {
 
 }
 
+pokeCard.search = async (key, value) => {
+  try {
+    return db.collection('pokemon_cards').where(key, '==', value).get()
+    .then(function(snapshot) {
+      let cards = convertSnapshot(snapshot);
+      return cards;
+    })
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 const updateAllCards = async () => {
-  let cards = await pokeCard.get();
+  let cards = await pokeCard.search('set_id', 'swsh4');
   let special = [];
 
   let updates = cards.map((card, i) => {
-    let variants = [];
+    let finishes = [];
     if (isSpecialCard(card.name) || card.name.toLowerCase().slice(card.name.length - 2) === ' v') {
-      variants.push('holo');
+      finishes.push('holo');
       special.push(card.name)
     }
 
-    return pokeCard.update(card.id, { variants })
+    return pokeCard.update(card.id, { finishes })
   });
 
   console.log('updating :', updates.length, special);
-  await Promise.all(updates)
+  await Promise.all(updates);
   console.log('updated all cards');
 }
 

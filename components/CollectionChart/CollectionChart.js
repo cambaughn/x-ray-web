@@ -22,6 +22,10 @@ export default function CollectionChart({}) {
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
 
+  const isMobile = () => {
+    return window.innerWidth < 1024;
+  }
+
 
   const getSales = async () => {
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {

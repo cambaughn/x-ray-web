@@ -125,8 +125,9 @@ export default function NavBar({}) {
           <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
         </Link>
       </div>
-
-      <HamburgerMenu />
+      { subscriptionStatus === 'active' &&
+        <HamburgerMenu />
+      }
 
       { subscriptionStatus === 'active' &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />

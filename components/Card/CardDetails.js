@@ -9,6 +9,8 @@ import Tag from '../Tag/Tag';
 import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
 import LoadingSpinner from '../Icons/LoadingSpinner';
+import AddToCollectionButton from '../Buttons/AddToCollectionButton';
+import AddCardModal from '../AddCardModal/AddCardModal';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -21,16 +23,20 @@ export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
+  const [finishes, setFinishes] = useState([]);
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
+  const [addCardModalVisible, setAddCardModalVisible] = useState(false);
   const user = useSelector(state => state.user);
+  const collectionDetails = useSelector(state => state.collectionDetails);
+  const isBetaUser = useSelector(state => state.isBetaUser);
 
 
   const updateViewCount = async () => {
     if (card.id && !updatedViewCount) {
       let view_count = card.view_count || 0;
       view_count++;
-      
+
       await pokeCard.update(card.id, { view_count });
       setUpdatedViewCount(true);
     }
@@ -93,6 +99,10 @@ export default function CardDetails({ card_id }) {
     });
   }
 
+  const toggleCardAddition = () => {
+    setAddCardModalVisible(!addCardModalVisible)
+  }
+
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
   useEffect(updateCardSales, [card]);
@@ -109,17 +119,26 @@ export default function CardDetails({ card_id }) {
 
         <h3 className={styles.cardName}>{card.name}</h3>
 
-        { card.name &&
-          <div className={styles.cardData}>
-            <span className={styles.label}>Set</span>
-            <span className={styles.detail}>{card.set_name}</span>
-
-            <span className={styles.label}>Number</span>
-            <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
-
-            <span className={styles.label}>Rarity</span>
-            <span className={styles.detail}>{card.rarity}</span>
+        { isBetaUser &&
+          <div className={styles.addButtonWrapper}>
+            <AddToCollectionButton handleClick={toggleCardAddition} showHelpText={collectionDetails.length <= 1} />
           </div>
+        }
+
+        { card.name &&
+          <>
+            <div className={styles.cardData}>
+              <span className={styles.label}>Set</span>
+              <span className={styles.detail}>{card.set_name}</span>
+
+              <span className={styles.label}>Number</span>
+              <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
+
+              <span className={styles.label}>Rarity</span>
+              <span className={styles.detail}>{card.rarity}</span>
+            </div>
+
+          </>
         }
 
         { !!updatingSales &&
@@ -137,8 +156,12 @@ export default function CardDetails({ card_id }) {
       </div>
 
       <div className={styles.rightSection}>
-        <PriceDetails sales={sales} card={card} />
+        <PriceDetails sales={sales} card={card} finishes={finishes} setFinishes={setFinishes} />
       </div>
+
+      { addCardModalVisible &&
+        <AddCardModal card={card} toggleModal={toggleCardAddition} finishes={finishes} />
+      }
     </div>
   )
 }

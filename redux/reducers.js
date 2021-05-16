@@ -10,6 +10,24 @@ const user = (state = {}, action) => {
   }
 }
 
+const collectionDetails = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_COLLECTION_DETAILS':
+      return action.collectionDetails;
+    default:
+      return state;
+  }
+}
+
+const collectedItems = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_COLLECTED_ITEMS':
+      return action.collectedItems;
+    default:
+      return state;
+  }
+}
+
 const card = (state = {}, action) => {
   switch (action.type) {
     case 'SET_CARD':
@@ -46,14 +64,26 @@ const onFreeTrial = (state = false, action) => {
   }
 }
 
+const isBetaUser = (state = false, action) => {
+  switch (action.type) {
+    case 'SET_IS_BETA_USER':
+      return action.isBetaUser;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
   user,
+  collectedItems,
+  collectionDetails,
   card,
   sales,
   subscriptionStatus,
-  onFreeTrial
+  onFreeTrial,
+  isBetaUser
 });
 
 export { xRayApp };

@@ -10,6 +10,20 @@ function setUser(user) {
   }
 }
 
+function setCollectionDetails(collectionDetails) {
+  return {
+    type: 'SET_COLLECTION_DETAILS',
+    collectionDetails
+  }
+}
+
+function setCollectedItems(collectedItems) {
+  return {
+    type: 'SET_COLLECTED_ITEMS',
+    collectedItems
+  }
+}
+
 function setCard(card) {
   return {
     type: 'SET_CARD',
@@ -38,11 +52,21 @@ function setOnFreeTrial(onFreeTrial) {
   }
 }
 
+function setIsBetaUser(isBetaUser) {
+  return {
+    type: 'SET_IS_BETA_USER',
+    isBetaUser
+  }
+}
+
 
 export {
   setUser,
+  setCollectionDetails,
+  setCollectedItems,
   setCard,
   setSales,
   setSubscriptionStatus,
-  setOnFreeTrial
+  setOnFreeTrial,
+  setIsBetaUser
 };

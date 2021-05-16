@@ -1,8 +1,21 @@
-import { dateStringToObject } from './helpers/date.js';
+import { dateStringToObject, complexDateStringToObject } from './date.js';
 
 const sortSalesByDate = (sales) => {
   return sales.sort((a, b) => {
     if (a.date > b.date) {
+      return -1;
+    } else {
+      return 1;
+    }
+  })
+}
+
+const sortCollectionByDate = (items) => {
+  return items.sort((a, b) => {
+    let a_date = complexDateStringToObject(a.date_added);
+    let b_date = complexDateStringToObject(b.date_added);
+
+    if (a_date > b_date) {
       return -1;
     } else {
       return 1;
@@ -30,4 +43,4 @@ const sortSalesByPrice = (sales, method) => {
   }
 }
 
-export { sortSalesByDate, sortSalesByPrice };
+export { sortSalesByDate, sortSalesByPrice, sortCollectionByDate };

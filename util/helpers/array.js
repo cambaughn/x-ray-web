@@ -4,6 +4,11 @@ const flatten = (array) => {
   return Array.prototype.concat(...array);
 }
 
+const unique = (array) => {
+  let uniqueSet = new Set(array);
+  return [...uniqueSet];
+}
+
 // Sort by: view_count, base set, full art, ex/gx/vmax etc.
 const sortSearchResults = (results) => {
   let sorted = results.sort((a, b) => {
@@ -29,4 +34,4 @@ const sortSearchResults = (results) => {
   return sorted;
 }
 
-export { flatten, sortSearchResults }
+export { flatten, unique, sortSearchResults }

@@ -1,5 +1,6 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot } from './general';
+import { unique, flatten } from '../helpers/array';
 
 const sale = {};
 
@@ -7,6 +8,20 @@ sale.getForCard = async (card_id) => {
   try {
     let sales = await db.collection('pokemon_sales').where('card_id', '==', card_id).get();
     sales = convertSnapshot(sales);
+    sales = sales.filter(sale => sale.status !== 'rejected');
+    return Promise.resolve(sales);
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+// Get sales for multiple cards
+sale.getForMultiple = async (ids) => {
+  try {
+    let salesRefs = unique(ids).map(card_id => db.collection('pokemon_sales').where('card_id', '==', card_id).get())
+    let sales = await Promise.all(salesRefs);
+    sales = sales.map(salesForItem => convertSnapshot(salesForItem));
+    sales = flatten(sales);
     sales = sales.filter(sale => sale.status !== 'rejected');
     return Promise.resolve(sales);
   } catch(error) {

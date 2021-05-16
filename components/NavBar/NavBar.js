@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 // Components
 import SearchBar from '../SearchBar/SearchBar';
+import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import SearchResults from '../SearchResults/SearchResults';
 import SignInButton from '../Buttons/SignInButton';
 
@@ -124,6 +125,9 @@ export default function NavBar({}) {
           <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
         </Link>
       </div>
+      { subscriptionStatus === 'active' &&
+        <HamburgerMenu />
+      }
 
       { subscriptionStatus === 'active' &&
         <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />

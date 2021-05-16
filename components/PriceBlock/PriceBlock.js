@@ -5,8 +5,8 @@ import styles from './PriceBlock.module.scss';
 import PriceChart from '../PriceChart/PriceChart';
 
 // Utility functions
-import { sortSalesByDate } from '../../util/sorting.js';
-import { isLastMonth, isLastThreeMonths, getDates, getWeeks, datesAreSameDay, formatWeekLabel } from '../../util/helpers/date.js';
+import { sortSalesByDate } from '../../util/helpers/sorting.js';
+import { getDates, getWeeks, formatWeekLabel } from '../../util/helpers/date.js';
 import { flatten } from '../../util/helpers/array.js';
 
 

@@ -38,7 +38,18 @@ pokeCard.get = async (id) => {
   } catch(error) {
     console.error(error);
   }
+}
 
+pokeCard.getMultiple = async (ids) => {
+  try {
+    let cardRefs = ids.map(id => db.collection('pokemon_cards').doc(id).get());
+    let cards = await Promise.all(cardRefs);
+    cards = cards.map(card => convertDoc(card));
+    return Promise.resolve(cards);
+  } catch(error) {
+    console.error(error);
+    return Promise.resolve([]);
+  }
 }
 
 pokeCard.search = async (key, value) => {
@@ -64,7 +75,7 @@ const updateAllCards = async () => {
       special.push(card.name)
     }
 
-    return pokeCard.update(card.id, { finishes })
+    // return pokeCard.update(card.id, { finishes })
   });
 
   console.log('updating :', updates.length, special);
@@ -72,6 +83,7 @@ const updateAllCards = async () => {
   console.log('updated all cards');
 }
 
+// updateAllCards()
 
 
 export default pokeCard;

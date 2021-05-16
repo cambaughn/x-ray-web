@@ -53,6 +53,7 @@
 
   @include media(mobile) {
     width: 10vw;
+    display: none;
   }
 }
 

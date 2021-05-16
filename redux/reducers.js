@@ -64,6 +64,15 @@ const onFreeTrial = (state = false, action) => {
   }
 }
 
+const isBetaUser = (state = false, action) => {
+  switch (action.type) {
+    case 'SET_IS_BETA_USER':
+      return action.isBetaUser;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
@@ -73,7 +82,8 @@ const xRayApp = combineReducers({
   card,
   sales,
   subscriptionStatus,
-  onFreeTrial
+  onFreeTrial,
+  isBetaUser
 });
 
 export { xRayApp };

@@ -10,7 +10,7 @@ import AccountSetup from '../AccountSetup/AccountSetup';
 import PaymentPrompt from '../PaymentPrompt/PaymentPrompt';
 
 // Utility Functions
-import { setUser, setSubscriptionStatus, setOnFreeTrial } from '../../redux/actionCreators';
+import { setUser, setSubscriptionStatus, setOnFreeTrial, setIsBetaUser } from '../../redux/actionCreators';
 import { localStorageKeys } from '../../util/localStorage';
 import { onTrialPeriod } from '../../util/helpers/date';
 import userAPI from '../../util/api/user';
@@ -100,8 +100,20 @@ export default function AuthCheck({ children }) {
     }
   }
 
+  const determineBetaStatus = () => {
+    if (user.role) {
+      if (user.role === 'admin' || user.role === 'contributor' || user.role === 'beta') {
+        dispatch(setIsBetaUser(true));
+        return;
+      }
+    }
+
+    dispatch(setIsBetaUser(false));
+  }
+
   useEffect(checkUserLogin, []);
   useEffect(checkSubscriptionStatus, [user]); // check only once the user exists
+  useEffect(determineBetaStatus, [user]);
   useEffect(determineAccountSetup, [user]);
   useEffect(checkRouteProtection, [router, checkedUserAuth]);
   // useEffect(() => setCheckedSubscription(true), [subscriptionStatus]);

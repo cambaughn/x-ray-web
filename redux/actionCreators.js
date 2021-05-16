@@ -52,6 +52,13 @@ function setOnFreeTrial(onFreeTrial) {
   }
 }
 
+function setIsBetaUser(isBetaUser) {
+  return {
+    type: 'SET_IS_BETA_USER',
+    isBetaUser
+  }
+}
+
 
 export {
   setUser,
@@ -60,5 +67,6 @@ export {
   setCard,
   setSales,
   setSubscriptionStatus,
-  setOnFreeTrial
+  setOnFreeTrial,
+  setIsBetaUser
 };

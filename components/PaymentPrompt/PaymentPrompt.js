@@ -83,6 +83,7 @@ export default function PaymentPrompt({}) {
           setShowError(true);
         }
       } catch(error) {
+        console.error(error);
         setLoading(false);
         setShowError(true);
       }

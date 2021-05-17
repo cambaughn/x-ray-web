@@ -1,6 +1,7 @@
 .container {
   margin-top: 30px;
   width: 80%;
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -9,6 +10,9 @@
   overflow-y: scroll;
 }
 
+.emptyCollectionMessage {
+  color: grey;
+}
 
 .resultWrapper {
   display: flex;

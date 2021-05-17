@@ -14,6 +14,9 @@ export default function CollectionList({}) {
 
   return (
     <div className={styles.container}>
+      { collectionDetails.length === 0 &&
+        <span className={styles.emptyCollectionMessage}>Search to find cards and add to your collection</span>
+      }
       { collectionDetails.map((detail, index) => {
         let item = collectedItems[detail.item_id];
 

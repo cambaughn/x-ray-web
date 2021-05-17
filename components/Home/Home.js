@@ -18,7 +18,7 @@ export default function Home({}) {
 
       <div className={styles.getStartedWrapper}>
         <GetStartedButton />
-        <span className={styles.priceText}>1 week free trial, then $15 per month</span>
+        <span className={styles.priceText}>1 week free trial, then $7 per month</span>
       </div>
 
 

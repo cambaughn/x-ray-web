@@ -22,7 +22,7 @@ export default function PaymentSuccess({}) {
   }
 
   useEffect(recordSubscription, []);
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>

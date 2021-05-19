@@ -8,6 +8,7 @@ import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreat
 import { getNowAsStringWithTime } from '../../util/helpers/date';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
+import analytics from '../../util/analytics/segment';
 
 const finishMap = {
   'non-holo': 'Non-holo',
@@ -90,6 +91,11 @@ export default function AddCardModal({ toggleModal, card, finishes }) {
       await collectedItem.create(item);
 
       await getCollectedItems();
+
+      analytics.track({
+        userId: user.id,
+        event: 'Added card to collection'
+      });
 
       toggleModal();
     } catch(error) {

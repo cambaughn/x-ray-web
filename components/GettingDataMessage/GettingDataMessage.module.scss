@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+
+  background-color: #ecf0f1;
+
+  color: #7f8c8d;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.body {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.spacing {
+  margin-bottom: 5px;
+}

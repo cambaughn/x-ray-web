@@ -64,9 +64,9 @@ export default function UserCollection({}) {
         let keySales = [];
 
         if (item.grading_authority && item.grade) {
-          keySales = salesForFinish[item.grading_authority][item.grade];
+          keySales = salesForFinish[item.grading_authority][item.grade] || [];
         } else {
-          keySales = salesForFinish.ungraded;
+          keySales = salesForFinish.ungraded || [];
         }
 
         if (keySales.length === 0) {

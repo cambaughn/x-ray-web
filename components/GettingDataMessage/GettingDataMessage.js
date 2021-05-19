@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 // Utility functions
 
-export default function GettingDataMessage({}) {
+export default function GettingDataMessage({ numItemsWithouSales }) {
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>Hang in there!</h4>

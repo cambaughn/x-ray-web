@@ -74,6 +74,26 @@ const isBetaUser = (state = false, action) => {
 }
 
 
+// Store all series and sets for browsing
+const pokemonSeries = (state = [], action) => {
+  switch (action.type) {
+      case 'SET_POKEMON_SERIES':
+      return action.pokemonSeries;
+    default:
+      return state;
+  }
+}
+
+const pokemonSets = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_POKEMON_SET':
+      return action.pokemonSet;
+    default:
+      return state;
+  }
+}
+
+
 
 const xRayApp = combineReducers({
   user,
@@ -83,7 +103,9 @@ const xRayApp = combineReducers({
   sales,
   subscriptionStatus,
   onFreeTrial,
-  isBetaUser
+  isBetaUser,
+  pokemonSeries,
+  pokemonSets
 });
 
 export { xRayApp };

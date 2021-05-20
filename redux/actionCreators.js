@@ -59,6 +59,21 @@ function setIsBetaUser(isBetaUser) {
   }
 }
 
+function setPokemonSeries(pokemonSeries) {
+  return {
+    type: 'SET_POKEMON_SERIES',
+    pokemonSeries
+  }
+}
+
+function setPokemonSet(pokemonSet) {
+  return {
+    type: 'SET_POKEMON_SET',
+    pokemonSet
+  }
+}
+
+
 
 export {
   setUser,
@@ -68,5 +83,7 @@ export {
   setSales,
   setSubscriptionStatus,
   setOnFreeTrial,
-  setIsBetaUser
+  setIsBetaUser,
+  setPokemonSeries,
+  setPokemonSet
 };

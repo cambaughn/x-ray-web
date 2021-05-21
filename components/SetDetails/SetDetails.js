@@ -12,6 +12,7 @@ import pokeSet from '../../util/api/set';
 export default function SetDetails({}) {
   const pokemonSets = useSelector(state => state.pokemonSets);
   const [currentSet, setCurrentSet] = useState({});
+  const [cards, setCards] = useState([]);
   const router = useRouter();
 
   const getSet = async () => {
@@ -33,11 +34,21 @@ export default function SetDetails({}) {
     setCurrentSet(foundSet);
   }
 
+  const getCards = async () => {
+
+  }
+
   useEffect(getSet, []);
+  useEffect(getCards, [currentSet]);
 
   return (
     <div className={styles.container}>
-
+      <div className={styles.setInfo}>
+        <div className={styles.imageWrapper}>
+          <img src={currentSet.images.logo} className={styles.logo} />
+        </div>
+        <h4 className={styles.setName}>{currentSet.name}</h4>
+      </div>
     </div>
   )
 }

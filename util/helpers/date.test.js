@@ -4,7 +4,8 @@ import {
   getNowAsStringWithTime,
   getDateInPast,
   getDateInFuture,
-  onTrialPeriod
+  onTrialPeriod,
+  releaseStringToObject
 } from './date';
 
 describe('Verify date helpers', () => {
@@ -37,5 +38,11 @@ describe('Verify date helpers', () => {
       trial_end: formatDateAsStringWithTime(getDateInPast(7))
     }
     expect(onTrialPeriod(user)).toBe(false);
+  });
+
+  test('Can convert release string to date object', () => {
+    let releaseString = '2000/04/24';
+    let expectedDate = new Date(2000, 4, 24, 12, 0, 0, 0);
+    expect(releaseStringToObject(releaseString)).toStrictEqual(expectedDate);
   });
 })

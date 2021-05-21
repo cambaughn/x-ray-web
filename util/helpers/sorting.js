@@ -1,8 +1,20 @@
-import { dateStringToObject, complexDateStringToObject } from './date.js';
+import { dateStringToObject, complexDateStringToObject, releaseStringToObject } from './date.js';
 
 const sortSalesByDate = (sales) => {
   return sales.sort((a, b) => {
     if (a.date > b.date) {
+      return -1;
+    } else {
+      return 1;
+    }
+  })
+}
+
+const sortSetsByDate = (sets) => {
+  return sets.sort((a, b) => {
+    let a_date = releaseStringToObject(a.releaseDate);
+    let b_date = releaseStringToObject(b.releaseDate);
+    if (a_date > b_date) {
       return -1;
     } else {
       return 1;
@@ -53,4 +65,4 @@ const sortSalesByPrice = (sales, method) => {
   }
 }
 
-export { sortSalesByDate, sortSalesByPrice, sortCollectionByDate, sortCardsByNumber };
+export { sortSalesByDate, sortSalesByPrice, sortCollectionByDate, sortCardsByNumber, sortSetsByDate };

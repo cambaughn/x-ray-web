@@ -14,6 +14,12 @@
 
 .seriesWrapper {
   width: 60%;
+  margin-bottom: 50px;
+
+  @include media(mobile) {
+    margin-bottom: 40px;
+    width: 100%;
+  }
 }
 
 .seriesInfo {
@@ -22,10 +28,18 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 20px;
+
+  @include media(mobile) {
+    flex-direction: column;
+  }
 }
 
 .seriesLogoWrapper {
   width: 200px;
+
+  @include media(mobile) {
+    width: auto;
+  }
 }
 
 .seriesLogo {
@@ -41,6 +55,11 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
+
+  @include media(mobile) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .setCard {
@@ -59,6 +78,11 @@
 
   background-color: #ecf0f1;
   cursor: pointer;
+
+  @include media(mobile) {
+    margin-right: 0px;
+    margin-bottom: 20px;
+  }
 }
 
 .setLogoWrapper {

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // Utility functions
 import pokeSeries from '../../util/api/series';
 import pokeSet from '../../util/api/set';
+import { sortSetsByDate } from '../../util/helpers/sorting';
 import { setPokemonSet, setPokemonSeries } from '../../redux/actionCreators';
 
 
@@ -32,6 +33,7 @@ export default function Browse({}) {
 
   const getSetInfo = async () => {
     let setInfo = await pokeSet.get();
+    setInfo = sortSetsByDate(setInfo);
     dispatch(setPokemonSet(setInfo));
   }
 
@@ -51,7 +53,7 @@ export default function Browse({}) {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Browse by set</h2>
+      <h2 className={styles.title}>Browse by Set</h2>
 
       { pokemonSeries.map(series => {
         return (

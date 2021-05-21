@@ -68,21 +68,16 @@
 .details {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.leftSide {
-  display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 }
 
+
 .cardName {
-  font-size: 0.9em;
+  font-size: 0.85em;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .cardNumber {

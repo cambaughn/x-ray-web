@@ -85,6 +85,17 @@ const dateSoldToObject = (dateString) => {
   }
 }
 
+const releaseStringToObject = (releaseString) => {
+  let pieces = releaseString.split('/');
+
+  let year = parseInt(pieces[0]);
+  let month = parseInt(pieces[1]);
+  let day = parseInt(pieces[2]);
+  let date = new Date(year, month, day, 12, 0, 0, 0);
+
+  return date;
+}
+
 // Comparison functions
 
 const isLastMonth = (date) => {
@@ -222,5 +233,6 @@ export {
   formatWeekLabel,
   dateSoldToObject,
   isPastWeek,
-  onTrialPeriod
+  onTrialPeriod,
+  releaseStringToObject
 }

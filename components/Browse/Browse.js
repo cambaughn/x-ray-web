@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Browse.module.scss';
+import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
@@ -22,7 +23,6 @@ export default function Browse({}) {
     let seriesLookup = {};
 
     seriesInfo.forEach(series => {
-      !sortingOrder.includes(series.name) && console.log('series ', series);
       seriesLookup[series.name] = series;
     })
 
@@ -67,12 +67,14 @@ export default function Browse({}) {
               <div className={styles.setsInSeries}>
                 { setLookup[series.id].map(set => {
                   return (
-                    <div className={styles.setCard} key={set.id}>
-                      <div className={styles.setLogoWrapper}>
-                        <img src={set.images.logo} className={styles.setLogo} />
+                    <Link href={`/set/${set.id}`} key={set.id}>
+                      <div className={styles.setCard}>
+                        <div className={styles.setLogoWrapper}>
+                          <img src={set.images.logo} className={styles.setLogo} />
+                        </div>
+                        <span className={styles.setName}>{set.name}</span>
                       </div>
-                      <span className={styles.setName}>{set.name}</span>
-                    </div>
+                    </Link>
                   )
                 })}
               </div>

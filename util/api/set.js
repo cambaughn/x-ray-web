@@ -53,8 +53,16 @@ pokeSet.update = async (id, updates) => {
 
 const checkSets = async () => {
   let sets = await pokeSet.get();
-  console.log('sets =>', sets );
+  let toUpdate = sets.filter(set => set.series === 'HeartGold & SoulSilver')
+  // toUpdate.forEach(set => {
+  //   const updates = { series: 'HeartGold SoulSilver' }
+  //   pokeSet.update(set.id, updates);
+  // })
+  console.log('sets =>', toUpdate );
 }
+
+// checkSets()
+
 
 
 export default pokeSet;

@@ -30,3 +30,63 @@
   margin: 0;
   margin-top: 10px;
 }
+
+// cards
+.cardList {
+  margin-top: 30px;
+  width: 80%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-bottom: 40px;
+  cursor: pointer;
+}
+
+
+.thumbnail {
+  width: 175px;
+  height: 245px;
+  margin-bottom: 15px;
+  box-shadow: 0px 4px 8px #95a5a6;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
+.details {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.cardName {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.cardNumber {
+  font-size: 0.75em;
+  color: grey;
+  font-weight: bold;
+}

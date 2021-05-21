@@ -10,6 +10,16 @@ const sortSalesByDate = (sales) => {
   })
 }
 
+const sortCardsByNumber = (cards) => {
+  return cards.sort((a, b) => {
+    if (parseInt(a.number ) < parseInt(b.number)) {
+      return -1;
+    } else {
+      return 1;
+    }
+  })
+}
+
 const sortCollectionByDate = (items) => {
   return items.sort((a, b) => {
     let a_date = complexDateStringToObject(a.date_added);
@@ -43,4 +53,4 @@ const sortSalesByPrice = (sales, method) => {
   }
 }
 
-export { sortSalesByDate, sortSalesByPrice, sortCollectionByDate };
+export { sortSalesByDate, sortSalesByPrice, sortCollectionByDate, sortCardsByNumber };

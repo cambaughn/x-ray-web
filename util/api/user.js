@@ -41,7 +41,7 @@ userAPI.create = async (email) => {
         email,
         username: null,
         name: null,
-        trial_end: formatDateAsStringWithTime(getDateInFuture(7)),
+        trial_end: formatDateAsStringWithTime(getDateInFuture(14)),
         signup_date: getNowAsStringWithTime(),
       }
       

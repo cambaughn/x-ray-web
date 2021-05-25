@@ -39,7 +39,6 @@ export default function ConfirmSignIn({ user, setUser }) {
           // Otherwise, create entry in the database for them
           let newUser = await userAPI.create(userEmail);
           if (newUser) {
-            console.log('found user! ');
             setUser(newUser);
             return;
           }

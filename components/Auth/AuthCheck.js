@@ -32,11 +32,13 @@ export default function AuthCheck({ children }) {
 
 
   const checkRouteProtection = () => {
-    setRouteIsPublic(publicRoutes.has(router.pathname));
+    setRouteIsPublic(true);
 
-    if (checkedUserAuth && !user.username && !publicRoutes.has(router.pathname)) {
-      router.replace('/');
-    }
+    // setRouteIsPublic(publicRoutes.has(router.pathname));
+    //
+    // if (checkedUserAuth && !user.username && !publicRoutes.has(router.pathname)) {
+    //   router.replace('/');
+    // }
   }
 
   const determineAccountSetup = () => {
@@ -115,7 +117,7 @@ export default function AuthCheck({ children }) {
   useEffect(checkSubscriptionStatus, [user]); // check only once the user exists
   useEffect(determineBetaStatus, [user]);
   useEffect(determineAccountSetup, [user]);
-  // useEffect(checkRouteProtection, [router, checkedUserAuth]);
+  useEffect(checkRouteProtection, [router, checkedUserAuth]);
   // useEffect(() => setCheckedSubscription(true), [subscriptionStatus]);
 
   if (needAccountSetup) { // if they need to sign in, just allow the account setup page

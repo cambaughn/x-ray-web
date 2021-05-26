@@ -44,7 +44,7 @@ userAPI.create = async (email) => {
         trial_end: formatDateAsStringWithTime(getDateInFuture(14)),
         signup_date: getNowAsStringWithTime(),
       }
-      
+
       await db.collection('users').doc(email).set(newUser, { merge: true });
       user = await userAPI.get(email);
 

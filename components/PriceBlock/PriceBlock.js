@@ -7,6 +7,7 @@ import PriceChart from '../PriceChart/PriceChart';
 // Utility functions
 import { sortSalesByDate } from '../../util/helpers/sorting.js';
 import { getDates, getWeeks, formatWeekLabel } from '../../util/helpers/date.js';
+import { numberWithCommas } from '../../util/helpers/string.js';
 import { flatten } from '../../util/helpers/array.js';
 
 
@@ -91,19 +92,19 @@ export default function PriceBlock({ sales, label }) {
               { analysis.volume &&
                 <tr>
                   <td className={styles.label}>Total Volume:</td>
-                  <td className={styles.data}>${analysis.volume}</td>
+                  <td className={styles.data}>${numberWithCommas(analysis.volume)}</td>
                 </tr>
               }
               { analysis.highestPrice > 0 &&
                 <tr>
                   <td className={styles.label}>Highest Price:</td>
-                  <td className={styles.data}>${analysis.highestPrice}</td>
+                  <td className={styles.data}>${numberWithCommas(analysis.highestPrice)}</td>
                 </tr>
               }
               { analysis.lowestPrice > 0 &&
                 <tr>
                   <td className={styles.label}>Lowest Price:</td>
-                  <td className={styles.data}>${analysis.lowestPrice}</td>
+                  <td className={styles.data}>${numberWithCommas(analysis.lowestPrice)}</td>
                 </tr>
               }
             </tbody>

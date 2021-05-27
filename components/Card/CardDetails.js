@@ -23,7 +23,6 @@ export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
   const [set, setSet] = useState({});
-  const [finishes, setFinishes] = useState([]);
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
   const [addCardModalVisible, setAddCardModalVisible] = useState(false);
@@ -156,7 +155,7 @@ export default function CardDetails({ card_id }) {
       </div>
 
       <div className={styles.rightSection}>
-        <PriceDetails sales={sales} card={card} finishes={finishes} setFinishes={setFinishes} />
+        <PriceDetails card={card} />
       </div>
 
       { addCardModalVisible &&

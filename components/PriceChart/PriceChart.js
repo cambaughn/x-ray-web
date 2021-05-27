@@ -7,7 +7,7 @@ import { Line, defaults } from 'react-chartjs-2';
 // Utility functions
 
 
-export default function PriceChart({ salesData }) {
+export default function PriceChart({ sales }) {
 
   const isMobile = () => {
     return window.innerWidth < 1024;
@@ -17,11 +17,11 @@ export default function PriceChart({ salesData }) {
     <div className={styles.container}>
       <Line
         data={{
-          labels: salesData.map(day => day.label),
+          labels: sales.map(week => week.label),
           datasets: [
             {
               label: 'Price (USD)',
-              data: salesData.map(day => day.averagePrice),
+              data: sales.map(week => week.averagePrice),
               backgroundColor: ['rgba(70, 130, 180, 0.3)', 'rgba(70, 130, 180, 0)'],
               borderColor: '#4682b4',
               borderWidth: 2,

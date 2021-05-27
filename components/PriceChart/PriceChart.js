@@ -8,6 +8,7 @@ import { Line, defaults } from 'react-chartjs-2';
 
 
 export default function PriceChart({ salesData }) {
+
   const isMobile = () => {
     return window.innerWidth < 1024;
   }

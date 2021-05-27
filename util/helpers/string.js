@@ -64,4 +64,8 @@ const isBaseOrBase2 = (set_name) => {
   return set_name === 'base' || set_name === 'base set 2';
 }
 
-export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2 }
+const numberWithCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas }

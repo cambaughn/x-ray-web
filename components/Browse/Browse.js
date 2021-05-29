@@ -27,7 +27,7 @@ export default function Browse({}) {
       seriesLookup[series.name] = series;
     })
 
-    let sortedSeries = sortingOrder.map(name => seriesLookup[name]);
+    let sortedSeries = sortingOrder.map(name => seriesLookup[name] || {});
     dispatch(setPokemonSeries(sortedSeries));
   }
 

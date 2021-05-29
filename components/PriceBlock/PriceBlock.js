@@ -70,13 +70,13 @@ export default function PriceBlock({ sales, label }) {
             <span className={styles.period}>last 90 days</span>
           </div>
           <div className={styles.rightSide}>
-            <h2 className={styles.price}>${sales[sales.length - 1].averagePrice}</h2>
+            <h2 className={styles.price}>${sales[sales.length - 2].averagePrice}</h2>
             <span className={styles.period}>avg. last week</span>
           </div>
 
         </div>
 
-        <PriceChart sales={sales} />
+        <PriceChart sales={sales.slice(0, sales.length - 1)} />
       </div>
 
       { displayTable() &&

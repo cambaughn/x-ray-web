@@ -126,7 +126,7 @@ export default function NavBar({}) {
         </Link>
       </div>
       { subscriptionStatus === 'active' &&
-        <HamburgerMenu />
+        <HamburgerMenu user={user} />
       }
 
       { subscriptionStatus === 'active' &&
@@ -140,7 +140,7 @@ export default function NavBar({}) {
         }
 
         { subscriptionStatus === 'active' &&
-          <Link href={'/profile/settings'}>
+          <Link href={`/profile/${user.username}`}>
             <div className={styles.userButton}>
               <User />
             </div>

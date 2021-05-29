@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 // Utility functions
 
-export default function HamburgerMenu({}) {
+export default function HamburgerMenu({ user }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
@@ -36,9 +36,9 @@ export default function HamburgerMenu({}) {
               <span className={styles.link}>Home</span>
             </div>
           </Link>
-          <Link href={'/profile/settings'}>
+          <Link href={`/profile/${user.username}`}>
             <div className={styles.linkWrapper} onClick={toggleMenu}>
-              <span className={styles.link}>Settings</span>
+              <span className={styles.link}>Profile</span>
             </div>
           </Link>
         </div>

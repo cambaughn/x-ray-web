@@ -14,7 +14,7 @@ import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
 
 
-export default function UserCollection({}) {
+export default function UserCollection({ username }) {
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids

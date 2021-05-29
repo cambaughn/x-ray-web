@@ -60,7 +60,7 @@ export default function Browse({}) {
           <div className={styles.seriesWrapper} key={series.id}>
             <div className={styles.seriesInfo}>
               <div className={styles.seriesLogoWrapper}>
-                <img src={series.logo} className={styles.seriesLogo} />
+                <img src={series && series.logo ? series.logo : null} className={styles.seriesLogo} />
               </div>
               <h3>{series.name}</h3>
             </div>

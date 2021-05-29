@@ -36,7 +36,7 @@ export default function HamburgerMenu({ user }) {
               <span className={styles.link}>Home</span>
             </div>
           </Link>
-          <Link href={`/profile/${user.username}`}>
+          <Link href={`/profile`}>
             <div className={styles.linkWrapper} onClick={toggleMenu}>
               <span className={styles.link}>Profile</span>
             </div>

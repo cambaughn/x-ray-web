@@ -79,22 +79,25 @@ export default function AuthCheck({ children }) {
     let status = 'not_subscribed';
 
     try {
-      if (!!user.username) { // if user is signed in
-        let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
-        customer_id = customer_id || null;
-
-
-        if (user.role === 'admin' || user.role === 'contributor' || !user.trial_end) { // user gets a free pass
-          status = 'active';
-        } else if (onTrialPeriod(user) ) {
-          status = 'active';
-          dispatch(setOnFreeTrial(true));
-        } else if (customer_id) { // user is potentially a customer
-          const { data } = await axios.post(`${window.location.origin}/api/subscription/status`, { customer_id });
-          status = data.subscriptionStatus;
-        }
-        dispatch(setSubscriptionStatus(status));
+      if (!!user.username) {
+        dispatch(setSubscriptionStatus('active'));
       }
+      // if (!!user.username) { // if user is signed in
+      //   let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
+      //   customer_id = customer_id || null;
+      //
+      //
+      //   if (user.role === 'admin' || user.role === 'contributor' || !user.trial_end) { // user gets a free pass
+      //     status = 'active';
+      //   } else if (onTrialPeriod(user) ) {
+      //     status = 'active';
+      //     dispatch(setOnFreeTrial(true));
+      //   } else if (customer_id) { // user is potentially a customer
+      //     const { data } = await axios.post(`${window.location.origin}/api/subscription/status`, { customer_id });
+      //     status = data.subscriptionStatus;
+      //   }
+      //   dispatch(setSubscriptionStatus(status));
+      // }
     } catch (error) { // Not subscribed
       dispatch(setSubscriptionStatus(status));
     }

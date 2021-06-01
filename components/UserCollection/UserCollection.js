@@ -12,13 +12,15 @@ import sale from '../../util/api/sales';
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
+import formattedSale from '../../util/api/formatted_sale.js';
 
 
 export default function UserCollection({ username }) {
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
-  const [salesLookup, setSalesLookup] = useState({}); // raw sales as an object where the keys are the card_ids
+  const [salesByType, setSalesByType] = useState({});
+
   const [relevantSales, setRelevantSales] = useState({}); // salesLookup reduced to only relevant sales
   const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
@@ -28,27 +30,27 @@ export default function UserCollection({ username }) {
   const getSales = async () => {
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
       let item_ids = collectionDetails.map(item => item.item_id);
-      let allSales = await sale.getForMultiple(item_ids);
+      let allSales = await formattedSale.getForMultiple(item_ids);
+      let salesLookup = {};
 
-      // Convert date strings on sales into objects
+      // Create sales lookup object to easily switch between different specifics
       allSales.forEach(sale => {
-        sale.date = dateSoldToObject(sale.date_sold);
-      })
-      allSales = allSales.filter(sale => isLastThreeMonths(sale.date));
+        let specifics = sale.id.split('_');
+        let [card_id, finish, grading_authority, grade] = specifics;
 
-      // Create salesLookup with breakdowns by
-      let salesObject = {};
-      allSales.forEach(sale => {
-        salesObject[sale.card_id] = salesObject[sale.card_id] || [];
-        salesObject[sale.card_id].push(sale);
-      })
-
-      Object.keys(salesObject).forEach(key => {
-        let singleCardSales = salesObject[key];
-        salesObject[key] = sortSalesByType(salesObject[key], collectedItems[key].finishes);
+        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the finish
+        salesLookup[card_id][finish] = salesLookup[card_id][finish] || {}; // this is the finish
+        salesLookup[card_id][finish][grading_authority] = salesLookup[card_id][finish][grading_authority] || {}; // this is the grading_authority
+        if (grading_authority === 'ungraded') { // if ungraded, this is the final level, place the sale here
+          salesLookup[card_id][finish][grading_authority] = sale;
+        } else {
+          salesLookup[card_id][finish][grading_authority][grade] = sale;
+        }
       })
 
-      setSalesLookup(salesObject);
+      console.log('sales lookup ', salesLookup);
+
+      setSalesByType(salesLookup);
     }
   }
 
@@ -128,9 +130,9 @@ export default function UserCollection({ username }) {
   }
 
   useEffect(getSales, [collectionDetails, collectedItems]);
-  useEffect(determineRelevantSales, [salesLookup]);
-  useEffect(formatIndividualItemSales, [relevantSales]);
-  useEffect(finalFormatSales, [formattedIndividualSales]);
+  // useEffect(determineRelevantSales, [salesLookup]);
+  // useEffect(formatIndividualItemSales, [relevantSales]);
+  // useEffect(finalFormatSales, [formattedIndividualSales]);
 
   return (
     <div className={styles.container}>

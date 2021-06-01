@@ -19,7 +19,7 @@ export default function PriceDetails({ card }) {
   const getSales = async () => {
     try {
       if (card.id) {
-        let sales = await formattedSale.getForCard(card.id);
+        let sales = await formattedSale.getForItem(card.id);
         let availableFinishes = [];
         let salesLookup = {};
 

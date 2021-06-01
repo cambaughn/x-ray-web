@@ -4,6 +4,7 @@ import styles from './PriceDetails.module.scss';
 // Components
 import PriceBlock from '../PriceBlock/PriceBlock';
 import FinishButtons from '../FinishButtons/FinishButtons';
+import NoDataMessage from '../NoDataMessage/NoDataMessage';
 
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
@@ -15,6 +16,7 @@ export default function PriceDetails({ card }) {
   const [finishes, setFinishes] = useState([]);
   const [selectedFinish, setSelectedFinish] = useState('non-holo');
   const [salesByType, setSalesByType] = useState({});
+  const [gotSales, setGotSales] = useState(false);
 
   const getSales = async () => {
     try {
@@ -44,6 +46,7 @@ export default function PriceDetails({ card }) {
         setSelectedFinish(availableFinishes[0]);
         setFinishes(availableFinishes);
         setSalesByType(salesLookup);
+        setGotSales(true);
       }
     } catch (error) {
       console.error(error);
@@ -111,6 +114,10 @@ export default function PriceDetails({ card }) {
             <PriceBlock sales={salesByType[selectedFinish]['PSA']['10'].formatted_data || []} label={'PSA 10'} />
           }
         </>
+      }
+
+      { gotSales && !salesByType[selectedFinish] &&
+        <NoDataMessage />
       }
 
     </div>

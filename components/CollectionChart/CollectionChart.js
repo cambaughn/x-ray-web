@@ -28,7 +28,7 @@ export default function CollectionChart({ averagePrice, formattedSales }) {
         </div>
         <div className={styles.rightSide}>
           <h2 className={styles.price}>${averagePrice}</h2>
-          <span className={styles.period}>avg. last week</span>
+          <span className={styles.period}>last week</span>
         </div>
 
       </div>

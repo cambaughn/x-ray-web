@@ -49,11 +49,19 @@
   align-items: flex-start;
   justify-content: flex-start;
 }
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+}
 
 .topLine {
   font-size: 0.75em;
   color: grey;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .cardName {
@@ -61,8 +69,13 @@
   font-weight: bold;
 }
 
+.price {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
 .setName {
-  margin-bottom: 5px;
+
 }
 
 .cardNumber {

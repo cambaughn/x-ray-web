@@ -77,6 +77,7 @@ export default function UserCollection({ username }) {
       })
       formatted = formatted.slice(formatted.length - 12 ||  0, formatted.length - 1);
 
+      setAveragePrice(formatted[formatted.length - 1].total);
       setFormattedSales(formatted);
     }
   }
@@ -116,7 +117,7 @@ export default function UserCollection({ username }) {
         <GettingDataMessage numItemsWithouSales={numItemsWithouSales} />
       }
 
-      <CollectionList />
+      <CollectionList sales={relevantSales} />
     </div>
   )
 }

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 // Utility functions
 
-export default function CollectionList({}) {
+export default function CollectionList({ sales }) {
   const collectionDetails = useSelector(state => state.collectionDetails);
   const collectedItems = useSelector(state => state.collectedItems);
 
@@ -19,6 +19,9 @@ export default function CollectionList({}) {
       }
       { collectionDetails.map((detail, index) => {
         let item = collectedItems[detail.item_id];
+        let salesForItem = sales[index];
+        // Get price for this individual item
+        let price = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 1].averagePrice.toFixed(2) : '--';
 
         return item ? (
           <Link href={`/card/${item.id}`} key={`${item.id}-${index}`}>
@@ -30,7 +33,11 @@ export default function CollectionList({}) {
                   <span className={styles.cardName}>{item.name}</span>
                 </div>
 
-                <span className={classNames(styles.topLine, styles.cardNumber)}>#{item.number}</span>
+                <div className={styles.rightSide}>
+                  <span className={classNames(styles.topLine, styles.cardNumber)}>#{item.number}</span>
+                  <span className={styles.price}>{price !== '--' ? `$${price}` : price}</span>
+                </div>
+
               </div>
             </div>
           </Link>

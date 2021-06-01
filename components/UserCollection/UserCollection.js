@@ -29,7 +29,7 @@ export default function UserCollection({ username }) {
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
       let item_ids = collectionDetails.map(item => item.item_id);
       let allSales = await sale.getForMultiple(item_ids);
-      console.log('sales length ', allSales.length);
+
       // Convert date strings on sales into objects
       allSales.forEach(sale => {
         sale.date = dateSoldToObject(sale.date_sold);

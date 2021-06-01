@@ -13,8 +13,6 @@ import { flatten } from '../../util/helpers/array.js';
 
 export default function PriceBlock({ sales, label }) {
   const [averagePrice, setAveragePrice] = useState(0);
-  const [weeklyAverage, setWeeklyAverage] = useState(0);
-  const [salesData, setSalesData] = useState([]);
   const [analysis, setAnalysis] = useState({});
 
   const analyzeData = () => {

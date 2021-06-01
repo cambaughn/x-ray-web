@@ -19,13 +19,14 @@ export default function UserCollection({ username }) {
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
-  const [salesByType, setSalesByType] = useState({});
 
-  const [relevantSales, setRelevantSales] = useState({}); // salesLookup reduced to only relevant sales
-  const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
+  const [salesByType, setSalesByType] = useState({});
+  const [relevantSales, setRelevantSales] = useState({}); // collectionDetails mapped by index to correct formattedSales
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
   const [numItemsWithouSales, setNumItemsWithoutSales] = useState(0);
+
+  const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
 
   const getSales = async () => {
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
@@ -48,91 +49,58 @@ export default function UserCollection({ username }) {
         }
       })
 
-      console.log('sales lookup ', salesLookup);
+      // console.log('sales lookup ', salesLookup);
 
       setSalesByType(salesLookup);
     }
   }
 
-  // Get all the necessary sales from the sales lookup object and put them into a new object
-  const determineRelevantSales = () => {
-    if (Object.keys(salesLookup).length > 0 && Object.keys(relevantSales).length === 0) {
-      let newRelevantSales = {};
-      let withoutSalesCount = 0;
+  const formatAllSales = () => {
+    if (Object.keys(salesByType).length > 0 && Object.keys(formattedSales).length === 0) {
+      let salesForCollection = collectionDetails.map(item => findSalesForItem(item));
+      setRelevantSales(salesForCollection);
+      let formatted = [];
+      let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);
+      setNumItemsWithoutSales(salesForCollection.length - filteredData.length); // set num without sales as difference between collection details and filtered sales data;
 
-      collectionDetails.forEach(item => {
-        let salesForItem = salesLookup[item.item_id] || { holo: [] };
-        let salesForFinish = item.finish ? salesForItem[item.finish] : salesForItem[Object.keys(salesForItem).includes('holo') ? 'holo' : Object.keys(salesForItem)[0]];
-        let keySales = [];
-
-        if (item.grading_authority && item.grade) {
-          keySales = salesForFinish[item.grading_authority][item.grade] || [];
-        } else {
-          keySales = salesForFinish.ungraded || [];
-        }
-
-        if (keySales.length === 0) {
-          withoutSalesCount++;
-        }
-
-        newRelevantSales[item.item_id] = keySales;
-      })
-
-      setNumItemsWithoutSales(withoutSalesCount);
-      setRelevantSales(newRelevantSales);
-    }
-  }
-
-  const formatIndividualItemSales = () => {
-    if (Object.keys(formattedIndividualSales).length === 0 && Object.keys(relevantSales).length > 0) {
-      let individualSales = {};
-      Object.keys(relevantSales).forEach(key => {
-        let focusedSales = relevantSales[key];
-        let formattedData = formatSalesForChart(focusedSales);
-        individualSales[key] = formattedData;
-      })
-
-      setFormattedIndividualSales(individualSales);
-    }
-  }
-
-  // Take the formatted sales for each card and put them into one array to pass to the chart
-  const finalFormatSales = () => {
-    if (Object.keys(formattedIndividualSales).length > 0 && formattedSales.length === 0) {
-      let formattedData = [];
-      if (collectionDetails[0]) {
-        formattedData = formattedIndividualSales[collectionDetails[0].item_id];
-        formattedData = formattedData.map(data => {
-          let blankData = {
-            label: data.label,
-            itemSales: []
-          };
-          return blankData;
+      filteredData.forEach((data) => {
+        data.forEach((week, index) => {
+          formatted[index] = formatted[index] || {};
+          formatted[index].total = formatted[index].total || 0;
+          formatted[index].total += week.averagePrice || 0;
+          formatted[index].label = week.label;
         })
+      })
+
+      formatted.forEach(week => {
+        week.total = week.total.toFixed(2);
+      })
+      formatted = formatted.slice(formatted.length - 12 ||  0, formatted.length - 1);
+
+      setFormattedSales(formatted);
+    }
+  }
+
+  // Get sales for item from salesByType object
+  const findSalesForItem = (item) => {
+    if (!item.finish) { // set default finish in case it wasn't set
+      item.finish = 'holo';
+    }
+
+    if (salesByType[item.item_id] && salesByType[item.item_id][item.finish]) {
+      if (item.grading_authority && item.grade) {
+        return salesByType[item.item_id][item.finish][item.grading_authority] && salesByType[item.item_id][item.finish][item.grading_authority][item.grade] ? salesByType[item.item_id][item.finish][item.grading_authority][item.grade] : null;
+      } else {
+        return salesByType[item.item_id][item.finish].ungraded;
       }
-
-      // Add average price for each week (for each item) to the itemSales in formatted data
-      collectionDetails.forEach(item => {
-        let formatted = formattedIndividualSales[item.item_id];
-        formatted.forEach((week, index) => {
-          formattedData[index].itemSales.push(week.averagePrice);
-        })
-      })
-
-      formattedData.forEach(week => {
-        week.total = week.itemSales.reduce((a, b) => a + b).toFixed(2);
-      })
-
-      let priceToShow = formattedData[formattedData.length - 1].total;
-      setAveragePrice(priceToShow || 0);
-      setFormattedSales(formattedData);
+    } else {
+      return null;
     }
   }
+
 
   useEffect(getSales, [collectionDetails, collectedItems]);
-  // useEffect(determineRelevantSales, [salesLookup]);
-  // useEffect(formatIndividualItemSales, [relevantSales]);
-  // useEffect(finalFormatSales, [formattedIndividualSales]);
+  useEffect(formatAllSales, [salesByType]);
 
   return (
     <div className={styles.container}>

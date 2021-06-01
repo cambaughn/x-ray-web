@@ -7,41 +7,43 @@ import FinishButtons from '../FinishButtons/FinishButtons';
 
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
+import { unique } from '../../util/helpers/array.js';
+import formattedSale from '../../util/api/formatted_sale.js';
 
-export default function PriceDetails({ card, sales, finishes, setFinishes }) {
+
+export default function PriceDetails({ card }) {
+  const [finishes, setFinishes] = useState([]);
   const [selectedFinish, setSelectedFinish] = useState('non-holo');
-  const [recentSales, setRecentSales] = useState([]);
   const [salesByType, setSalesByType] = useState({});
 
-  const sortSalesByType = async () => {
+  const getSales = async () => {
     try {
-      if (sales.length > 0) {
+      if (card.id) {
+        let sales = await formattedSale.getForCard(card.id);
+        let availableFinishes = [];
+        let salesLookup = {};
+
+        // Create sales lookup object to easily switch between different specifics
         sales.forEach(sale => {
-          sale.date = dateSoldToObject(sale.date_sold);
-        })
+          // utilize finish to set available finishes
+          availableFinishes.push(sale.finish);
+          let specifics = sale.id.split('_').slice(1);
+          let [finish, grading_authority, grade] = specifics;
 
-        let recentSales = sales.filter(sale => isLastThreeMonths(sale.date));
-
-        let typeRecord = {};
-        recentSales.forEach(sale => {
-          // Determine finish: 'non-holo', 'reverse_holo', 'holo'
-          let finish = determineFinish(sale.title);
-          typeRecord[finish] = typeRecord[finish] || {};
-
-          let finishRef = typeRecord[finish];
-
-          if (sale.grading_authority && sale.grade) { // is a graded card
-            // Ex. typeRecord.non-holo.PSA.10 = [all_psa_10_sales_for_regular_finish]
-            finishRef[sale.grading_authority] = finishRef[sale.grading_authority] || {};
-            finishRef[sale.grading_authority][sale.grade] = finishRef[sale.grading_authority][sale.grade] || [];
-            finishRef[sale.grading_authority][sale.grade].push(sale);
-          } else { // is ungraded
-            finishRef.ungraded = finishRef.ungraded || [];
-            finishRef.ungraded.push(sale);
+          salesLookup[finish] = salesLookup[finish] || {}; // this is the finish
+          salesLookup[finish][grading_authority] = salesLookup[finish][grading_authority] || {}; // this is the grading_authority
+          if (grading_authority === 'ungraded') { // if ungraded, this is the final level, place the sale here
+            salesLookup[finish][grading_authority] = sale;
+          } else {
+            salesLookup[finish][grading_authority][grade] = sale;
           }
+
         })
 
-        setSalesByType(typeRecord);
+        availableFinishes = unique(availableFinishes);
+        setSelectedFinish(availableFinishes[0]);
+        setFinishes(availableFinishes);
+        setSalesByType(salesLookup);
       }
     } catch (error) {
       console.error(error);
@@ -49,8 +51,7 @@ export default function PriceDetails({ card, sales, finishes, setFinishes }) {
   }
 
 
-  // Finishes - non-holo, reverse_holo, holo
-  // Note that finishes are NOT rarity. They simply relate to the finish of the card.
+
   const determineFinish = (title) => {
     // If the card has explicitly set finishes, override whatever the title says
     if (card.finishes && card.finishes.length > 0) {
@@ -69,6 +70,8 @@ export default function PriceDetails({ card, sales, finishes, setFinishes }) {
     }
   }
 
+  // Finishes - non-holo, reverse_holo, holo
+  // Note that finishes are NOT rarity. They simply relate to the finish of the card.
   const setAvailableFinishes = () => {
     if (finishes.length === 0) {
 
@@ -95,17 +98,17 @@ export default function PriceDetails({ card, sales, finishes, setFinishes }) {
   }
 
 
-  useEffect(sortSalesByType, [sales]);
-  useEffect(setAvailableFinishes, [salesByType]);
+  useEffect(getSales, [card]);
+
 
   return (
     <div className={styles.container}>
       <FinishButtons finishes={finishes} selectedFinish={selectedFinish} setSelectedFinish={setSelectedFinish} />
       { salesByType[selectedFinish] &&
         <>
-          <PriceBlock sales={salesByType[selectedFinish].ungraded || []} ungraded={true} />
-          { salesByType[selectedFinish].PSA && salesByType[selectedFinish].PSA[10] &&
-            <PriceBlock sales={salesByType[selectedFinish].PSA && salesByType[selectedFinish].PSA[10] ? salesByType[selectedFinish].PSA[10] : []} gradingAuthority={'PSA'} grade={10} />
+          <PriceBlock sales={salesByType[selectedFinish].ungraded.formatted_data || []} label={'Ungraded'} />
+          { salesByType[selectedFinish]['PSA'] && salesByType[selectedFinish]['PSA']['10'] &&
+            <PriceBlock sales={salesByType[selectedFinish]['PSA']['10'].formatted_data || []} label={'PSA 10'} />
           }
         </>
       }

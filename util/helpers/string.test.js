@@ -1,4 +1,4 @@
-import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2 } from './string';
+import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas } from './string';
 
 describe('Verify alphanumeric checker', () => {
   test('Returns false for blank string', () => {
@@ -128,6 +128,18 @@ describe('Find base set cards', () => {
     "given %o as an argument, returns %p",
     (set_name, expectedResult) => {
       const result = isBaseOrBase2(set_name);
+      expect(result).toEqual(expectedResult);
+    }
+  );
+})
+
+describe('Handle number formatting with commas', () => {
+  let cases = [[1000, '1,000'], [20000.12, '20,000.12'], [1234567.89, '1,234,567.89'], [35, '35']]
+
+  test.each(cases)(
+    "given %o as an argument, returns %p",
+    (number, expectedResult) => {
+      const result = numberWithCommas(number);
       expect(result).toEqual(expectedResult);
     }
   );

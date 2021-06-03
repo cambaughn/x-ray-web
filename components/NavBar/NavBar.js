@@ -29,6 +29,7 @@ export default function NavBar({}) {
   const [addedUrl, setAddedUrl] = useState(false);
   const [previousPath, setPreviousPath] = useState('');
   const [canGoBack, setCanGoBack] = useState(false);
+  const [navLinks, setNavLinks] = useState([ { text: 'Collection', href: '/collection'} ]);
 
   const liveSearch = async () => {
     try {
@@ -140,11 +141,19 @@ export default function NavBar({}) {
         }
 
         { subscriptionStatus === 'active' &&
-          <Link href={`/profile`}>
-            <div className={styles.userButton}>
-              <User />
-            </div>
-          </Link>
+          <div className={styles.navLinks}>
+            { navLinks.map(link => {
+              return (
+                <Link href={link.href} key={link.href}>
+                  <div className={styles.navButton}>
+                    <span className={styles.navText}>
+                      {link.text}
+                    </span>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
         }
       </div>
 

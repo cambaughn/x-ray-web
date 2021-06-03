@@ -49,7 +49,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 
   @include media(mobile) {
     width: 10vw;
@@ -57,7 +57,16 @@
   }
 }
 
-.userButton {
+.navButton {
   cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.navText {
+  font-weight: 500;
   color: grey;
 }

@@ -33,10 +33,10 @@ export default function HamburgerMenu({ user }) {
         <div className={styles.links}>
           <Link href={'/'}>
             <div className={styles.linkWrapper} onClick={toggleMenu}>
-              <span className={styles.link}>Home</span>
+              <span className={styles.link}>Browse</span>
             </div>
           </Link>
-          <Link href={`/profile`}>
+          <Link href={`/collection`}>
             <div className={styles.linkWrapper} onClick={toggleMenu}>
               <span className={styles.link}>Collection</span>
             </div>

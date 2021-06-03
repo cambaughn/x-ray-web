@@ -15,6 +15,8 @@ export default function PriceBlock({ sales, label }) {
   const [averagePrice, setAveragePrice] = useState(0);
   const [analysis, setAnalysis] = useState({});
 
+  // console.log('sales on card page ', sales, label);
+
   const analyzeData = () => {
      if (sales.length > 0) {
        // Map out the last 12 weeks as days

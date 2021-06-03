@@ -31,9 +31,50 @@
   margin-top: 10px;
 }
 
+// Edit button
+.buttons {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button {
+  background-color: #ecf0f1;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  margin-left: 20px;
+  margin-right: 20px;
+
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.editModeButton {
+
+}
+
+
+.saveButton {
+  background-color: black;
+  color: white;
+}
+
+.editButtonText {
+  font-weight: 500;
+}
+
 // cards
 .cardList {
   margin-top: 30px;
+  padding-top: 5px;
   width: 80%;
 
   display: flex;
@@ -86,4 +127,12 @@
   font-size: 0.75em;
   color: grey;
   font-weight: bold;
+}
+
+.editCardWrapper {
+
+}
+
+.selectedCard {
+  box-shadow: 0 0 0 3pt #e74c3c;
 }

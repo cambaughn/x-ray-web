@@ -15,8 +15,11 @@ import { sortCardsByNumber } from '../../util/helpers/sorting';
 
 export default function SetDetails({}) {
   const pokemonSets = useSelector(state => state.pokemonSets);
+  const user = useSelector(state => state.user);
   const [currentSet, setCurrentSet] = useState({});
   const [cards, setCards] = useState([]);
+  const [editModeActive, setEditModeActive] = useState(false);
+  const [selectedItems, setSelectedItems] = useState(new Set());
   const router = useRouter();
 
   const getSet = async () => {
@@ -45,6 +48,51 @@ export default function SetDetails({}) {
     setCards(cardsForSet);
   }
 
+  const handleEditButtonClick = () => {
+    if (!editModeActive) {
+      setEditModeActive(true);
+    } else {
+      setEditModeActive(false);
+      setSelectedItems(new Set());
+    }
+  }
+
+  const toggleSelectCard = (card_id) => {
+    let newSelections = new Set(selectedItems);
+    if (newSelections.has(card_id)) {
+      newSelections.delete(card_id);
+    } else {
+      newSelections.add(card_id);
+    }
+
+    setSelectedItems(newSelections);
+  }
+
+  const makeFullArt = async () => {
+    let updates = {
+      full_art: true,
+      finishes: ['holo']
+    }
+
+    let cardsToUpdate = Array.from(selectedItems);
+    let updateRefs = cardsToUpdate.map(card_id => pokeCard.update(card_id, updates));
+    await Promise.all(updateRefs);
+    console.log('made full art', cardsToUpdate);
+    handleEditButtonClick();
+  }
+
+  const renderCard = (card, selected) => {
+    return (
+      <div className={styles.cardWrapper}>
+        <img src={card.images.small} className={classNames({[styles.thumbnail]: true, [styles.selectedCard]: selected })} />
+        <div className={styles.details}>
+          <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span>
+          <span className={styles.cardNumber}>#{card.number}</span>
+        </div>
+      </div>
+    )
+  }
+
   useEffect(getSet, []);
   useEffect(getCards, []);
 
@@ -59,22 +107,40 @@ export default function SetDetails({}) {
         </div>
       }
 
+      { user.role === 'admin' &&
+        <div className={styles.buttons}>
+          <div className={classNames({ [styles.button]: true, [styles.editModeButton]: true, [styles.saveButton]: editModeActive })} onClick={handleEditButtonClick}>
+            <span className={styles.editButtonText}>{ editModeActive ? 'Editing' : 'Edit'}</span>
+          </div>
+
+          { editModeActive &&
+            <div className={styles.button} onClick={makeFullArt}>
+              <span className={styles.editButtonText}>Make full art</span>
+            </div>
+          }
+        </div>
+      }
+
+
+
       { cards.length > 0 &&
         <div className={styles.cardList}>
           { cards.map(card => {
-            return (
-              <Link href={`/card/${card.id}`} key={`${card.id}`}>
-              <div className={styles.cardWrapper}>
-                <img src={card.images.small} className={styles.thumbnail} />
-                <div className={styles.details}>
-                  <span className={styles.cardName}>{card.name}</span>
-                  <span className={styles.cardNumber}>#{card.number}</span>
+            if (editModeActive) {
+              return (
+                <div className={classNames({ [styles.editCardWrapper]: true })} onClick={() => toggleSelectCard(card.id)} key={card.id}>
+                  { renderCard(card, selectedItems.has(card.id)) }
                 </div>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
+              )
+            } else {
+              return (
+                <Link href={`/card/${card.id}`} key={`${card.id}`}>
+                  { renderCard(card) }
+                </Link>
+              )
+            }
+          })}
+        </div>
       }
     </div>
   )

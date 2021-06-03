@@ -41,7 +41,6 @@ export default function PriceDetails({ card }) {
           }
 
         })
-        console.log('sales ', salesLookup);
 
         availableFinishes = unique(availableFinishes);
         setSelectedFinish(availableFinishes[0]);

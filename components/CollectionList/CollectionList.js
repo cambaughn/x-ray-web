@@ -12,7 +12,6 @@ export default function CollectionList({ sales }) {
   const collectionDetails = useSelector(state => state.collectionDetails);
   const collectedItems = useSelector(state => state.collectedItems);
 
-  console.log('relevant sales ', sales);
   return (
     <div className={styles.container}>
       { collectionDetails.length === 0 &&
@@ -21,7 +20,7 @@ export default function CollectionList({ sales }) {
       { collectionDetails.map((detail, index) => {
         let item = collectedItems[detail.item_id];
         let salesForItem = sales[index];
-        let changeStatus = 'level'; // up, down, level
+        let changeStatus = 'flat'; // up, down, flat
         // Get price for this individual item
         let price = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 2].averagePrice : '--';
         let previousPrice = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 3].averagePrice : '--';
@@ -44,7 +43,7 @@ export default function CollectionList({ sales }) {
 
                 <div className={styles.rightSide}>
                   <span className={classNames(styles.topLine, styles.cardNumber)}>#{item.number}</span>
-                  <span className={classNames({ [styles.price]: true, [styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down'})}>{price !== '--' ? `$${price.toFixed(2)}` : price}</span>
+                  <span className={classNames({ [styles.price]: true, [styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>{price !== '--' ? `$${price.toFixed(2)}` : price}</span>
                 </div>
 
               </div>

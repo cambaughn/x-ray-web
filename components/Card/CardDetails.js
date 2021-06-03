@@ -104,7 +104,7 @@ export default function CardDetails({ card_id }) {
 
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
-  useEffect(updateCardSales, [card]);
+  // useEffect(updateCardSales, [card]);
   useEffect(updateViewCount, [card]);
 
   return (

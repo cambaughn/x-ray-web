@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { ArrowRightCircle } from 'react-feather';
 
 // Components
 
@@ -81,6 +82,17 @@ export default function SetDetails({}) {
     handleEditButtonClick();
   }
 
+
+  const selectRight = (event, index) => {
+    event.stopPropagation();
+    let newSelections = new Set(selectedItems);
+    let addToSelection = cards.slice(index).map(card => card.id);
+    addToSelection.forEach(card_id => newSelections.add(card_id));
+
+    setSelectedItems(newSelections);
+    console.log('selecting right', addToSelection);
+  }
+
   const renderCard = (card, selected) => {
     return (
       <div className={styles.cardWrapper}>
@@ -125,11 +137,14 @@ export default function SetDetails({}) {
 
       { cards.length > 0 &&
         <div className={styles.cardList}>
-          { cards.map(card => {
+          { cards.map((card, index) => {
             if (editModeActive) {
               return (
                 <div className={classNames({ [styles.editCardWrapper]: true })} onClick={() => toggleSelectCard(card.id)} key={card.id}>
                   { renderCard(card, selectedItems.has(card.id)) }
+                  <div className={styles.selectRightButton} onClick={(event) => selectRight(event, index)}>
+                    <ArrowRightCircle className={styles.arrowRight} />
+                  </div>
                 </div>
               )
             } else {

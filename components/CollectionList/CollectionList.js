@@ -12,6 +12,15 @@ export default function CollectionList({ sales }) {
   const collectionDetails = useSelector(state => state.collectionDetails);
   const collectedItems = useSelector(state => state.collectedItems);
 
+  const determineSetName = (set_name) => {
+    let name = set_name;
+    if (name.includes("Black Star ")) {
+
+    } else {
+
+    }
+  }
+
   return (
     <div className={styles.container}>
       { collectionDetails.length === 0 &&
@@ -37,7 +46,7 @@ export default function CollectionList({ sales }) {
               <img src={item.images.small} className={styles.thumbnail} />
               <div className={styles.details}>
                 <div className={styles.leftSide}>
-                  <span className={classNames(styles.topLine, styles.setName)}>{item.set_name}</span>
+                  <span className={classNames(styles.topLine, styles.setName)}>{item.set_name.replace('Black Star ', '')}</span>
                   <span className={styles.cardName}>{item.name}</span>
                 </div>
 

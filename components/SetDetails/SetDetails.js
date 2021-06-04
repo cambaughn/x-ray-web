@@ -82,6 +82,18 @@ export default function SetDetails({}) {
     handleEditButtonClick();
   }
 
+  const makeHolo = async () => {
+    let updates = {
+      finishes: ['holo']
+    }
+
+    let cardsToUpdate = Array.from(selectedItems);
+    let updateRefs = cardsToUpdate.map(card_id => pokeCard.update(card_id, updates));
+    await Promise.all(updateRefs);
+    console.log('made holo', cardsToUpdate);
+    handleEditButtonClick();
+  }
+
 
   const selectRight = (event, index) => {
     event.stopPropagation();
@@ -90,7 +102,6 @@ export default function SetDetails({}) {
     addToSelection.forEach(card_id => newSelections.add(card_id));
 
     setSelectedItems(newSelections);
-    console.log('selecting right', addToSelection);
   }
 
   const renderCard = (card, selected) => {
@@ -126,9 +137,15 @@ export default function SetDetails({}) {
           </div>
 
           { editModeActive &&
-            <div className={styles.button} onClick={makeFullArt}>
-              <span className={styles.editButtonText}>Make full art</span>
-            </div>
+            <>
+              <div className={styles.button} onClick={makeFullArt}>
+                <span className={styles.editButtonText}>Make full art</span>
+              </div>
+
+              <div className={styles.button} onClick={makeHolo}>
+                <span className={styles.editButtonText}>Make holo</span>
+              </div>
+            </>
           }
         </div>
       }

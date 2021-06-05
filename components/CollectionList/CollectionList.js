@@ -40,6 +40,9 @@ export default function CollectionList({ sales }) {
           changeStatus = 'down';
         }
 
+        if (item.name === 'Charizard V') {
+          console.log(salesForItem);
+        }
         return item ? (
           <Link href={`/card/${item.id}`} key={`${item.id}-${index}`}>
             <div className={styles.resultWrapper}>

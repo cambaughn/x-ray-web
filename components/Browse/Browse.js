@@ -17,14 +17,14 @@ export default function Browse({}) {
   const pokemonSets = useSelector(state => state.pokemonSets);
   const [setLookup, setSetLookup] = useState({});
   const dispatch = useDispatch();
-  const sortingOrder = ['Sword & Shield', 'Sun & Moon', 'XY', 'Black & White', 'Black & White Promos', 'Call of Legends', 'HeartGold SoulSilver', 'Platinum', 'Nintendo Promos', 'Diamond & Pearl', 'EX Ruby & Sapphire', 'E-Card', 'Legendary Collection', 'Neo Genesis', 'Gym Heroes', 'Base' ];
+  const sortingOrder = ['Sword & Shield', 'Sun & Moon', 'XY', 'Black & White', 'Black & White Promos', 'Call of Legends', 'HeartGold SoulSilver', 'Platinum', 'Nintendo Promos', 'Diamond & Pearl', 'EX Ruby & Sapphire', 'e-Card', 'Legendary Collection', 'Neo Genesis', 'Gym Heroes', 'Base Set' ];
 
   const getSeriesInfo = async () => {
-    let seriesInfo = await pokeSeries.get();
+    let seriesInfo = await pokeSeries.getEnglish();
     let seriesLookup = {};
 
     seriesInfo.forEach(series => {
-      seriesLookup[series.name] = series;
+      seriesLookup[series.id] = series;
     })
 
     let sortedSeries = sortingOrder.map(name => seriesLookup[name] || {});
@@ -32,7 +32,7 @@ export default function Browse({}) {
   }
 
   const getSetInfo = async () => {
-    let setInfo = await pokeSet.get();
+    let setInfo = await pokeSet.getEnglish();
     setInfo = sortSetsByDate(setInfo);
     dispatch(setPokemonSet(setInfo));
   }
@@ -40,8 +40,8 @@ export default function Browse({}) {
   const createSetLookup = () => {
     let lookup = {};
     pokemonSets.forEach(set => {
-      lookup[set.series] = lookup[set.series] || [];
-      lookup[set.series].push(set);
+      lookup[set.series_id] = lookup[set.series_id] || [];
+      lookup[set.series_id].push(set);
     })
 
     setSetLookup(lookup);
@@ -62,7 +62,7 @@ export default function Browse({}) {
               <div className={styles.seriesLogoWrapper}>
                 <img src={series && series.logo ? series.logo : null} className={styles.seriesLogo} />
               </div>
-              <h3>{series.name}</h3>
+              <h3 className={styles.seriesName}>{series.name}</h3>
             </div>
 
             { setLookup[series.id] &&

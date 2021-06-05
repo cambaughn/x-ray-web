@@ -43,6 +43,19 @@ pokeSet.get = async (id) =>  {
   }
 }
 
+pokeSet.getEnglish = async () =>  {
+  try {
+    return db.collection('pokemon_sets').where('language', '==', 'english').get()
+    .then(function(snapshot) {
+      let sets = convertSnapshot(snapshot);
+      return sets;
+    })
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+
 pokeSet.update = async (id, updates) => {
   try {
     return db.collection('pokemon_sets').doc(id).update(updates)
@@ -52,16 +65,18 @@ pokeSet.update = async (id, updates) => {
 }
 
 const checkSets = async () => {
-  let sets = await pokeSet.get();
-  let toUpdate = sets.filter(set => set.series === 'HeartGold & SoulSilver')
-  // toUpdate.forEach(set => {
-  //   const updates = { series: 'HeartGold SoulSilver' }
-  //   pokeSet.update(set.id, updates);
-  // })
-  console.log('sets =>', toUpdate );
+  let sets = await pokeSet.getEnglish();
+  let toUpdate = sets.filter(set => set.series === 'Sword & Shield')
+  let updateRefs = toUpdate.map(set => {
+    const updates = {
+      series_id: 'Sword & Shield',
+      series_name: 'Sword & Shield'
+    }
+    // return pokeSet.update(set.id, updates);
+  })
+  await Promise.all(updateRefs)
+  console.log('updated sets => ', toUpdate);
 }
-
-// checkSets()
 
 
 

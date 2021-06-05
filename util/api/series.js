@@ -31,6 +31,18 @@ pokeSeries.get = async (id) =>  {
   }
 }
 
+pokeSeries.getEnglish = async () =>  {
+  try {
+    return db.collection('pokemon_series').where('language', '==', 'english').get()
+    .then(function(snapshot) {
+      let series = convertSnapshot(snapshot);
+      return series;
+    })
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 
 const migrateSeries = async () => {
   let setInfo = await pokeSet.get();

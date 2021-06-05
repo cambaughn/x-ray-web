@@ -12,15 +12,6 @@ export default function CollectionList({ sales }) {
   const collectionDetails = useSelector(state => state.collectionDetails);
   const collectedItems = useSelector(state => state.collectedItems);
 
-  const determineSetName = (set_name) => {
-    let name = set_name;
-    if (name.includes("Black Star ")) {
-
-    } else {
-
-    }
-  }
-
   return (
     <div className={styles.container}>
       { collectionDetails.length === 0 &&
@@ -40,9 +31,7 @@ export default function CollectionList({ sales }) {
           changeStatus = 'down';
         }
 
-        if (item.name === 'Charizard V') {
-          console.log(salesForItem);
-        }
+  
         return item ? (
           <Link href={`/card/${item.id}`} key={`${item.id}-${index}`}>
             <div className={styles.resultWrapper}>

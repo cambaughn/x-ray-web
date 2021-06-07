@@ -73,6 +73,13 @@ function setPokemonSet(pokemonSet) {
   }
 }
 
+function setLanguage(language) {
+  return {
+    type: 'SET_LANGUAGE',
+    language
+  }
+}
+
 
 
 export {
@@ -85,5 +92,6 @@ export {
   setOnFreeTrial,
   setIsBetaUser,
   setPokemonSeries,
-  setPokemonSet
+  setPokemonSet,
+  setLanguage
 };

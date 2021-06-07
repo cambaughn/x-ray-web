@@ -10,15 +10,16 @@ import classNames from 'classnames';
 import pokeSeries from '../../util/api/series';
 import pokeSet from '../../util/api/set';
 import { sortSetsByDate } from '../../util/helpers/sorting';
-import { setPokemonSet, setPokemonSeries } from '../../redux/actionCreators';
+import { setPokemonSet, setPokemonSeries, setLanguage } from '../../redux/actionCreators';
 
 
 export default function Browse({}) {
   const pokemonSeries = useSelector(state => state.pokemonSeries);
   const pokemonSets = useSelector(state => state.pokemonSets);
+  const language = useSelector(state => state.language);
   const [seriesLookup, setSeriesLookup] = useState({});
   const [setLookup, setSetLookup] = useState({});
-  const [language, setLanguage] = useState('japanese');
+  // const [language, setLanguage] = useState('english');
   const dispatch = useDispatch();
 
   const englishSeries = ['Sword & Shield', 'Sun & Moon', 'XY', 'Black & White', 'Black & White Promos', 'Call of Legends', 'HeartGold SoulSilver', 'Platinum', 'Nintendo Promos', 'Diamond & Pearl', 'EX Ruby & Sapphire', 'e-Card', 'Legendary Collection', 'Neo Genesis', 'Gym Heroes', 'Base Set' ];
@@ -61,6 +62,9 @@ export default function Browse({}) {
     setSetLookup(lookup);
   }
 
+  const changeLanguage = (language) => {
+    dispatch(setLanguage(language));
+  }
 
   useEffect(getSeriesInfo, [language]);
   useEffect(getSetInfo, []);
@@ -71,10 +75,10 @@ export default function Browse({}) {
       <h2 className={styles.title}>Browse by Set</h2>
 
       <div className={styles.languageButtons}>
-        <div className={classNames({ [styles.languageButton]: true, [styles.selectedLanguage]: language === 'english' })} onClick={() => setLanguage('english')}>
+        <div className={classNames({ [styles.languageButton]: true, [styles.selectedLanguage]: language === 'english' })} onClick={() => changeLanguage('english')}>
           <span className={styles.languageButtonText}>English</span>
         </div>
-        <div className={classNames({ [styles.languageButton]: true, [styles.selectedLanguage]: language === 'japanese' })} onClick={() => setLanguage('japanese')}>
+        <div className={classNames({ [styles.languageButton]: true, [styles.selectedLanguage]: language === 'japanese' })} onClick={() => changeLanguage('japanese')}>
           <span className={styles.languageButtonText}>Japanese</span>
         </div>
       </div>

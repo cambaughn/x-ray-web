@@ -93,6 +93,15 @@ const pokemonSets = (state = [], action) => {
   }
 }
 
+const language = (state = 'english', action) => {
+  switch (action.type) {
+    case 'SET_LANGUAGE':
+      return action.language;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
@@ -105,7 +114,8 @@ const xRayApp = combineReducers({
   onFreeTrial,
   isBetaUser,
   pokemonSeries,
-  pokemonSets
+  pokemonSets,
+  language
 });
 
 export { xRayApp };

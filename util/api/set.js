@@ -1,5 +1,6 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
+import { months } from '../helpers/date';
 
 const pokeSet = {};
 
@@ -55,6 +56,18 @@ pokeSet.getEnglish = async () =>  {
   }
 }
 
+pokeSet.getJapanese = async () =>  {
+  try {
+    return db.collection('pokemon_sets').where('language', '==', 'japanese').get()
+    .then(function(snapshot) {
+      let sets = convertSnapshot(snapshot);
+      return sets;
+    })
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 
 pokeSet.update = async (id, updates) => {
   try {
@@ -76,6 +89,25 @@ const checkSets = async () => {
   })
   await Promise.all(updateRefs)
   console.log('updated sets => ', toUpdate);
+}
+
+const updateReleaseDates = async () => {
+  let sets = await pokeSet.getJapanese();
+  let setUpdates = sets.map(set => {
+    let dateDetails = set.releaseDate.split(' ');
+    let month = months[dateDetails[0]] + 1;
+    let day = dateDetails[1].replace(',', '').replace('nd', '').replace('st', '').replace('rd', '').replace('th', '');
+    let year = dateDetails[2];
+    if (!month) {
+      console.log('could not find month ', dateDetails);
+    }
+    let newDate = `${year}/${month}/${day}`;
+
+    // return pokeSet.update(set.id, { releaseDate: newDate })
+  })
+
+  await Promise.all(setUpdates);
+  console.log('updated all');
 }
 
 

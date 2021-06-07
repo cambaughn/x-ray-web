@@ -1,6 +1,7 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot } from './general';
 import { nanoid } from 'nanoid';
+import { sortCollectionByDate } from '../helpers/sorting';
 
 let collectedItem = {};
 
@@ -27,6 +28,7 @@ collectedItem.getForUser = async (user_id) => {
   try {
     let items = await db.collection('collected_items').where('user_id', '==', user_id).get()
     items = convertSnapshot(items);
+    items = sortCollectionByDate(items);
     return Promise.resolve(items);
   } catch(error) {
     console.error(error);

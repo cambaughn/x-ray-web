@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Browse.module.scss';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
+import classNames from 'classnames';
 
 // Components
 
@@ -61,13 +62,22 @@ export default function Browse({}) {
   }
 
 
-  useEffect(getSeriesInfo, []);
+  useEffect(getSeriesInfo, [language]);
   useEffect(getSetInfo, []);
   useEffect(createSetLookup, [pokemonSets]);
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Browse by Set</h2>
+
+      <div className={styles.languageButtons}>
+        <div className={classNames({ [styles.languageButton]: true, [styles.selectedLanguage]: language === 'english' })} onClick={() => setLanguage('english')}>
+          <span className={styles.languageButtonText}>English</span>
+        </div>
+        <div className={classNames({ [styles.languageButton]: true, [styles.selectedLanguage]: language === 'japanese' })} onClick={() => setLanguage('japanese')}>
+          <span className={styles.languageButtonText}>Japanese</span>
+        </div>
+      </div>
 
       { pokemonSeries.map(series => {
         return (

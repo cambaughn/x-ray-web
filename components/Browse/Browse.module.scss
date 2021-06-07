@@ -8,6 +8,45 @@
   justify-content: flex-start;
 }
 
+// Language buttons
+.languageButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.languageButton {
+  width: 115px;
+  height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  background-color: #ecf0f1;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  color: #95a5a6;
+  font-weight: 500;
+}
+
+.selectedLanguage {
+  color: white;
+  background-color: black;
+  font-weight: bold;
+}
+
+.languageButtonText {
+  font-size: 0.9em;
+}
+
 .title {
 
 }

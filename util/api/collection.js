@@ -14,6 +14,23 @@ collectedItem.create = async (item) => {
   }
 }
 
+collectedItem.delete = async (item) => {
+  if (item.id) {
+    return db.collection('collected_items').doc(item.id).delete();
+  } else {
+    return Promise.resolve(true);
+  }
+}
+
+collectedItem.archive = async (item) => {
+  if (item.id) {
+    let updates = { status: 'archived' }
+    return db.collection('collected_items').doc(item.id).set(updates, { merge: true });
+  } else {
+    return Promise.resolve(true);
+  }
+}
+
 // Statuses: approved, rejected, pending, incorrect_card, deleted
 collectedItem.update = async (id, updates) => {
   try {
@@ -28,6 +45,7 @@ collectedItem.getForUser = async (user_id) => {
   try {
     let items = await db.collection('collected_items').where('user_id', '==', user_id).get()
     items = convertSnapshot(items);
+    items = items.filter(item => item.status !== 'archived');
     items = sortCollectionByDate(items);
     return Promise.resolve(items);
   } catch(error) {

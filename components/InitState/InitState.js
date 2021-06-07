@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
-import { sortCollectionByDate } from '../../util/helpers/sorting';
 
 export default function InitState({}) {
   const user = useSelector(state => state.user);

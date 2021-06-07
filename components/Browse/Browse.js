@@ -11,6 +11,7 @@ import pokeSeries from '../../util/api/series';
 import pokeSet from '../../util/api/set';
 import { sortSetsByDate } from '../../util/helpers/sorting';
 import { setPokemonSet, setPokemonSeries, setLanguage } from '../../redux/actionCreators';
+import { localStorageKeys } from '../../util/localStorage';
 
 
 export default function Browse({}) {
@@ -64,6 +65,7 @@ export default function Browse({}) {
 
   const changeLanguage = (language) => {
     dispatch(setLanguage(language));
+    window.localStorage.setItem(localStorageKeys.language, language);
   }
 
   useEffect(getSeriesInfo, [language]);

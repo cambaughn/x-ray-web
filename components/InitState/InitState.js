@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 // Components
 
 // Utility functions
-import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';
+import { setCollectedItems, setCollectionDetails, setLanguage } from '../../redux/actionCreators';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
+import { localStorageKeys } from '../../util/localStorage';
 
 export default function InitState({}) {
   const user = useSelector(state => state.user);
@@ -29,7 +30,14 @@ export default function InitState({}) {
     }
   }
 
+
+  const getLanguage = () => {
+    let languageSetting = window.localStorage.getItem(localStorageKeys.language);
+    dispatch(setLanguage(languageSetting));
+  }
+
   useEffect(getCollectedItems, [user]);
+  useEffect(getLanguage, []);
 
   return (
     <></>

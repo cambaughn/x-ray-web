@@ -22,6 +22,7 @@ import analytics from '../../util/analytics/segment';
 export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
   const [sales, setSales] = useState([]);
+  const [finishes, setFinishes] = useState([]);
   const [set, setSet] = useState({});
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
@@ -155,7 +156,7 @@ export default function CardDetails({ card_id }) {
       </div>
 
       <div className={styles.rightSection}>
-        <PriceDetails card={card} />
+        <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />
       </div>
 
       { addCardModalVisible &&

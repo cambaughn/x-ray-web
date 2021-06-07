@@ -12,8 +12,7 @@ import { unique } from '../../util/helpers/array.js';
 import formattedSale from '../../util/api/formatted_sale.js';
 
 
-export default function PriceDetails({ card }) {
-  const [finishes, setFinishes] = useState([]);
+export default function PriceDetails({ card, finishes, setFinishes }) {
   const [selectedFinish, setSelectedFinish] = useState('non-holo');
   const [salesByType, setSalesByType] = useState({});
   const [gotSales, setGotSales] = useState(false);

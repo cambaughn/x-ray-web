@@ -12,6 +12,7 @@ import { ArrowRightCircle } from 'react-feather';
 import pokeSet from '../../util/api/set';
 import pokeCard from '../../util/api/card';
 import { sortCardsByNumber } from '../../util/helpers/sorting';
+import analytics from '../../util/analytics/segment';
 
 
 export default function SetDetails({}) {
@@ -117,6 +118,20 @@ export default function SetDetails({}) {
     )
   }
 
+  const recordPageView = () => {
+    analytics.page({
+      userId: user.id,
+      category: 'Set',
+      name: 'Set',
+      properties: {
+        url: window.location.href,
+        path: `/set/${currentSet.id}`,
+        set: currentSet.name
+      }
+    });
+  }
+
+  useEffect(recordPageView, []);
   useEffect(getSet, []);
   useEffect(getCards, []);
 

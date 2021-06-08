@@ -113,6 +113,7 @@ export default function UserCollection({ username }) {
   }
 
 
+  useEffect(recordPageView, []);
   useEffect(getSales, [collectionDetails, collectedItems]);
   useEffect(formatAllSales, [salesByType]);
 

@@ -122,7 +122,7 @@ export default function SetDetails({}) {
     analytics.page({
       userId: user.id,
       category: 'Set',
-      name: 'Set',
+      name: 'Set Details',
       properties: {
         url: window.location.href,
         path: `/set/${currentSet.id}`,

@@ -95,7 +95,7 @@ const updateAllCards = async () => {
   console.log('updated all cards');
 }
 
-updateAllCards()
+// updateAllCards()
 
 
 export default pokeCard;

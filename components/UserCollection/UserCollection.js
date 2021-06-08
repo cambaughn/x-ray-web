@@ -13,6 +13,7 @@ import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js'
 import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
 import formattedSale from '../../util/api/formatted_sale.js';
+import analytics from '../../util/analytics/segment';
 
 
 export default function UserCollection({ username }) {
@@ -97,6 +98,18 @@ export default function UserCollection({ username }) {
     } else {
       return null;
     }
+  }
+
+  const recordPageView = () => {
+    analytics.page({
+      userId: user.id,
+      category: 'Collection',
+      name: 'Collection',
+      properties: {
+        url: window.location.href,
+        path: `/collection`
+      }
+    });
   }
 
 

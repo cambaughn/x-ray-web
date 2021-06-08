@@ -109,7 +109,8 @@ export default function SetDetails({}) {
       <div className={styles.cardWrapper}>
         <img src={card.images.small} className={classNames({[styles.thumbnail]: true, [styles.selectedCard]: selected })} />
         <div className={styles.details}>
-          <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span>
+          {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
+          <span className={styles.cardName}>{card.name}</span>
           <span className={styles.cardNumber}>#{card.number}</span>
         </div>
       </div>

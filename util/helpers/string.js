@@ -46,11 +46,11 @@ const hasNonAlphanumeric = (string) => {
 
 const isSpecialCard = (name) => {
   name = name.toLowerCase();
-  let terms = ['-gx', '-ex', 'vmax'];
+  let terms = ['-gx', '-ex', 'vmax', ' ex', ' gx', ' v'];
 
   for (let i = 0; i < terms.length; i++) {
     let term = terms[i];
-    if (name.includes(term)) {
+    if (name.toLowerCase().slice(name.length - term.length) === term) {
       return true;
     }
   }

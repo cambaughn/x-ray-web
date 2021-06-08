@@ -79,15 +79,15 @@ pokeCard.search = async (key, value) => {
 const updateAllCards = async () => {
   let cards = await pokeCard.getLanguage('japanese');
   let special = [];
+  let updates = [];
 
-  let updates = cards.map((card, i) => {
+  cards.forEach((card, i) => {
     let finishes = [];
-    if (isSpecialCard(card.name) || card.name.toLowerCase().slice(card.name.length - 2) === ' v') {
+    if (isSpecialCard(card.name)) {
       finishes.push('holo');
-      special.push(card.name)
+      special.push(card.name);
+      updates.push(pokeCard.update(card.id, { finishes, full_art: true }))
     }
-
-    // return pokeCard.update(card.id, { finishes, full_art: true })
   });
 
   console.log('updating :', updates.length, special);

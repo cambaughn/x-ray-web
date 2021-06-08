@@ -110,7 +110,7 @@ describe('Replaces characters', () => {
 })
 
 describe('Find cards with special names', () => {
-  let cases = [['M Charizard-GX', true], ['Charizard-EX', true], ['Pikachu VMAX', true], ['Squirtle', false]]
+  let cases = [['M Charizard-GX', true], ['Charizard-EX', true], ['Pikachu VMAX', true], ['Pikachu EX', true], ['Charizard GX', true], ['Pikachu V', true], ['Extra Credit', false], ['Squirtle', false]]
 
   test.each(cases)(
     "given %o as an argument, returns %p",

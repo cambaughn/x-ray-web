@@ -40,6 +40,18 @@ pokeCard.get = async (id) => {
   }
 }
 
+pokeCard.getLanguage = async (language = 'english') =>  {
+  try {
+    return db.collection('pokemon_cards').where('language', '==', language).get()
+    .then(function(snapshot) {
+      let cards = convertSnapshot(snapshot);
+      return cards;
+    })
+  } catch(error) {
+    console.error(error);
+  }
+}
+
 pokeCard.getMultiple = async (ids) => {
   try {
     let cardRefs = ids.map(id => db.collection('pokemon_cards').doc(id).get());
@@ -65,7 +77,7 @@ pokeCard.search = async (key, value) => {
 }
 
 const updateAllCards = async () => {
-  let cards = await pokeCard.search('set_id', 'swsh4');
+  let cards = await pokeCard.getLanguage('japanese');
   let special = [];
 
   let updates = cards.map((card, i) => {
@@ -75,15 +87,15 @@ const updateAllCards = async () => {
       special.push(card.name)
     }
 
-    // return pokeCard.update(card.id, { finishes })
+    // return pokeCard.update(card.id, { finishes, full_art: true })
   });
 
   console.log('updating :', updates.length, special);
-  await Promise.all(updates);
+  // await Promise.all(updates);
   console.log('updated all cards');
 }
 
-// updateAllCards()
+updateAllCards()
 
 
 export default pokeCard;

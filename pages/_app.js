@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import App, { Container } from 'next/app';
+import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import Stripe from 'stripe';
 import store from '../redux/store';
@@ -11,6 +12,8 @@ import './styles.css';
 
 // This default export is required in a new `pages/_app.js` file.
 export default function Xray({ Component, pageProps }) {
+  const router = useRouter();
+
   const checkForSSL = () => {
     // Check the URL starts with 'http://xxxxx' protocol, if it does then redirect to 'https://xxxxx' url of same resource
     let httpTokens = /^http:\/\/(.*)$/.exec(window.location.href);
@@ -20,6 +23,26 @@ export default function Xray({ Component, pageProps }) {
     }
   }
 
+  const handleScrollRestoration = () => {
+    window.history.scrollRestoration = "manual";
+
+    const cachedScroll = [];
+
+    router.events.on("routeChangeStart", () => {
+      cachedScroll.push([window.scrollX, window.scrollY]);
+    });
+
+    router.beforePopState(() => {
+      const [x, y] = cachedScroll.pop();
+      setTimeout(() => {
+        window.scrollTo(x, y);
+      }, 100);
+
+      return true;
+    });
+  }
+
+  useEffect(handleScrollRestoration, [])
   useEffect(checkForSSL);
 
   return (

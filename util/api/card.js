@@ -1,6 +1,7 @@
 import db from '../firebase/firebaseInit';
 import { convertSnapshot, convertDoc } from './general';
-import { isSpecialCard } from '../helpers/string';
+import pokeSet from './set';
+import { isSpecialCard, isExCard } from '../helpers/string';
 
 // Series > Set > Card
 const pokeCard = {};
@@ -77,17 +78,22 @@ pokeCard.search = async (key, value) => {
 }
 
 const updateAllCards = async () => {
-  let cards = await pokeCard.search('rarity', 'Rare Shiny');
-  console.log('cards ', cards);
+  let cards = await pokeCard.getLanguage('japanese');
+  let allSets = await pokeSet.search('series_name', 'Pokemon XY');
+  allSets = allSets.map(set => set.id);
+  let sets = new Set(allSets);
+  let special = [];
+  let updates = [];
 
-  let updates = cards.map((card, i) => {
-    let finishes = ['holo'];
-
-    // return pokeCard.update(card.id, { finishes })
+  cards.forEach((card, i) => {
+    if (isExCard(card.name) && sets.has(card.set_id)) {
+      special.push(card.name);
+      // updates.push(pokeCard.update(card.id, { finishes: [ 'holo' ], full_art: false }))
+    }
   });
 
-  console.log('updating :', updates.length);
-  // await Promise.all(updates);
+  console.log('updating :', updates.length, special);
+  await Promise.all(updates);
   console.log('updated all cards');
 }
 

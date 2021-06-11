@@ -1,4 +1,4 @@
-import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas } from './string';
+import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, isExCard } from './string';
 
 describe('Verify alphanumeric checker', () => {
   test('Returns false for blank string', () => {
@@ -110,12 +110,24 @@ describe('Replaces characters', () => {
 })
 
 describe('Find cards with special names', () => {
-  let cases = [['M Charizard-GX', true], ['Charizard-EX', true], ['Pikachu VMAX', true], ['Pikachu EX', true], ['Charizard GX', true], ['Pikachu V', true], ['Extra Credit', false], ['Squirtle', false]]
+  let cases = [['M Charizard-GX', true], ['Charizard-EX', true], ['Pikachu VMAX', true], ['Pikachu EX', true], ['Charizard GX', true], ['Pikachu V', true], ['Starmie BREAK', true], ['Extra Credit', false], ['Squirtle', false]]
 
   test.each(cases)(
     "given %o as an argument, returns %p",
     (name, expectedResult) => {
       const result = isSpecialCard(name);
+      expect(result).toEqual(expectedResult);
+    }
+  );
+})
+
+describe('Find EX cards', () => {
+  let cases = [['M Charizard-GX', false], ['Charizard-EX', true], ['Pikachu VMAX', false], ['Pikachu EX', true], ['Charizard GX', false]]
+
+  test.each(cases)(
+    "given %o as an argument, returns %p",
+    (name, expectedResult) => {
+      const result = isExCard(name);
       expect(result).toEqual(expectedResult);
     }
   );

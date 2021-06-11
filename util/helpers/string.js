@@ -46,7 +46,21 @@ const hasNonAlphanumeric = (string) => {
 
 const isSpecialCard = (name) => {
   name = name.toLowerCase();
-  let terms = ['-gx', '-ex', 'vmax', ' ex', ' gx', ' v'];
+  let terms = ['-gx', '-ex', 'vmax', ' ex', ' gx', ' v', ' break'];
+
+  for (let i = 0; i < terms.length; i++) {
+    let term = terms[i];
+    if (name.toLowerCase().slice(name.length - term.length) === term) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const isExCard = (name) => {
+  name = name.toLowerCase();
+  let terms = ['-ex', ' ex'];
 
   for (let i = 0; i < terms.length; i++) {
     let term = terms[i];
@@ -68,4 +82,4 @@ const numberWithCommas = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas }
+export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, isExCard }

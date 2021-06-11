@@ -85,6 +85,7 @@ export default function SetDetails({}) {
 
   const makeHolo = async () => {
     let updates = {
+      full_art: false,
       finishes: ['holo']
     }
 

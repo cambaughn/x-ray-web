@@ -79,7 +79,7 @@ pokeCard.search = async (key, value) => {
 
 const updateAllCards = async () => {
   let cards = await pokeCard.getLanguage('japanese');
-  let allSets = await pokeSet.search('series_name', 'Pokemon XY');
+  let allSets = await pokeSet.search('series_name', 'Black & White');
   allSets = allSets.map(set => set.id);
   let sets = new Set(allSets);
   let special = [];
@@ -88,7 +88,7 @@ const updateAllCards = async () => {
   cards.forEach((card, i) => {
     if (isExCard(card.name) && sets.has(card.set_id)) {
       special.push(card.name);
-      // updates.push(pokeCard.update(card.id, { finishes: [ 'holo' ], full_art: false }))
+      updates.push(pokeCard.update(card.id, { finishes: [ 'holo' ], full_art: false }))
     }
   });
 

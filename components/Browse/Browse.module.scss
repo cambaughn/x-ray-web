@@ -13,7 +13,7 @@
 }
 
 .seriesWrapper {
-  width: 60%;
+  width: 840px;
   margin-bottom: 50px;
 
   @include media(mobile) {
@@ -28,9 +28,11 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 20px;
+  margin-left: 15px;
 
   @include media(mobile) {
     flex-direction: column;
+    margin-left: 0px;
   }
 }
 
@@ -61,7 +63,6 @@
   justify-content: flex-start;
 
   @include media(mobile) {
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
   }
 }

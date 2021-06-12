@@ -37,7 +37,6 @@ export default function NavBar({}) {
       if (searchTerm.length > 0) {
         let cardSearchResults = await searchCard(searchTerm);
         let searchResultsForSet = await searchSets(searchTerm);
-        console.log('found sets ', searchResultsForSet);
         setResults(cardSearchResults);
         setResultsForSet(searchResultsForSet);
       } else {

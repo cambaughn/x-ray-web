@@ -11,6 +11,16 @@ const searchCard = async (searchTerm) => {
   }
 }
 
+const searchIndex = async (searchTerm) => {
+  try {
+    let result = await setsIndex.search(searchTerm, { hitsPerPage: 50 });
+    let hits = result.hits;
+    return hits;
+  } catch(error) {
+    console.error(index);
+  }
+}
+
 const configureSearchTerm = (listing) => {
   let character = listing.character ? listing.character.split(',')[0] : '';
   let set = listing.set || '';
@@ -55,4 +65,4 @@ const addUserToIndex = async(user) => {
   }
 }
 
-export { searchCard, configureSearchTerm, usernameAvailable, addUserToIndex };
+export { searchCard, searchIndex, configureSearchTerm, usernameAvailable, addUserToIndex };

@@ -13,7 +13,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import SignInButton from '../Buttons/SignInButton';
 
 // Utility functions
-import { searchCard } from '../../util/algolia/algoliaHelpers';
+import { searchCard, searchSets } from '../../util/algolia/algoliaHelpers';
 import analytics from '../../util/analytics/segment';
 
 
@@ -34,8 +34,9 @@ export default function NavBar({}) {
   const liveSearch = async () => {
     try {
       if (searchTerm.length > 0) {
-        let searchResults = await searchCard(searchTerm);
-        setResults(searchResults);
+        let cardSearchResults = await searchCard(searchTerm);
+        // let searchResultsForSet = await searchSets(searchTerm);
+        setResults(cardSearchResults);
       } else {
         setResults([]);
       }

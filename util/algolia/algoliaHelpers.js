@@ -1,4 +1,4 @@
-import { cardsIndex, usersIndex } from './algoliaInit';
+import { cardsIndex, usersIndex, setsIndex } from './algoliaInit';
 
 
 const searchCard = async (searchTerm) => {
@@ -11,9 +11,9 @@ const searchCard = async (searchTerm) => {
   }
 }
 
-const searchIndex = async (searchTerm) => {
+const searchSets = async (searchTerm) => {
   try {
-    let result = await setsIndex.search(searchTerm, { hitsPerPage: 50 });
+    let result = await setsIndex.search(searchTerm, { hitsPerPage: 5 });
     let hits = result.hits;
     return hits;
   } catch(error) {
@@ -65,4 +65,4 @@ const addUserToIndex = async(user) => {
   }
 }
 
-export { searchCard, searchIndex, configureSearchTerm, usernameAvailable, addUserToIndex };
+export { searchCard, searchSets, configureSearchTerm, usernameAvailable, addUserToIndex };

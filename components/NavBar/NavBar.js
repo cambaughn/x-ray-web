@@ -25,6 +25,7 @@ export default function NavBar({}) {
   let queryParam = router.query.search_query ? router.query.search_query.replace(/\+/g, ' ') : null;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
+  const [resultsForSet, setResultsForSet] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addedUrl, setAddedUrl] = useState(false);
   const [previousPath, setPreviousPath] = useState('');
@@ -35,8 +36,10 @@ export default function NavBar({}) {
     try {
       if (searchTerm.length > 0) {
         let cardSearchResults = await searchCard(searchTerm);
-        // let searchResultsForSet = await searchSets(searchTerm);
+        let searchResultsForSet = await searchSets(searchTerm);
+        console.log('found sets ', searchResultsForSet);
         setResults(cardSearchResults);
+        setResultsForSet(searchResultsForSet);
       } else {
         setResults([]);
       }
@@ -159,7 +162,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
+        <SearchResults results={results} sets={resultsForSet} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
       }
     </div>
   )

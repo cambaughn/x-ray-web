@@ -1,4 +1,4 @@
-import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas } from './string';
+import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, shortenSetName } from './string';
 
 describe('Verify alphanumeric checker', () => {
   test('Returns false for blank string', () => {
@@ -140,6 +140,18 @@ describe('Handle number formatting with commas', () => {
     "given %o as an argument, returns %p",
     (number, expectedResult) => {
       const result = numberWithCommas(number);
+      expect(result).toEqual(expectedResult);
+    }
+  );
+})
+
+describe('Handle shortening set name', () => {
+  let cases = [['Strengthening Expansion: Shining Legends', 'Shining Legends'], ['Shining Fates', 'Shining Fates'], ['Pokemon XY: Evolutions', 'Evolutions']]
+
+  test.each(cases)(
+    "given %o as an argument, returns %p",
+    (setName, expectedResult) => {
+      const result = shortenSetName(setName);
       expect(result).toEqual(expectedResult);
     }
   );

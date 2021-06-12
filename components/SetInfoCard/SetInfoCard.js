@@ -5,6 +5,8 @@ import Link from 'next/link';
 // Components
 
 // Utility functions
+import { shortenSetName } from '../../util/helpers/string';
+
 
 export default function SetInfoCard({ set }) {
   return (
@@ -13,7 +15,7 @@ export default function SetInfoCard({ set }) {
         <div className={styles.setLogoWrapper}>
           <img src={set.images.logo} className={styles.setLogo} />
         </div>
-        <span className={styles.setName}>{set.name}</span>
+        <span className={styles.setName}>{shortenSetName(set.name)}</span>
       </div>
     </Link>
   )

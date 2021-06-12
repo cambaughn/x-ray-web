@@ -34,7 +34,7 @@ export default function SearchResults({ results, sets, setSearching, showExitBut
       }
       <div className={styles.searchResults}>
         <div className={styles.resultsForSets}>
-          { sets.slice(0, isMobile() ? 2 : null).map(set => {
+          { sets.slice(0, isMobile() ? 2 : sets.length).map(set => {
             return (
               <SetInfoCard set={set} key={set.id} />
             )

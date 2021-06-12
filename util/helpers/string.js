@@ -68,4 +68,12 @@ const numberWithCommas = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas }
+const shortenSetName = (setName) => {
+  let indexOfColon = setName.indexOf(':');
+  if (indexOfColon > -1) {
+    return setName.slice(indexOfColon + 1).trim();
+  }
+  return setName;
+}
+
+export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, shortenSetName }

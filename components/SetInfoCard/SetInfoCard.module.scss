@@ -20,7 +20,8 @@
   @include media(mobile) {
     width: 160px;
     height: 100px;
-    margin-right: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
     margin-bottom: 20px;
     padding: 15px;
   }
@@ -51,8 +52,9 @@
 .setName {
   font-size: 0.9em;
   color: grey;
+  text-align: center;
 
   @include media(mobile) {
-    font-size: 0.85em;
+    font-size: 0.8em;
   }
 }

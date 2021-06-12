@@ -52,6 +52,10 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
+  
+  @include media(mobile) {
+    justify-content: space-between;
+  }
 }
 
 .resultsForCards {

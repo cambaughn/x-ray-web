@@ -9,12 +9,16 @@ import GettingDataMessage from '../GettingDataMessage/GettingDataMessage';
 import UserProfileDetails from '../UserProfileDetails/UserProfileDetails';
 
 // Utility functions
+// Firebase API
 import sale from '../../util/api/sales';
+import pokeCard from '../../util/api/card';
+import formattedSale from '../../util/api/formatted_sale.js';
+import userAPI from '../../util/api/user.js';
+import collectedItem from '../../util/api/collection';
+// Helpers
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
-import formattedSale from '../../util/api/formatted_sale.js';
-import userAPI from '../../util/api/user.js';
 import analytics from '../../util/analytics/segment';
 
 
@@ -25,8 +29,8 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   // State for focused user
   const [focusedUser, setFocusedUser] = useState({});
-  const [focusedUserCollectionDetails, setFocusedUserCollectionDetails] = useState([]); // array of card ids
-  const [focusedUserCollectedItems, setFocusedUserCollectedItems] = useState({}); // object with card objects mapped to ids
+  const [focusedCollectionDetails, setFocusedCollectionDetails] = useState([]); // array of card ids
+  const [focusedCollectedItems, setFocusedCollectedItems] = useState({}); // object with card objects mapped to ids
   // State for sales
   const [salesByType, setSalesByType] = useState({});
   const [relevantSales, setRelevantSales] = useState({}); // collectionDetails mapped by index to correct formattedSales
@@ -40,15 +44,38 @@ export default function UserCollection({ username, isCurrentUser }) {
   const getFocusedUser = async () => {
     if (isCurrentUser) {
       setFocusedUser(user);
-    } else {
+    } else if (username) {
       let userData = await userAPI.getByUsername(username);
       setFocusedUser(userData);
     }
   }
 
+  // Once we've set the focused user, get the collection details and collected items for focused user
+  const getCollectionForUser = async () => {
+    if (Object.keys(focusedUser).length > 0) {
+      if (isCurrentUser) {
+        setFocusedCollectionDetails(collectionDetails);
+        setFocusedCollectedItems(collectedItems);
+      } else if (focusedCollectionDetails.length === 0 && Object.keys(focusedCollectedItems).length === 0) {
+        // Get collected items records for focused user
+        let item_details = await collectedItem.getForUser(focusedUser.id);
+        // Use collected items to make a lookup with the actual items
+        let itemsToGet = item_details.map(detail => detail.item_id);
+        let items = await pokeCard.getMultiple(itemsToGet);
+        let itemLookup = {};
+        items.forEach(item => {
+          itemLookup[item.id] = item;
+        })
+
+        setFocusedCollectionDetails(item_details);
+        setFocusedCollectedItems(itemLookup);
+      }
+    }
+  }
+
   const getSales = async () => {
-    if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
-      let item_ids = collectionDetails.map(item => item.item_id);
+    if (isCurrentUser && focusedCollectionDetails.length > 0 && Object.keys(focusedCollectedItems).length > 0) {
+      let item_ids = focusedCollectionDetails.map(item => item.item_id);
       let allSales = await formattedSale.getForMultiple(item_ids);
       let salesLookup = {};
 
@@ -75,7 +102,7 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   const formatAllSales = () => {
     if (Object.keys(salesByType).length > 0 && Object.keys(formattedSales).length === 0) {
-      let salesForCollection = collectionDetails.map(item => findSalesForItem(item));
+      let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
       setRelevantSales(salesForCollection);
       let formatted = [];
       let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);
@@ -132,13 +159,14 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   useEffect(recordPageView, []);
   useEffect(getFocusedUser, [username]);
-  useEffect(getSales, [collectionDetails, collectedItems]);
+  useEffect(getCollectionForUser, [focusedUser]);
+  useEffect(getSales, [focusedCollectionDetails, focusedCollectedItems]);
   useEffect(formatAllSales, [salesByType]);
 
   return (
     <div className={styles.container}>
 
-      <UserProfileDetails user={user} />
+      <UserProfileDetails user={focusedUser} />
 
       { isCurrentUser &&
         <>
@@ -150,7 +178,7 @@ export default function UserCollection({ username, isCurrentUser }) {
         </>
       }
 
-      <CollectionList sales={relevantSales} />
+      <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} />
     </div>
   )
 }

@@ -14,6 +14,7 @@ import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js'
 import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
 import formattedSale from '../../util/api/formatted_sale.js';
+import userAPI from '../../util/api/user.js';
 import analytics from '../../util/analytics/segment';
 
 
@@ -22,15 +23,28 @@ export default function UserCollection({ username, isCurrentUser }) {
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
 
+  // State for focused user
+  const [focusedUser, setFocusedUser] = useState({});
+  const [focusedUserCollectionDetails, setFocusedUserCollectionDetails] = useState([]); // array of card ids
+  const [focusedUserCollectedItems, setFocusedUserCollectedItems] = useState({}); // object with card objects mapped to ids
+  // State for sales
   const [salesByType, setSalesByType] = useState({});
   const [relevantSales, setRelevantSales] = useState({}); // collectionDetails mapped by index to correct formattedSales
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
-  const [numItemsWithoutSales, setNumItemsWithoutSales] = useState(0);
+  const [numItemsWithoutSales, setNumItemsWithoutSales] = useState(0); // Determines whether to show getting data message
 
   const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
 
-  console.log(isCurrentUser);
+  // Get whichever user is focused
+  const getFocusedUser = async () => {
+    if (isCurrentUser) {
+      setFocusedUser(user);
+    } else {
+      let userData = await userAPI.getByUsername(username);
+      setFocusedUser(userData);
+    }
+  }
 
   const getSales = async () => {
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
@@ -117,6 +131,7 @@ export default function UserCollection({ username, isCurrentUser }) {
 
 
   useEffect(recordPageView, []);
+  useEffect(getFocusedUser, [username]);
   useEffect(getSales, [collectionDetails, collectedItems]);
   useEffect(formatAllSales, [salesByType]);
 
@@ -125,10 +140,14 @@ export default function UserCollection({ username, isCurrentUser }) {
 
       <UserProfileDetails user={user} />
 
-      <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
+      { isCurrentUser &&
+        <>
+          <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
-      { numItemsWithoutSales > 0 &&
-        <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
+          { numItemsWithoutSales > 0 &&
+            <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
+          }
+        </>
       }
 
       <CollectionList sales={relevantSales} />

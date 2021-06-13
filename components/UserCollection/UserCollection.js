@@ -74,7 +74,7 @@ export default function UserCollection({ username, isCurrentUser }) {
   }
 
   const getSales = async () => {
-    if (isCurrentUser && focusedCollectionDetails.length > 0 && Object.keys(focusedCollectedItems).length > 0) {
+    if ((isCurrentUser || user.role === 'admin') && focusedCollectionDetails.length > 0 && Object.keys(focusedCollectedItems).length > 0) {
       let item_ids = focusedCollectionDetails.map(item => item.item_id);
       let allSales = await formattedSale.getForMultiple(item_ids);
       let salesLookup = {};
@@ -168,7 +168,7 @@ export default function UserCollection({ username, isCurrentUser }) {
 
       <UserProfileDetails user={focusedUser} />
 
-      { isCurrentUser &&
+      { (isCurrentUser || user.role === 'admin') &&
         <>
           <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
@@ -178,7 +178,7 @@ export default function UserCollection({ username, isCurrentUser }) {
         </>
       }
 
-      <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} />
+      <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} isAdmin={user.role === 'admin'} />
     </div>
   )
 }

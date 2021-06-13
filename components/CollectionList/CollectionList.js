@@ -12,7 +12,7 @@ import collectedItem from '../../util/api/collection';
 import { setCollectionDetails } from '../../redux/actionCreators';
 
 
-export default function CollectionList({ user, collectionDetails, collectedItems, isCurrentUser, sales }) {
+export default function CollectionList({ user, collectionDetails, collectedItems, isCurrentUser, sales, isAdmin }) {
   // const collectionDetails = useSelector(state => state.collectionDetails);
   // const collectedItems = useSelector(state => state.collectedItems);
   // const user = useSelector(state => state.user);
@@ -64,7 +64,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
 
                 <div className={styles.rightSide}>
                   <span className={classNames(styles.topLine, styles.cardNumber)}>#{item.number}</span>
-                  { isCurrentUser &&
+                  { (isCurrentUser || isAdmin ) &&
                     <span className={classNames({ [styles.price]: true, [styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>{price !== '--' ? `$${price.toFixed(2)}` : price}</span>
                   }
                 </div>

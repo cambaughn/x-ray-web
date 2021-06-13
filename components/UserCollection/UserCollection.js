@@ -75,6 +75,7 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   const getSales = async () => {
     if ((isCurrentUser || user.role === 'admin') && focusedCollectionDetails.length > 0 && Object.keys(focusedCollectedItems).length > 0) {
+      console.log('getting new sales');
       let item_ids = focusedCollectionDetails.map(item => item.item_id);
       let allSales = await formattedSale.getForMultiple(item_ids);
       let salesLookup = {};
@@ -94,37 +95,35 @@ export default function UserCollection({ username, isCurrentUser }) {
         }
       })
 
-      // console.log('sales lookup ', salesLookup);
+      console.log('sales lookup ', salesLookup);
 
       setSalesByType(salesLookup);
     }
   }
 
   const formatAllSales = () => {
-    if (Object.keys(salesByType).length > 0 && Object.keys(formattedSales).length === 0) {
-      let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
-      setRelevantSales(salesForCollection);
-      let formatted = [];
-      let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);
-      setNumItemsWithoutSales(salesForCollection.length - filteredData.length); // set num without sales as difference between collection details and filtered sales data;
+    let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
+    setRelevantSales(salesForCollection);
+    let formatted = [];
+    let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);
+    setNumItemsWithoutSales(salesForCollection.length - filteredData.length); // set num without sales as difference between collection details and filtered sales data;
 
-      filteredData.forEach((data) => {
-        data.forEach((week, index) => {
-          formatted[index] = formatted[index] || {};
-          formatted[index].total = formatted[index].total || 0;
-          formatted[index].total += week.averagePrice || 0;
-          formatted[index].label = week.label;
-        })
+    filteredData.forEach((data) => {
+      data.forEach((week, index) => {
+        formatted[index] = formatted[index] || {};
+        formatted[index].total = formatted[index].total || 0;
+        formatted[index].total += week.averagePrice || 0;
+        formatted[index].label = week.label;
       })
+    })
 
-      formatted.forEach(week => {
-        week.total = week.total.toFixed(2);
-      })
-      formatted = formatted.slice(formatted.length - 12 ||  0, formatted.length - 1);
+    formatted.forEach(week => {
+      week.total = week.total.toFixed(2);
+    })
+    formatted = formatted.slice(formatted.length - 12 ||  0, formatted.length - 1);
 
-      setAveragePrice(formatted[formatted.length - 1].total);
-      setFormattedSales(formatted);
-    }
+    setAveragePrice(formatted[formatted.length - 1].total);
+    setFormattedSales(formatted);
   }
 
   // Get sales for item from salesByType object

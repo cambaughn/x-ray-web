@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CollectionList from '../CollectionList/CollectionList';
 import CollectionChart from '../CollectionChart/CollectionChart';
 import GettingDataMessage from '../GettingDataMessage/GettingDataMessage';
+import UserProfileDetails from '../UserProfileDetails/UserProfileDetails';
 
 // Utility functions
 import sale from '../../util/api/sales';
@@ -16,7 +17,7 @@ import formattedSale from '../../util/api/formatted_sale.js';
 import analytics from '../../util/analytics/segment';
 
 
-export default function UserCollection({ username }) {
+export default function UserCollection({ username, isCurrentUser }) {
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
@@ -25,9 +26,11 @@ export default function UserCollection({ username }) {
   const [relevantSales, setRelevantSales] = useState({}); // collectionDetails mapped by index to correct formattedSales
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
-  const [numItemsWithouSales, setNumItemsWithoutSales] = useState(0);
+  const [numItemsWithoutSales, setNumItemsWithoutSales] = useState(0);
 
   const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
+
+  console.log(isCurrentUser);
 
   const getSales = async () => {
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
@@ -120,15 +123,12 @@ export default function UserCollection({ username }) {
   return (
     <div className={styles.container}>
 
-      <div className={styles.profileDetails}>
-        <h3 className={styles.name}>{user.name}</h3>
-        <span className={styles.username}>@{user.username}</span>
-      </div>
+      <UserProfileDetails user={user} />
 
       <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
-      { numItemsWithouSales > 0 &&
-        <GettingDataMessage numItemsWithouSales={numItemsWithouSales} />
+      { numItemsWithoutSales > 0 &&
+        <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
       }
 
       <CollectionList sales={relevantSales} />

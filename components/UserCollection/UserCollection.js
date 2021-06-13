@@ -75,7 +75,6 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   const getSales = async () => {
     if ((isCurrentUser || user.role === 'admin') && focusedCollectionDetails.length > 0 && Object.keys(focusedCollectedItems).length > 0) {
-      console.log('getting new sales');
       let item_ids = focusedCollectionDetails.map(item => item.item_id);
       let allSales = await formattedSale.getForMultiple(item_ids);
       let salesLookup = {};
@@ -95,7 +94,7 @@ export default function UserCollection({ username, isCurrentUser }) {
         }
       })
 
-      console.log('sales lookup ', salesLookup);
+      // console.log('sales lookup ', salesLookup);
 
       setSalesByType(salesLookup);
     }

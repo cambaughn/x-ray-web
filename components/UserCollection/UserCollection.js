@@ -37,14 +37,14 @@ export default function UserCollection({ username, isCurrentUser }) {
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
   const [numItemsWithoutSales, setNumItemsWithoutSales] = useState(0); // Determines whether to show getting data message
-
   const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
+
 
   // Get whichever user is focused
   const getFocusedUser = async () => {
     if (isCurrentUser) {
       setFocusedUser(user);
-    } else if (username) {
+    } else {
       let userData = await userAPI.getByUsername(username);
       setFocusedUser(userData);
     }
@@ -53,10 +53,10 @@ export default function UserCollection({ username, isCurrentUser }) {
   // Once we've set the focused user, get the collection details and collected items for focused user
   const getCollectionForUser = async () => {
     if (Object.keys(focusedUser).length > 0) {
-      if (isCurrentUser) {
+      if (isCurrentUser && collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
         setFocusedCollectionDetails(collectionDetails);
         setFocusedCollectedItems(collectedItems);
-      } else if (focusedCollectionDetails.length === 0 && Object.keys(focusedCollectedItems).length === 0) {
+      } else {
         // Get collected items records for focused user
         let item_details = await collectedItem.getForUser(focusedUser.id);
         // Use collected items to make a lookup with the actual items
@@ -158,7 +158,7 @@ export default function UserCollection({ username, isCurrentUser }) {
 
 
   useEffect(recordPageView, []);
-  useEffect(getFocusedUser, [username]);
+  useEffect(getFocusedUser, [username, user]);
   useEffect(getCollectionForUser, [focusedUser]);
   useEffect(getSales, [focusedCollectionDetails, focusedCollectedItems]);
   useEffect(formatAllSales, [salesByType]);

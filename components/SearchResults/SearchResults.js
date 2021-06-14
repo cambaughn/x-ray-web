@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { X } from 'react-feather';
 
 // Components
+import CardImage from '../CardImage/CardImage';
 
 // Utility functions
 
@@ -35,16 +36,20 @@ export default function SearchResults({ results, setSearching, showExitButton, h
           return (
             <Link href={`/card/${result.id}`} key={result.id}>
               <div className={styles.resultWrapper} onClick={handleResultClick}>
-                <div className={styles.imageWrapper}>
+                <CardImage card={result} size={'small'} />
+                {/* <div className={styles.imageWrapper}>
                   <img src={result.images.small} className={styles.thumbnail} />
-                </div>
+                </div> */}
                 <div className={styles.details}>
-                  <div className={styles.leftSide}>
-                    <span className={classNames(styles.topLine, styles.setName)}>{result.set_name}</span>
+                  <div className={styles.topLine}>
+                    <span className={styles.setName}>{result.set_name.replace('Black Star ', '')}</span>
+                    <span className={styles.cardNumber}>#{result.number}</span>
+                  </div>
+
+                  <div className={styles.bottomLine}>
                     <span className={styles.cardName}>{result.name}</span>
                   </div>
 
-                  <span className={classNames(styles.topLine, styles.cardNumber)}>#{result.number}</span>
                 </div>
               </div>
             </Link>

@@ -5,7 +5,7 @@ import styles from './UserProfileDetails.module.scss';
 
 // Utility functions
 
-export default function UserProfileDetails({ user }) {
+export default function UserProfileDetails({ user = {} }) {
   return (
     <div className={styles.container}>
       <h3 className={styles.name}>{user.name}</h3>

@@ -13,13 +13,8 @@ import { setCollectionDetails } from '../../redux/actionCreators';
 
 
 export default function CollectionList({ user, collectionDetails, collectedItems, isCurrentUser, sales, isAdmin }) {
-  // const collectionDetails = useSelector(state => state.collectionDetails);
-  // const collectedItems = useSelector(state => state.collectedItems);
-  // const user = useSelector(state => state.user);
-
   const [hoveredItem, setHoveredItem] = useState(null);
   const dispatch = useDispatch();
-
 
   const removeItem = async(item, event) => {
     if (isCurrentUser) {

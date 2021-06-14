@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { ArrowRightCircle } from 'react-feather';
 
 // Components
+import CardImage from '../CardImage/CardImage';
 
 // Utility functions
 import pokeSet from '../../util/api/set';
@@ -108,7 +109,7 @@ export default function SetDetails({}) {
   const renderCard = (card, selected) => {
     return (
       <div className={styles.cardWrapper}>
-        <img src={card.images.small} className={classNames({[styles.thumbnail]: true, [styles.selectedCard]: selected })} />
+        <CardImage card={card} selected={selectedItems.has(card.id)} />
         <div className={styles.details}>
           {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
           <span className={styles.cardName}>{card.name}</span>

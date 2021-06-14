@@ -8,10 +8,13 @@ import classNames from 'classnames';
 import pokeCard from '../../util/api/card';
 import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI';
 
-export default function CardImage({ card, selected }) {
+export default function CardImage({ card, selected, size = 'small' }) {
   return (
     <div className={styles.container}>
-      <img src={card.images.small} className={classNames({[styles.thumbnail]: true, [styles.selectedCard]: selected })} />
+      <img
+        src={size === 'small' ? card.images.small : card.images.large}
+        className={classNames({[styles.thumbnail]: true, [styles.selectedCard]: selected })}
+      />
     </div>
   )
 }

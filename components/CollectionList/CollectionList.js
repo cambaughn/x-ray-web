@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { MinusCircle } from 'react-feather';
 
 // Components
+import CardImage from '../CardImage/CardImage';
 
 // Utility functions
 import collectedItem from '../../util/api/collection';
@@ -50,7 +51,9 @@ export default function CollectionList({ user, collectionDetails, collectedItems
         return item ? (
           <Link href={`/card/${item.id}`} key={`${item.id}-${index}`}>
             <div className={styles.resultWrapper} onMouseEnter={() => setHoveredItem(index)} onMouseLeave={() => setHoveredItem(null)}>
-              <img src={item.images.small} className={styles.thumbnail} />
+
+              {/* <img src={item.images.small} className={styles.thumbnail} /> */}
+              <CardImage card={item} size={'small'} />
               <div className={styles.details}>
                 <div className={styles.leftSide}>
                   <span className={classNames(styles.topLine, styles.setName)}>{item.set_name.replace('Black Star ', '')}</span>

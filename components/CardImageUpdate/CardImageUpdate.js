@@ -1,15 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import styles from './CardImageUpdate.module.scss';
+import classNames from 'classnames';
 
 // Components
 import AdminNav from '../AdminNav/AdminNav';
+import CardImage from '../CardImage/CardImage';
 
 // Utility functions
+import pokeSet from '../../util/api/set';
+import pokeCard from '../../util/api/card';
+import { sortCardsByNumber } from '../../util/helpers/sorting';
+
 
 export default function CardImageUpdate({}) {
+  const [setsToUpdate, setSetsToUpdate] = useState([]);
+  const [selectedSet, setSelectedSet] = useState({});
+  const [cards, setCards] = useState([]);
+
+  const getSets = async () => {
+    let sets = await pokeSet.getLanguage('japanese');
+    sets = sets.filter(set => !set.images_updated);
+    console.log(sets);
+    setSetsToUpdate(sets);
+  }
+
+  const getCardsForSet = async () => {
+    if (selectedSet) {
+      let cardsForSet = await pokeCard.search('set_id', selectedSet);
+      cardsForSet = sortCardsByNumber(cardsForSet);
+      setCards(cardsForSet);
+    }
+  }
+
+  const getImages = () => {
+
+  }
+
+  useEffect(getSets, []);
+  useEffect(getCardsForSet, [selectedSet]);
+
+
   return (
     <div className={styles.container}>
       <AdminNav />
+
+      <div>
+        { setsToUpdate.map(set => {
+          return (
+            <div className={classNames(styles.setButton, { [styles.selectedSet]: selectedSet === set.id })} onClick={() => setSelectedSet(set.id)} key={set.id}>
+              <span>{set.name}</span>
+            </div>
+          )
+        })}
+
+      </div>
+
+      <div className={styles.cards}>
+        { cards.map(card => {
+          return (
+            <div key={card.id} className={styles.cardWrapper}>
+              <CardImage card={card} />
+              <span>{card.number} - {card.name}</span>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

@@ -44,21 +44,9 @@ pokeSet.get = async (id) =>  {
   }
 }
 
-pokeSet.getEnglish = async () =>  {
+pokeSet.getLanguage = async (language = 'english') =>  {
   try {
-    return db.collection('pokemon_sets').where('language', '==', 'english').get()
-    .then(function(snapshot) {
-      let sets = convertSnapshot(snapshot);
-      return sets;
-    })
-  } catch(error) {
-    console.error(error);
-  }
-}
-
-pokeSet.getJapanese = async () =>  {
-  try {
-    return db.collection('pokemon_sets').where('language', '==', 'japanese').get()
+    return db.collection('pokemon_sets').where('language', '==', language).get()
     .then(function(snapshot) {
       let sets = convertSnapshot(snapshot);
       return sets;

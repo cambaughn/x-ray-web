@@ -1,0 +1,29 @@
+.container {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  padding-bottom: 200px;
+}
+
+.mainSection {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.setButton {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.selectedSet {
+  color: #3498db;
+}
+
+.cardWrapper {
+  margin-bottom: 20px;
+}

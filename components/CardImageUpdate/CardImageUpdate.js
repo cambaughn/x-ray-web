@@ -37,6 +37,8 @@ export default function CardImageUpdate({}) {
   const getImages = async () => {
     if (selectedSet.id) {
       let images = await card_images.getForSet(selectedSet.name);
+      images = sortCardsByNumber(images);
+      // console.log('images ', images);
       setNewImages(images);
     }
   }
@@ -73,10 +75,11 @@ export default function CardImageUpdate({}) {
       </div>
 
       <div className={styles.cards}>
-        { newImages.map(url => {
+        { newImages.map(image => {
           return (
-            <div key={url} className={styles.cardWrapper}>
-              <img src={url} className={styles.newCardImage} />
+            <div key={image.url} className={styles.cardWrapper}>
+              <img src={image.url} className={styles.newCardImage} />
+              <span>{image.number} - {image.name}</span>
             </div>
           )
         })}

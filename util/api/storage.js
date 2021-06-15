@@ -9,7 +9,17 @@ card_images.getForSet =  async (set_name) => {
   let images = await storageRef.child(`card_images/${set_name}`).listAll();
   images = await images.items.map(async item => {
     let path = await storageRef.child(item.fullPath).getDownloadURL();
-    return path;
+
+    let fileName = item.fullPath.split('/')[2].replace('.jpg', '');
+    let pieces = fileName.split('-');
+
+    let details = {
+      url: path,
+      number: pieces[0],
+      name: pieces[1]
+    };
+
+    return details;
   })
 
   return Promise.all(images);

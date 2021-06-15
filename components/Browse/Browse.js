@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Browse.module.scss';
-import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 
 // Components
+import SetInfoCard from '../SetInfoCard/SetInfoCard';
 
 // Utility functions
 import pokeSeries from '../../util/api/series';
@@ -99,14 +99,7 @@ export default function Browse({}) {
               <div className={styles.setsInSeries}>
                 { setLookup[series.id].map(set => {
                   return (
-                    <Link href={`/set/${set.id}`} key={set.id}>
-                      <div className={styles.setCard}>
-                        <div className={styles.setLogoWrapper}>
-                          <img src={set.images.logo} className={styles.setLogo} />
-                        </div>
-                        <span className={styles.setName}>{set.name}</span>
-                      </div>
-                    </Link>
+                    <SetInfoCard set={set} key={set.id} />
                   )
                 })}
               </div>

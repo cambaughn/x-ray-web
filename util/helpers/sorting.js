@@ -23,12 +23,23 @@ const sortSetsByDate = (sets) => {
 }
 
 const sortCardsByNumber = (cards) => {
+  // let regular = [];
   return cards.sort((a, b) => {
-    if (parseInt(a.number ) < parseInt(b.number)) {
+    let aNum = parseInt(a.number);
+    let bNum = parseInt(b.number);
+
+    if (aNum < bNum || (aNum && !bNum)) {
       return -1;
-    } else {
-      return 1;
+    } else if (!aNum && !bNum) { // If the number has non alphanumeric characters
+      aNum = parseInt(a.number.replace(/[^0-9]/gi, ''));
+      bNum = parseInt(b.number.replace(/[^0-9]/gi, ''));
+
+      if (aNum < bNum) {
+        return -1;
+      }
     }
+
+    return 1;
   })
 }
 

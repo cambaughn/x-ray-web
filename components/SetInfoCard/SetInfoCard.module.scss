@@ -1,0 +1,61 @@
+@import '../../util/design/mixins.module.scss';
+
+.setCard {
+  width: 250px;
+  height: 130px;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #ecf0f1;
+  cursor: pointer;
+
+  @include media(mobile) {
+    width: 160px;
+    height: 100px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+}
+
+.setLogoWrapper {
+  height: 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @include media(mobile) {
+    height: 50px;
+  }
+}
+
+.setLogo {
+  max-height: 50px;
+  max-width: 100%;
+
+  @include media(mobile) {
+    max-height: 40px;
+  }
+}
+
+.setName {
+  font-size: 0.9em;
+  color: grey;
+  text-align: center;
+
+  @include media(mobile) {
+    font-size: 0.8em;
+  }
+}

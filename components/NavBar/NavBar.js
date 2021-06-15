@@ -13,7 +13,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import SignInButton from '../Buttons/SignInButton';
 
 // Utility functions
-import { searchCard } from '../../util/algolia/algoliaHelpers';
+import { searchCard, searchSets } from '../../util/algolia/algoliaHelpers';
 import analytics from '../../util/analytics/segment';
 
 
@@ -25,6 +25,7 @@ export default function NavBar({}) {
   let queryParam = router.query.search_query ? router.query.search_query.replace(/\+/g, ' ') : null;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
+  const [resultsForSet, setResultsForSet] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addedUrl, setAddedUrl] = useState(false);
   const [previousPath, setPreviousPath] = useState('');
@@ -34,8 +35,10 @@ export default function NavBar({}) {
   const liveSearch = async () => {
     try {
       if (searchTerm.length > 0) {
-        let searchResults = await searchCard(searchTerm);
-        setResults(searchResults);
+        let cardSearchResults = await searchCard(searchTerm);
+        let searchResultsForSet = await searchSets(searchTerm);
+        setResults(cardSearchResults);
+        setResultsForSet(searchResultsForSet);
       } else {
         setResults([]);
       }
@@ -158,7 +161,7 @@ export default function NavBar({}) {
       </div>
 
       { searching &&
-        <SearchResults results={results} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
+        <SearchResults results={results} sets={resultsForSet} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
       }
     </div>
   )

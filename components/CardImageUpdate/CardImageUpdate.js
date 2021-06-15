@@ -9,6 +9,7 @@ import CardImage from '../CardImage/CardImage';
 // Utility functions
 import pokeSet from '../../util/api/set';
 import pokeCard from '../../util/api/card';
+import card_images from '../../util/api/storage';
 import { sortCardsByNumber } from '../../util/helpers/sorting';
 
 
@@ -16,6 +17,7 @@ export default function CardImageUpdate({}) {
   const [setsToUpdate, setSetsToUpdate] = useState([]);
   const [selectedSet, setSelectedSet] = useState({});
   const [cards, setCards] = useState([]);
+  const [newImages, setNewImages] = useState([]);
 
   const getSets = async () => {
     let sets = await pokeSet.getLanguage('japanese');
@@ -25,19 +27,23 @@ export default function CardImageUpdate({}) {
   }
 
   const getCardsForSet = async () => {
-    if (selectedSet) {
-      let cardsForSet = await pokeCard.search('set_id', selectedSet);
+    if (selectedSet.id) {
+      let cardsForSet = await pokeCard.search('set_id', selectedSet.id);
       cardsForSet = sortCardsByNumber(cardsForSet);
       setCards(cardsForSet);
     }
   }
 
-  const getImages = () => {
-
+  const getImages = async () => {
+    if (selectedSet.id) {
+      let images = await card_images.getForSet(selectedSet.name);
+      setNewImages(images);
+    }
   }
 
   useEffect(getSets, []);
   useEffect(getCardsForSet, [selectedSet]);
+  useEffect(getImages, [selectedSet]);
 
 
   return (
@@ -47,7 +53,7 @@ export default function CardImageUpdate({}) {
       <div>
         { setsToUpdate.map(set => {
           return (
-            <div className={classNames(styles.setButton, { [styles.selectedSet]: selectedSet === set.id })} onClick={() => setSelectedSet(set.id)} key={set.id}>
+            <div className={classNames(styles.setButton, { [styles.selectedSet]: selectedSet.id === set.id })} onClick={() => setSelectedSet(set)} key={set.id}>
               <span>{set.name}</span>
             </div>
           )
@@ -65,6 +71,17 @@ export default function CardImageUpdate({}) {
           )
         })}
       </div>
+
+      <div className={styles.cards}>
+        { newImages.map(url => {
+          return (
+            <div key={url} className={styles.cardWrapper}>
+              <img src={url} className={styles.newCardImage} />
+            </div>
+          )
+        })}
+      </div>
+
     </div>
   )
 }

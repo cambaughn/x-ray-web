@@ -27,6 +27,9 @@ export default function CardDetails({ card_id }) {
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
   const [addCardModalVisible, setAddCardModalVisible] = useState(false);
+  // Editing states
+  const [editingName, setEditingName] = useState(false);
+  const [cardName, setCardName] = useState('');
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails);
   const isBetaUser = useSelector(state => state.isBetaUser);
@@ -75,6 +78,7 @@ export default function CardDetails({ card_id }) {
       // console.log('sales data ', salesData);
 
       setCard(cardData);
+      setCardName(cardData.name);
       setSales(salesData || []);
 
       if (!Array.isArray(setData)) {
@@ -103,6 +107,20 @@ export default function CardDetails({ card_id }) {
     setAddCardModalVisible(!addCardModalVisible)
   }
 
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter'){
+      saveName();
+    }
+  }
+
+  const saveName = async () => {
+    await pokeCard.update(card.id, { name: cardName });
+    let cardData = await pokeCard.get(card_id);
+    setCard(cardData);
+    setCardName(cardData.name);
+    setEditingName(false);
+  }
+
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
   // useEffect(updateCardSales, [card]);
@@ -117,7 +135,13 @@ export default function CardDetails({ card_id }) {
           }
         </div>
 
-        <h3 className={styles.cardName}>{card.name}</h3>
+        <div>
+          { editingName ? (
+            <input type='text' className={styles.cardName} value={cardName} onChange={(event) => setCardName(event.target.value)} onKeyDown={handleEnterKey} />
+          ): (
+            <h3 className={styles.cardName} onDoubleClick={() => user.role === 'admin' && setEditingName(true)}>{cardName}</h3>
+          )}
+        </div>
 
         { isBetaUser &&
           <div className={styles.addButtonWrapper}>

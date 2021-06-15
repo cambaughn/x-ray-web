@@ -16,6 +16,27 @@ userAPI.get = async (id) => {
   }
 }
 
+userAPI.getByUsername = async (username) => {
+  try {
+    let user = await db.collection('users').where('username', '==', username).get();
+    user = convertDoc(user);
+    return Promise.resolve(user);
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+userAPI.getByUsername = async (username) => {
+  try {
+    let user = await db.collection('users').where('username', '==', username).get();
+    user = convertSnapshot(user)[0];
+    return Promise.resolve(user);
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+
 userAPI.update = async (id, updates) => {
   try {
     return db.collection('users').doc(id).set(updates, { merge: true });

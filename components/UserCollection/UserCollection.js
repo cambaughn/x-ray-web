@@ -6,32 +6,76 @@ import { useSelector, useDispatch } from 'react-redux';
 import CollectionList from '../CollectionList/CollectionList';
 import CollectionChart from '../CollectionChart/CollectionChart';
 import GettingDataMessage from '../GettingDataMessage/GettingDataMessage';
+import UserProfileDetails from '../UserProfileDetails/UserProfileDetails';
 
 // Utility functions
+// Firebase API
 import sale from '../../util/api/sales';
+import pokeCard from '../../util/api/card';
+import formattedSale from '../../util/api/formatted_sale.js';
+import userAPI from '../../util/api/user.js';
+import collectedItem from '../../util/api/collection';
+// Helpers
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { sortSalesByType, formatSalesForChart } from '../../util/helpers/sales';
 import { flatten } from '../../util/helpers/array';
-import formattedSale from '../../util/api/formatted_sale.js';
 import analytics from '../../util/analytics/segment';
 
 
-export default function UserCollection({ username }) {
+export default function UserCollection({ username, isCurrentUser }) {
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails); // array of card ids
   const collectedItems = useSelector(state => state.collectedItems); // object with card objects mapped to ids
 
+  // State for focused user
+  const [focusedUser, setFocusedUser] = useState({});
+  const [focusedCollectionDetails, setFocusedCollectionDetails] = useState([]); // array of card ids
+  const [focusedCollectedItems, setFocusedCollectedItems] = useState({}); // object with card objects mapped to ids
+  // State for sales
   const [salesByType, setSalesByType] = useState({});
   const [relevantSales, setRelevantSales] = useState({}); // collectionDetails mapped by index to correct formattedSales
   const [formattedSales, setFormattedSales] = useState([]); // sales formatted to plugin to chart
   const [averagePrice, setAveragePrice] = useState(0); // price to show in top right of chart
-  const [numItemsWithouSales, setNumItemsWithoutSales] = useState(0);
-
+  const [numItemsWithoutSales, setNumItemsWithoutSales] = useState(0); // Determines whether to show getting data message
   const [formattedIndividualSales, setFormattedIndividualSales] = useState({}); // relevantSales, but each array formatted for chart
 
+
+  // Get whichever user is focused
+  const getFocusedUser = async () => {
+    if (isCurrentUser) {
+      setFocusedUser(user);
+    } else {
+      let userData = await userAPI.getByUsername(username);
+      setFocusedUser(userData);
+    }
+  }
+
+  // Once we've set the focused user, get the collection details and collected items for focused user
+  const getCollectionForUser = async () => {
+    if (Object.keys(focusedUser).length > 0) {
+      if (isCurrentUser && collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
+        setFocusedCollectionDetails(collectionDetails);
+        setFocusedCollectedItems(collectedItems);
+      } else {
+        // Get collected items records for focused user
+        let item_details = await collectedItem.getForUser(focusedUser.id);
+        // Use collected items to make a lookup with the actual items
+        let itemsToGet = item_details.map(detail => detail.item_id);
+        let items = await pokeCard.getMultiple(itemsToGet);
+        let itemLookup = {};
+        items.forEach(item => {
+          itemLookup[item.id] = item;
+        })
+
+        setFocusedCollectionDetails(item_details);
+        setFocusedCollectedItems(itemLookup);
+      }
+    }
+  }
+
   const getSales = async () => {
-    if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
-      let item_ids = collectionDetails.map(item => item.item_id);
+    if ((isCurrentUser || user.role === 'admin') && focusedCollectionDetails.length > 0 && Object.keys(focusedCollectedItems).length > 0) {
+      let item_ids = focusedCollectionDetails.map(item => item.item_id);
       let allSales = await formattedSale.getForMultiple(item_ids);
       let salesLookup = {};
 
@@ -57,8 +101,8 @@ export default function UserCollection({ username }) {
   }
 
   const formatAllSales = () => {
-    if (Object.keys(salesByType).length > 0 && Object.keys(formattedSales).length === 0) {
-      let salesForCollection = collectionDetails.map(item => findSalesForItem(item));
+    if (Object.keys(salesByType).length > 0) {
+      let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
       setRelevantSales(salesForCollection);
       let formatted = [];
       let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);
@@ -114,24 +158,27 @@ export default function UserCollection({ username }) {
 
 
   useEffect(recordPageView, []);
-  useEffect(getSales, [collectionDetails, collectedItems]);
+  useEffect(getFocusedUser, [username, user]);
+  useEffect(getCollectionForUser, [focusedUser]);
+  useEffect(getSales, [focusedCollectionDetails, focusedCollectedItems]);
   useEffect(formatAllSales, [salesByType]);
 
   return (
     <div className={styles.container}>
 
-      <div className={styles.profileDetails}>
-        <h3 className={styles.name}>{user.name}</h3>
-        <span className={styles.username}>@{user.username}</span>
-      </div>
+      <UserProfileDetails user={focusedUser} />
 
-      <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
+      { (isCurrentUser || user.role === 'admin') &&
+        <>
+          <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
-      { numItemsWithouSales > 0 &&
-        <GettingDataMessage numItemsWithouSales={numItemsWithouSales} />
+          { numItemsWithoutSales > 0 &&
+            <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
+          }
+        </>
       }
 
-      <CollectionList sales={relevantSales} />
+      <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} isAdmin={user.role === 'admin'} />
     </div>
   )
 }

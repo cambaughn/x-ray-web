@@ -1,9 +1,8 @@
 import Profile from '../../components/Profile/Profile';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
-export default function UserProfilePage() {
-  const router = useRouter();
-  const { username } = router.query;
 
-  return <Profile username={username} />
+export default function UserProfilePage() {
+  return <Profile />
 }

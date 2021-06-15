@@ -30,7 +30,13 @@ export default function NavBar({}) {
   const [addedUrl, setAddedUrl] = useState(false);
   const [previousPath, setPreviousPath] = useState('');
   const [canGoBack, setCanGoBack] = useState(false);
-  const [navLinks, setNavLinks] = useState([ { text: 'Collection', href: '/collection'} ]);
+  const [navLinks, setNavLinks] = useState([]);
+
+
+  const determineNavLinks = () => {
+    let links = [ { text: 'Collection', href: `/collection/${user.username}`} ];
+    setNavLinks(links);
+  }
 
   const liveSearch = async () => {
     try {
@@ -118,6 +124,7 @@ export default function NavBar({}) {
     }
   }
 
+  useEffect(determineNavLinks, [user]);
   useEffect(liveSearch, [searchTerm]);
   useEffect(loadQuery, [router]);
   useEffect(updateUrlState, [searching]);

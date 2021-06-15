@@ -7,6 +7,7 @@ import { X } from 'react-feather';
 
 // Components
 import SetInfoCard from '../SetInfoCard/SetInfoCard';
+import CardImage from '../CardImage/CardImage';
 
 // Utility functions
 import { sortSearchResults } from '../../util/helpers/array';
@@ -46,16 +47,16 @@ export default function SearchResults({ results, sets, setSearching, showExitBut
             return (
               <Link href={`/card/${result.id}`} key={result.id}>
                 <div className={styles.resultWrapper} onClick={handleResultClick}>
-                  <div className={styles.imageWrapper}>
+                  <CardImage card={result} size={'small'} />
+
+                  {/* <div className={styles.imageWrapper}>
                     <img src={result.images.small} className={styles.thumbnail} />
-                  </div>
+                  </div> */}
                   <div className={styles.details}>
                     <div className={styles.leftSide}>
                       <span className={classNames(styles.topLine, styles.setName)}>{result.set_name}</span>
                       <span className={styles.cardName}>{result.name}</span>
                     </div>
-
-                    <span className={classNames(styles.topLine, styles.cardNumber)}>#{result.number}</span>
                   </div>
                 </div>
               </Link>

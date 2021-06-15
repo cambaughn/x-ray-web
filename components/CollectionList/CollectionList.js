@@ -6,28 +6,26 @@ import classNames from 'classnames';
 import { MinusCircle } from 'react-feather';
 
 // Components
+import CardImage from '../CardImage/CardImage';
 
 // Utility functions
 import collectedItem from '../../util/api/collection';
 import { setCollectionDetails } from '../../redux/actionCreators';
 
 
-export default function CollectionList({ sales }) {
-  const collectionDetails = useSelector(state => state.collectionDetails);
-  const collectedItems = useSelector(state => state.collectedItems);
-  const user = useSelector(state => state.user);
-
+export default function CollectionList({ user, collectionDetails, collectedItems, isCurrentUser, sales, isAdmin }) {
   const [hoveredItem, setHoveredItem] = useState(null);
   const dispatch = useDispatch();
 
-
   const removeItem = async(item, event) => {
-    event.stopPropagation();
-    console.log(item);
+    if (isCurrentUser) {
+      event.stopPropagation();
+      console.log(item);
 
-    await collectedItem.archive(item);
-    let collection_details = await collectedItem.getForUser(user.id);
-    dispatch(setCollectionDetails(collection_details));
+      await collectedItem.archive(item);
+      let collection_details = await collectedItem.getForUser(user.id);
+      dispatch(setCollectionDetails(collection_details));
+    }
   }
 
   return (
@@ -53,7 +51,9 @@ export default function CollectionList({ sales }) {
         return item ? (
           <Link href={`/card/${item.id}`} key={`${item.id}-${index}`}>
             <div className={styles.resultWrapper} onMouseEnter={() => setHoveredItem(index)} onMouseLeave={() => setHoveredItem(null)}>
-              <img src={item.images.small} className={styles.thumbnail} />
+
+              {/* <img src={item.images.small} className={styles.thumbnail} /> */}
+              <CardImage card={item} size={'small'} />
               <div className={styles.details}>
                 <div className={styles.leftSide}>
                   <span className={classNames(styles.topLine, styles.setName)}>{item.set_name.replace('Black Star ', '')}</span>
@@ -62,10 +62,12 @@ export default function CollectionList({ sales }) {
 
                 <div className={styles.rightSide}>
                   <span className={classNames(styles.topLine, styles.cardNumber)}>#{item.number}</span>
-                  <span className={classNames({ [styles.price]: true, [styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>{price !== '--' ? `$${price.toFixed(2)}` : price}</span>
+                  { (isCurrentUser || isAdmin ) &&
+                    <span className={classNames({ [styles.price]: true, [styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>{price !== '--' ? `$${price.toFixed(2)}` : price}</span>
+                  }
                 </div>
               </div>
-              { hoveredItem === index &&
+              { isCurrentUser && hoveredItem === index &&
                 <div className={styles.removeButton} onClick={(event) => removeItem(detail, event)}>
                   <MinusCircle className={styles.removeIcon} />
                 </div>

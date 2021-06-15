@@ -24,12 +24,23 @@
   color: #3498db;
 }
 
+.cardRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 .cardWrapper {
   height: 290px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  margin-right: 50px;
+
+  color: grey;
+  font-size: 0.9em;
 }
 
 .newCardImage {
@@ -38,4 +49,5 @@
   box-shadow: 0px 4px 8px #95a5a6;
   overflow: hidden;
   border-radius: 7px;
+  margin-bottom: 5px;
 }

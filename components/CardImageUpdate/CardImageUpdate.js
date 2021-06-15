@@ -17,7 +17,7 @@ export default function CardImageUpdate({}) {
   const [setsToUpdate, setSetsToUpdate] = useState([]);
   const [selectedSet, setSelectedSet] = useState({});
   const [cards, setCards] = useState([]);
-  const [newImages, setNewImages] = useState([]);
+  const [newImages, setNewImages] = useState({});
 
   const getSets = async () => {
     let sets = await pokeSet.getLanguage('japanese');
@@ -37,9 +37,13 @@ export default function CardImageUpdate({}) {
   const getImages = async () => {
     if (selectedSet.id) {
       let images = await card_images.getForSet(selectedSet.name);
-      images = sortCardsByNumber(images);
+      // images = sortCardsByNumber(images);
+      let imageLookup = {};
+      images.forEach(image => {
+        imageLookup[image.number] = image;
+      })
       // console.log('images ', images);
-      setNewImages(images);
+      setNewImages(imageLookup);
     }
   }
 
@@ -65,16 +69,27 @@ export default function CardImageUpdate({}) {
 
       <div className={styles.cards}>
         { cards.map(card => {
+          let image = newImages[card.number] || null;
+
           return (
-            <div key={card.id} className={styles.cardWrapper}>
-              <CardImage card={card} />
-              <span>{card.number} - {card.name}</span>
+            <div className={styles.cardRow} key={card.id}>
+              <div className={styles.cardWrapper}>
+                <CardImage card={card} />
+                <span>{card.number} - {card.name}</span>
+              </div>
+
+              { image &&
+                <div className={styles.cardWrapper}>
+                  <img src={image.url} className={styles.newCardImage} />
+                  <span>{image.number} - {image.name}</span>
+                </div>
+              }
             </div>
           )
         })}
       </div>
 
-      <div className={styles.cards}>
+      {/* <div className={styles.cards}>
         { newImages.map(image => {
           return (
             <div key={image.url} className={styles.cardWrapper}>
@@ -83,7 +98,7 @@ export default function CardImageUpdate({}) {
             </div>
           )
         })}
-      </div>
+      </div> */}
 
     </div>
   )

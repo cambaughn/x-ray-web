@@ -12,6 +12,7 @@ import CardImage from '../CardImage/CardImage';
 // Utility functions
 import { sortSearchResults } from '../../util/helpers/array';
 import { isMobile } from '../../util/design/designHelpers.js';
+import { shortenSetName } from '../../util/helpers/string';
 
 
 export default function SearchResults({ results, sets, setSearching, showExitButton, handleResultClick, handleClose }) {
@@ -54,7 +55,7 @@ export default function SearchResults({ results, sets, setSearching, showExitBut
                   </div> */}
                   <div className={styles.details}>
                     <div className={styles.leftSide}>
-                      <span className={classNames(styles.topLine, styles.setName)}>{result.set_name}</span>
+                      <span className={classNames(styles.topLine, styles.setName)}>{shortenSetName(result.set_name)}</span>
                       <span className={styles.cardName}>{result.name}</span>
                     </div>
                   </div>

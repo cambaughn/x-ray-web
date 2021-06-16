@@ -33,6 +33,7 @@ const cardFolderMap = {
   'The Transdimensional Beast': 'Ultra Dimensional Beast',
   'Strengthening Expansion Pack: Beyond A New Challenge': 'Beyond A New Challenge',
   'Awakening of Psychic Kings': 'Awakening Psychic Champion',
+  'M Charizard EX Mega Battle Deck': 'Mega Battle Deck M Charizard EX',
 }
 
 const card_images = {};

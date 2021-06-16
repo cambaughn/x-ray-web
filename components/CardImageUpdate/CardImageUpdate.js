@@ -132,7 +132,7 @@ export default function CardImageUpdate({}) {
           return (
             <div className={styles.cardRow} key={card.id}>
               <div className={styles.cardWrapper}>
-                <CardImage card={card} />
+                <CardImage card={card} size={'large'} />
                 <span>{card.number} - {card.name}</span>
               </div>
 

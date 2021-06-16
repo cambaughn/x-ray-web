@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './CardImageUpdate.module.scss';
 import classNames from 'classnames';
+import { XOctagon } from 'react-feather';
 
 // Components
 import AdminNav from '../AdminNav/AdminNav';
@@ -18,6 +19,7 @@ export default function CardImageUpdate({}) {
   const [selectedSet, setSelectedSet] = useState({});
   const [cards, setCards] = useState([]);
   const [newImages, setNewImages] = useState({});
+  const [rejectedImages, setRejectedImages] = useState(new Set());
 
   const getSets = async () => {
     let sets = await pokeSet.getLanguage('japanese');
@@ -31,6 +33,8 @@ export default function CardImageUpdate({}) {
       let cardsForSet = await pokeCard.search('set_id', selectedSet.id);
       cardsForSet = sortCardsByNumber(cardsForSet);
       setCards(cardsForSet);
+    } else {
+      setCards([]);
     }
   }
 
@@ -44,7 +48,55 @@ export default function CardImageUpdate({}) {
       })
       // console.log('images ', images);
       setNewImages(imageLookup);
+    } else {
+      setNewImages({});
     }
+  }
+
+  const toggleRejectImage = (card_id) => {
+    let newRejectedItems = new Set(rejectedImages);
+    if (newRejectedItems.has(card_id)) {
+      newRejectedItems.delete(card_id);
+    } else {
+      newRejectedItems.add(card_id);
+    }
+
+    setRejectedImages(newRejectedItems);
+  }
+
+  const handleSave = async () => {
+    let imageUpdates = cards.map(card => {
+      let updates = {};
+      let image_url = newImages[card.number] && newImages[card.number].url ? newImages[card.number].url : null;
+
+      if (!rejectedImages.has(card.id) && image_url) { // if it's not rejected
+      // Switch current images to alternate_images
+        updates.alternate_images = card.images || null;
+        updates.images = {
+          small: null,
+          large: image_url
+        }
+      } else  { // no image available
+        updates.alternate_images = null;
+      }
+
+      if (rejectedImages.has(card.id)) {
+        console.log('rejected ', card.name, card.number);
+      }
+
+      return pokeCard.update(card.id, updates);
+    })
+
+    await Promise.all(imageUpdates);
+    console.log('updated all images');
+    // Add images_updated = true to set
+    await pokeSet.update(selectedSet.id, { images_updated: true });
+    console.log('updated set');
+
+    // console.log(imageUpdates);
+    // Set new image to images.large
+    getSets();
+    setSelectedSet({});
   }
 
   useEffect(getSets, []);
@@ -68,6 +120,12 @@ export default function CardImageUpdate({}) {
       </div>
 
       <div className={styles.cards}>
+        { selectedSet.id &&
+          <div onClick={handleSave} className={styles.saveButton}>
+            <span>Save Images</span>
+          </div>
+        }
+
         { cards.map(card => {
           let image = newImages[card.number] || null;
 
@@ -79,11 +137,17 @@ export default function CardImageUpdate({}) {
               </div>
 
               { image &&
-                <div className={styles.cardWrapper}>
-                  <img src={image.url} className={styles.newCardImage} />
-                  <span>{image.number} - {image.name}</span>
-                </div>
+                <>
+                  <div className={styles.cardWrapper}>
+                    <img src={image.url} className={styles.newCardImage} />
+                    <span>{image.number} - {image.name}</span>
+                  </div>
+                  <div onClick={() => toggleRejectImage(card.id)}>
+                    <XOctagon className={classNames(styles.rejectButton, { [styles.rejected]: rejectedImages.has(card.id) })} />
+                  </div>
+                </>
               }
+
             </div>
           )
         })}

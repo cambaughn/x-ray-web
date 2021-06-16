@@ -24,10 +24,30 @@
   color: #3498db;
 }
 
+// save
+.saveButton {
+  width: 150px;
+  height: 40px;
+  background-color: #2ecc71;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  span {
+    color: white;
+  }
+}
+
+// cards
+
 .cardRow {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 }
 
@@ -50,4 +70,12 @@
   overflow: hidden;
   border-radius: 7px;
   margin-bottom: 5px;
+}
+
+.rejectButton {
+  cursor: pointer;
+}
+
+.rejected {
+  color: #e74c3c;
 }

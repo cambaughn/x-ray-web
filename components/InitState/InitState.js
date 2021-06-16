@@ -32,7 +32,7 @@ export default function InitState({}) {
 
 
   const getLanguage = () => {
-    let languageSetting = window.localStorage.getItem(localStorageKeys.language);
+    let languageSetting = window.localStorage.getItem(localStorageKeys.language) || 'english';
     dispatch(setLanguage(languageSetting));
   }
 

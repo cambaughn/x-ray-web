@@ -130,7 +130,7 @@ export default function CardDetails({ card_id }) {
     <div className={styles.container}>
       <div className={styles.leftRail}>
         <div className={styles.imageWrapper}>
-          { card.images && card.images.small &&
+          { card.images && (card.images.small || card.images.large) &&
             <img src={card.images.small || card.images.large} className={styles.image} />
           }
         </div>

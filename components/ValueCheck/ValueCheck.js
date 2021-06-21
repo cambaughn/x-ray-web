@@ -49,14 +49,25 @@ export default function ValueCheck({}) {
     if (detail.item_id) {
       let finish = detail.finish || 'holo'; // determine the finish we should use
       let salesForFinish = lenspath(salesByType, `${detail.item_id}.${finish}`) || {}; // get the sales for that finish (if they exist);
-      let formatted_data = lenspath(salesForFinish, `ungraded.formatted_data`) || [];
-      let ungradedPrice = formatted_data[formatted_data.length - 2]
-      ungradedPrice = ungradedPrice ? ungradedPrice.averagePrice : null;
-      values[0] = ungradedPrice;
+      let ungraded_data = lenspath(salesForFinish, `ungraded.formatted_data`) || [];
+      values[0] = getPriceFromFormattedData(ungraded_data);
+
+      let ninePrice = getPriceFromFormattedData(lenspath(salesForFinish, `PSA.9.formatted_data`) || lenspath(salesForFinish, `BGS.9.formatted_data`) || lenspath(salesForFinish, `CGC.9.formatted_data`) || []);
+      let tenPrice = getPriceFromFormattedData(lenspath(salesForFinish, `PSA.10.formatted_data`) || lenspath(salesForFinish, `BGS.10.formatted_data`) || lenspath(salesForFinish, `CGC.10.formatted_data`) || []);
+
+      values[1] = ninePrice;
+      values[2] = tenPrice;
 
       console.log(values);
     }
-    return ['--', '--', '--'];
+    return values.map(value => value || '--');
+  }
+
+  const getPriceFromFormattedData = (formatted_data) => {
+    let price = formatted_data[formatted_data.length - 2]
+    price = price ? price.averagePrice : null;
+
+    return price || null;
   }
 
   useEffect(getSales, [collectionDetails, collectedItems]);

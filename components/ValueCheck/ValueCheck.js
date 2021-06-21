@@ -58,7 +58,7 @@ export default function ValueCheck({}) {
       values[1] = ninePrice;
       values[2] = tenPrice;
 
-      console.log(values);
+      // console.log(values);
     }
     return values.map(value => value || '--');
   }

@@ -103,6 +103,7 @@ export default function UserCollection({ username, isCurrentUser }) {
   const formatAllSales = () => {
     if (Object.keys(salesByType).length > 0) {
       let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
+      console.log('sales for collection ', salesForCollection);
       setRelevantSales(salesForCollection);
       let formatted = [];
       let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);

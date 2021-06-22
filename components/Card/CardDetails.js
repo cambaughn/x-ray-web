@@ -135,13 +135,11 @@ export default function CardDetails({ card_id }) {
           }
         </div>
 
-        <div>
           { editingName ? (
             <input type='text' className={styles.cardName} value={cardName} onChange={(event) => setCardName(event.target.value)} onKeyDown={handleEnterKey} />
           ): (
             <h3 className={styles.cardName} onDoubleClick={() => user.role === 'admin' && setEditingName(true)}>{cardName}</h3>
           )}
-        </div>
 
         { isBetaUser &&
           <div className={styles.addButtonWrapper}>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './PriceBlock.module.scss';
+import Link from 'next/link';
 
 // Components
 import PriceChart from '../PriceChart/PriceChart';
@@ -11,7 +12,7 @@ import { numberWithCommas } from '../../util/helpers/string.js';
 import { flatten } from '../../util/helpers/array.js';
 
 
-export default function PriceBlock({ sales, label }) {
+export default function PriceBlock({ sales, label, toggleViewingSales }) {
   const [averagePrice, setAveragePrice] = useState(0);
   const [analysis, setAnalysis] = useState({});
 
@@ -108,6 +109,10 @@ export default function PriceBlock({ sales, label }) {
               }
             </tbody>
           </table>
+
+          <div className={styles.viewSalesWrapper} onClick={toggleViewingSales}>
+            <span className={styles.viewSalesText}>View Sales</span>
+          </div>
         </div>
       }
     </div>

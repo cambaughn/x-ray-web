@@ -84,7 +84,7 @@ export default function UserCollection({ username, isCurrentUser }) {
         let specifics = sale.id.split('_');
         let [card_id, finish, grading_authority, grade] = specifics;
 
-        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the finish
+        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the card
         salesLookup[card_id][finish] = salesLookup[card_id][finish] || {}; // this is the finish
         salesLookup[card_id][finish][grading_authority] = salesLookup[card_id][finish][grading_authority] || {}; // this is the grading_authority
         if (grading_authority === 'ungraded') { // if ungraded, this is the final level, place the sale here

@@ -14,6 +14,7 @@ import pokeSet from '../../util/api/set';
 import pokeCard from '../../util/api/card';
 import { sortCardsByNumber } from '../../util/helpers/sorting';
 import analytics from '../../util/analytics/segment';
+import formattedSale from '../../util/api/formatted_sale.js';
 
 
 export default function SetDetails({}) {
@@ -23,6 +24,7 @@ export default function SetDetails({}) {
   const [cards, setCards] = useState([]);
   const [editModeActive, setEditModeActive] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const [salesForCards, setSalesForCards] = useState({});
   const router = useRouter();
 
   const getSet = async () => {
@@ -49,6 +51,33 @@ export default function SetDetails({}) {
     let cardsForSet = await pokeCard.search('set_id', set_id);
     cardsForSet = sortCardsByNumber(cardsForSet);
     setCards(cardsForSet);
+  }
+
+  const getSales = async () => {
+    if (cards.length > 0) {
+      let item_ids = cards.map(card => card.id);
+      let allSales = await formattedSale.getForMultiple(item_ids);
+      let salesLookup = {};
+
+      // Create sales lookup object to easily switch between different specifics
+      allSales.forEach(sale => {
+        let specifics = sale.id.split('_');
+        let [card_id, finish, grading_authority, grade] = specifics;
+
+        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the card
+        salesLookup[card_id][finish] = salesLookup[card_id][finish] || {}; // this is the finish
+        salesLookup[card_id][finish][grading_authority] = salesLookup[card_id][finish][grading_authority] || {}; // this is the grading_authority
+        if (grading_authority === 'ungraded') { // if ungraded, this is the final level, place the sale here
+          salesLookup[card_id][finish][grading_authority] = sale;
+        } else {
+          salesLookup[card_id][finish][grading_authority][grade] = sale;
+        }
+      })
+
+      console.log('sales lookup ', salesLookup);
+
+      // setSalesForCards(salesLookup);
+    }
   }
 
   const handleEditButtonClick = () => {
@@ -143,6 +172,7 @@ export default function SetDetails({}) {
   useEffect(recordPageView, []);
   useEffect(getSet, []);
   useEffect(getCards, []);
+  useEffect(getSales, [cards]);
 
   return (
     <div className={styles.container}>

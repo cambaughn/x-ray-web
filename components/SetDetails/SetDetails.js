@@ -12,9 +12,10 @@ import CardImage from '../CardImage/CardImage';
 // Utility functions
 import pokeSet from '../../util/api/set';
 import pokeCard from '../../util/api/card';
-import { sortCardsByNumber } from '../../util/helpers/sorting';
 import analytics from '../../util/analytics/segment';
 import formattedSale from '../../util/api/formatted_sale.js';
+import { sortCardsByNumber } from '../../util/helpers/sorting';
+import { lenspath } from '../../util/helpers/object.js';
 
 
 export default function SetDetails({}) {
@@ -76,7 +77,7 @@ export default function SetDetails({}) {
 
       console.log('sales lookup ', salesLookup);
 
-      // setSalesForCards(salesLookup);
+      setSalesForCards(salesLookup);
     }
   }
 
@@ -137,6 +138,19 @@ export default function SetDetails({}) {
   }
 
   const renderCard = (card, selected) => {
+    let formattedSalesForCard = lenspath(salesForCards, `${card.id}.holo.ungraded.formatted_data`);
+    formattedSalesForCard = formattedSalesForCard ? formattedSalesForCard : lenspath(salesForCards, `${card.id}.non-holo.ungraded.formatted_data`)
+    console.log(formattedSalesForCard);
+    let price = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 2].averagePrice : null;
+    let previousPrice = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 3].averagePrice : null;
+    let changeStatus = 'flat';
+
+    if (price > previousPrice) {
+      changeStatus = 'up';
+    } else if (price < previousPrice) {
+      changeStatus = 'down';
+    }
+
     return (
       <div className={styles.cardWrapper}>
         <CardImage card={card} selected={selectedItems.has(card.id)} />
@@ -149,6 +163,9 @@ export default function SetDetails({}) {
           <div className={styles.rightSide}>
             {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
             <span className={styles.cardNumber}>#{card.number}</span>
+            { formattedSalesForCard && price > 0 &&
+              <span className={classNames(styles.price, {[styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>${price}</span>
+            }
           </div>
 
         </div>

@@ -112,9 +112,16 @@ export default function SetDetails({}) {
       <div className={styles.cardWrapper}>
         <CardImage card={card} selected={selectedItems.has(card.id)} />
         <div className={styles.details}>
-          <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span>
-          {/* <span className={styles.cardName}>{card.name}</span> */}
-          <span className={styles.cardNumber}>#{card.number}</span>
+          <div className={styles.leftSide}>
+            {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
+            <span className={styles.cardName}>{card.name}</span>
+          </div>
+
+          <div className={styles.rightSide}>
+            {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
+            <span className={styles.cardNumber}>#{card.number}</span>
+          </div>
+
         </div>
       </div>
     )

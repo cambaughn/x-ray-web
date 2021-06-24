@@ -36,11 +36,11 @@ export default function Home({}) {
       <div className={styles.featureBlock}>
         <div className={styles.featureText}>
           <span className={styles.featureHeader}>Manage your collection</span>
-          <span className={styles.featureBody}>Add cards to your collection and track its entire value over time.</span>
-          <span className={styles.featureBody}>Get specific data by grade, sales volume, and price changes over time.</span>
+          <span className={styles.featureBody}>Add cards and track the entire value of your collection over time.</span>
+          <span className={styles.featureBody}>Keep an eye on price changes for individual cards at a glance.</span>
         </div>
 
-        <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={classNames(styles.productImage, styles.marginLeft)} />
+        <img src={'/images/collection-example.png'} alt={'collection page, including a chart of prices over time and many cards'} className={classNames(styles.productImage, styles.marginLeft)} />
       </div>
 
 

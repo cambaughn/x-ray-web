@@ -24,12 +24,23 @@ export default function Home({}) {
 
       {/* Product image */}
       <div className={styles.featureBlock}>
-        <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={styles.productImage} />
+        <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={classNames(styles.productImage, styles.marginRight)} />
         <div className={styles.featureText}>
           <span className={styles.featureHeader}>Dig into the details</span>
-          <span className={styles.featureBody}>Track real-world sales trends on the cards you care about.</span>
+          <span className={styles.featureBody}>Track real-world trends on the cards you care about.</span>
+          <span className={styles.featureBody}>Compare graded vs. ungraded sales over time.</span>
+          <span className={styles.featureBody}>View contextual data like number of sales, total volume, and highest and lowest prices.</span>
+        </div>
+      </div>
+
+      <div className={styles.featureBlock}>
+        <div className={styles.featureText}>
+          <span className={styles.featureHeader}>Manage your collection</span>
+          <span className={styles.featureBody}>Add cards to your collection and track its entire value over time.</span>
           <span className={styles.featureBody}>Get specific data by grade, sales volume, and price changes over time.</span>
         </div>
+
+        <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={classNames(styles.productImage, styles.marginLeft)} />
       </div>
 
 

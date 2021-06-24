@@ -14,13 +14,13 @@ export default function UserProfileDetails({ user = {} }) {
         <span className={styles.username}>@{user.username}</span>
       </div>
 
-      <div className={styles.rightSide}>
+      {/* <div className={styles.rightSide}>
         <Link href={`/sell-cards`}>
           <div className={styles.sellButton}>
             <span>Sell Cards</span>
           </div>
         </Link>
-      </div>
+      </div> */}
     </div>
   )
 }

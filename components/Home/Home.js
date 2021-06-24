@@ -33,14 +33,14 @@ export default function Home({}) {
         </div>
       </div>
 
-      <div className={styles.featureBlock}>
+      <div className={classNames(styles.featureBlock, styles.reverseFeatureBlock)}>
+        <img src={'/images/collection-example.png'} alt={'collection page, including a chart of prices over time and many cards'} className={classNames(styles.productImage, styles.marginLeft)} />
+
         <div className={styles.featureText}>
           <span className={styles.featureHeader}>Manage your collection</span>
           <span className={styles.featureBody}>Add cards and track the entire value of your collection over time.</span>
           <span className={styles.featureBody}>Keep an eye on price changes for individual cards at a glance.</span>
         </div>
-
-        <img src={'/images/collection-example.png'} alt={'collection page, including a chart of prices over time and many cards'} className={classNames(styles.productImage, styles.marginLeft)} />
       </div>
 
 

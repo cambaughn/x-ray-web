@@ -1,7 +1,8 @@
 @import '../../util/design/mixins.module.scss';
 
 $desktop-width: 75vw;
-$product-image-margin: 30px;
+$mobile-width: 85vw;
+$product-image-margin: 40px;
 
 .container {
   width: 100vw;
@@ -21,7 +22,7 @@ $product-image-margin: 30px;
   margin-bottom: 30px;
 
   @include media(mobile) {
-    width: 80vw;
+    width: $mobile-width;
   }
 }
 
@@ -35,7 +36,7 @@ $product-image-margin: 30px;
 }
 
 .bodyText {
-  width: 90%;
+  width: 85%;
   font-size: 20px;
   line-height: 30px;
   font-weight: 300;
@@ -58,6 +59,11 @@ $product-image-margin: 30px;
   justify-content: flex-start;
 
   margin-bottom: 75px;
+
+  @include media(mobile) {
+    width: $mobile-width;
+    margin-bottom: 50px;
+  }
 }
 
 // Product Features
@@ -69,6 +75,19 @@ $product-image-margin: 30px;
   justify-content: center;
 
   margin-bottom: 100px;
+
+  @include media(mobile) {
+    flex-direction: column;
+    width: $mobile-width;
+    margin-bottom: 30px;
+  }
+}
+
+.reverseFeatureBlock {
+  flex-direction: row-reverse;
+  @include media(mobile) {
+    flex-direction: column;
+  }
 }
 
 .featureText {
@@ -105,12 +124,27 @@ $product-image-margin: 30px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px #95a5a6;
   padding: 20px;
+  box-sizing: border-box;
+
+  @include media(mobile) {
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px;
+  }
 }
 
 .marginRight {
   margin-right: $product-image-margin;
+
+  @include media(mobile) {
+    margin-right: 0px;
+  }
 }
 
 .marginLeft {
   margin-left: $product-image-margin;
+
+  @include media(mobile) {
+    margin-left: 0px;
+  }
 }

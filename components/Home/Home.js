@@ -23,11 +23,18 @@ export default function Home({}) {
       </div>
 
       {/* Product image */}
-      <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={styles.productImage} />
+      <div className={styles.featureBlock}>
+        <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={styles.productImage} />
+        <div className={styles.featureText}>
+          <span className={styles.featureHeader}>Dig into the details</span>
+          <span className={styles.featureBody}>Track real-world sales trends on the cards you care about.</span>
+          <span className={styles.featureBody}>Get specific data by grade, sales volume, and price changes over time.</span>
+        </div>
+      </div>
 
 
       {/* Product Features */}
-      <div className={styles.textBlock}>
+      {/* <div className={styles.textBlock}>
         <div className={styles.featureSection}>
           <img src={'/images/stocks.png'} alt={'stocks icon'} className={styles.featureIcon} />
           <p className={`${styles.bodyText} ${styles.featuresText}`}>Track sales trends on the cards you care about.</p>
@@ -41,7 +48,7 @@ export default function Home({}) {
           <img src={'/images/details.png'} alt={'shovel icon'} className={styles.featureIcon} />
           <p className={`${styles.bodyText} ${styles.featuresText}`}>Dig into the specifics with details on grading, volume, and changes over time.</p>
         </div>
-      </div>
+      </div> */}
 
       <Footer />
     </div>

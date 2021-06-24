@@ -14,7 +14,7 @@
 }
 
 .textBlock {
-  width: 60vw;
+  width: 75vw;
   margin-bottom: 30px;
 
   @include media(mobile) {
@@ -47,16 +47,53 @@
   font-weight: 500;
 }
 
-// Product Image
+// Product Features
+.featureBlock {
+  width: 75vw;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.featureText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.featureHeader {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+
+  @include media(mobile) {
+    font-size: 40px;
+  }
+}
+
+.featureBody {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 300;
+  margin-bottom: 20px;
+
+  @include media(mobile) {
+    font-size: 14px;
+    line-height: 25px;
+  }
+}
+
 .productImage {
-  width: 50%;
+  width: 60%;
   border-radius: 10px;
   box-shadow: 0px 4px 8px #95a5a6;
   padding: 20px;
-  // padding-left: 100px;
-  // padding-right: 100px;
+  margin-right: 30px;
 }
 
+// Old features section
 .featureSection {
   display: flex;
   flex-direction: row;
@@ -73,16 +110,6 @@
   @include media(mobile) {
     width: 60px;
     height: 60px;
-  }
-}
-
-.featuresText {
-  width: calc(80% - 50px);
-
-  @include media(mobile) {
-    font-size: 14px;
-    line-height: 25px;
-    width: 100%;
   }
 }
 

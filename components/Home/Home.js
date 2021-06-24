@@ -22,6 +22,9 @@ export default function Home({}) {
         {/* <span className={styles.priceText}>2 week free trial, then $7 per month</span> */}
       </div>
 
+      {/* Product image */}
+      <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={styles.productImage} />
+
 
       {/* Product Features */}
       <div className={styles.textBlock}>

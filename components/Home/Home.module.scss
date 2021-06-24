@@ -47,6 +47,16 @@
   font-weight: 500;
 }
 
+// Product Image
+.productImage {
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px #95a5a6;
+  padding: 20px;
+  // padding-left: 100px;
+  // padding-right: 100px;
+}
+
 .featureSection {
   display: flex;
   flex-direction: row;

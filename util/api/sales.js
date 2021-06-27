@@ -33,7 +33,6 @@ sale.getForGrade = async (card, grading_authority = null, grade = null) => {
   try {
     let sales = await db.collection('pokemon_sales').where('card_id', '==', card.id).where('grading_authority', '==', grading_authority).where('grade', '==', grade).get();
     sales = convertSnapshot(sales);
-    console.log('getting sales =>', sales);
     return Promise.resolve(sales);
   } catch(error) {
     console.error(error);

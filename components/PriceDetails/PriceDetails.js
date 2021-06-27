@@ -18,8 +18,8 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
   const [salesByType, setSalesByType] = useState({});
   const [gotSales, setGotSales] = useState(false);
   const [viewMode, setViewMode] = useState('charts'); // charts, sales
-  const [selectedGrade, setSelectedGrade] = useState(10); // 1-10
-  const [selectedGradingAuthority, setSelectedGradingAuthority] = useState('PSA'); // PSA, BGS, CGC
+  const [selectedGrade, setSelectedGrade] = useState(null); // 1-10
+  const [selectedGradingAuthority, setSelectedGradingAuthority] = useState(null); // PSA, BGS, CGC
 
   const getSales = async () => {
     try {
@@ -110,19 +110,16 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
   return (
     <div className={styles.container}>
       <FinishButtons finishes={finishes} selectedFinish={selectedFinish} setSelectedFinish={setSelectedFinish} />
-      { salesByType[selectedFinish] && viewMode === 'charts' &&
+      { salesByType[selectedFinish] &&
         <>
           <PriceBlock sales={salesByType[selectedFinish].ungraded.formatted_data || []} label={'Ungraded'} setViewMode={setViewMode} />
           { salesByType[selectedFinish]['PSA'] && salesByType[selectedFinish]['PSA']['10'] &&
             <PriceBlock sales={salesByType[selectedFinish]['PSA']['10'].formatted_data || []} label={'PSA 10'} setViewMode={setViewMode} />
           }
+
+          <SalesForCard card={card} selectedFinish={selectedFinish} selectedGradingAuthority={selectedGradingAuthority} selectedGrade={selectedGrade} />
         </>
       }
-
-      { salesByType[selectedFinish] && viewMode === 'sales' &&
-        <SalesForCard card={card} selectedFinish={selectedFinish} selectedGradingAuthority={selectedGradingAuthority} selectedGrade={selectedGrade} />
-      }
-
       { gotSales && !salesByType[selectedFinish] &&
         <NoDataMessage />
       }

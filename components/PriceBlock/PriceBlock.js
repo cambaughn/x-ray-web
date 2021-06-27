@@ -110,9 +110,9 @@ export default function PriceBlock({ sales, label, setViewMode }) {
             </tbody>
           </table>
 
-          <div className={styles.viewSalesWrapper} onClick={() => setViewMode('sales')}>
+          {/* <div className={styles.viewSalesWrapper} onClick={() => setViewMode('sales')}>
             <span className={styles.viewSalesText}>View Sales</span>
-          </div>
+          </div> */}
         </div>
       }
     </div>

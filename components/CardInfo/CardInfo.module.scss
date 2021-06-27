@@ -1,0 +1,82 @@
+@import '../../util/design/mixins.module.scss';
+
+.container {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    width: 100vw;
+    margin-bottom: 20px;
+  }
+}
+
+.imageWrapper {
+  width: 200px;
+  height: 280px;
+
+  box-shadow: 0px 2px 5px #95a5a6;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+.addButtonWrapper {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.cardName {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 15px;
+  max-width: 90%;
+}
+
+.cardData {
+  width: 200px;
+  // margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @include media(mobile) {
+    width: 100vw;
+  }
+}
+
+.label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.85em;
+  color: grey;
+}
+
+.detail {
+  margin-bottom: 25px;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.tags {
+  width: 200px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}

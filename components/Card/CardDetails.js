@@ -27,8 +27,6 @@ export default function CardDetails({ card_id }) {
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
   const [addCardModalVisible, setAddCardModalVisible] = useState(false);
-  // View state
-  const [viewMode, setViewMode] = useState('charts'); // charts, sales
   // Editing states
   const [editingName, setEditingName] = useState(false);
   const [cardName, setCardName] = useState('');
@@ -110,7 +108,7 @@ export default function CardDetails({ card_id }) {
   }
 
   const handleEnterKey = (event) => {
-    if (event.key === 'Enter'){
+    if (event.key === 'Enter') {
       saveName();
     }
   }
@@ -134,6 +132,10 @@ export default function CardDetails({ card_id }) {
 
       <div className={styles.rightSection}>
         <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />
+
+        {/* { viewMode === 'sales' &&
+          <SalesForCard card={card} finishes={finishes} setFinishes={setFinishes} setViewMode={setViewMode} />
+        } */}
       </div>
 
       { addCardModalVisible &&

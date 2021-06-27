@@ -12,7 +12,7 @@ import { numberWithCommas } from '../../util/helpers/string.js';
 import { flatten } from '../../util/helpers/array.js';
 
 
-export default function PriceBlock({ sales, label, toggleViewingSales }) {
+export default function PriceBlock({ sales, label, setViewMode }) {
   const [averagePrice, setAveragePrice] = useState(0);
   const [analysis, setAnalysis] = useState({});
 
@@ -110,7 +110,7 @@ export default function PriceBlock({ sales, label, toggleViewingSales }) {
             </tbody>
           </table>
 
-          <div className={styles.viewSalesWrapper} onClick={toggleViewingSales}>
+          <div className={styles.viewSalesWrapper} onClick={() => setViewMode('sales')}>
             <span className={styles.viewSalesText}>View Sales</span>
           </div>
         </div>

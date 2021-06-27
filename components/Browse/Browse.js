@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 // Components
 import SetInfoCard from '../SetInfoCard/SetInfoCard';
+import Footer from '../Footer/Footer';
 
 // Utility functions
 import pokeSeries from '../../util/api/series';
@@ -108,6 +109,7 @@ export default function Browse({}) {
         )
       })}
 
+      <Footer />
     </div>
   )
 }

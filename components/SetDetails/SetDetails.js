@@ -12,8 +12,10 @@ import CardImage from '../CardImage/CardImage';
 // Utility functions
 import pokeSet from '../../util/api/set';
 import pokeCard from '../../util/api/card';
-import { sortCardsByNumber } from '../../util/helpers/sorting';
 import analytics from '../../util/analytics/segment';
+import formattedSale from '../../util/api/formatted_sale.js';
+import { sortCardsByNumber } from '../../util/helpers/sorting';
+import { lenspath } from '../../util/helpers/object.js';
 
 
 export default function SetDetails({}) {
@@ -23,6 +25,7 @@ export default function SetDetails({}) {
   const [cards, setCards] = useState([]);
   const [editModeActive, setEditModeActive] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const [salesForCards, setSalesForCards] = useState({});
   const router = useRouter();
 
   const getSet = async () => {
@@ -49,6 +52,33 @@ export default function SetDetails({}) {
     let cardsForSet = await pokeCard.search('set_id', set_id);
     cardsForSet = sortCardsByNumber(cardsForSet);
     setCards(cardsForSet);
+  }
+
+  const getSales = async () => {
+    if (cards.length > 0) {
+      let item_ids = cards.map(card => card.id);
+      let allSales = await formattedSale.getForMultiple(item_ids);
+      let salesLookup = {};
+
+      // Create sales lookup object to easily switch between different specifics
+      allSales.forEach(sale => {
+        let specifics = sale.id.split('_');
+        let [card_id, finish, grading_authority, grade] = specifics;
+
+        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the card
+        salesLookup[card_id][finish] = salesLookup[card_id][finish] || {}; // this is the finish
+        salesLookup[card_id][finish][grading_authority] = salesLookup[card_id][finish][grading_authority] || {}; // this is the grading_authority
+        if (grading_authority === 'ungraded') { // if ungraded, this is the final level, place the sale here
+          salesLookup[card_id][finish][grading_authority] = sale;
+        } else {
+          salesLookup[card_id][finish][grading_authority][grade] = sale;
+        }
+      })
+
+      console.log('sales lookup ', salesLookup);
+
+      setSalesForCards(salesLookup);
+    }
   }
 
   const handleEditButtonClick = () => {
@@ -108,13 +138,36 @@ export default function SetDetails({}) {
   }
 
   const renderCard = (card, selected) => {
+    let formattedSalesForCard = lenspath(salesForCards, `${card.id}.holo.ungraded.formatted_data`);
+    formattedSalesForCard = formattedSalesForCard ? formattedSalesForCard : lenspath(salesForCards, `${card.id}.non-holo.ungraded.formatted_data`)
+    console.log(formattedSalesForCard);
+    let price = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 2].averagePrice : null;
+    let previousPrice = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 3].averagePrice : null;
+    let changeStatus = 'flat';
+
+    if (price > previousPrice) {
+      changeStatus = 'up';
+    } else if (price < previousPrice) {
+      changeStatus = 'down';
+    }
+
     return (
       <div className={styles.cardWrapper}>
         <CardImage card={card} selected={selectedItems.has(card.id)} />
         <div className={styles.details}>
-          <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span>
-          {/* <span className={styles.cardName}>{card.name}</span> */}
-          <span className={styles.cardNumber}>#{card.number}</span>
+          <div className={styles.leftSide}>
+            {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
+            <span className={styles.cardName}>{card.name}</span>
+          </div>
+
+          <div className={styles.rightSide}>
+            {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
+            <span className={styles.cardNumber}>#{card.number}</span>
+            { formattedSalesForCard && price > 0 &&
+              <span className={classNames(styles.price, {[styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>${price}</span>
+            }
+          </div>
+
         </div>
       </div>
     )
@@ -136,6 +189,7 @@ export default function SetDetails({}) {
   useEffect(recordPageView, []);
   useEffect(getSet, []);
   useEffect(getCards, []);
+  useEffect(getSales, [cards]);
 
   return (
     <div className={styles.container}>

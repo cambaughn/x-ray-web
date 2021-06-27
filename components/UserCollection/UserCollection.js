@@ -84,7 +84,7 @@ export default function UserCollection({ username, isCurrentUser }) {
         let specifics = sale.id.split('_');
         let [card_id, finish, grading_authority, grade] = specifics;
 
-        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the finish
+        salesLookup[card_id] = salesLookup[card_id] || {}; // this is the card
         salesLookup[card_id][finish] = salesLookup[card_id][finish] || {}; // this is the finish
         salesLookup[card_id][finish][grading_authority] = salesLookup[card_id][finish][grading_authority] || {}; // this is the grading_authority
         if (grading_authority === 'ungraded') { // if ungraded, this is the final level, place the sale here
@@ -103,6 +103,7 @@ export default function UserCollection({ username, isCurrentUser }) {
   const formatAllSales = () => {
     if (Object.keys(salesByType).length > 0) {
       let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
+      console.log('sales for collection ', salesForCollection);
       setRelevantSales(salesForCollection);
       let formatted = [];
       let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);

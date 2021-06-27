@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 // Components
 import GetStartedButton from '../Buttons/GetStartedButton';
+import Footer from '../Footer/Footer';
 
 // Utility functions
 
@@ -21,9 +22,30 @@ export default function Home({}) {
         {/* <span className={styles.priceText}>2 week free trial, then $7 per month</span> */}
       </div>
 
+      {/* Product image */}
+      <div className={styles.featureBlock}>
+        <img src={'/images/charizard-card-detail.png'} alt={'charizard card image, details, and charts of pricing over time'} className={classNames(styles.productImage, styles.marginRight)} />
+        <div className={styles.featureText}>
+          <span className={styles.featureHeader}>Dig into the details</span>
+          <span className={styles.featureBody}>Track real-world trends on the cards you care about.</span>
+          <span className={styles.featureBody}>Compare graded vs. ungraded sales over time.</span>
+          <span className={styles.featureBody}>View contextual data like number of sales, total volume, and highest and lowest prices.</span>
+        </div>
+      </div>
+
+      <div className={classNames(styles.featureBlock, styles.reverseFeatureBlock)}>
+        <img src={'/images/collection-example.png'} alt={'collection page, including a chart of prices over time and many cards'} className={classNames(styles.productImage, styles.marginLeft)} />
+
+        <div className={styles.featureText}>
+          <span className={styles.featureHeader}>Manage your collection</span>
+          <span className={styles.featureBody}>Add cards and track the entire value of your collection over time.</span>
+          <span className={styles.featureBody}>Keep an eye on price changes for individual cards at a glance.</span>
+        </div>
+      </div>
+
 
       {/* Product Features */}
-      <div className={styles.textBlock}>
+      {/* <div className={styles.textBlock}>
         <div className={styles.featureSection}>
           <img src={'/images/stocks.png'} alt={'stocks icon'} className={styles.featureIcon} />
           <p className={`${styles.bodyText} ${styles.featuresText}`}>Track sales trends on the cards you care about.</p>
@@ -37,22 +59,9 @@ export default function Home({}) {
           <img src={'/images/details.png'} alt={'shovel icon'} className={styles.featureIcon} />
           <p className={`${styles.bodyText} ${styles.featuresText}`}>Dig into the specifics with details on grading, volume, and changes over time.</p>
         </div>
-      </div>
+      </div> */}
 
-      <div className={styles.socialBlock}>
-        <h3 className={styles.socialText}>Join the conversation</h3>
-
-        <div className={styles.socialLinks}>
-          <a href={'https://discord.gg/Dfqemg8fAV'} target={'_blank'} className={styles.socialLink}>
-            <img src={'/images/discord-logo-black.png'} alt={'discord icon'} className={styles.socialIcon} />
-          </a>
-
-          <a href={'https://twitter.com/xraydotfun'} target={'_blank'} className={styles.socialLink}>
-            <img src={'/images/twitter-logo-black.png'} alt={'twitter icon'} className={classNames(styles.socialIcon, styles.twitterIcon)} />
-          </a>
-        </div>
-
-      </div>
+      <Footer />
     </div>
   )
 }

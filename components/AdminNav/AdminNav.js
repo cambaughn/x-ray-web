@@ -12,6 +12,7 @@ export default function AdminNav({}) {
       <AdminNavButton text={'Admin Home'} linkTo={'/admin'} />
       <AdminNavButton text={'Sales Data'} linkTo={'/admin/sales-data'} />
       <AdminNavButton text={'Card Images'} linkTo={'/admin/card-images'} />
+      <AdminNavButton text={'Value Check'} linkTo={'/admin/value-check'} />
     </div>
   )
 }

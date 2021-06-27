@@ -1,5 +1,9 @@
 @import '../../util/design/mixins.module.scss';
 
+$desktop-width: 75vw;
+$mobile-width: 85vw;
+$product-image-margin: 40px;
+
 .container {
   width: 100vw;
   min-height: calc(100vh - 150px);
@@ -14,11 +18,11 @@
 }
 
 .textBlock {
-  width: 60vw;
+  width: $desktop-width;
   margin-bottom: 30px;
 
   @include media(mobile) {
-    width: 80vw;
+    width: $mobile-width;
   }
 }
 
@@ -32,7 +36,7 @@
 }
 
 .bodyText {
-  width: 90%;
+  width: 85%;
   font-size: 20px;
   line-height: 30px;
   font-weight: 300;
@@ -47,88 +51,100 @@
   font-weight: 500;
 }
 
-.featureSection {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 50px;
-}
-
-.featureIcon {
-  width: 80px;
-  height: 80px;
-  margin-right: 30px;
-
-  @include media(mobile) {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-.featuresText {
-  width: calc(80% - 50px);
-
-  @include media(mobile) {
-    font-size: 14px;
-    line-height: 25px;
-    width: 100%;
-  }
-}
-
 .getStartedWrapper {
-  width: 60vw;
+  width: $desktop-width;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 
   margin-bottom: 75px;
+
+  @include media(mobile) {
+    width: $mobile-width;
+    margin-bottom: 50px;
+  }
 }
 
-.priceText {
-  color: grey;
-  font-size: 0.8em;
-}
-
-.socialBlock {
-  margin-top: 30px;
-  width: 60vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.socialText {
-
-}
-
-.socialLinks {
-  width: 100%;
+// Product Features
+.featureBlock {
+  width: $desktop-width;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+
+  margin-bottom: 100px;
+
+  @include media(mobile) {
+    flex-direction: column;
+    width: $mobile-width;
+    margin-bottom: 30px;
+  }
 }
 
-.socialLink {
-  margin-left: 20px;
-  margin-right: 20px;
+.reverseFeatureBlock {
+  flex-direction: row-reverse;
+  @include media(mobile) {
+    flex-direction: column;
+  }
+}
+
+.featureText {
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 60px;
-  height: 60px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
-.socialIcon {
-  width: 100%;
-  height: auto;
+.featureHeader {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+
+  @include media(mobile) {
+    font-size: 40px;
+  }
 }
 
-.twitterIcon {
-  width: 80%;
+.featureBody {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 300;
+  margin-bottom: 20px;
 
+  @include media(mobile) {
+    font-size: 14px;
+    line-height: 25px;
+  }
+}
+
+.productImage {
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px #95a5a6;
+  padding: 20px;
+  box-sizing: border-box;
+
+  @include media(mobile) {
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px;
+  }
+}
+
+.marginRight {
+  margin-right: $product-image-margin;
+
+  @include media(mobile) {
+    margin-right: 0px;
+  }
+}
+
+.marginLeft {
+  margin-left: $product-image-margin;
+
+  @include media(mobile) {
+    margin-left: 0px;
+  }
 }

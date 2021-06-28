@@ -23,7 +23,7 @@ export default function SalesForCard({ card, selectedFinish, selectedGrade, sele
       let salesForCard = await sale.getForGrade(card, selectedGradingAuthority, selectedGrade);
       let salesByDate = sortSalesByDate(salesForCard).reverse();
       setSales(salesByDate);
-      // console.log('got sales for card ', salesForCard);
+      console.log('got sales for card ', salesForCard);
     }
   }
 
@@ -31,16 +31,23 @@ export default function SalesForCard({ card, selectedFinish, selectedGrade, sele
 
   return (
     <div className={styles.container}>
-      <h3>Recent Sales</h3>
-      { sales.slice(0, numToShow).map(sale => {
-        return (
-          <div className={styles.saleRow}>
-            <span className={classNames(styles.saleDetail, styles.price)}>${sale.price}</span>
-            <span className={styles.saleDetail}>{saleTypes[sale.type]}</span>
-            <span className={styles.saleDetail}>{sale.date_sold}</span>
-          </div>
-        )
-      })}
+      { sales.length > 0 &&
+        <>
+          <h3>Recent Sales</h3>
+          { sales.slice(0, numToShow).map(sale => {
+            return (
+              <div className={styles.saleRow} key={sale.id}>
+                <div className={styles.listingImageWrapper}>
+                  <img src={sale.listing_image} alt={'image from ebay listing'} className={styles.listingImage} />
+                </div>
+                <span className={classNames(styles.saleDetail, styles.price)}>${sale.price}</span>
+                <span className={styles.saleDetail}>{saleTypes[sale.type]}</span>
+                <span className={styles.saleDetail}>{sale.date_sold}</span>
+              </div>
+            )
+          })}
+        </>
+      }
     </div>
   )
 }

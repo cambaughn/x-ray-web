@@ -6,17 +6,33 @@
 
 .saleRow {
   width: 100%;
-  height: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
   border-bottom: 1px solid #ecf0f1;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .saleDetail {
-  width: 30%;
+  width: 25%;
+}
+
+.listingImageWrapper {
+  width: 7%;
+  height: 80px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.listingImage {
+  width: 100%;
 }
 
 .price {

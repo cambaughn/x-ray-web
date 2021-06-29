@@ -75,7 +75,7 @@ export default function SetDetails({}) {
         }
       })
 
-      console.log('sales lookup ', salesLookup);
+      // console.log('sales lookup ', salesLookup);
 
       setSalesForCards(salesLookup);
     }
@@ -110,7 +110,7 @@ export default function SetDetails({}) {
     let cardsToUpdate = Array.from(selectedItems);
     let updateRefs = cardsToUpdate.map(card_id => pokeCard.update(card_id, updates));
     await Promise.all(updateRefs);
-    console.log('made full art', cardsToUpdate);
+    // console.log('made full art', cardsToUpdate);
     handleEditButtonClick();
   }
 
@@ -123,7 +123,7 @@ export default function SetDetails({}) {
     let cardsToUpdate = Array.from(selectedItems);
     let updateRefs = cardsToUpdate.map(card_id => pokeCard.update(card_id, updates));
     await Promise.all(updateRefs);
-    console.log('made holo', cardsToUpdate);
+    // console.log('made holo', cardsToUpdate);
     handleEditButtonClick();
   }
 
@@ -140,7 +140,6 @@ export default function SetDetails({}) {
   const renderCard = (card, selected) => {
     let formattedSalesForCard = lenspath(salesForCards, `${card.id}.holo.ungraded.formatted_data`);
     formattedSalesForCard = formattedSalesForCard ? formattedSalesForCard : lenspath(salesForCards, `${card.id}.non-holo.ungraded.formatted_data`)
-    console.log(formattedSalesForCard);
     let price = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 2].averagePrice : null;
     let previousPrice = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 3].averagePrice : null;
     let changeStatus = 'flat';

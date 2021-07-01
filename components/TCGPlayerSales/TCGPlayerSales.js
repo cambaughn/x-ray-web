@@ -38,7 +38,7 @@ export default function TCGPlayerSales({ card }) {
   return (
     <div className={styles.container}>
       { url && prices &&
-        <h3 className={styles.title}>TCGPlayer Prices</h3>
+        <h3 className={styles.title}>TCGPlayer Prices - Ungraded</h3>
       }
 
       { Object.keys(prices).map(finish => {

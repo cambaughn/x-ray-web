@@ -19,6 +19,11 @@ export default function TCGPlayerSales({ card }) {
     { key: 'high', label: 'High'},
   ]
 
+  const finishMap = {
+    '1stEditionHolofoil': '1st Edition Holo',
+    'holofoil': 'Holo'
+  }
+
   const getTCGData = async () => {
     if (card && card.id && card.language === 'en') {
       let cardData = await getCardInfo(card.id);
@@ -39,7 +44,7 @@ export default function TCGPlayerSales({ card }) {
       { Object.keys(prices).map(finish => {
         return (
           <div className={styles.finishWrapper} key={finish}>
-            <span className={styles.finishTitle}>{capitalize(finish)}</span>
+            <span className={styles.finishTitle}>{finishMap[finish] || capitalize(finish)}</span>
             {/* <span className={styles.finishTitle}>{finish.toUpperCase()}</span> */}
 
             <div className={styles.prices}>

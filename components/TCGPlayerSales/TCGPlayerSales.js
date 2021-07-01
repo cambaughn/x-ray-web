@@ -25,7 +25,6 @@ export default function TCGPlayerSales({ card }) {
       let { tcgplayer } = cardData;
       setUrl(tcgplayer.url);
       setPrices(tcgplayer.prices);
-      console.log('getting tcg ', tcgplayer);
     }
   }
 

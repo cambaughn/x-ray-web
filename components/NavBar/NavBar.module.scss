@@ -1,6 +1,12 @@
 @import '../../util/design/mixins.module.scss';
 
+
 .container {
+  height: 60px;
+  position: relative;
+}
+
+.mainContent {
   width: 100vw;
   height: 60px;
   background-color: white;
@@ -13,7 +19,7 @@
   padding-left: 30px;
   padding-right: 30px;
   box-sizing: border-box;
-  position: relative;
+  position: fixed;
   z-index: 1;
 
   @include media(mobile) {

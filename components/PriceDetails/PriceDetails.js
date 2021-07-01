@@ -10,6 +10,7 @@ import SalesForCard from '../SalesForCard/SalesForCard';
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { unique } from '../../util/helpers/array.js';
+import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI.js';
 import formattedSale from '../../util/api/formatted_sale.js';
 
 
@@ -103,8 +104,17 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
     }
   }
 
+  const getTCGData = async () => {
+    if (card.language === 'en') {
+      let cardData = await getCardInfo(card.id);
+      let { tcgplayer } = cardData;
+      console.log('getting tcg ', tcgplayer);
+
+    }
+  }
 
   useEffect(getSales, [card]);
+  useEffect(getTCGData, [card]);
 
 
   return (
@@ -117,7 +127,7 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
             <PriceBlock sales={salesByType[selectedFinish]['PSA']['10'].formatted_data || []} label={'PSA 10'} setViewMode={setViewMode} />
           }
 
-          <SalesForCard card={card} selectedFinish={selectedFinish} selectedGradingAuthority={selectedGradingAuthority} selectedGrade={selectedGrade} />
+          {/* <SalesForCard card={card} selectedFinish={selectedFinish} selectedGradingAuthority={selectedGradingAuthority} selectedGrade={selectedGrade} /> */}
         </>
       }
       { gotSales && !salesByType[selectedFinish] &&

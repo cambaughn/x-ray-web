@@ -131,45 +131,47 @@ export default function NavBar({}) {
 
   return (
     <div className={styles.container}>
-      <div className={classNames({ [styles.brandWrapper]: true, [styles.signedInBrand]: !!user.id }) }>
-        <Link href={'/'}>
-          <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
-        </Link>
-      </div>
-      { subscriptionStatus === 'active' &&
-        <HamburgerMenu user={user} />
-      }
-
-      { subscriptionStatus === 'active' &&
-        <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />
-      }
-
-
-      <div className={styles.rightSide}>
-        { !user.id && !router.pathname.includes('sign-in') &&
-          <SignInButton />
+      <div className={styles.mainContent}>
+        <div className={classNames({ [styles.brandWrapper]: true, [styles.signedInBrand]: !!user.id }) }>
+          <Link href={'/'}>
+            <img src={'/images/brand.png'} alt={'wordmark'} className={styles.brand} />
+          </Link>
+        </div>
+        { subscriptionStatus === 'active' &&
+          <HamburgerMenu user={user} />
         }
 
         { subscriptionStatus === 'active' &&
-          <div className={styles.navLinks}>
-            { navLinks.map(link => {
-              return (
-                <Link href={link.href} key={link.href}>
-                  <div className={styles.navButton}>
-                    <span className={styles.navText}>
-                      {link.text}
-                    </span>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />
+        }
+
+
+        <div className={styles.rightSide}>
+          { !user.id && !router.pathname.includes('sign-in') &&
+            <SignInButton />
+          }
+
+          { subscriptionStatus === 'active' &&
+            <div className={styles.navLinks}>
+              { navLinks.map(link => {
+                return (
+                  <Link href={link.href} key={link.href}>
+                    <div className={styles.navButton}>
+                      <span className={styles.navText}>
+                        {link.text}
+                      </span>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          }
+        </div>
+
+        { searching &&
+          <SearchResults results={results} sets={resultsForSet} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
         }
       </div>
-
-      { searching &&
-        <SearchResults results={results} sets={resultsForSet} setSearching={setSearching} previousPath={previousPath} showExitButton={canGoBack} handleResultClick={handleResultClick} handleClose={handleClose} />
-      }
     </div>
   )
 }

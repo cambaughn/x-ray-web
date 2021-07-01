@@ -33,28 +33,28 @@ export default function TCGPlayerSales({ card }) {
   return (
     <div className={styles.container}>
       { url && prices &&
-        <>
-          <h3>TCGPlayer Prices</h3>
-          { Object.keys(prices).map(finish => {
-            return (
-              <div className={styles.finishWrapper} key={finish}>
-                <span className={styles.finishTitle}>{capitalize(finish)}</span>
-
-                { priceKeys.map(priceKey => {
-                  return (
-                    <div className={styles.prices} key={priceKey.key}>
-                      <div className={styles.priceBlock}>
-                        <span className={styles.priceLabel}>{priceKey.label}</span>
-                        <span className={styles.price}>{prices[finish][priceKey.key]}</span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            )
-          })}
-        </>
+        <h3 className={styles.title}>TCGPlayer Prices</h3>
       }
+
+      { Object.keys(prices).map(finish => {
+        return (
+          <div className={styles.finishWrapper} key={finish}>
+            <span className={styles.finishTitle}>{capitalize(finish)}</span>
+            {/* <span className={styles.finishTitle}>{finish.toUpperCase()}</span> */}
+
+            <div className={styles.prices}>
+              { priceKeys.map(priceKey => {
+                return (
+                  <div className={styles.priceBlock} key={priceKey.key}>
+                    <span className={styles.priceLabel}>{priceKey.label}</span>
+                    <span className={styles.price}>${prices[finish][priceKey.key]}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

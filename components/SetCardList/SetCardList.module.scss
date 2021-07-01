@@ -1,0 +1,146 @@
+@import '../../util/design/mixins.module.scss';
+
+.container {
+  margin-top: 30px;
+  padding-top: 5px;
+  width: 80%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: scroll;
+
+  @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-bottom: 40px;
+  width: 185px;
+  cursor: pointer;
+
+  @include media(mobile) {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    width: 135px;
+  }
+}
+
+.details {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  @include media(mobile) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    align-items: center;
+  }
+
+  @include media(tablet, desktop) {
+    max-width: 70%;
+  }
+}
+
+.rightSide {
+  max-width: 30%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    align-items: center;
+  }
+}
+
+
+.cardName {
+  font-size: 0.85em;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
+  text-align: left;
+
+  @include media(mobile) {
+    text-align: center;
+  }
+}
+
+.cardNumber {
+  font-size: 0.75em;
+  color: grey;
+  font-weight: bold;
+
+  @include media(mobile) {
+    text-align: center;
+  }
+}
+
+.price {
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-top: 5px;
+  @include media(mobile) {
+    font-size: 0.75em;
+    text-align: center;
+  }
+}
+
+.priceUp {
+  color: #2ecc71;
+}
+
+.priceDown {
+  color: #e74c3c;
+}
+
+.priceFlat {
+  color: black;
+}
+
+
+// Edit styles
+.editCardWrapper {
+  position: relative;
+}
+
+.selectedCard {
+  box-shadow: 0 0 0 3pt #e74c3c;
+}
+
+.selectRightButton {
+  position: absolute;
+  bottom: 200px;
+
+  cursor: pointer;
+}

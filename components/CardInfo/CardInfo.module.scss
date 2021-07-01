@@ -1,7 +1,20 @@
 @import '../../util/design/mixins.module.scss';
 
+$wrapper-width: 300px;
+
 .container {
-  width: 400px;
+  width: $wrapper-width;
+  @include media(mobile) {
+    margin-bottom: 20px;
+  }
+
+  @include media(tablet, desktop) {
+    margin-right: 30px;
+  }
+}
+
+.mainContent {
+  width: $wrapper-width;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +23,10 @@
   @include media(mobile) {
     width: 100vw;
     margin-bottom: 20px;
+  }
+
+  @include media(tablet, desktop) {
+    position: fixed;
   }
 }
 

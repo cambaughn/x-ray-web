@@ -90,4 +90,8 @@ const shortenSetName = (setName) => {
   return setName;
 }
 
-export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, shortenSetName, isExCard }
+const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, shortenSetName, isExCard, capitalize }

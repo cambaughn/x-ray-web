@@ -1,4 +1,4 @@
-import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, shortenSetName, isExCard } from './string';
+import { replaceCharacters, hasNonAlphanumeric, isSpecialCard, isBaseOrBase2, numberWithCommas, shortenSetName, isExCard, capitalize } from './string';
 
 describe('Verify alphanumeric checker', () => {
   test('Returns false for blank string', () => {
@@ -106,6 +106,12 @@ describe('Replaces characters', () => {
 
   test("Is special name", () => {
     expect(replaceCharacters("Blastoise ◇")).toBe("Blastoise+prism+star");
+  });
+})
+
+describe('Capitalize string', () => {
+  test('Capitalize string', () => {
+    expect(capitalize('holofoil')).toBe('Holofoil');
   });
 })
 

@@ -6,11 +6,11 @@ import PriceBlock from '../PriceBlock/PriceBlock';
 import FinishButtons from '../FinishButtons/FinishButtons';
 import NoDataMessage from '../NoDataMessage/NoDataMessage';
 import SalesForCard from '../SalesForCard/SalesForCard';
+import TCGPlayerSales from '../TCGPlayerSales/TCGPlayerSales';
 
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { unique } from '../../util/helpers/array.js';
-import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI.js';
 import formattedSale from '../../util/api/formatted_sale.js';
 
 
@@ -104,17 +104,7 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
     }
   }
 
-  const getTCGData = async () => {
-    if (card.language === 'en') {
-      let cardData = await getCardInfo(card.id);
-      let { tcgplayer } = cardData;
-      console.log('getting tcg ', tcgplayer);
-
-    }
-  }
-
   useEffect(getSales, [card]);
-  useEffect(getTCGData, [card]);
 
 
   return (
@@ -130,9 +120,12 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
           {/* <SalesForCard card={card} selectedFinish={selectedFinish} selectedGradingAuthority={selectedGradingAuthority} selectedGrade={selectedGrade} /> */}
         </>
       }
-      { gotSales && !salesByType[selectedFinish] &&
+
+      { gotSales && !salesByType[selectedFinish] && !tcgPlayerData &&
         <NoDataMessage />
       }
+
+      <TCGPlayerSales card={card} />
 
     </div>
   )

@@ -5,6 +5,7 @@ import styles from './PriceDetails.module.scss';
 import PriceBlock from '../PriceBlock/PriceBlock';
 import FinishButtons from '../FinishButtons/FinishButtons';
 import NoDataMessage from '../NoDataMessage/NoDataMessage';
+import SalesForCard from '../SalesForCard/SalesForCard';
 
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
@@ -16,6 +17,9 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
   const [selectedFinish, setSelectedFinish] = useState('non-holo');
   const [salesByType, setSalesByType] = useState({});
   const [gotSales, setGotSales] = useState(false);
+  const [viewMode, setViewMode] = useState('charts'); // charts, sales
+  const [selectedGrade, setSelectedGrade] = useState(null); // 1-10
+  const [selectedGradingAuthority, setSelectedGradingAuthority] = useState(null); // PSA, BGS, CGC
 
   const getSales = async () => {
     try {
@@ -108,13 +112,14 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
       <FinishButtons finishes={finishes} selectedFinish={selectedFinish} setSelectedFinish={setSelectedFinish} />
       { salesByType[selectedFinish] &&
         <>
-          <PriceBlock sales={salesByType[selectedFinish].ungraded.formatted_data || []} label={'Ungraded'} />
+          <PriceBlock sales={salesByType[selectedFinish].ungraded.formatted_data || []} label={'Ungraded'} setViewMode={setViewMode} />
           { salesByType[selectedFinish]['PSA'] && salesByType[selectedFinish]['PSA']['10'] &&
-            <PriceBlock sales={salesByType[selectedFinish]['PSA']['10'].formatted_data || []} label={'PSA 10'} />
+            <PriceBlock sales={salesByType[selectedFinish]['PSA']['10'].formatted_data || []} label={'PSA 10'} setViewMode={setViewMode} />
           }
+
+          <SalesForCard card={card} selectedFinish={selectedFinish} selectedGradingAuthority={selectedGradingAuthority} selectedGrade={selectedGrade} />
         </>
       }
-
       { gotSales && !salesByType[selectedFinish] &&
         <NoDataMessage />
       }

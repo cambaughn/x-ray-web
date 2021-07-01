@@ -9,8 +9,8 @@ import Tag from '../Tag/Tag';
 import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
 import LoadingSpinner from '../Icons/LoadingSpinner';
-import AddToCollectionButton from '../Buttons/AddToCollectionButton';
 import AddCardModal from '../AddCardModal/AddCardModal';
+import CardInfo from '../CardInfo/CardInfo';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -108,7 +108,7 @@ export default function CardDetails({ card_id }) {
   }
 
   const handleEnterKey = (event) => {
-    if (event.key === 'Enter'){
+    if (event.key === 'Enter') {
       saveName();
     }
   }
@@ -128,55 +128,14 @@ export default function CardDetails({ card_id }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftRail}>
-        <div className={styles.imageWrapper}>
-          { card.images && (card.images.small || card.images.large) &&
-            <img src={card.images.small || card.images.large} className={styles.image} />
-          }
-        </div>
-
-        { editingName ? (
-          <input type='text' className={styles.cardName} value={cardName} onChange={(event) => setCardName(event.target.value)} onKeyDown={handleEnterKey} />
-        ): (
-          <h3 className={styles.cardName} onDoubleClick={() => user.role === 'admin' && setEditingName(true)}>{cardName}</h3>
-        )}
-
-        <div className={styles.addButtonWrapper}>
-          <AddToCollectionButton handleClick={toggleCardAddition} showHelpText={collectionDetails.length <= 1} />
-        </div>
-
-        { card.name &&
-          <>
-            <div className={styles.cardData}>
-              <span className={styles.label}>Set</span>
-              <span className={styles.detail}>{card.set_name}</span>
-
-              <span className={styles.label}>Number</span>
-              <span className={styles.detail}>{card.number}/{set.printedTotal}</span>
-
-              <span className={styles.label}>Rarity</span>
-              <span className={styles.detail}>{card.rarity}</span>
-            </div>
-
-          </>
-        }
-
-        { !!updatingSales &&
-          <div className={styles.loaderWrapper}>
-            <LoadingSpinner color={'grey'} />
-          </div>
-        }
-        {/* { card.name &&
-          <div className={styles.tags}>
-            <Tag text={`${card.number}/${set.printedTotal}`} color={'#2ecc71'} />
-            <Tag text={card.rarity} color={'#EE5253'} />
-            <Tag text={card.set_name} color={'#5F27CD'} />
-          </div>
-        } */}
-      </div>
+      <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} toggleCardAddition={toggleCardAddition} showHelpText={collectionDetails.length <= 1} set={set} />
 
       <div className={styles.rightSection}>
         <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />
+
+        {/* { viewMode === 'sales' &&
+          <SalesForCard card={card} finishes={finishes} setFinishes={setFinishes} setViewMode={setViewMode} />
+        } */}
       </div>
 
       { addCardModalVisible &&

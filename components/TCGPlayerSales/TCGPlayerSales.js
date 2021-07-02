@@ -5,7 +5,6 @@ import styles from './TCGPlayerSales.module.scss';
 
 // Utility functions
 import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI.js';
-import { lenspath } from '../../util/helpers/object.js';
 import { capitalize } from '../../util/helpers/string.js';
 
 

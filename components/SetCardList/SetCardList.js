@@ -11,18 +11,25 @@ import CardImage from '../CardImage/CardImage';
 import { lenspath } from '../../util/helpers/object.js';
 
 
-export default function SetCardList({ cards, editModeActive, toggleSelectCard, selectedItems, salesForCards }) {
+export default function SetCardList({ cards, editModeActive, toggleSelectCard, selectedItems, salesForCards, tcgPrices, selectRight }) {
   const renderCard = (card, selected) => {
     let formattedSalesForCard = lenspath(salesForCards, `${card.id}.holo.ungraded.formatted_data`);
     formattedSalesForCard = formattedSalesForCard ? formattedSalesForCard : lenspath(salesForCards, `${card.id}.non-holo.ungraded.formatted_data`)
     let price = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 2].averagePrice : null;
+    let prices = !!tcgPrices[card.id] ? tcgPrices[card.id] : null;
+    if (!price && prices) {
+      price = prices['1stEditionHolofoil'] || prices.holofoil || prices.reverseHolofoil || prices.normal;
+      price = price.market.toFixed(2);
+    }
     let previousPrice = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 3].averagePrice : null;
     let changeStatus = 'flat';
 
-    if (price > previousPrice) {
-      changeStatus = 'up';
-    } else if (price < previousPrice) {
-      changeStatus = 'down';
+    if (previousPrice) {
+      if (price > previousPrice) {
+        changeStatus = 'up';
+      } else if (price < previousPrice) {
+        changeStatus = 'down';
+      }
     }
 
     return (
@@ -37,7 +44,7 @@ export default function SetCardList({ cards, editModeActive, toggleSelectCard, s
           <div className={styles.rightSide}>
             {/* <span className={styles.cardName}>{card.name}{card.full_art ? ' ☆' : ''}</span> */}
             <span className={styles.cardNumber}>#{card.number}</span>
-            { formattedSalesForCard && price > 0 &&
+            { price > 0 &&
               <span className={classNames(styles.price, {[styles.priceUp]: changeStatus === 'up', [styles.priceDown]: changeStatus === 'down', [styles.priceFlat]: changeStatus === 'flat' })}>${price}</span>
             }
           </div>

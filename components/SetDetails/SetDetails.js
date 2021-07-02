@@ -14,12 +14,14 @@ import analytics from '../../util/analytics/segment';
 import formattedSale from '../../util/api/formatted_sale.js';
 import { sortCardsByNumber } from '../../util/helpers/sorting';
 import { lenspath } from '../../util/helpers/object.js';
+import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI.js';
 
 
 export default function SetDetails({}) {
   const pokemonSets = useSelector(state => state.pokemonSets);
   const user = useSelector(state => state.user);
   const [currentSet, setCurrentSet] = useState({});
+  const [tcgPrices, setTcgPrices] = useState({});
   const [cards, setCards] = useState([]);
   const [editModeActive, setEditModeActive] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
@@ -76,6 +78,18 @@ export default function SetDetails({}) {
       // console.log('sales lookup ', salesLookup);
 
       setSalesForCards(salesLookup);
+    }
+  }
+
+  const getTCGData = async () => {
+    if (cards.length > 0 && currentSet.language === 'english' && Object.keys(tcgPrices).length === 0) {
+      let priceDataRefs = cards.map(card => getCardInfo(card.id));
+      let priceData = await Promise.all(priceDataRefs);
+      let priceLookup = {};
+      priceData.forEach(card => {
+        priceLookup[card.id] = card.tcgplayer.prices;
+      })
+      setTcgPrices(priceLookup);
     }
   }
 
@@ -151,6 +165,7 @@ export default function SetDetails({}) {
   useEffect(recordPageView, []);
   useEffect(getSet, []);
   useEffect(getCards, []);
+  useEffect(getTCGData, [cards]);
   useEffect(getSales, [cards]);
 
   return (
@@ -187,7 +202,7 @@ export default function SetDetails({}) {
 
 
       { cards.length > 0 &&
-        <SetCardList cards={cards} editModeActive={editModeActive} toggleSelectCard={toggleSelectCard} selectedItems={selectedItems} salesForCards={salesForCards} />
+        <SetCardList cards={cards} editModeActive={editModeActive} toggleSelectCard={toggleSelectCard} selectedItems={selectedItems} salesForCards={salesForCards} tcgPrices={tcgPrices} selectRight={selectRight} />
       }
     </div>
   )

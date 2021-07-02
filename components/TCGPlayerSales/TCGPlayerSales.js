@@ -20,7 +20,8 @@ export default function TCGPlayerSales({ card }) {
 
   const finishMap = {
     '1stEditionHolofoil': '1st Edition Holo',
-    'holofoil': 'Holo'
+    'holofoil': 'Holo',
+    'reverseHolofoil': 'Reverse Holo',
   }
 
   const getTCGData = async () => {

@@ -8,9 +8,8 @@ import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI.js';
 import { capitalize } from '../../util/helpers/string.js';
 
 
-export default function TCGPlayerSales({ card }) {
+export default function TCGPlayerSales({ card, prices, setTcgPrices }) {
   const [url, setUrl] = useState(null);
-  const [prices, setPrices] = useState({});
   const priceKeys = [
     { key: 'market', label: 'Market Price'},
     { key: 'low', label: 'Low'},
@@ -29,7 +28,7 @@ export default function TCGPlayerSales({ card }) {
       let cardData = await getCardInfo(card.id);
       let { tcgplayer } = cardData;
       setUrl(tcgplayer.url);
-      setPrices(tcgplayer.prices);
+      setTcgPrices(tcgplayer.prices);
     }
   }
 

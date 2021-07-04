@@ -12,6 +12,7 @@ import TCGPlayerSales from '../TCGPlayerSales/TCGPlayerSales';
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
 import { unique } from '../../util/helpers/array.js';
 import formattedSale from '../../util/api/formatted_sale.js';
+import { getCardInfo } from '../../util/pokemonAPI/pokemonAPI.js';
 
 
 export default function PriceDetails({ card, finishes, setFinishes }) {
@@ -21,6 +22,7 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
   const [viewMode, setViewMode] = useState('charts'); // charts, sales
   const [selectedGrade, setSelectedGrade] = useState(null); // 1-10
   const [selectedGradingAuthority, setSelectedGradingAuthority] = useState(null); // PSA, BGS, CGC
+  const [tcgPrices, setTcgPrices] = useState({});
 
   const getSales = async () => {
     try {
@@ -121,11 +123,11 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
         </>
       }
 
-      { gotSales && !salesByType[selectedFinish] && !tcgPlayerData &&
+      { gotSales && !salesByType[selectedFinish] && !tcgPrices &&
         <NoDataMessage />
       }
 
-      <TCGPlayerSales card={card} />
+      <TCGPlayerSales card={card} prices={tcgPrices} setTcgPrices={setTcgPrices} />
 
     </div>
   )

@@ -87,7 +87,7 @@ export default function SetDetails({}) {
       let priceData = await Promise.all(priceDataRefs);
       let priceLookup = {};
       priceData.forEach(card => {
-        priceLookup[card.id] = card.tcgplayer.prices;
+        priceLookup[card.id] = card.tcgplayer ? card.tcgplayer.prices : null;
       })
       setTcgPrices(priceLookup);
     }

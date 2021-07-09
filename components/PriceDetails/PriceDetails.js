@@ -7,6 +7,7 @@ import FinishButtons from '../FinishButtons/FinishButtons';
 import NoDataMessage from '../NoDataMessage/NoDataMessage';
 import SalesForCard from '../SalesForCard/SalesForCard';
 import TCGPlayerSales from '../TCGPlayerSales/TCGPlayerSales';
+import PSAPopReport from '../PSAPopReport/PSAPopReport';
 
 // Utility functions
 import { isLastThreeMonths, dateSoldToObject } from '../../util/helpers/date.js';
@@ -129,6 +130,7 @@ export default function PriceDetails({ card, finishes, setFinishes }) {
 
       <TCGPlayerSales card={card} prices={tcgPrices} setTcgPrices={setTcgPrices} />
 
+      <PSAPopReport card={card} />
     </div>
   )
 }

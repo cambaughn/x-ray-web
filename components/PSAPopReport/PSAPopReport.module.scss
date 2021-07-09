@@ -1,5 +1,81 @@
 @import '../../util/design/mixins.module.scss';
 
 .container {
+  width: 100%;
 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    align-items: center;
+  }
+}
+
+.title {
+  margin-bottom: 25px;
+}
+
+.finishWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 50px;
+
+  @include media(mobile) {
+    align-items: center;
+    margin-bottom: 35px;
+  }
+}
+
+.finishTitle {
+  // color: grey;
+  font-weight: 500;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+  // text-decoration: underline;
+  // text-decoration-style: dotted;
+
+  @include media(mobile) {
+    margin-bottom: 25px;
+  }
+}
+
+.grades {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    flex-direction: column;
+  }
+}
+
+.gradeBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    margin-bottom: 30px;
+    align-items: center;
+  }
+
+  @include media(tablet, desktop) {
+    margin-right: 30px;
+    width: 60px;
+  }
+}
+
+.gradeLabel {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.number {
+  margin-bottom: 20px;
 }

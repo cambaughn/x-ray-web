@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Table.module.scss';
+import classNames from 'classnames';
 
 // Components
 
@@ -7,15 +8,14 @@ import styles from './Table.module.scss';
 import { capitalize } from '../../util/helpers/string.js';
 
 
-export default function Table({ data = [] }) {
+export default function Table({ data = [], detailed }) {
   return (
     <table className={styles.container}>
       { data.length > 0 &&
         <>
           { data.map((row, i) => {
-            console.log(row);
             return (
-              <tr className={styles.row} key={i}>
+              <tr className={classNames(styles.row, { [styles.detailed]: detailed })} key={i}>
                 { row.map((item, j) => {
                   if (j === 0) {
                     return (

@@ -23,7 +23,6 @@ export default function PSAPopReport({ card }) {
       reportsForCard.forEach(report => {
         reportsLookup[report.finish] = report;
       })
-      console.log('got reports ', reportsLookup);
       setReports(reportsLookup);
     }
   }
@@ -54,7 +53,7 @@ export default function PSAPopReport({ card }) {
           <div className={styles.finishWrapper} key={finish}>
             <span className={styles.finishTitle}>{finishMap[finish] || capitalize(finish)}</span>
 
-            <Table data={determineTableData(finish)} />
+            <Table data={determineTableData(finish)} detailed={true} />
 
             {/* <div className={styles.grades}>
               <div className={styles.gradeBlock}>

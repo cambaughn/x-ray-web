@@ -49,7 +49,9 @@ $background-color: #ecf0f1;
     // border-right: 1px solid $border-color;
     margin-bottom: 20px;
   }
+}
 
+.detailed {
   & > :last-child {
     font-size: 0.85em;
     color: grey;
@@ -57,7 +59,7 @@ $background-color: #ecf0f1;
 }
 
 .header {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .data {

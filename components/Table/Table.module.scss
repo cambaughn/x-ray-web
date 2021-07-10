@@ -1,20 +1,32 @@
 @import '../../util/design/mixins.module.scss';
 
+$border-color: grey;
+
 .container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
 
+  border: 1px solid $border-color;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 15px;
+
   @include media(mobile) {
     flex-direction: column;
   }
+
+  & > :not(:last-child) {
+    // border-right: 1px solid $border-color;
+  }
 }
+
 
 .row {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 
   @include media(mobile) {
@@ -23,16 +35,23 @@
   }
 
   @include media(tablet, desktop) {
-    margin-right: 30px;
-    width: 60px;
+    width: 100px;
+  }
+
+  & > :not(:last-child) {
+    // border-right: 1px solid $border-color;
+    margin-bottom: 20px;
+  }
+
+  & > :nth-child(odd) {
+    background: pink;
   }
 }
 
 .header {
   font-weight: 500;
-  margin-bottom: 20px;
 }
 
 .data {
-  margin-bottom: 20px;
+
 }

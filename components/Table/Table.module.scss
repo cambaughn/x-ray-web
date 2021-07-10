@@ -1,6 +1,7 @@
 @import '../../util/design/mixins.module.scss';
 
-$border-color: grey;
+$border-color: #ecf0f1;
+$background-color: #ecf0f1;
 
 .container {
   display: flex;
@@ -10,8 +11,7 @@ $border-color: grey;
 
   border: 1px solid $border-color;
   border-radius: 5px;
-  box-sizing: border-box;
-  padding: 15px;
+  overflow: hidden;
 
   @include media(mobile) {
     flex-direction: column;
@@ -19,6 +19,10 @@ $border-color: grey;
 
   & > :not(:last-child) {
     // border-right: 1px solid $border-color;
+  }
+
+  & > :nth-child(odd) {
+    background: $background-color;
   }
 }
 
@@ -28,6 +32,9 @@ $border-color: grey;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  box-sizing: border-box;
+  padding: 15px;
 
   @include media(mobile) {
     margin-bottom: 30px;
@@ -43,8 +50,9 @@ $border-color: grey;
     margin-bottom: 20px;
   }
 
-  & > :nth-child(odd) {
-    background: pink;
+  & > :last-child {
+    font-size: 0.85em;
+    color: grey;
   }
 }
 

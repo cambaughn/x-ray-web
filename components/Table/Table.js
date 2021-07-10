@@ -7,28 +7,25 @@ import styles from './Table.module.scss';
 import { capitalize } from '../../util/helpers/string.js';
 
 
-export default function Table({ headers = [], data = [] }) {
+export default function Table({ data = [] }) {
   return (
     <table className={styles.container}>
-      { headers.length > 0 &&
-        <tr className={styles.row}>
-          { headers.map(header => {
-            return (
-              <th className={styles.header} key={header}>{capitalize(header)}</th>
-            )
-          })}
-        </tr>
-      }
-
       { data.length > 0 &&
         <>
-          { data.map((row, index) => {
+          { data.map((row, i) => {
+            console.log(row);
             return (
-              <tr className={styles.row} key={index}>
-                { row.map(item => {
-                  return (
-                    <td className={styles.data}>{item}</td>
-                  )
+              <tr className={styles.row} key={i}>
+                { row.map((item, j) => {
+                  if (j === 0) {
+                    return (
+                      <th className={styles.header} key={item}>{capitalize(item)}</th>
+                    )
+                  } else {
+                    return (
+                      <td className={styles.data} key={item}>{item}</td>
+                    )
+                  }
                 })}
               </tr>
             )

@@ -30,10 +30,14 @@ export default function PSAPopReport({ card }) {
 
   const determineTableData = (finish) => {
     let total = reports[finish].population.total;
-    let numGrades = grades.map(grade => reports[finish].population[grade]);
-    // Get percentages based on each grade
-    let percentages = grades.map((grade, index) => ((numGrades[index] / total) * 100).toFixed(1) + '%');
-    return [ numGrades, percentages];
+
+    let rows = grades.map((grade, index) => {
+      let numForGrade = reports[finish].population[grade];
+      let percentage = ((numForGrade / total) * 100).toFixed(1) + '%';
+      return [ grade, numForGrade, percentage];
+    })
+
+    return rows;
   }
 
   useEffect(getReports, [card]);
@@ -50,7 +54,7 @@ export default function PSAPopReport({ card }) {
           <div className={styles.finishWrapper} key={finish}>
             <span className={styles.finishTitle}>{finishMap[finish] || capitalize(finish)}</span>
 
-            <Table headers={grades} data={determineTableData(finish)} />
+            <Table data={determineTableData(finish)} />
 
             {/* <div className={styles.grades}>
               <div className={styles.gradeBlock}>

@@ -8,13 +8,17 @@ $background-color: #ecf0f1;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-
   border: 1px solid $border-color;
   border-radius: 5px;
   overflow: hidden;
 
   @include media(mobile) {
     flex-direction: column;
+    width: 85vw;
+  }
+
+  @include media(tablet, desktop) {
+    min-width: 50vw;
   }
 
   & > :not(:last-child) {
@@ -34,20 +38,22 @@ $background-color: #ecf0f1;
   justify-content: flex-start;
 
   box-sizing: border-box;
-  padding: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 
   @include media(mobile) {
-    margin-bottom: 30px;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
   }
 
   @include media(tablet, desktop) {
-    width: 100px;
-  }
+    width: 80px;
 
-  & > :not(:last-child) {
-    // border-right: 1px solid $border-color;
-    margin-bottom: 20px;
+    & > :not(:last-child) {
+      // border-right: 1px solid $border-color;
+      margin-bottom: 20px;
+    }
   }
 }
 

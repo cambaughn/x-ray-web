@@ -1,0 +1,38 @@
+@import '../../util/design/mixins.module.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    flex-direction: column;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @include media(mobile) {
+    margin-bottom: 30px;
+    align-items: center;
+  }
+
+  @include media(tablet, desktop) {
+    margin-right: 30px;
+    width: 60px;
+  }
+}
+
+.header {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.data {
+  margin-bottom: 20px;
+}

@@ -31,7 +31,6 @@ const sortCardsByNumber = (cards) => {
     if (aNum < bNum || (aNum && !bNum)) {
       return -1;
     } else if (!aNum && !bNum) { // If the number has non alphanumeric characters
-      console.log('nums ', aNum, bNum);
       a.number = a.number || '';
       b.number = b.number || '';
       aNum = parseInt(a.number.replace(/[^0-9]/gi, ''));

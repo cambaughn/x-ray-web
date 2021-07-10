@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './PSAPopReport.module.scss';
 
 // Components
+import Table from '../Table/Table';
 
 // Utility functions
 import psaPopReport from '../../util/api/psaPopReport.js';
@@ -27,6 +28,14 @@ export default function PSAPopReport({ card }) {
     }
   }
 
+  const determineTableData = (finish) => {
+    let total = reports[finish].population.total;
+    let numGrades = grades.map(grade => reports[finish].population[grade]);
+    // Get percentages based on each grade
+    let percentages = grades.map((grade, index) => ((numGrades[index] / total) * 100).toFixed(1) + '%');
+    return [ numGrades, percentages];
+  }
+
   useEffect(getReports, [card]);
 
   return (
@@ -36,14 +45,14 @@ export default function PSAPopReport({ card }) {
       }
 
       { finishes.filter(finish => !!reports[finish]).map(finish => {
-        let total = reports[finish].population.total;
 
         return (
           <div className={styles.finishWrapper} key={finish}>
             <span className={styles.finishTitle}>{finishMap[finish] || capitalize(finish)}</span>
 
-            <div className={styles.grades}>
-              {/* Keys */}
+            <Table headers={grades} data={determineTableData(finish)} />
+
+            {/* <div className={styles.grades}>
               <div className={styles.gradeBlock}>
                 <span className={styles.gradeLabel}>Grade</span>
                 <span className={styles.number}>#</span>
@@ -51,8 +60,6 @@ export default function PSAPopReport({ card }) {
               </div>
 
               { grades.map((grade, index) => {
-                let numberForGrade = reports[finish].population[grade];
-                let percentage = ((numberForGrade / total) * 100).toFixed(1);
                 return (
                   <div className={styles.gradeBlock} key={index}>
                     <span className={styles.gradeLabel}>{grade === 'total' ? 'Total' : grade}</span>
@@ -61,7 +68,7 @@ export default function PSAPopReport({ card }) {
                   </div>
                 )
               })}
-            </div>
+            </div> */}
           </div>
         )
       })}

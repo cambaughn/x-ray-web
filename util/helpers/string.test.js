@@ -113,6 +113,10 @@ describe('Capitalize string', () => {
   test('Capitalize string', () => {
     expect(capitalize('holofoil')).toBe('Holofoil');
   });
+
+  test('Capitalize does not break number', () => {
+    expect(capitalize(10)).toBe(10);
+  });
 })
 
 describe('Find cards with special names', () => {

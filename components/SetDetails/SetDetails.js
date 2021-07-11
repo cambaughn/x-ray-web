@@ -6,6 +6,8 @@ import classNames from 'classnames';
 
 // Components
 import SetCardList from '../SetCardList/SetCardList';
+import EditSetDetails from '../EditSetDetails/EditSetDetails';
+import FullScreenModal from '../Modal/FullScreenModal';
 
 // Utility functions
 import pokeSet from '../../util/api/set';
@@ -24,6 +26,7 @@ export default function SetDetails({}) {
   const [tcgPrices, setTcgPrices] = useState({});
   const [cards, setCards] = useState([]);
   const [editModeActive, setEditModeActive] = useState(false);
+  const [editModalActive, setEditModalActive] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const [salesForCards, setSalesForCards] = useState({});
   const router = useRouter();
@@ -149,6 +152,10 @@ export default function SetDetails({}) {
     setSelectedItems(newSelections);
   }
 
+  const toggleEditModal = () => {
+    setEditModalActive(!editModalActive);
+  }
+
   const recordPageView = () => {
     analytics.page({
       userId: user.id,
@@ -175,7 +182,13 @@ export default function SetDetails({}) {
           <div className={styles.imageWrapper}>
             <img src={currentSet.images.logo} className={styles.logo} />
           </div>
-          <h4 className={styles.setName}>{currentSet.name}</h4>
+          {/* <h4 className={styles.setName}>{currentSet.name}</h4> */}
+        </div>
+      }
+
+      { user.role === 'admin' &&
+        <div className={styles.editButton} onClick={toggleEditModal}>
+          <span>Edit</span>
         </div>
       }
 
@@ -205,6 +218,12 @@ export default function SetDetails({}) {
 
       { cards.length > 0 &&
         <SetCardList cards={cards} editModeActive={editModeActive} toggleSelectCard={toggleSelectCard} selectedItems={selectedItems} salesForCards={salesForCards} tcgPrices={tcgPrices} selectRight={selectRight} />
+      }
+
+      { editModalActive &&
+        <FullScreenModal toggleModal={toggleEditModal}>
+          <EditSetDetails set={currentSet} />
+        </FullScreenModal>
       }
     </div>
   )

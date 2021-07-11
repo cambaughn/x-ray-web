@@ -179,7 +179,9 @@ export default function SetDetails({}) {
         </div>
       }
 
-      { user.role === 'admin' &&
+      {/* Uncomment to allow editing of full art / holo cards */}
+
+      {/* { user.role === 'admin' &&
         <div className={styles.buttons}>
           <div className={classNames({ [styles.button]: true, [styles.editModeButton]: true, [styles.saveButton]: editModeActive })} onClick={handleEditButtonClick}>
             <span className={styles.editButtonText}>{ editModeActive ? 'Editing' : 'Edit'}</span>
@@ -197,7 +199,7 @@ export default function SetDetails({}) {
             </>
           }
         </div>
-      }
+      } */}
 
 
 

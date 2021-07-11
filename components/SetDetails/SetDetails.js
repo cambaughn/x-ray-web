@@ -3,6 +3,7 @@ import styles from './SetDetails.module.scss';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { ExternalLink } from 'react-feather';
 
 // Components
 import SetCardList from '../SetCardList/SetCardList';
@@ -29,6 +30,7 @@ export default function SetDetails({}) {
   const [editModalActive, setEditModalActive] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const [salesForCards, setSalesForCards] = useState({});
+  const [psaSearchUrl, setPsaSearchUrl] = useState('');
   const router = useRouter();
 
   const getSet = async () => {
@@ -156,6 +158,14 @@ export default function SetDetails({}) {
     setEditModalActive(!editModalActive);
   }
 
+  const formatPsaSearchUrl = () => {
+    if (currentSet.name) {
+      let formattedUrl = `https://www.psacard.com/pop#0%7C${currentSet.name.trim().replace(/ /g, '%20')}`;
+      console.log(formattedUrl);
+      setPsaSearchUrl(formattedUrl);
+    }
+  }
+
   const recordPageView = () => {
     analytics.page({
       userId: user.id,
@@ -174,6 +184,7 @@ export default function SetDetails({}) {
   useEffect(getCards, []);
   useEffect(getTCGData, [cards]);
   useEffect(getSales, [cards]);
+  useEffect(formatPsaSearchUrl, [currentSet]);
 
   return (
     <div className={styles.container}>
@@ -182,7 +193,14 @@ export default function SetDetails({}) {
           <div className={styles.imageWrapper}>
             <img src={currentSet.images.logo} className={styles.logo} />
           </div>
-          {/* <h4 className={styles.setName}>{currentSet.name}</h4> */}
+          <div className={styles.setNameWrapper}>
+            <h4 className={styles.setName}>{currentSet.name}</h4>
+            { user.role === 'admin' &&
+              <a href={psaSearchUrl} target='_blank'>
+                <ExternalLink className={styles.externalLink} size={16} />
+              </a>
+            }
+          </div>
         </div>
       }
 
@@ -222,7 +240,7 @@ export default function SetDetails({}) {
 
       { editModalActive &&
         <FullScreenModal toggleModal={toggleEditModal}>
-          <EditSetDetails set={currentSet} />
+          <EditSetDetails set={currentSet} toggleModal={toggleEditModal} />
         </FullScreenModal>
       }
     </div>

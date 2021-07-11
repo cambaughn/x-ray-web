@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import pokeSet from '../../util/api/set';
 
 
-export default function EditSetDetails({ set }) {
+export default function EditSetDetails({ set, toggleModal }) {
   const [psaPopUrl, setPsaPopUrl] = useState('');
   const [saveButtonActive, setSaveButtonActive] = useState(false);
 
@@ -32,6 +32,7 @@ export default function EditSetDetails({ set }) {
 
       await pokeSet.update(set.id, updates);
       console.log('updated ', set.name);
+      toggleModal();
     }
   }
 

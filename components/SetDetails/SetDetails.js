@@ -160,7 +160,7 @@ export default function SetDetails({}) {
 
   const formatPsaSearchUrl = () => {
     if (currentSet.name) {
-      let formattedUrl = `https://www.psacard.com/pop#0%7C${currentSet.name.trim().replace(/ /g, '%20')}`;
+      let formattedUrl = `https://www.psacard.com/pop#0%7CPokemon%20${currentSet.name.trim().replace(/ /g, '%20')}`;
       console.log(formattedUrl);
       setPsaSearchUrl(formattedUrl);
     }

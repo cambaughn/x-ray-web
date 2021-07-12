@@ -54,24 +54,6 @@ export default function PSAPopReport({ card }) {
             <span className={styles.finishTitle}>{finishMap[finish] || capitalize(finish)}</span>
 
             <Table data={determineTableData(finish)} detailed={true} />
-
-            {/* <div className={styles.grades}>
-              <div className={styles.gradeBlock}>
-                <span className={styles.gradeLabel}>Grade</span>
-                <span className={styles.number}>#</span>
-                <span className={styles.percentage}>%</span>
-              </div>
-
-              { grades.map((grade, index) => {
-                return (
-                  <div className={styles.gradeBlock} key={index}>
-                    <span className={styles.gradeLabel}>{grade === 'total' ? 'Total' : grade}</span>
-                    <span className={styles.number}>{numberForGrade}</span>
-                    <span className={styles.percentage}>{percentage}</span>
-                  </div>
-                )
-              })}
-            </div> */}
           </div>
         )
       })}

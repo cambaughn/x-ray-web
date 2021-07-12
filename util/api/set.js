@@ -69,19 +69,18 @@ const checkSets = async () => {
   let sets = await pokeSet.get();
   let updateRefs = sets.map(set => {
     const updates = {
-      psa_pop_url: []
+      psa_pop_urls: []
     }
 
     if (set.psa_pop_url) {
       console.log('have url ');
-      updates.psa_pop_url.push(set.psa_pop_url);
+      updates.psa_pop_urls = set.psa_pop_url;
     }
-    // return pokeSet.update(set.id, updates);
+    return pokeSet.update(set.id, updates);
   })
   await Promise.all(updateRefs)
   console.log('updated sets => ');
 }
-
 
 
 const updateReleaseDates = async () => {

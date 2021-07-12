@@ -199,7 +199,7 @@ export default function SetDetails({}) {
           <div className={styles.setNameWrapper}>
             <h4 className={styles.setName}>{currentSet.name}</h4>
             { user.role === 'admin' &&
-              <a href={psaSearchUrl} target='_blank'>
+              <a href={currentSet.psa_pop_urls[0] || psaSearchUrl} target='_blank'>
                 <ExternalLink className={styles.externalLink} size={16} />
               </a>
             }
@@ -243,7 +243,7 @@ export default function SetDetails({}) {
 
       { editModalActive &&
         <FullScreenModal toggleModal={toggleEditModal}>
-          <EditSetDetails set={currentSet} toggleModal={toggleEditModal} />
+          <EditSetDetails set={currentSet} toggleModal={toggleEditModal} setCurrentSet={setCurrentSet} />
         </FullScreenModal>
       }
     </div>

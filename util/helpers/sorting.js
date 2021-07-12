@@ -37,8 +37,13 @@ const sortCardsByNumber = (cards) => {
       aNum = parseInt(a.number.replace(/[^0-9]/gi, ''));
       bNum = parseInt(b.number.replace(/[^0-9]/gi, ''));
 
+      aNum = !aNum ? a.number : aNum;
+      bNum = !bNum ? a.number : bNum;
+
       if (aNum < bNum) {
         return -1;
+      } else {
+        return 1;
       }
     }
 

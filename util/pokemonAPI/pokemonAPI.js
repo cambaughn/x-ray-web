@@ -4,7 +4,9 @@ pokemon.configure({apiKey: 'd73b3b77-aa37-44f8-9438-b39f162745aa'});
 
 const getCardInfo = async (card_id) => {
   try {
-    return pokemon.card.find(card_id);
+    return pokemon.card.find(card_id).catch(error => {
+      console.error(error);
+    });
   } catch(error) {
     console.error(error);
     return Promise.resolve(false);

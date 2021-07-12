@@ -92,7 +92,9 @@ export default function SetDetails({}) {
       let priceData = await Promise.all(priceDataRefs);
       let priceLookup = {};
       priceData.forEach(card => {
-        priceLookup[card.id] = card.tcgplayer ? card.tcgplayer.prices : null;
+        if (card && card.id) {
+          priceLookup[card.id] = card.tcgplayer ? card.tcgplayer.prices : null;
+        }
       })
       setTcgPrices(priceLookup);
     }
@@ -160,7 +162,8 @@ export default function SetDetails({}) {
 
   const formatPsaSearchUrl = () => {
     if (currentSet.name) {
-      let formattedUrl = `https://www.psacard.com/pop#0%7CPokemon%20${currentSet.name.trim().replace(/ /g, '%20')}`;
+      // let formattedUrl = `https://www.psacard.com/pop#0%7CPokemon%20${currentSet.name.trim().replace(/ /g, '%20')}`;
+      let formattedUrl = `https://www.psacard.com/pop#0%7CPokemon%20${currentSet.series_name.trim().replace(/ /g, '%20')}%20${currentSet.name.trim().replace(/ /g, '%20')}`;
       console.log(formattedUrl);
       setPsaSearchUrl(formattedUrl);
     }

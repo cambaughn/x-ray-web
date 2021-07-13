@@ -27,7 +27,6 @@ export default function PSAPopReport({ card }) {
         reportsLookup[report.variant][report.finish] = report;
       })
 
-      console.log(reportsLookup);
       setReports(reportsLookup);
     }
   }
@@ -40,8 +39,6 @@ export default function PSAPopReport({ card }) {
       let percentage = ((numForGrade / total) * 100).toFixed(1) + '%';
       return [ grade, numForGrade, percentage];
     })
-
-    console.log('rows ', rows);
 
     return rows;
   }
@@ -60,7 +57,7 @@ export default function PSAPopReport({ card }) {
             { finishes.filter(finish => !!reports[variant][finish]).map(finish => {
               let title = `${finishMap[finish] || capitalize(finish)}`;
               title = variantMap[variant] ? title + ` - ${variantMap[variant]}` : title;
-              
+
               return (
                 <div className={styles.finishWrapper} key={finish}>
                   <span className={styles.finishTitle}>{title}</span>

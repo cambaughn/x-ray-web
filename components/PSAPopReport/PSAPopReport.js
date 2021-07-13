@@ -13,6 +13,8 @@ export default function PSAPopReport({ card }) {
   const [reports, setReports] = useState({});
 
   const grades = ['total', 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+  const variants = ['first_edition', 'shadowless', 'unlimited'];
+  const variantMap = { first_edition: 'First Edition', shadowless: 'Shadowless', unlimited: '' }
   const finishes = ['holo', 'reverse_holo', 'non-holo'];
   const finishMap = { holo: 'Holo', reverse_holo: 'Reverse Holo', 'non-holo': 'Non-Holo' }
 
@@ -21,20 +23,25 @@ export default function PSAPopReport({ card }) {
       let reportsForCard = await psaPopReport.search('card_id', card.id);
       let reportsLookup = {};
       reportsForCard.forEach(report => {
-        reportsLookup[report.finish] = report;
+        reportsLookup[report.variant] = reportsLookup[report.variant] || {};
+        reportsLookup[report.variant][report.finish] = report;
       })
+
+      console.log(reportsLookup);
       setReports(reportsLookup);
     }
   }
 
-  const determineTableData = (finish) => {
-    let total = reports[finish].population.total;
+  const determineTableData = (variant = 'unlimited', finish) => {
+    let total = reports[variant][finish].population.total;
 
     let rows = grades.map((grade, index) => {
-      let numForGrade = reports[finish].population[grade];
+      let numForGrade = reports[variant][finish].population[grade];
       let percentage = ((numForGrade / total) * 100).toFixed(1) + '%';
       return [ grade, numForGrade, percentage];
     })
+
+    console.log('rows ', rows);
 
     return rows;
   }
@@ -47,14 +54,22 @@ export default function PSAPopReport({ card }) {
         <h3 className={styles.title}>PSA Population Report</h3>
       }
 
-      { finishes.filter(finish => !!reports[finish]).map(finish => {
-
+      { variants.filter(variant => reports[variant] && Object.keys(reports[variant]).length > 0).map(variant => {
         return (
-          <div className={styles.finishWrapper} key={finish}>
-            <span className={styles.finishTitle}>{finishMap[finish] || capitalize(finish)}</span>
+          <>
+            { finishes.filter(finish => !!reports[variant][finish]).map(finish => {
+              let title = `${finishMap[finish] || capitalize(finish)}`;
+              title = variantMap[variant] ? title + ` - ${variantMap[variant]}` : title;
+              
+              return (
+                <div className={styles.finishWrapper} key={finish}>
+                  <span className={styles.finishTitle}>{title}</span>
 
-            <Table data={determineTableData(finish)} detailed={true} />
-          </div>
+                  <Table data={determineTableData(variant, finish)} detailed={true} />
+                </div>
+              )
+            })}
+          </>
         )
       })}
     </div>

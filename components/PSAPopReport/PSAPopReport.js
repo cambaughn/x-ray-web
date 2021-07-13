@@ -53,20 +53,20 @@ export default function PSAPopReport({ card }) {
 
       { variants.filter(variant => reports[variant] && Object.keys(reports[variant]).length > 0).map(variant => {
         return (
-          <>
-            { finishes.filter(finish => !!reports[variant][finish]).map(finish => {
+          <div key={variant}>
+            { finishes.filter(finish => !!reports[variant][finish]).map((finish, index) => {
               let title = `${finishMap[finish] || capitalize(finish)}`;
               title = variantMap[variant] ? title + ` - ${variantMap[variant]}` : title;
 
               return (
-                <div className={styles.finishWrapper} key={finish}>
+                <div className={styles.finishWrapper} key={`${finish}_${variant}_${index}`}>
                   <span className={styles.finishTitle}>{title}</span>
 
                   <Table data={determineTableData(variant, finish)} detailed={true} />
                 </div>
               )
             })}
-          </>
+          </div>
         )
       })}
     </div>

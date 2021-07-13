@@ -18,8 +18,8 @@ export default function SetCardList({ cards, editModeActive, toggleSelectCard, s
     let price = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 2].averagePrice : null;
     let prices = !!tcgPrices[card.id] ? tcgPrices[card.id] : null;
     if (!price && prices) {
-      price = prices['1stEditionHolofoil'] || prices.holofoil || prices.reverseHolofoil || prices.normal;
-      price = price.market.toFixed(2);
+      price = prices['1stEditionHolofoil'] || prices.holofoil || prices.reverseHolofoil || prices.normal || null;
+      price = price && price.market ? price.market.toFixed(2) : null;
     }
     let previousPrice = formattedSalesForCard ? formattedSalesForCard[formattedSalesForCard.length - 3].averagePrice : null;
     let changeStatus = 'flat';

@@ -1,0 +1,57 @@
+@import '../../util/design/mixins.module.scss';
+
+.container {
+  width: 40vw;
+  padding: 30px;
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.label {
+  font-size: 0.9em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.textInput {
+  width: 85%;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-sizing: border-box;
+  height: 40px;
+  outline: none;
+  font-size: 1em;
+  font-weight: normal;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 20px;
+}
+
+.saveButton {
+  background-color: #ecf0f1;
+  padding: 10px;
+  border-radius: 5px;
+
+  margin-left: 20px;
+  margin-right: 20px;
+
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.saveButtonActive {
+  background-color: black;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}

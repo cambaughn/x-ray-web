@@ -66,18 +66,22 @@ pokeSet.update = async (id, updates) => {
 }
 
 const checkSets = async () => {
-  let sets = await pokeSet.getEnglish();
-  let toUpdate = sets.filter(set => set.series === 'Sword & Shield')
-  let updateRefs = toUpdate.map(set => {
+  let sets = await pokeSet.get();
+  let updateRefs = sets.map(set => {
     const updates = {
-      series_id: 'Sword & Shield',
-      series_name: 'Sword & Shield'
+      psa_pop_urls: []
     }
-    // return pokeSet.update(set.id, updates);
+
+    if (set.psa_pop_url) {
+      console.log('have url ');
+      updates.psa_pop_urls = set.psa_pop_url;
+    }
+    return pokeSet.update(set.id, updates);
   })
   await Promise.all(updateRefs)
-  console.log('updated sets => ', toUpdate);
+  console.log('updated sets => ');
 }
+
 
 const updateReleaseDates = async () => {
   let sets = await pokeSet.getJapanese();

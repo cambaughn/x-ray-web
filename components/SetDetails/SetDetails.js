@@ -3,9 +3,12 @@ import styles from './SetDetails.module.scss';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { ExternalLink } from 'react-feather';
 
 // Components
 import SetCardList from '../SetCardList/SetCardList';
+import EditSetDetails from '../EditSetDetails/EditSetDetails';
+import FullScreenModal from '../Modal/FullScreenModal';
 
 // Utility functions
 import pokeSet from '../../util/api/set';
@@ -24,8 +27,10 @@ export default function SetDetails({}) {
   const [tcgPrices, setTcgPrices] = useState({});
   const [cards, setCards] = useState([]);
   const [editModeActive, setEditModeActive] = useState(false);
+  const [editModalActive, setEditModalActive] = useState(false);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const [salesForCards, setSalesForCards] = useState({});
+  const [psaSearchUrl, setPsaSearchUrl] = useState('');
   const router = useRouter();
 
   const getSet = async () => {
@@ -87,7 +92,9 @@ export default function SetDetails({}) {
       let priceData = await Promise.all(priceDataRefs);
       let priceLookup = {};
       priceData.forEach(card => {
-        priceLookup[card.id] = card.tcgplayer ? card.tcgplayer.prices : null;
+        if (card && card.id) {
+          priceLookup[card.id] = card.tcgplayer ? card.tcgplayer.prices : null;
+        }
       })
       setTcgPrices(priceLookup);
     }
@@ -149,6 +156,19 @@ export default function SetDetails({}) {
     setSelectedItems(newSelections);
   }
 
+  const toggleEditModal = () => {
+    setEditModalActive(!editModalActive);
+  }
+
+  const formatPsaSearchUrl = () => {
+    if (currentSet.name) {
+      // let formattedUrl = `https://www.psacard.com/pop#0%7CPokemon%20${currentSet.name.trim().replace(/ /g, '%20')}`;
+      let formattedUrl = `https://www.psacard.com/pop#0%7CPokemon%20${currentSet.series_name.trim().replace(/ /g, '%20')}%20${currentSet.name.trim().replace(/ /g, '%20')}`;
+      console.log(formattedUrl);
+      setPsaSearchUrl(formattedUrl);
+    }
+  }
+
   const recordPageView = () => {
     analytics.page({
       userId: user.id,
@@ -167,6 +187,7 @@ export default function SetDetails({}) {
   useEffect(getCards, []);
   useEffect(getTCGData, [cards]);
   useEffect(getSales, [cards]);
+  useEffect(formatPsaSearchUrl, [currentSet]);
 
   return (
     <div className={styles.container}>
@@ -175,11 +196,26 @@ export default function SetDetails({}) {
           <div className={styles.imageWrapper}>
             <img src={currentSet.images.logo} className={styles.logo} />
           </div>
-          <h4 className={styles.setName}>{currentSet.name}</h4>
+          <div className={styles.setNameWrapper}>
+            <h4 className={styles.setName}>{currentSet.name}</h4>
+            { user.role === 'admin' &&
+              <a href={currentSet.psa_pop_urls[0] || psaSearchUrl} target='_blank'>
+                <ExternalLink className={styles.externalLink} size={16} />
+              </a>
+            }
+          </div>
         </div>
       }
 
       { user.role === 'admin' &&
+        <div className={styles.editButton} onClick={toggleEditModal}>
+          <span>Edit</span>
+        </div>
+      }
+
+      {/* Uncomment to allow editing of full art / holo cards */}
+
+      {/* { user.role === 'admin' &&
         <div className={styles.buttons}>
           <div className={classNames({ [styles.button]: true, [styles.editModeButton]: true, [styles.saveButton]: editModeActive })} onClick={handleEditButtonClick}>
             <span className={styles.editButtonText}>{ editModeActive ? 'Editing' : 'Edit'}</span>
@@ -197,12 +233,18 @@ export default function SetDetails({}) {
             </>
           }
         </div>
-      }
+      } */}
 
 
 
       { cards.length > 0 &&
         <SetCardList cards={cards} editModeActive={editModeActive} toggleSelectCard={toggleSelectCard} selectedItems={selectedItems} salesForCards={salesForCards} tcgPrices={tcgPrices} selectRight={selectRight} />
+      }
+
+      { editModalActive &&
+        <FullScreenModal toggleModal={toggleEditModal}>
+          <EditSetDetails set={currentSet} toggleModal={toggleEditModal} setCurrentSet={setCurrentSet} />
+        </FullScreenModal>
       }
     </div>
   )

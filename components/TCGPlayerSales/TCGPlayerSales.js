@@ -27,8 +27,10 @@ export default function TCGPlayerSales({ card, prices, setTcgPrices }) {
     if (card && card.id && card.language === 'en') {
       let cardData = await getCardInfo(card.id);
       let { tcgplayer } = cardData;
-      setUrl(tcgplayer.url);
-      setTcgPrices(tcgplayer.prices);
+      if (cardData && tcgplayer) {
+        setUrl(tcgplayer.url);
+        setTcgPrices(tcgplayer.prices);
+      }
     }
   }
 

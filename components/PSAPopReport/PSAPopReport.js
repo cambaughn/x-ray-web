@@ -44,8 +44,6 @@ export default function PSAPopReport({ card }) {
       dateUpdated = complexDateStringToObject(dateUpdated) || null;
       dateUpdated = dayjs(dateUpdated).fromNow();
 
-      console.log('---> ', reportsLookup);
-
       setLastUpdated(dateUpdated);
       setReports(reportsLookup);
     }

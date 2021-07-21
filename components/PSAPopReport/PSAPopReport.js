@@ -41,8 +41,12 @@ export default function PSAPopReport({ card }) {
         }
       })
 
-      dateUpdated = complexDateStringToObject(dateUpdated) || null;
-      dateUpdated = dayjs(dateUpdated).fromNow();
+      if (dateUpdated) {
+        dateUpdated = complexDateStringToObject(dateUpdated);
+        dateUpdated = dayjs(dateUpdated).fromNow();
+      } else {
+        dateUpdated = null;
+      }
 
       setLastUpdated(dateUpdated);
       setReports(reportsLookup);
@@ -61,12 +65,8 @@ export default function PSAPopReport({ card }) {
     return rows;
   }
 
-  const determineAvailableFinishes = () => {
-
-  }
-
   useEffect(getReports, [card]);
-  useEffect(determineAvailableFinishes, [reports]);
+
 
   return (
     <div className={styles.container}>

@@ -17,6 +17,7 @@ import { complexDateStringToObject } from '../../util/helpers/date.js';
 export default function PSAPopReport({ card }) {
   const [reports, setReports] = useState({});
   const [lastUpdated, setLastUpdated] = useState('');
+  const [availableFinishes, setAvailableFinishes] = useState([]);
   const user = useSelector(state => state.user);
 
   const grades = ['total', 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -43,6 +44,8 @@ export default function PSAPopReport({ card }) {
       dateUpdated = complexDateStringToObject(dateUpdated) || null;
       dateUpdated = dayjs(dateUpdated).fromNow();
 
+      console.log('---> ', reportsLookup);
+
       setLastUpdated(dateUpdated);
       setReports(reportsLookup);
     }
@@ -60,7 +63,12 @@ export default function PSAPopReport({ card }) {
     return rows;
   }
 
+  const determineAvailableFinishes = () => {
+
+  }
+
   useEffect(getReports, [card]);
+  useEffect(determineAvailableFinishes, [reports]);
 
   return (
     <div className={styles.container}>
@@ -73,6 +81,8 @@ export default function PSAPopReport({ card }) {
       }
 
       { variants.filter(variant => reports[variant] && Object.keys(reports[variant]).length > 0).map(variant => {
+        let showTitle = Object.keys(reports).length > 1 && Object.keys(reports[variant]).length > 1;
+
         return (
           <div key={variant}>
             { finishes.filter(finish => !!reports[variant][finish]).map((finish, index) => {
@@ -81,7 +91,9 @@ export default function PSAPopReport({ card }) {
 
               return (
                 <div className={styles.finishWrapper} key={`${finish}_${variant}_${index}`}>
-                  <span className={styles.finishTitle}>{title}</span>
+                  { showTitle &&
+                    <span className={styles.finishTitle}>{title}</span>
+                  }
                   <Table data={determineTableData(variant, finish)} detailed={true} />
                 </div>
               )

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './PSAPopReport.module.scss';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+import { useSelector } from 'react-redux';
 
 // Components
 import Table from '../Table/Table';
@@ -7,10 +11,13 @@ import Table from '../Table/Table';
 // Utility functions
 import psaPopReport from '../../util/api/psaPopReport.js';
 import { capitalize } from '../../util/helpers/string.js';
+import { complexDateStringToObject } from '../../util/helpers/date.js';
 
 
 export default function PSAPopReport({ card }) {
   const [reports, setReports] = useState({});
+  const [lastUpdated, setLastUpdated] = useState('');
+  const user = useSelector(state => state.user);
 
   const grades = ['total', 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
   const variants = ['first_edition', 'shadowless', 'unlimited'];
@@ -22,11 +29,21 @@ export default function PSAPopReport({ card }) {
     if (card.id) {
       let reportsForCard = await psaPopReport.search('card_id', card.id);
       let reportsLookup = {};
+      let dateUpdated = null;
+
       reportsForCard.forEach(report => {
         reportsLookup[report.variant] = reportsLookup[report.variant] || {};
         reportsLookup[report.variant][report.finish] = report;
+
+        if (!dateUpdated) {
+          dateUpdated = report.last_updated;
+        }
       })
 
+      dateUpdated = complexDateStringToObject(dateUpdated) || null;
+      dateUpdated = dayjs(dateUpdated).fromNow();
+
+      setLastUpdated(dateUpdated);
       setReports(reportsLookup);
     }
   }
@@ -51,6 +68,10 @@ export default function PSAPopReport({ card }) {
         <h3 className={styles.title}>PSA Population Report</h3>
       }
 
+      { lastUpdated && user.role === 'admin' &&
+        <span className={styles.lastUpdated}>updated {lastUpdated}</span>
+      }
+
       { variants.filter(variant => reports[variant] && Object.keys(reports[variant]).length > 0).map(variant => {
         return (
           <div key={variant}>
@@ -61,7 +82,6 @@ export default function PSAPopReport({ card }) {
               return (
                 <div className={styles.finishWrapper} key={`${finish}_${variant}_${index}`}>
                   <span className={styles.finishTitle}>{title}</span>
-
                   <Table data={determineTableData(variant, finish)} detailed={true} />
                 </div>
               )

@@ -14,7 +14,12 @@
 }
 
 .title {
-  margin-bottom: 25px;
+  margin-bottom: 5px;
+}
+
+.lastUpdated {
+  color: grey;
+  font-size: 0.8em;
 }
 
 .finishWrapper {
@@ -23,6 +28,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 50px;
+  margin-top: 25px;
 
   @include media(mobile) {
     align-items: center;

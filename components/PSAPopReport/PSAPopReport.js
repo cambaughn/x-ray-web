@@ -81,7 +81,7 @@ export default function PSAPopReport({ card }) {
       }
 
       { variants.filter(variant => reports[variant] && Object.keys(reports[variant]).length > 0).map(variant => {
-        let showTitle = Object.keys(reports).length > 1 && Object.keys(reports[variant]).length > 1;
+        let showTitle = Object.keys(reports).length > 1 || Object.keys(reports[variant]).length > 1;
 
         return (
           <div key={variant}>

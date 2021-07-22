@@ -12,6 +12,9 @@ export default function SetInfoCard({ set }) {
   return (
     <Link href={`/set/${set.id}`}>
       <div className={styles.setCard}>
+        { set.psa_pop_urls.length === 0 &&
+          <span className={styles.noPopIndicator}>*</span>
+        }
         <div className={styles.setLogoWrapper}>
           <img src={set.images.logo} className={styles.setLogo} />
         </div>

@@ -8,6 +8,7 @@ import axios from 'axios';
 // Components
 import AccountSetup from '../AccountSetup/AccountSetup';
 import PaymentPrompt from '../PaymentPrompt/PaymentPrompt';
+import Loading from '../Loading/Loading';
 
 // Utility Functions
 import { setUser, setSubscriptionStatus, setOnFreeTrial, setIsBetaUser } from '../../redux/actionCreators';
@@ -20,7 +21,7 @@ export default function AuthCheck({ children }) {
   const user = useSelector(state => state.user);
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [needAccountSetup, setNeedAccountSetup] = useState(false);
   const [routeIsPublic, setRouteIsPublic] = useState(false);
   const [checkedSubscription, setCheckedSubscription] = useState(false);
@@ -121,7 +122,9 @@ export default function AuthCheck({ children }) {
   useEffect(checkRouteProtection, [router, checkedUserAuth]);
   // useEffect(() => setCheckedSubscription(true), [subscriptionStatus]);
 
-  if (needAccountSetup) { // if they need to sign in, just allow the account setup page
+  if (loading) {
+    return <Loading />
+  } else if (needAccountSetup) { // if they need to sign in, just allow the account setup page
     return <AccountSetup />
   } else if (user.username && subscriptionStatus === 'not_subscribed') { // logged in, just needs to subscribe
     return <PaymentPrompt />

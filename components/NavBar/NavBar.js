@@ -70,7 +70,7 @@ export default function NavBar({}) {
       router.push(updatedUrl);
       setAddedUrl(true);
     } else { // if we are on a search page, just replace the url
-      router.replace(updatedUrl, null, { shallow: true });
+      router.replace(updatedUrl);
     }
   }
 

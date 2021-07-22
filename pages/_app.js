@@ -33,12 +33,14 @@ export default function Xray({ Component, pageProps }) {
     });
 
     router.beforePopState(() => {
-      const [x, y] = cachedScroll.pop();
-      setTimeout(() => {
-        window.scrollTo(x, y);
-      }, 100);
+      if (cachedScroll.length > 0) {
+        const [x, y] = cachedScroll.pop();
+        setTimeout(() => {
+          window.scrollTo(x, y);
+        }, 100);
 
-      return true;
+        return true;
+      }
     });
   }
 

@@ -39,11 +39,12 @@ export default function Xray({ Component, pageProps }) {
           window.scrollTo(x, y);
         }, 100);
       }
+
       return true;
     });
   }
 
-  // useEffect(handleScrollRestoration, [])
+  useEffect(handleScrollRestoration, [])
   useEffect(checkForSSL);
 
   return (

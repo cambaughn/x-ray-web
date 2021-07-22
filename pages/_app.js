@@ -8,7 +8,7 @@ import Head from '../components/Head/Head';
 import InitState from '../components/InitState/InitState';
 import MainLayout from '../components/Layouts/MainLayout/MainLayout';
 import AuthCheck from '../components/Auth/AuthCheck';
-// import './styles.css';
+import './styles.css';
 
 // This default export is required in a new `pages/_app.js` file.
 export default function Xray({ Component, pageProps }) {

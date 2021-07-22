@@ -3,6 +3,7 @@ import Search from '../components/Search/Search';
 import UserCollection from '../components/UserCollection/UserCollection';
 import Home from '../components/Home/Home';
 import Browse from '../components/Browse/Browse';
+import styles from './index.module.scss';
 
 export default function Index({}) {
   const user = useSelector(state => state.user);

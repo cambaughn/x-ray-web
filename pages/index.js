@@ -10,6 +10,8 @@ export default function Index({}) {
   const subscriptionLevel = useSelector(state => state.subscriptionLevel);
   const isBetaUser = useSelector(state => state.isBetaUser);
 
+  console.log('access index page');
+
   return (
     <>
       { !!user.email && !!user.username

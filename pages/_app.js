@@ -38,9 +38,9 @@ export default function Xray({ Component, pageProps }) {
         setTimeout(() => {
           window.scrollTo(x, y);
         }, 100);
-      }
 
-      return true;
+        return true;
+      }
     });
   }
 

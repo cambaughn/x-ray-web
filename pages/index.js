@@ -7,12 +7,11 @@ import Browse from '../components/Browse/Browse';
 
 export default function Index({}) {
   const user = useSelector(state => state.user);
-  const subscriptionLevel = useSelector(state => state.subscriptionLevel);
-  const isBetaUser = useSelector(state => state.isBetaUser);
+  const subscriptionStatus = useSelector(state => state.subscriptionStatus);
 
   return (
     <>
-      { !!user.email && !!user.username
+      { subscriptionStatus === 'active'
         ? <Browse />
         : <Home />
       }

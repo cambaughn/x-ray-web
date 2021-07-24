@@ -8,6 +8,7 @@ import axios from 'axios';
 // Components
 import AccountSetup from '../AccountSetup/AccountSetup';
 import PaymentPrompt from '../PaymentPrompt/PaymentPrompt';
+import Loading from '../Loading/Loading';
 
 // Utility Functions
 import { setUser, setSubscriptionStatus, setOnFreeTrial, setIsBetaUser } from '../../redux/actionCreators';
@@ -20,7 +21,7 @@ export default function AuthCheck({ children }) {
   const user = useSelector(state => state.user);
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [needAccountSetup, setNeedAccountSetup] = useState(false);
   const [routeIsPublic, setRouteIsPublic] = useState(false);
   const [checkedSubscription, setCheckedSubscription] = useState(false);
@@ -31,15 +32,56 @@ export default function AuthCheck({ children }) {
   const publicRoutes = new Set(['/', '/sign-in', '/confirm-sign-in']);
 
 
-  const checkRouteProtection = () => {
-    setRouteIsPublic(publicRoutes.has(router.pathname));
+  // This function runs first
+  const checkUserLogin = () => {
+    setLoading(true);
 
-    if (checkedUserAuth && !user.username && !publicRoutes.has(router.pathname)) {
-      router.replace('/');
-    }
+    // Check auth state from firebase - if user is logged in, get their info from database
+    firebase.auth().onAuthStateChanged(async (userAuth) => {
+      if (userAuth) { // User is signed in.
+        // Get user details from database
+        let userDetails = await userAPI.get(userAuth.email);
+        // Load user into Redux
+        dispatch(setUser(userDetails));
+        // Identify the user for segment
+        identifyUserForAnalytics(userDetails);
+      } else { // User is not signed in
+        analytics.identify({
+          userId: nanoid()
+        });
+      }
+
+      // Let the state know that we've checked for the user login - whether they're logged in or not
+      setCheckedUserAuth(true);
+    });
   }
 
-  const determineAccountSetup = () => {
+  // This function runs once we've checked whether the user is logged in or not.
+  // If they are, we check subscription status (whether they're active with Stripe) and beta status (whether to show them beta features or not)
+  // If they're not signed in, we only allow them to see the public routes
+  const determineUserStatus = async () => {
+    if (!!user.email && !subscriptionStatus) { // user is signed in
+      // NOTE: Will need to update this checkSubscriptionStatus function and flow within determineUserStatus when re-enabling subscription
+      // For now, just call it so that it marks user as subscribed
+      checkSubscriptionStatus();
+
+      // Checking if the user has logged in but not yet set up their name and username
+      determineSetupFlowStatus();
+
+      // Whether to show user beta features - no UI implications for the flow here
+      determineBetaStatus();
+
+
+    } else {
+
+    }
+
+    setLoading(false);
+  }
+
+
+  // Determine if the user has signed up with their email but not yet put in their name and username
+  const determineSetupFlowStatus = () => {
     // If the user is mid-setup, only allow them to access the account setup page
     if (!!user.email && !user.username) {
       router.replace('/');
@@ -49,38 +91,13 @@ export default function AuthCheck({ children }) {
     }
   }
 
-  const checkUserLogin = () => {
-    // Check auth state from firebase
-    firebase.auth().onAuthStateChanged(async (userAuth) => {
-      if (userAuth) { // User is signed in.
-        let userDetails = await userAPI.get(userAuth.email);
-        dispatch(setUser(userDetails));
-
-        // Identify the user for segment
-        analytics.identify({
-          userId: userDetails.id,
-          traits: {
-            email: userDetails.email,
-            name: userDetails.name || null,
-            username: userDetails.username || null
-          }
-        });
-      } else {
-        analytics.identify({
-          userId: nanoid()
-        });
-      }
-      setCheckedUserAuth(true);
-    });
-  }
-
-
   const checkSubscriptionStatus = async () => {
     let status = 'not_subscribed';
 
     try {
       if (!!user.username) {
-        dispatch(setSubscriptionStatus('active'));
+        status = 'active';
+        dispatch(setSubscriptionStatus(status));
       }
       // if (!!user.username) { // if user is signed in
       //   let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
@@ -114,14 +131,43 @@ export default function AuthCheck({ children }) {
     dispatch(setIsBetaUser(false));
   }
 
-  useEffect(checkUserLogin, []);
-  useEffect(checkSubscriptionStatus, [user]); // check only once the user exists
-  useEffect(determineBetaStatus, [user]);
-  useEffect(determineAccountSetup, [user]);
+  // Helper functions
+  const identifyUserForAnalytics = (user) => {
+    // Identify the user for segment
+    analytics.identify({
+      userId: user.id,
+      traits: {
+        email: user.email,
+        name: user.name || null,
+        username: user.username || null
+      }
+    });
+  }
+
+  const checkRouteProtection = () => {
+    // If we've checked for the user sign in
+    if (checkedUserAuth) {
+      let isPublic = publicRoutes.has(router.pathname);
+      // Set route public status regardless of user sign in - but only AFTER we've checked
+      setRouteIsPublic(isPublic);
+
+      // If they're not signed in, then re-route them if the route is not public
+      if (!user.username && !isPublic) {
+        // Re-route to home
+        router.replace('/');
+      }
+    }
+  }
+
+
+  useEffect(checkUserLogin, []); // First thing to check when the app runs
+  useEffect(determineUserStatus, [user, checkedUserAuth]); // Once sign in status is checked, verify the other elements of the user status
   useEffect(checkRouteProtection, [router, checkedUserAuth]);
   // useEffect(() => setCheckedSubscription(true), [subscriptionStatus]);
 
-  if (needAccountSetup) { // if they need to sign in, just allow the account setup page
+  if (loading) {
+    return <Loading />
+  } else if (needAccountSetup) { // if they need to sign in, just allow the account setup page
     return <AccountSetup />
   } else if (user.username && subscriptionStatus === 'not_subscribed') { // logged in, just needs to subscribe
     return <PaymentPrompt />

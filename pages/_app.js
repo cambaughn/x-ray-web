@@ -6,6 +6,7 @@ import Stripe from 'stripe';
 import store from '../redux/store';
 import Head from '../components/Head/Head';
 import InitState from '../components/InitState/InitState';
+import Loading from '../components/Loading/Loading';
 import MainLayout from '../components/Layouts/MainLayout/MainLayout';
 import AuthCheck from '../components/Auth/AuthCheck';
 import './styles.css';

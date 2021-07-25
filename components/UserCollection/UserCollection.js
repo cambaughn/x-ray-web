@@ -8,6 +8,7 @@ import CollectionChart from '../CollectionChart/CollectionChart';
 import GettingDataMessage from '../GettingDataMessage/GettingDataMessage';
 import UserProfileDetails from '../UserProfileDetails/UserProfileDetails';
 import KeyboardShortcuts from '../KeyboardShortcuts/KeyboardShortcuts';
+import CollectionUtilityButtons from '../CollectionUtilityButtons/CollectionUtilityButtons';
 
 // Utility functions
 // Firebase API
@@ -175,9 +176,10 @@ export default function UserCollection({ username, isCurrentUser }) {
           <>
           <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
-          { numItemsWithoutSales > 0 &&
+          {/* { numItemsWithoutSales > 0 &&
             <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
-          }
+          } */}
+          <CollectionUtilityButtons />
         </>
       }
 

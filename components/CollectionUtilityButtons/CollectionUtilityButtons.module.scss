@@ -1,0 +1,44 @@
+@import '../../util/design/mixins.module.scss';
+
+$text-color: grey;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.utilityButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #ecf0f1;
+  border-radius: 3px;
+
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 12px;
+  padding-left: 12px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+  color: $text-color;
+  transition: color 0.5s;
+  transition: background-color 0.3s;
+}
+
+.utilityButton:hover {
+  color: #2d3436;
+  background-color: #dee2e3;
+}
+
+.buttonText {
+  margin-right: 5px;
+  font-size: 0.9em;
+}
+
+.icon {
+
+}

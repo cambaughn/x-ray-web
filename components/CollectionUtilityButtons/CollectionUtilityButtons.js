@@ -23,6 +23,11 @@ export default function CollectionUtilityButtons({}) {
           <span className={styles.buttonText}>Sort</span>
         }
         <Grid className={styles.icon} size={16} />
+
+        <div className={styles.helpTextWrapper}>
+          <span className={styles.helpText}>shortcut:</span>
+          <span className={styles.shortcutBox}>s</span>
+        </div>
       </div>
     </div>
   )

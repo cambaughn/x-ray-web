@@ -4,12 +4,6 @@
   margin-top: 30px;
   width: 80%;
 
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-
   @include media(mobile) {
     width: 100%;
   }
@@ -17,6 +11,36 @@
 
 .emptyCollectionMessage {
   color: grey;
+}
+
+
+// Grouping by set
+.setsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.setWrapper {
+  width: 100%;
+
+}
+
+
+// Cards
+
+.cardListWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.leftAlignCards {
+  justify-content: flex-start;
 }
 
 .resultWrapper {

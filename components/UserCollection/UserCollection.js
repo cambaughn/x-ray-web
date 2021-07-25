@@ -173,18 +173,19 @@ export default function UserCollection({ username, isCurrentUser }) {
         <UserProfileDetails user={focusedUser} />
 
         { (isCurrentUser || user.role === 'admin') &&
-          <>
-          <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
+          <div className={styles.chartWrapper}>
+            <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
-          {/* { numItemsWithoutSales > 0 &&
-            <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
-          } */}
-          <CollectionUtilityButtons />
-        </>
-      }
+            {/* { numItemsWithoutSales > 0 &&
+              <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
+            } */}
 
-      <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} isAdmin={user.role === 'admin'} />
-    </div>
+            <CollectionUtilityButtons />
+          </div>
+        }
+
+        <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} isAdmin={user.role === 'admin'} />
+      </div>
     </KeyboardShortcuts>
   )
 }

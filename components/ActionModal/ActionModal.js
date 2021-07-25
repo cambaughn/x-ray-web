@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
+import SortMenu from './Menu/SortMenu';
 
 // Utility functions
 import { setActionModalStatus } from '../../redux/actionCreators';
@@ -27,11 +28,19 @@ export default function ActionModal({}) {
     event.stopPropagation();
   }
 
+  const renderModalContents = () => {
+    switch (actionModalStatus) {
+      case 'sort':
+        return <SortMenu />
+        break;
+      }
+  }
+
   if (actionModalStatus.length > 0) {
     return (
       <div className={styles.container} onClick={closeModal}>
         <div className={styles.card} onClick={stopPropagation} onKeyDown={stopPropagation}>
-
+          { renderModalContents() }
         </div>
       </div>
     )

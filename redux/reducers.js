@@ -111,6 +111,15 @@ const actionModalStatus = (state = '', action) => {
   }
 }
 
+const collectionSortOptions = (state = { groupBySet: false }, action) => {
+  switch (action.type) {
+    case 'SET_COLLECTION_SORT_OPTIONS':
+      return action.collectionSortOptions;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
@@ -125,7 +134,8 @@ const xRayApp = combineReducers({
   pokemonSeries,
   pokemonSets,
   language,
-  actionModalStatus
+  actionModalStatus,
+  collectionSortOptions
 });
 
 export { xRayApp };

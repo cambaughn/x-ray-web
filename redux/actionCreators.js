@@ -87,6 +87,13 @@ function setActionModalStatus(status) {
   }
 }
 
+function setCollectionSortOptions(collectionSortOptions) {
+  return {
+    type: 'SET_COLLECTION_SORT_OPTIONS',
+    collectionSortOptions
+  }
+}
+
 
 
 export {
@@ -101,5 +108,6 @@ export {
   setPokemonSeries,
   setPokemonSet,
   setLanguage,
-  setActionModalStatus
+  setActionModalStatus,
+  setCollectionSortOptions
 };

@@ -41,8 +41,6 @@ export default function Xray({ Component, pageProps }) {
         }, 100);
 
         return true;
-      } else {
-        return true;
       }
     });
   }

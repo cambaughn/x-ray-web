@@ -7,6 +7,7 @@ import CollectionList from '../CollectionList/CollectionList';
 import CollectionChart from '../CollectionChart/CollectionChart';
 import GettingDataMessage from '../GettingDataMessage/GettingDataMessage';
 import UserProfileDetails from '../UserProfileDetails/UserProfileDetails';
+import KeyboardShortcuts from '../KeyboardShortcuts/KeyboardShortcuts';
 
 // Utility functions
 // Firebase API
@@ -165,12 +166,13 @@ export default function UserCollection({ username, isCurrentUser }) {
   useEffect(formatAllSales, [salesByType]);
 
   return (
-    <div className={styles.container}>
+    <KeyboardShortcuts sort>
+      <div className={styles.container}>
 
-      <UserProfileDetails user={focusedUser} />
+        <UserProfileDetails user={focusedUser} />
 
-      { (isCurrentUser || user.role === 'admin') &&
-        <>
+        { (isCurrentUser || user.role === 'admin') &&
+          <>
           <CollectionChart averagePrice={averagePrice} formattedSales={formattedSales} />
 
           { numItemsWithoutSales > 0 &&
@@ -181,5 +183,6 @@ export default function UserCollection({ username, isCurrentUser }) {
 
       <CollectionList user={focusedUser} collectedItems={focusedCollectedItems} collectionDetails={focusedCollectionDetails} isCurrentUser={isCurrentUser} sales={relevantSales} isAdmin={user.role === 'admin'} />
     </div>
+    </KeyboardShortcuts>
   )
 }

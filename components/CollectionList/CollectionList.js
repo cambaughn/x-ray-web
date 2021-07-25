@@ -31,18 +31,30 @@ export default function CollectionList({ user, collectionDetails, collectedItems
 
   const mapSets = () => {
     // Get an array of all the sets the user has collected by looking through the cards and building up an object first then turning it into an array
-    if (Object.keys(collectedItems).length > 0) {
+    if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
       let setMap = {};
 
-      for (let key in collectedItems) {
-        let item = collectedItems[key];
+      console.log(collectionDetails);
+
+      collectionDetails.forEach(detail => {
+        let item = collectedItems[detail.item_id];
         setMap[item.set_id] = setMap[item.set_id] || {};
         setMap[item.set_id].id = item.set_id;
         setMap[item.set_id].name = item.set_name;
         setMap[item.set_id].cardCount = setMap[item.set_id].cardCount || 0;
         setMap[item.set_id].cardCount++;
-      }
+      })
+
       let setsArray = Object.keys(setMap).map(key => setMap[key]);
+      setsArray = setsArray.sort((a, b) => {
+        if (a.cardCount > b.cardCount) {
+          return -1;
+        } else {
+          return 1;
+        }
+
+        return 0;
+      })
       setCollectedSets(setsArray);
     }
   }
@@ -100,7 +112,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     )
   }
 
-  useEffect(mapSets, [collectedItems]);
+  useEffect(mapSets, [collectedItems, collectionDetails]);
 
   return (
     <div className={styles.container}>

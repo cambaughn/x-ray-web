@@ -80,6 +80,13 @@ function setLanguage(language) {
   }
 }
 
+function setActionModalStatus(status) {
+  return {
+    type: 'SET_ACTION_MODAL_STATUS',
+    status
+  }
+}
+
 
 
 export {
@@ -93,5 +100,6 @@ export {
   setIsBetaUser,
   setPokemonSeries,
   setPokemonSet,
-  setLanguage
+  setLanguage,
+  setActionModalStatus
 };

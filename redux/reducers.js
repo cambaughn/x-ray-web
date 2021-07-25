@@ -102,6 +102,15 @@ const language = (state = 'english', action) => {
   }
 }
 
+const actionModalStatus = (state = '', action) => {
+  switch (action.type) {
+    case 'SET_ACTION_MODAL_STATUS':
+      return action.status;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
@@ -115,7 +124,8 @@ const xRayApp = combineReducers({
   isBetaUser,
   pokemonSeries,
   pokemonSets,
-  language
+  language,
+  actionModalStatus
 });
 
 export { xRayApp };

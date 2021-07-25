@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 
 // Utility functions
+import { setActionModalStatus } from '../../redux/actionCreators';
+
 
 export default function KeyboardShortcuts({ children, sort }) {
+  const dispatch = useDispatch();
+
   let shortcuts = {
     83: 'sort'
   }
@@ -14,7 +19,7 @@ export default function KeyboardShortcuts({ children, sort }) {
       case 'sort':
         // Toggle the ActionModal in sorting mode
         // Only if "sort" shortcut is enabled for this page
-        sort && console.log('sorting!');
+        sort && dispatch(setActionModalStatus('sort'));
         break;
       }
   }

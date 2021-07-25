@@ -4,12 +4,16 @@ import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import Stripe from 'stripe';
 import store from '../redux/store';
+
+// Components
 import Head from '../components/Head/Head';
 import InitState from '../components/InitState/InitState';
 import Loading from '../components/Loading/Loading';
 import MainLayout from '../components/Layouts/MainLayout/MainLayout';
 import AuthCheck from '../components/Auth/AuthCheck';
+import ActionModal from '../components/ActionModal/ActionModal';
 import './styles.css';
+
 
 // This default export is required in a new `pages/_app.js` file.
 export default function Xray({ Component, pageProps }) {
@@ -57,6 +61,7 @@ export default function Xray({ Component, pageProps }) {
       <MainLayout>
         <InitState />
         <AuthCheck>
+            <ActionModal />
             <Component {...pageProps} />
         </AuthCheck>
       </MainLayout>

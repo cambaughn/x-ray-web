@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './CollectionList.module.scss';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { MinusCircle } from 'react-feather';

@@ -1,14 +1,24 @@
 @import '../../../util/design/mixins.module.scss';
 
+$text-color: grey;
+$radius: 3px;
+
 .sortWrapper {
   width: 350px;
   height: 600px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .container {
   padding: 20px;
   box-sizing: border-box;
+}
 
+.mainContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -20,16 +30,21 @@
   margin-bottom: 20px;
 }
 
+.label {
+  font-weight: 500;
+}
+
 .toggleGroup {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  margin-bottom: 20px;
 }
 
 .toggleText {
   margin-right: 10px;
-  font-weight: 500;
 }
 
 .checkBox {
@@ -42,4 +57,95 @@
 
 .checkBoxChecked {
 
+}
+
+// Sorting section
+.sortLabel {
+  margin-bottom: 10px;
+}
+
+.sortSection {
+  margin-bottom: 20px;
+}
+
+.sortButtons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.sortButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #ecf0f1;
+  border-radius: $radius;
+
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 12px;
+  padding-left: 12px;
+  box-sizing: border-box;
+  margin-right: 10px;
+
+  cursor: pointer;
+}
+
+.sortButtonUnselected {
+  color: $text-color;
+  transition: color 0.5s;
+  transition: background-color 0.3s;
+
+  &:hover {
+    color: #2d3436;
+    background-color: #dee2e3;
+  }
+}
+
+.sortButtonSelected {
+  color: #dee2e3;
+  background-color: #2d3436;
+}
+
+.sortIcon {
+  margin-right: 5px;
+}
+
+// OrderButtons
+.orderButtons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+// Bottom button
+.bottomButtonWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomButton {
+  color: #dee2e3;
+  background-color: #2d3436;
+  font-weight: 500;
+
+  width: 90%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  border-radius: $radius;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

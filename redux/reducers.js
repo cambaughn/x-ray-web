@@ -111,7 +111,7 @@ const actionModalStatus = (state = '', action) => {
   }
 }
 
-const collectionSortOptions = (state = { groupBySet: false }, action) => {
+const collectionSortOptions = (state = { groupBySet: false, sortBy: 'date', sortOrder: 'desc' }, action) => {
   switch (action.type) {
     case 'SET_COLLECTION_SORT_OPTIONS':
       return action.collectionSortOptions;

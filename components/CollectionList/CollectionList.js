@@ -34,8 +34,6 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     if (collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
       let setMap = {};
 
-      console.log(collectionDetails);
-
       collectionDetails.forEach(detail => {
         let item = collectedItems[detail.item_id];
         setMap[item.set_id] = setMap[item.set_id] || {};
@@ -99,11 +97,11 @@ export default function CollectionList({ user, collectionDetails, collectedItems
                     }
                   </div>
                 </div>
-                { isCurrentUser && hoveredItem === index &&
+                {/* { isCurrentUser && hoveredItem === index &&
                   <div className={styles.removeButton} onClick={(event) => removeItem(detail, event)}>
                     <MinusCircle className={styles.removeIcon} />
                   </div>
-                }
+                } */}
               </div>
             </Link>
           ) : null

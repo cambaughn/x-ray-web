@@ -18,7 +18,6 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   const [hoveredItem, setHoveredItem] = useState(null);
   const [collectedSets, setCollectedSets] = useState([]);
   const [sortedCollectionDetails, setSortedCollectionDetails] = useState([]);
-  const [salesMap, setSalesMap] = useState({});
   const collectionSortOptions = useSelector(state => state.collectionSortOptions);
   const dispatch = useDispatch();
 
@@ -66,9 +65,28 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   }
 
   const sortByValue = (items) => {
-    let sorted = [ ...items ].map(item => {
-      // let price = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 2].averagePrice : '--';
-      return item;
+    let { sortOrder } = collectionSortOptions;
+
+    let sorted = [ ...items ].sort((a, b) => {
+      let aSales = sales[a.id];
+      let aPrice = aSales ? aSales.formatted_data[aSales.formatted_data.length - 2].averagePrice : 0;
+      let bSales = sales[b.id];
+      let bPrice = bSales ? bSales.formatted_data[bSales.formatted_data.length - 2].averagePrice : 0;
+
+      if (sortOrder === 'desc') {
+        if (aPrice > bPrice) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        if (aPrice < bPrice) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+      console.log('a sales ', aSales);
     })
 
     return sorted;
@@ -77,9 +95,6 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   const sortCollectionDetails = () => {
     // Handle sorting collected cards
     let sorted = [ ...collectionDetails ];
-    sorted.forEach((item, index) => {
-      // item.salesKey =
-    })
 
     if (collectionSortOptions.sortBy === 'date') {
       sorted = sortByDateAdded(sorted);
@@ -90,14 +105,6 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     setSortedCollectionDetails(sorted);
   }
 
-  const mapSales = () => {
-    let salesObject = {};
-    sales.forEach((sale, index) => {
-      salesObject[index] = sale;
-    })
-
-    setSalesMap(salesObject);
-  }
 
   const renderCards = (setId) => {
     // If we're rendering only for a certain set, then filter to only include cards that are in that set

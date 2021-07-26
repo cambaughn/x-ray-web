@@ -104,9 +104,16 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   const formatAllSales = () => {
     if (Object.keys(salesByType).length > 0) {
-      let salesForCollection = focusedCollectionDetails.map(item => findSalesForItem(item));
+      let relevantSalesObject = {};
+      let salesForCollection = focusedCollectionDetails.map(item => {
+        let salesForItem = findSalesForItem(item);
+        // Set relevant sales for item to object
+        relevantSalesObject[item.id] = salesForItem;
+        return salesForItem;
+      })
+
       // console.log('sales for collection ', salesForCollection);
-      setRelevantSales(salesForCollection);
+      setRelevantSales(relevantSalesObject);
       let formatted = [];
       let filteredData = salesForCollection.filter(sales => !!sales).map(sale => sale.formatted_data);
       setNumItemsWithoutSales(salesForCollection.length - filteredData.length); // set num without sales as difference between collection details and filtered sales data;
@@ -136,6 +143,7 @@ export default function UserCollection({ username, isCurrentUser }) {
       item.finish = 'holo';
     }
 
+    // TODO: add lenspath here to avoid if statements
     if (salesByType[item.item_id] && salesByType[item.item_id][item.finish]) {
       if (item.grading_authority && item.grade) {
         return salesByType[item.item_id][item.finish][item.grading_authority] && salesByType[item.item_id][item.finish][item.grading_authority][item.grade] ? salesByType[item.item_id][item.finish][item.grading_authority][item.grade] : null;

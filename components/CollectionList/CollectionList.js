@@ -18,6 +18,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   const [hoveredItem, setHoveredItem] = useState(null);
   const [collectedSets, setCollectedSets] = useState([]);
   const [sortedCollectionDetails, setSortedCollectionDetails] = useState([]);
+  const [salesMap, setSalesMap] = useState({});
   const collectionSortOptions = useSelector(state => state.collectionSortOptions);
   const dispatch = useDispatch();
 
@@ -65,13 +66,21 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   }
 
   const sortByValue = (items) => {
+    let sorted = [ ...items ].map(item => {
+      // let price = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 2].averagePrice : '--';
+      return item;
+    })
 
-    return items;
+    return sorted;
   }
 
   const sortCollectionDetails = () => {
     // Handle sorting collected cards
     let sorted = [ ...collectionDetails ];
+    sorted.forEach((item, index) => {
+      // item.salesKey =
+    })
+
     if (collectionSortOptions.sortBy === 'date') {
       sorted = sortByDateAdded(sorted);
     } else if (collectionSortOptions.sortBy === 'value') {
@@ -79,6 +88,15 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     }
 
     setSortedCollectionDetails(sorted);
+  }
+
+  const mapSales = () => {
+    let salesObject = {};
+    sales.forEach((sale, index) => {
+      salesObject[index] = sale;
+    })
+
+    setSalesMap(salesObject);
   }
 
   const renderCards = (setId) => {
@@ -89,7 +107,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     return (
       <div className={classNames(styles.cardListWrapper, { [styles.leftAlignCards]: setId })}>
         { cardsToRender.map((item, index) => {
-          let salesForItem = sales[index];
+          let salesForItem = sales[sortedCollectionDetails[index].id];
           let changeStatus = 'flat'; // up, down, flat
           // Get price for this individual item
           let price = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 2].averagePrice : '--';
@@ -136,6 +154,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
 
   useEffect(mapSets, [collectedItems, collectionDetails]);
   useEffect(sortCollectionDetails, [collectedItems, collectionDetails, collectionSortOptions]);
+  // useEffect(mapSales, [sales]);
 
   return (
     <div className={styles.container}>

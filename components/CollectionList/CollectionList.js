@@ -111,10 +111,19 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     let cardsToRender = sortedCollectionDetails.map(detail => collectedItems[detail.item_id]);
     // Filter for set
     cardsToRender = setId ? cardsToRender.filter(card => card && card.set_id === setId) : cardsToRender;
+
+    let detailsToRender = sortedCollectionDetails.filter(detail => {
+      let item = collectedItems[detail.item_id];
+      if (setId) {
+        return item && item.set_id === setId;
+      }
+      return true;
+    })
     return (
       <div className={classNames(styles.cardListWrapper, { [styles.leftAlignCards]: setId })}>
-        { cardsToRender.map((item, index) => {
-          let salesForItem = sales[sortedCollectionDetails[index].id];
+        { detailsToRender.map((detail, index) => {
+          let item = collectedItems[detail.item_id];
+          let salesForItem = sales[detail.id];
           let changeStatus = 'flat'; // up, down, flat
           // Get price for this individual item
           let price = salesForItem ? salesForItem.formatted_data[salesForItem.formatted_data.length - 2].averagePrice : '--';

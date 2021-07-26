@@ -184,7 +184,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
             { collectedSets.map((set, index) => {
               return (
                 <div className={styles.setWrapper} key={set.id}>
-                  <h3>{set.name}</h3>
+                  <h3 className={styles.setName}>{set.name}</h3>
                   { renderCards(set.id) }
                 </div>
               )

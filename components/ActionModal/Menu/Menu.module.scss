@@ -11,6 +11,10 @@ $radius: 3px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+
+  @include media(mobile) {
+    height: 450px;
+  }
 }
 
 .container {

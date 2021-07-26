@@ -82,7 +82,7 @@ export default function SortMenu({}) {
         <div className={classNames(styles.orderButtons, styles.sortSection)}>
           { orderButtons.map(button => {
             return (
-              <div className={classNames(styles.sortButton, { [styles.sortButtonSelected]: collectionSortOptions.sortOrder === button.sortOrder, [styles.sortButtonUnselected]: collectionSortOptions.sortOrder !== button.sortOrder })} onClick={() => handleSortOrderClick(button.sortOrder)}>
+              <div className={classNames(styles.sortButton, { [styles.sortButtonSelected]: collectionSortOptions.sortOrder === button.sortOrder, [styles.sortButtonUnselected]: collectionSortOptions.sortOrder !== button.sortOrder })} onClick={() => handleSortOrderClick(button.sortOrder)} key={button.text}>
                 { renderIcon(button.icon) }
                 <span className={styles.sortButtonText}>{button.text}</span>
               </div>

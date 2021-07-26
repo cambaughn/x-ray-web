@@ -26,6 +26,12 @@
 .setWrapper {
   width: 100%;
 
+  @include media(mobile) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 
 
@@ -40,7 +46,9 @@
 }
 
 .leftAlignCards {
-  justify-content: flex-start;
+  @include media(tablet, desktop) {
+    justify-content: flex-start;
+  }
 }
 
 .resultWrapper {

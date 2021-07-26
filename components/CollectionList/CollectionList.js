@@ -10,12 +10,14 @@ import CardImage from '../CardImage/CardImage';
 
 // Utility functions
 import collectedItem from '../../util/api/collection';
+import { sortCollectionByDate } from '../../util/helpers/sorting';
 import { setCollectionDetails } from '../../redux/actionCreators';
 
 
 export default function CollectionList({ user, collectionDetails, collectedItems, isCurrentUser, sales, isAdmin }) {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [collectedSets, setCollectedSets] = useState([]);
+  const [sortedCollectionDetails, setSortedCollectionDetails] = useState([]);
   const collectionSortOptions = useSelector(state => state.collectionSortOptions);
   const dispatch = useDispatch();
 
@@ -57,9 +59,31 @@ export default function CollectionList({ user, collectionDetails, collectedItems
     }
   }
 
+  const sortByDateAdded = (items) => {
+    let { sortOrder } = collectionSortOptions;
+    return sortCollectionByDate(items, sortOrder);
+  }
+
+  const sortByValue = (items) => {
+
+    return items;
+  }
+
+  const sortCollectionDetails = () => {
+    // Handle sorting collected cards
+    let sorted = [ ...collectionDetails ];
+    if (collectionSortOptions.sortBy === 'date') {
+      sorted = sortByDateAdded(sorted);
+    } else if (collectionSortOptions.sortBy === 'value') {
+      sorted = sortByValue(sorted);
+    }
+
+    setSortedCollectionDetails(sorted);
+  }
+
   const renderCards = (setId) => {
     // If we're rendering only for a certain set, then filter to only include cards that are in that set
-    let cardsToRender = collectionDetails.map(detail => collectedItems[detail.item_id]);
+    let cardsToRender = sortedCollectionDetails.map(detail => collectedItems[detail.item_id]);
     // Filter for set
     cardsToRender = setId ? cardsToRender.filter(card => card && card.set_id === setId) : cardsToRender;
     return (
@@ -111,6 +135,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   }
 
   useEffect(mapSets, [collectedItems, collectionDetails]);
+  useEffect(sortCollectionDetails, [collectedItems, collectionDetails, collectionSortOptions]);
 
   return (
     <div className={styles.container}>

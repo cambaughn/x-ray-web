@@ -50,17 +50,30 @@ const sortCardsByNumber = (cards) => {
   })
 }
 
-const sortCollectionByDate = (items) => {
-  return items.sort((a, b) => {
-    let a_date = complexDateStringToObject(a.date_added);
-    let b_date = complexDateStringToObject(b.date_added);
+const sortCollectionByDate = (items, sortOrder = 'desc') => {
+  if (sortOrder === 'desc') {
+    return items.sort((a, b) => {
+      let a_date = complexDateStringToObject(a.date_added);
+      let b_date = complexDateStringToObject(b.date_added);
 
-    if (a_date > b_date) {
-      return -1;
-    } else {
-      return 1;
-    }
-  })
+      if (a_date > b_date) {
+        return -1;
+      } else {
+        return 1;
+      }
+    })
+  } else if (sortOrder === 'asc') {
+    return items.sort((a, b) => {
+      let a_date = complexDateStringToObject(a.date_added);
+      let b_date = complexDateStringToObject(b.date_added);
+
+      if (a_date > b_date) {
+        return 1;
+      } else {
+        return -1;
+      }
+    })
+  }
 }
 
 const sortSalesByPrice = (sales, method) => {

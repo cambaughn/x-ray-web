@@ -169,7 +169,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   }
 
   useEffect(mapSets, [collectedItems, collectionDetails]);
-  useEffect(sortCollectionDetails, [collectedItems, collectionDetails, collectionSortOptions]);
+  useEffect(sortCollectionDetails, [collectedItems, collectionDetails, collectionSortOptions, sales]);
   // useEffect(mapSales, [sales]);
 
   return (

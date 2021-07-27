@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // Components
 
 // Utility functions
-import { setCollectedItems, setCollectionDetails, setLanguage } from '../../redux/actionCreators';
+import { setCollectedItems, setCollectionDetails, setLanguage, setCollectionSortOptions } from '../../redux/actionCreators';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
 import { localStorageKeys } from '../../util/localStorage';
@@ -36,8 +36,18 @@ export default function InitState({}) {
     dispatch(setLanguage(languageSetting));
   }
 
+  const getSortOptions = () => {
+    let sortOptions = window.localStorage.getItem(localStorageKeys.collectionSortOptions) || null;
+
+    if (sortOptions) {
+      sortOptions = JSON.parse(sortOptions);
+      dispatch(setCollectionSortOptions(sortOptions));
+    }
+  }
+
   useEffect(getCollectedItems, [user]);
   useEffect(getLanguage, []);
+  useEffect(getSortOptions, []);
 
   return (
     <></>

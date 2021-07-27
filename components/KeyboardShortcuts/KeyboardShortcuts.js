@@ -36,7 +36,7 @@ export default function KeyboardShortcuts({ children, sort }) {
     }
   }
 
-  useEffect(setEventListeners, [])
+  useEffect(setEventListeners, [sort])
 
 
   return <>

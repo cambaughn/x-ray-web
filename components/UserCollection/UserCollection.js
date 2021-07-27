@@ -174,8 +174,9 @@ export default function UserCollection({ username, isCurrentUser }) {
   useEffect(getSales, [focusedCollectionDetails, focusedCollectedItems]);
   useEffect(formatAllSales, [salesByType]);
 
+  console.log('length -> ', focusedCollectionDetails.length);
   return (
-    <KeyboardShortcuts sort>
+    <KeyboardShortcuts sort={focusedCollectionDetails.length > 0}>
       <div className={styles.container}>
 
         <UserProfileDetails user={focusedUser} />
@@ -188,7 +189,9 @@ export default function UserCollection({ username, isCurrentUser }) {
               <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
             } */}
 
-            <CollectionUtilityButtons />
+            { focusedCollectionDetails.length > 0 &&
+              <CollectionUtilityButtons />
+            }
           </div>
         }
 

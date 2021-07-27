@@ -119,6 +119,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
       }
       return true;
     })
+
     return (
       <div className={classNames(styles.cardListWrapper, { [styles.leftAlignCards]: setId })}>
         { detailsToRender.map((detail, index) => {
@@ -175,7 +176,9 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   return (
     <div className={styles.container}>
       { collectionDetails.length === 0 &&
-        <span className={styles.emptyCollectionMessage}>Search to find cards and add to your collection</span>
+        <div className={styles.emptyCollectionWrapper}>
+          <span className={styles.emptyCollectionMessage}>Search to find cards and add to your collection</span>
+        </div>
       }
 
       { collectionSortOptions.groupBySet

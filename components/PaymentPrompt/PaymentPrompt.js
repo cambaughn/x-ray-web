@@ -67,7 +67,8 @@ export default function PaymentPrompt({}) {
             cancel_url: window.location.href,
             line_items: [{ price: process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION, quantity: 1 }],
             payment_method_types: ['card'],
-            mode: 'subscription'
+            mode: 'subscription',
+            trial_period_days: 3
           })
 
           const stripe = await stripePromise;

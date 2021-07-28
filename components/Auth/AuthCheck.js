@@ -61,19 +61,16 @@ export default function AuthCheck({ children }) {
   // If they're not signed in, we only allow them to see the public routes
   const determineUserStatus = async () => {
     if (!!user.email && !subscriptionStatus) { // user is signed in
+      // Checking if the user has logged in but not yet set up their name and username
+      determineSetupFlowStatus();
+
       // NOTE: Will need to update this checkSubscriptionStatus function and flow within determineUserStatus when re-enabling subscription
       // For now, just call it so that it marks user as subscribed
       checkSubscriptionStatus();
 
-      // Checking if the user has logged in but not yet set up their name and username
-      determineSetupFlowStatus();
-
       // Whether to show user beta features - no UI implications for the flow here
-      determineBetaStatus();
-
-
-    } else {
-
+      // NOTE: not currently using beta features, disabling for now
+      // determineBetaStatus();
     }
 
     setLoading(false);
@@ -169,7 +166,7 @@ export default function AuthCheck({ children }) {
     return <Loading />
   } else if (needAccountSetup) { // if they need to sign in, just allow the account setup page
     return <AccountSetup />
-  } else if (user.username && subscriptionStatus === 'not_subscribed') { // logged in, just needs to subscribe
+  } else if (!!user.username && subscriptionStatus === 'not_subscribed') { // logged in, just needs to subscribe
     return <PaymentPrompt />
   } else if (subscriptionStatus === 'active' || routeIsPublic) { // if user is logged in or route is public
     return <>

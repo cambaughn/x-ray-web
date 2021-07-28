@@ -66,7 +66,7 @@ export default function AuthCheck({ children }) {
 
       // NOTE: Will need to update this checkSubscriptionStatus function and flow within determineUserStatus when re-enabling subscription
       // For now, just call it so that it marks user as subscribed
-      checkSubscriptionStatus();
+      await checkSubscriptionStatus();
 
       // Whether to show user beta features - no UI implications for the flow here
       // NOTE: not currently using beta features, disabling for now
@@ -92,28 +92,37 @@ export default function AuthCheck({ children }) {
     let status = 'not_subscribed';
 
     try {
-      if (!!user.username) {
-        status = 'active';
-        dispatch(setSubscriptionStatus(status));
-      }
-      // if (!!user.username) { // if user is signed in
-      //   let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
-      //   customer_id = customer_id || null;
-      //
-      //
-      //   if (user.role === 'admin' || user.role === 'contributor' || !user.trial_end) { // user gets a free pass
-      //     status = 'active';
-      //   } else if (onTrialPeriod(user) ) {
-      //     status = 'active';
-      //     dispatch(setOnFreeTrial(true));
-      //   } else if (customer_id) { // user is potentially a customer
-      //     const { data } = await axios.post(`${window.location.origin}/api/subscription/status`, { customer_id });
-      //     status = data.subscriptionStatus;
-      //   }
+      // if (!!user.username) {
+      //   status = 'active';
       //   dispatch(setSubscriptionStatus(status));
       // }
+
+      if (!!user.username) { // if user is signed in
+        // get the stripe customer id from the user object
+        // We use test_stripe_customer_id for local development with test stripe keys
+        let customer_id = window.location.hostname === 'localhost' ? user.test_stripe_customer_id : user.stripe_customer_id;
+        customer_id = customer_id || null;
+
+        // NOTE: This code block was used when we implemented our own free trial system. We've sinced switched back to letting Stripe handle that
+        // if (user.role === 'admin' || user.role === 'contributor' || !user.trial_end) { // user gets a free pass
+        //   status = 'active';
+        // } else if (onTrialPeriod(user) ) {
+        //   status = 'active';
+        //   dispatch(setOnFreeTrial(true));
+        // } else
+
+        if (customer_id) { // user is potentially a customer
+          const { data } = await axios.post(`${window.location.origin}/api/subscription/status`, { customer_id });
+          console.log('stripe customer data ', data);
+          status = data.subscriptionStatus;
+        }
+        dispatch(setSubscriptionStatus(status));
+      }
+
+      return Promise.resolve(true);
     } catch (error) { // Not subscribed
       dispatch(setSubscriptionStatus(status));
+      return Promise.resolve(false);
     }
   }
 

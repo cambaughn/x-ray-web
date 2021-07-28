@@ -17,7 +17,7 @@ import { setUser } from '../../redux/actionCreators';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-console.log('environment variables: ', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY, process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION);
+// console.log('environment variables: ', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY, process.env.NEXT_PUBLIC_STANDARD_SUBSCRIPTION);
 
 export default function PaymentPrompt({}) {
   const [showError, setShowError] = useState(false);
@@ -94,8 +94,10 @@ export default function PaymentPrompt({}) {
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
-          <h3 className={styles.headline}>Your trial has expired</h3>
-          <h2 className={styles.subhead}>Subscribe to continue enjoying X-ray</h2>
+          {/* <h3 className={styles.headline}>Your trial has expired</h3> */}
+          {/* <h2 className={styles.subhead}>Subscribe to continue enjoying X-ray</h2> */}
+          <h2 className={styles.headline}>Almost there!</h2>
+          <h2 className={classNames(styles.headline, styles.subhead)}>Your <span className={styles.bold}>X-ray Standard</span> subscription unlocks a world of data and resources.</h2>
 
           <button role="link" className={styles.button} onClick={handleClick}>
             { !loading
@@ -104,13 +106,14 @@ export default function PaymentPrompt({}) {
             }
           </button>
 
-          <h3 className={styles.label}><span className={styles.bold}>X-ray Standard</span> unlocks a world of data and resources:</h3>
+          <h3 className={styles.label}><span className={styles.bold}>X-ray Standard</span> includes:</h3>
           <ul className={styles.featuresList}>
-            <li className={styles.feature}>13k+ English Pokémon cards</li>
+            <li className={styles.feature}>20k+ English & Japanese Pokémon cards</li>
             <li className={styles.feature}>100k+ sales data points</li>
             <li className={styles.feature}>Detailed charts and graphs</li>
             <li className={styles.feature}>Sales breakdowns for each card</li>
-            <li className={classNames(styles.feature, styles.highlightedFeature)}>More cards, languages, and products coming soon!</li>
+            <li className={styles.feature}>PSA population reports</li>
+            <li className={classNames(styles.feature, styles.highlightedFeature)}>More products and data coming soon!</li>
           </ul>
       </div>
 

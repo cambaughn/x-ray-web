@@ -116,6 +116,7 @@ export default function AuthCheck({ children }) {
           console.log('stripe customer data ', data);
           status = data.subscriptionStatus;
         }
+        
         dispatch(setSubscriptionStatus(status));
       }
 

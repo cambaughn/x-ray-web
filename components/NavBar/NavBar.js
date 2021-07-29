@@ -34,7 +34,11 @@ export default function NavBar({}) {
 
 
   const determineNavLinks = () => {
-    let links = [ { text: 'Collection', href: `/collection/${user.username}`} ];
+    let links = [
+      { text: 'Collection', href: `/collection/${user.username}`},
+      { text: 'Settings', href: `/account/settings`}
+    ];
+    
     setNavLinks(links);
   }
 

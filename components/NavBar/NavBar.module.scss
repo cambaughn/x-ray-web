@@ -63,6 +63,13 @@
   }
 }
 
+.navLinks {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .navButton {
   cursor: pointer;
   height: 100%;
@@ -70,6 +77,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .navText {

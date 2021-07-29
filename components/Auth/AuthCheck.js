@@ -111,12 +111,14 @@ export default function AuthCheck({ children }) {
         //   dispatch(setOnFreeTrial(true));
         // } else
 
-        if (customer_id) { // user is potentially a customer
+        if (user.role === 'admin' || user.alpha_user) {
+          status = 'active';
+        } else if (customer_id) { // user is potentially a customer
           const { data } = await axios.post(`${window.location.origin}/api/subscription/status`, { customer_id });
-          console.log('stripe customer data ', data);
+          // console.log('stripe customer data ', data);
           status = data.subscriptionStatus;
         }
-        
+
         dispatch(setSubscriptionStatus(status));
       }
 

@@ -100,8 +100,11 @@ export default function PaymentPrompt({}) {
       <div className={styles.mainContent}>
           {/* <h3 className={styles.headline}>Your trial has expired</h3> */}
           {/* <h2 className={styles.subhead}>Subscribe to continue enjoying X-ray</h2> */}
-          <h2 className={styles.headline}>Almost there!</h2>
-          <h2 className={classNames(styles.headline, styles.subhead)}>Your <span className={styles.bold}>X-ray Standard</span> subscription unlocks a world of data and resources.</h2>
+          <div className={styles.topInfoWrapper}>
+            <h2 className={styles.headline}>Almost there!</h2>
+            <h2 className={classNames(styles.headline, styles.subhead)}><span className={styles.bold}>X-ray Standard</span> unlocks a world of data and resources.</h2>
+            <span className={styles.pricingInfo}>1-week free trial, then $15/month</span>
+          </div>
 
           <button role="link" className={styles.button} onClick={handleClick}>
             { !loading

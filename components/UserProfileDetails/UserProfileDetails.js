@@ -9,18 +9,8 @@ import Link from 'next/link';
 export default function UserProfileDetails({ user = {} }) {
   return (
     <div className={styles.container}>
-      <div className={styles.leftSide}>
-        <h3 className={styles.name}>{user.name}</h3>
-        <span className={styles.username}>@{user.username}</span>
-      </div>
-
-      {/* <div className={styles.rightSide}>
-        <Link href={`/sell-cards`}>
-          <div className={styles.sellButton}>
-            <span>Sell Cards</span>
-          </div>
-        </Link>
-      </div> */}
+      <h3 className={styles.name}>{user.name}</h3>
+      <span className={styles.username}>@{user.username}</span>
     </div>
   )
 }

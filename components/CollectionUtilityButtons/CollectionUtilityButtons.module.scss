@@ -32,15 +32,17 @@ $radius: 3px;
   transition: color 0.5s;
   transition: background-color 0.3s;
 
-  &:hover {
-    color: #2d3436;
-    background-color: #dee2e3;
+  @include media(tablet, desktop) {
+    &:hover {
+      color: #2d3436;
+      background-color: #dee2e3;
 
-    .helpTextWrapper {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
+      .helpTextWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 }

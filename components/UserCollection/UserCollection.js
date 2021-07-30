@@ -54,7 +54,7 @@ export default function UserCollection({ username, isCurrentUser }) {
 
   // Once we've set the focused user, get the collection details and collected items for focused user
   const getCollectionForUser = async () => {
-    if (Object.keys(focusedUser).length > 0) {
+    if (focusedUser && Object.keys(focusedUser).length > 0) {
       if (isCurrentUser && collectionDetails.length > 0 && Object.keys(collectedItems).length > 0) {
         setFocusedCollectionDetails(collectionDetails);
         setFocusedCollectedItems(collectedItems);
@@ -174,7 +174,6 @@ export default function UserCollection({ username, isCurrentUser }) {
   useEffect(getSales, [focusedCollectionDetails, focusedCollectedItems]);
   useEffect(formatAllSales, [salesByType]);
 
-  console.log('length -> ', focusedCollectionDetails.length);
   return (
     <KeyboardShortcuts sort={focusedCollectionDetails.length > 0}>
       <div className={styles.container}>

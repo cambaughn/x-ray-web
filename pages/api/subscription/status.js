@@ -6,8 +6,7 @@ export default async (request, response) => {
 
   try {
     const customer = await stripe.customers.retrieve(customer_id);
-
-    let subscriptionData = customer.subscriptions.data[0];
+    let subscriptionData = customer.subscriptions ? customer.subscriptions.data[0] : null;
     let subscribed = !!subscriptionData && subscriptionData.status === 'active';
 
     return response.status(200).json({ subscriptionStatus: subscribed ? 'active' : 'not_subscribed' })

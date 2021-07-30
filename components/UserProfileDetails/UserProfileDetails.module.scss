@@ -3,9 +3,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
-
-  width: 75%;
 }
 
 .name {
@@ -16,6 +13,7 @@
 .username {
   color: grey;
   font-size: 1em;
+  margin-bottom: 0;
 }
 
 .leftSide {

@@ -178,7 +178,13 @@ export default function UserCollection({ username, isCurrentUser }) {
     <KeyboardShortcuts sort={focusedCollectionDetails.length > 0}>
       <div className={styles.container}>
 
-        <UserProfileDetails user={focusedUser} />
+        <div className={styles.profileDetails}>
+          <UserProfileDetails user={focusedUser} />
+
+          {(isCurrentUser || user.role === 'admin') && focusedCollectionDetails.length > 0 &&
+            <CollectionUtilityButtons />
+          }
+        </div>
 
         { (isCurrentUser || user.role === 'admin') &&
           <div className={styles.chartWrapper}>
@@ -187,10 +193,7 @@ export default function UserCollection({ username, isCurrentUser }) {
             {/* { numItemsWithoutSales > 0 &&
               <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
             } */}
-
-            { focusedCollectionDetails.length > 0 &&
-              <CollectionUtilityButtons />
-            }
+            
           </div>
         }
 

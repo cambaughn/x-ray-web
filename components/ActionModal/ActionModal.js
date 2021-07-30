@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import SortMenu from './Menu/SortMenu';
-import AddCardMenu from '../AddCardMenu/AddCardMenu';
+import AddSingleCardMenu from '../AddSingleCardMenu/AddSingleCardMenu';
 
 // Utility functions
 import { setActionModalStatus } from '../../redux/actionCreators';
@@ -34,8 +34,8 @@ export default function ActionModal({}) {
       case 'sort':
         return <SortMenu />
         break;
-      case 'addCard':
-        return <AddCardMenu />
+      case 'addSingleCard':
+        return <AddSingleCardMenu />
         break;
       }
   }

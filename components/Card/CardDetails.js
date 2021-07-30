@@ -10,6 +10,7 @@ import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
 import LoadingSpinner from '../Icons/LoadingSpinner';
 import CardInfo from '../CardInfo/CardInfo';
+import KeyboardShortcuts from '../KeyboardShortcuts/KeyboardShortcuts';
 
 // Utility functions
 import pokeCard from '../../util/api/card';
@@ -88,7 +89,7 @@ export default function CardDetails({ card_id }) {
   }
 
   const openAddCardMenu = () => {
-    
+
   }
 
   const recordPageView = () => {
@@ -125,16 +126,18 @@ export default function CardDetails({ card_id }) {
   useEffect(updateViewCount, [card]);
 
   return (
-    <div className={styles.container}>
-      <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} openAddCardMenu={openAddCardMenu} showHelpText={collectionDetails.length <= 1} set={set} />
+    <KeyboardShortcuts addSingleCard>
+      <div className={styles.container}>
+        <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} openAddCardMenu={openAddCardMenu} showHelpText={collectionDetails.length <= 1} set={set} />
 
-      <div className={styles.rightSection}>
-        <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />
+        <div className={styles.rightSection}>
+          <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />
 
-        {/* { viewMode === 'sales' &&
-          <SalesForCard card={card} finishes={finishes} setFinishes={setFinishes} setViewMode={setViewMode} />
-        } */}
+          {/* { viewMode === 'sales' &&
+            <SalesForCard card={card} finishes={finishes} setFinishes={setFinishes} setViewMode={setViewMode} />
+          } */}
+        </div>
       </div>
-    </div>
+    </KeyboardShortcuts>
   )
 }

@@ -118,11 +118,15 @@
 }
 
 .setName {
-
+  @include media(mobile) {
+    display: none;
+  }
 }
 
 .cardNumber {
-
+  @include media(mobile) {
+    display: none;
+  }
 }
 
 .priceUp {

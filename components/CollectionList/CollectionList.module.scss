@@ -62,12 +62,16 @@
 }
 
 .details {
-  width: 100%;
+  width: 175px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
   margin-top: 15px;
+
+  @include media(mobile) {
+    width: 125px;
+  }
 }
 
 .leftSide {

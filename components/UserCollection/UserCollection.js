@@ -9,6 +9,7 @@ import GettingDataMessage from '../GettingDataMessage/GettingDataMessage';
 import UserProfileDetails from '../UserProfileDetails/UserProfileDetails';
 import KeyboardShortcuts from '../KeyboardShortcuts/KeyboardShortcuts';
 import CollectionUtilityButtons from '../CollectionUtilityButtons/CollectionUtilityButtons';
+import CollectionStats from '../CollectionStats/CollectionStats';
 
 // Utility functions
 // Firebase API
@@ -193,7 +194,7 @@ export default function UserCollection({ username, isCurrentUser }) {
             {/* { numItemsWithoutSales > 0 &&
               <GettingDataMessage numItemsWithoutSales={numItemsWithoutSales} />
             } */}
-            
+            <CollectionStats numCards={focusedCollectionDetails.length} />
           </div>
         }
 

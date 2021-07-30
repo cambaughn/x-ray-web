@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import SortMenu from './Menu/SortMenu';
+import AddCardMenu from '../AddCardMenu/AddCardMenu';
 
 // Utility functions
 import { setActionModalStatus } from '../../redux/actionCreators';
@@ -32,6 +33,9 @@ export default function ActionModal({}) {
     switch (actionModalStatus) {
       case 'sort':
         return <SortMenu />
+        break;
+      case 'addCard':
+        return <AddCardMenu />
         break;
       }
   }

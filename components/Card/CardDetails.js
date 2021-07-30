@@ -9,7 +9,6 @@ import Tag from '../Tag/Tag';
 import Pricing from '../Pricing/Pricing';
 import PriceDetails from '../PriceDetails/PriceDetails';
 import LoadingSpinner from '../Icons/LoadingSpinner';
-import AddCardModal from '../AddCardModal/AddCardModal';
 import CardInfo from '../CardInfo/CardInfo';
 
 // Utility functions
@@ -26,7 +25,6 @@ export default function CardDetails({ card_id }) {
   const [set, setSet] = useState({});
   const [updatingSales, setUpdatingSales] = useState(false);
   const [updatedViewCount, setUpdatedViewCount] = useState(false);
-  const [addCardModalVisible, setAddCardModalVisible] = useState(false);
   // Editing states
   const [editingName, setEditingName] = useState(false);
   const [cardName, setCardName] = useState('');
@@ -89,6 +87,10 @@ export default function CardDetails({ card_id }) {
     }
   }
 
+  const openAddCardMenu = () => {
+    
+  }
+
   const recordPageView = () => {
     analytics.page({
       userId: user.id,
@@ -101,10 +103,6 @@ export default function CardDetails({ card_id }) {
         title: 'Card Details'
       }
     });
-  }
-
-  const toggleCardAddition = () => {
-    setAddCardModalVisible(!addCardModalVisible)
   }
 
   const handleEnterKey = (event) => {
@@ -128,7 +126,7 @@ export default function CardDetails({ card_id }) {
 
   return (
     <div className={styles.container}>
-      <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} toggleCardAddition={toggleCardAddition} showHelpText={collectionDetails.length <= 1} set={set} />
+      <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} openAddCardMenu={openAddCardMenu} showHelpText={collectionDetails.length <= 1} set={set} />
 
       <div className={styles.rightSection}>
         <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />
@@ -137,10 +135,6 @@ export default function CardDetails({ card_id }) {
           <SalesForCard card={card} finishes={finishes} setFinishes={setFinishes} setViewMode={setViewMode} />
         } */}
       </div>
-
-      { addCardModalVisible &&
-        <AddCardModal card={card} toggleModal={toggleCardAddition} finishes={finishes} />
-      }
     </div>
   )
 }

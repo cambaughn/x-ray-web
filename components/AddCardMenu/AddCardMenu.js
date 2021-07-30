@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './AddCardModal.module.scss';
+import styles from './AddCardMenu.module.scss';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -16,7 +16,7 @@ const finishMap = {
   'holo': 'Holo'
 }
 
-export default function AddCardModal({ toggleModal, card, finishes }) {
+export default function AddCardMenu({ toggleModal, card, finishes }) {
   const [selectedFinish, setSelectedFinish] = useState(finishes[0] || 'holo'); // holo, non-holo, reverse_holo
   const [graded, setGraded] = useState(false);
   const [gradingAuthority, setGradingAuthority] = useState('PSA');

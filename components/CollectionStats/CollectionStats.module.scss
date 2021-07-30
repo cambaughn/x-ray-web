@@ -8,6 +8,11 @@
 
   margin-top: 20px;
   margin-bottom: 20px;
+
+  @include media(mobile) {
+    flex-direction: column;
+    margin-bottom: 0px;
+  }
 }
 
 .statsBlock {

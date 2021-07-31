@@ -6,7 +6,7 @@ import AddToCollectionButton from '../Buttons/AddToCollectionButton';
 
 // Utility functions
 
-export default function CardInfo({ card, set, setEditingName, editingName, cardName, setCardName, toggleCardAddition, showHelpText }) {
+export default function CardInfo({ card, set, setEditingName, editingName, cardName, setCardName, showHelpText }) {
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -23,7 +23,7 @@ export default function CardInfo({ card, set, setEditingName, editingName, cardN
         )}
 
         <div className={styles.addButtonWrapper}>
-          <AddToCollectionButton handleClick={toggleCardAddition} showHelpText={showHelpText} />
+          <AddToCollectionButton showHelpText={showHelpText} />
         </div>
 
         { card.name &&

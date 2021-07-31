@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// TODO: add base styles for the modals and combine with styles for this menu in particular
 import styles from './AddSingleCardMenu.module.scss';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,6 +32,7 @@ export default function AddSingleCardMenu({ finishes = [] }) {
   finishes = finishes.length > 0 ? finishes : ['holo', 'reverse_holo', 'non-holo'];
 
   const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
+  // const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
 
   const getGrades = () => {
     let grades = [];
@@ -98,14 +100,11 @@ export default function AddSingleCardMenu({ finishes = [] }) {
         event: 'Added card to collection'
       });
 
+      dispatch(setActionModalStatus(''));
       toggleModal();
     } catch(error) {
       console.error(error);
     }
-  }
-
-  const stopClick = (event) => {
-    event.stopPropagation();
   }
 
   useEffect(getGrades, [gradingAuthority, showHalfGrades]);
@@ -140,6 +139,7 @@ export default function AddSingleCardMenu({ finishes = [] }) {
 
 
       <div className={classNames({ [styles.gradingAuthority]: true, [styles.gradingAuthorityVisible]: graded })}>
+        <h4 className={styles.gradingTitle}>Grading Company</h4>
         <div className={styles.gradingAuthorityButtons}>
           { graders.map((grader) => {
             return (

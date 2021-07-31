@@ -94,6 +94,13 @@ function setCollectionSortOptions(collectionSortOptions) {
   }
 }
 
+function setFocusedCard(focusedCard) {
+  return {
+    type: 'SET_FOCUSED_CARD',
+    focusedCard
+  }
+}
+
 
 
 export {
@@ -109,5 +116,6 @@ export {
   setPokemonSet,
   setLanguage,
   setActionModalStatus,
-  setCollectionSortOptions
+  setCollectionSortOptions,
+  setFocusedCard
 };

@@ -16,7 +16,7 @@ export default function KeyboardShortcuts({ children, sort, addSingleCard }) {
   }
 
   const handleKeyDown = (event) => {
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
     switch (shortcuts[event.keyCode]) {
       case 'sort':
         // Toggle the ActionModal in sorting mode

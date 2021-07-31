@@ -16,7 +16,7 @@ const finishMap = {
   'holo': 'Holo'
 }
 
-export default function AddSingleCardMenu({ card = {}, finishes = [] }) {
+export default function AddSingleCardMenu({ finishes = [] }) {
   const [selectedFinish, setSelectedFinish] = useState(finishes[0] || 'holo'); // holo, non-holo, reverse_holo
   const [graded, setGraded] = useState(false);
   const [gradingAuthority, setGradingAuthority] = useState('PSA');
@@ -25,6 +25,7 @@ export default function AddSingleCardMenu({ card = {}, finishes = [] }) {
   const [possibleGrades, setPossibleGrades] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const user = useSelector(state => state.user);
+  const card = useSelector(state => state.focusedCard);
   const dispatch = useDispatch();
 
   finishes = finishes.length > 0 ? finishes : ['holo', 'reverse_holo', 'non-holo'];

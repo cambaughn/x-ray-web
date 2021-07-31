@@ -14,7 +14,6 @@ import { setActionModalStatus } from '../../redux/actionCreators';
 /**
   This is a full screen modal that wraps around another component, providing a standard interface.
   It's a floating card with on a transparent background that hovers over the rest of the page.
-  @param {function} toggleModal - Gives the ability to toggle on/off
 */
 
 export default function ActionModal({}) {

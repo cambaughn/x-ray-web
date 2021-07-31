@@ -120,6 +120,15 @@ const collectionSortOptions = (state = { groupBySet: false, sortBy: 'date', sort
   }
 }
 
+const focusedCard = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_FOCUSED_CARD':
+      return action.focusedCard;
+    default:
+      return state;
+  }
+}
+
 
 
 const xRayApp = combineReducers({
@@ -135,7 +144,8 @@ const xRayApp = combineReducers({
   pokemonSets,
   language,
   actionModalStatus,
-  collectionSortOptions
+  collectionSortOptions,
+  focusedCard
 });
 
 export { xRayApp };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import styles from './CardDetails.module.scss';
@@ -18,6 +18,7 @@ import pokeSet from '../../util/api/set';
 import sale from '../../util/api/sales';
 import { isPastWeek } from '../../util/helpers/date';
 import analytics from '../../util/analytics/segment';
+import { setFocusedCard } from '../../redux/actionCreators';
 
 export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
@@ -29,9 +30,11 @@ export default function CardDetails({ card_id }) {
   // Editing states
   const [editingName, setEditingName] = useState(false);
   const [cardName, setCardName] = useState('');
+  // Redux
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails);
   const isBetaUser = useSelector(state => state.isBetaUser);
+  const dispatch = useDispatch();
 
 
   const updateViewCount = async () => {
@@ -76,6 +79,7 @@ export default function CardDetails({ card_id }) {
       // console.log('card data ', cardData);
       // console.log('sales data ', salesData);
 
+      dispatch(setFocusedCard(cardData));
       setCard(cardData);
       setCardName(cardData.name);
       setSales(salesData || []);

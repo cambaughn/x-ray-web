@@ -15,23 +15,40 @@ import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
 import analytics from '../../util/analytics/segment';
 
-const finishMap = {
-  'non-holo': 'Non-holo',
-  'reverse_holo': 'Reverse holo',
-  'holo': 'Holo'
-}
 
 export default function AddSingleCardMenu({ }) {
+  // Finishes
   const [selectedFinish, setSelectedFinish] = useState('holo'); // holo, non-holo, reverse_holo
-  const [availableFinishes, setAvailableFinishes] = useState(['holo', 'reverse_holo', 'non-holo']);
+  const [availableFinishes, setAvailableFinishes] = useState([]);
+  // Grades
   const [gradingAuthority, setGradingAuthority] = useState('Ungraded');
   const [grade, setGrade] = useState(10);
   const [showHalfGrades, setShowHalfGrades] = useState(false);
   const [possibleGrades, setPossibleGrades] = useState([]);
+  // Variants
+  const [showVariants, setShowVariants] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState('first_edition'); // first_edition, shadowless, unlimited
+  const [availableVariants, setAvailableVariants] = useState(['first_edition', 'shadowless', 'unlimited']);
+  // Submission status
   const [submitted, setSubmitted] = useState(false);
+  // Set
+  const [setForCard, setSetForCard] = useState({});
+  // Redux
   const user = useSelector(state => state.user);
   const card = useSelector(state => state.focusedCard);
   const dispatch = useDispatch();
+
+  const finishMap = {
+    'non-holo': 'Non-holo',
+    'reverse_holo': 'Reverse holo',
+    'holo': 'Holo'
+  }
+
+  const variantMap = {
+    'shadowless': 'Shadowless',
+    'first_edition': '1st Edition',
+    'unlimited': 'Unlimited',
+  }
 
   const graders = ['Ungraded', 'PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
 
@@ -107,7 +124,47 @@ export default function AddSingleCardMenu({ }) {
     }
   }
 
+  const determineFinishes = () => {
+    let finishes = [];
+    let allFinishes = ['holo', 'reverse_holo', 'non-holo'];
+    if (card.full_art) {
+      finishes.push('holo');
+    } else {
+      finishes = allFinishes;
+    }
+
+    setAvailableFinishes(finishes);
+    setSelectedFinish(finishes[0]);
+  }
+
+  const determineVariants = () => {
+    let shouldShowVariants = false;
+    let variants = [];
+    let allVariants = ['first_edition', 'shadowless', 'unlimited'];
+
+    if (setForCard.has_first_edition) {
+      variants.push('first_edition');
+    }
+
+    if (setForCard.has_shadowless) {
+      variants.push('shadowless');
+    }
+
+    if (setForCard.has_first_edition || setForCard.has_shadowless) {
+      shouldShowVariants = true;
+      variants.push('unlimited');
+    }
+
+    setShowVariants(shouldShowVariants);
+    setAvailableVariants(variants);
+    if (variants.length > 0) {
+      setSelectedVariant(variants[0]);
+    }
+  }
+
   useEffect(getGrades, [gradingAuthority, showHalfGrades]);
+  useEffect(determineFinishes, [card]);
+  useEffect(determineVariants, []);
 
   return (
     <div className={classNames(styles.contentWrapper, styles.container)}>
@@ -168,6 +225,21 @@ export default function AddSingleCardMenu({ }) {
                 <span>Show .5 grades</span>
               </div>
             }
+          </div>
+        }
+
+        { showVariants &&
+          <div className={styles.buttonSection}>
+            <p className={classNames(styles.label, styles.labelBottomMargin)}>Variant</p>
+            <div className={styles.flexRow}>
+              { availableVariants.map(variant => {
+                return (
+                  <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: selectedVariant === variant })} onClick={() => setSelectedVariant(variant)} key={variant}>
+                    <span>{variantMap[variant]}</span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         }
       </div>

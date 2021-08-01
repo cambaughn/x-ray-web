@@ -22,6 +22,10 @@ $button-margin: 10px;
   margin-bottom: 10px;
 }
 
+.labelRightMargin {
+  margin-right: 10px;
+}
+
 //Toggle group for checkbox
 .toggleGroup {
   display: flex;
@@ -30,10 +34,6 @@ $button-margin: 10px;
   justify-content: flex-start;
 
   margin-bottom: 20px;
-}
-
-.labelRightMargin {
-  margin-right: 10px;
 }
 
 .checkBox {
@@ -49,12 +49,24 @@ $button-margin: 10px;
 }
 
 // Different types of flex containers
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 .flexWrapRow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: flex-start;
+}
+
+// Sections
+.buttonSection {
+  margin-bottom: 20px;
 }
 
 // Button styling
@@ -95,6 +107,7 @@ $button-margin: 10px;
 .buttonSelected {
   color: #dee2e3;
   background-color: #2d3436;
+  font-weight: 500;
 
   &:hover {
     color: #dee2e3;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// TODO: add base styles for the modals and combine with styles for this menu in particular
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import menuStyles from '../../util/design/ActionMenus.module.scss';
-import styles from './AddSingleCardMenu.module.scss';
+import componentStyles from './AddSingleCardMenu.module.scss';
+const styles = { ...componentStyles, ...menuStyles };
 
 // Utility functions
 import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';
@@ -111,45 +111,49 @@ export default function AddSingleCardMenu({ finishes = [] }) {
   useEffect(getGrades, [gradingAuthority, showHalfGrades]);
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>{card.name}</h2>
+    <div className={classNames(styles.contentWrapper, styles.container)}>
+      <h3 className={styles.title}>{card.name}</h3>
 
-      <h4 className={styles.gradingTitle}>Finish</h4>
-      <div className={styles.finishButtons}>
-        { finishes.map(finish => {
-          return (
-            <div className={classNames({ [styles.button]: true, [styles.finishButton]: true, [styles.selectedButton]: selectedFinish === finish })} onClick={() => setSelectedFinish(finish)} key={finish}>
-              <span>{finishMap[finish]}</span>
-            </div>
-          )
-        })}
-      </div>
-
-
-      <h4 className={styles.gradingTitle}>Grading</h4>
-
-      <div className={styles.gradedButtons}>
-        <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === false })} onClick={() => setGraded(false)}>
-          <span>Ungraded</span>
-        </div>
-
-        <div className={classNames({ [styles.button]: true, [styles.gradedButton]: true, [styles.selectedButton]: graded === true })} onClick={() => setGraded(true)}>
-          <span>Graded</span>
-        </div>
-      </div>
-
-
-      <div className={classNames({ [styles.gradingAuthority]: true, [styles.gradingAuthorityVisible]: graded })}>
-        <h4 className={styles.gradingTitle}>Grading Company</h4>
-        <div className={styles.gradingAuthorityButtons}>
-          { graders.map((grader) => {
+      <div className={styles.buttonSection}>
+        <span className={classNames(styles.label, styles.labelBottomMargin)}>Finish</span>
+        <div className={styles.flexRow}>
+          { finishes.map(finish => {
             return (
-              <div className={classNames({ [styles.button]: true, [styles.gradingAuthorityButton]: true, [styles.selectedButton]: gradingAuthority === grader })} onClick={() => setGradingAuthority(grader)} key={grader}>
-                <span>{grader}</span>
+              <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: selectedFinish === finish })} onClick={() => setSelectedFinish(finish)} key={finish}>
+                <span>{finishMap[finish]}</span>
               </div>
             )
           })}
         </div>
+      </div>
+
+      <div className={styles.buttonSection}>
+        <span className={classNames(styles.label, styles.labelBottomMargin)}>Grading</span>
+        <div className={styles.flexRow}>
+          <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: graded === false })} onClick={() => setGraded(false)}>
+            <span>Ungraded</span>
+          </div>
+
+          <div className={classNames({ [styles.smallButton]: true, [styles.buttonSelected]: graded === true })} onClick={() => setGraded(true)}>
+            <span>Graded</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div className={styles.buttonSection}>
+        <div className={classNames(styles.gradingAuthority, { [styles.gradingAuthorityVisible]: graded })}>
+          <span className={classNames(styles.label, styles.labelBottomMargin)}>Grading Company</span>
+          <div className={styles.gradingAuthorityButtons}>
+            { graders.map((grader) => {
+              return (
+                <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: gradingAuthority === grader })} onClick={() => setGradingAuthority(grader)} key={grader}>
+                  <span>{grader}</span>
+                </div>
+              )
+            })}
+          </div>
+      </div>
 
         {/* { gradingAuthority === 'Other' &&
           <input
@@ -167,21 +171,21 @@ export default function AddSingleCardMenu({ finishes = [] }) {
           <div className={styles.grades}>
             { possibleGrades.map(possibleGrade => {
               return (
-                <div className={classNames({ [styles.button]: true, [styles.gradeButton]: true, [styles.selectedButton]: possibleGrade === grade })} onClick={() => setGrade(possibleGrade)} key={possibleGrade}>
+                <div className={classNames({ [styles.smallButton]: true, [styles.gradeButton]: true, [styles.buttonSelected]: possibleGrade === grade })} onClick={() => setGrade(possibleGrade)} key={possibleGrade}>
                   <span>{possibleGrade}</span>
                 </div>
               )
             })}
           </div>
           { gradingAuthority !== 'PSA' &&
-            <div className={classNames({ [styles.button]: true, [styles.halfGradeButton]: true, [styles.selectedButton]: showHalfGrades })} onClick={() => setShowHalfGrades(!showHalfGrades)}>
+            <div className={classNames({ [styles.smallButton]: true, [styles.halfGradeButton]: true, [styles.buttonSelected]: showHalfGrades })} onClick={() => setShowHalfGrades(!showHalfGrades)}>
               <span>Show .5 grades</span>
             </div>
           }
         </div>
       }
 
-      <div className={classNames(styles.button, styles.saveButton)} onClick={!submitted ? handleSave : null}>
+      <div className={classNames(styles.smallButton, styles.saveButton)} onClick={!submitted ? handleSave : null}>
         <span>Add to collection</span>
       </div>
 

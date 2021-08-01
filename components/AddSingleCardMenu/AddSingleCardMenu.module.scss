@@ -1,84 +1,14 @@
 @import '../../util/design/mixins.module.scss';
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-
+.contentWrapper {
   width: 400px;
   height: 85vh;
-  padding: 20px;
-  padding-left: 30px;
-  padding-right: 30px;
-  box-sizing: border-box;
-
-  position: relative;
 
   @include media(mobile) {
-    width: 85vw;
+    width: 90vw;
     height: 85vh;
   }
 }
-
-.title {
-  margin-bottom: 20px;
-}
-
-.button {
-  background-color: #ecf0f1;
-  width: 35%;
-  height: 35px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-
-// Buttons for holo, non-holo, reverse_holo
-.finishButtons {
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-}
-
-.finishButton {
-  margin-right: 10px;
-  font-size: 0.9em;
-}
-
-// Buttons for graded vs ungraded
-.gradedButtons {
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-}
-
-.gradedButton {
-  margin-bottom: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.selectedButton {
-  background-color: #2ecc71;
-  color: white;
-  font-weight: bold;
-}
-
 
 // Buttons for PSA, BGS, CGC, GMA
 .gradingAuthority {

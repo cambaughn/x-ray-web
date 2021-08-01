@@ -8,7 +8,9 @@ import { setActionModalStatus } from '../../redux/actionCreators';
 
 
 export default function KeyboardShortcuts({ children, sort, addSingleCard }) {
+  const shortcutsActive = useSelector(state => state.shortcutsActive);
   const dispatch = useDispatch();
+  console.log('shortcuts active ', shortcutsActive);
 
   let shortcuts = {
     83: 'sort',
@@ -16,34 +18,39 @@ export default function KeyboardShortcuts({ children, sort, addSingleCard }) {
   }
 
   const handleKeyDown = (event) => {
-    // console.log(event.keyCode);
-    switch (shortcuts[event.keyCode]) {
-      case 'sort':
+    console.log('shortcuts active in listener', shortcutsActive);
+    if (!!shortcutsActive) {
+      // console.log(event.keyCode);
+      switch (shortcuts[event.keyCode]) {
+        case 'sort':
         // Toggle the ActionModal in sorting mode
         // Only if "sort" shortcut is enabled for this page
         sort && dispatch(setActionModalStatus('sort'));
         break;
-      case 'addSingleCard':
+        case 'addSingleCard':
         // Toggle the ActionModal in addSingleCard mode
         // Only if "addSingleCard" shortcut is enabled for this page
         addSingleCard && dispatch(setActionModalStatus('addSingleCard'));
         break;
       }
-  }
-
-  const handleKeyUp = (event) => {
-
+    }
   }
 
   const setEventListeners = () => {
-    document.addEventListener("keydown", handleKeyDown);
+    if (shortcutsActive) {
+      document.addEventListener("keydown", handleKeyDown);
 
-    return () => {
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      }
+    } else if (!shortcutsActive) {
+      console.log('removing listener');
       document.removeEventListener("keydown", handleKeyDown);
     }
   }
 
-  useEffect(setEventListeners, [])
+  useEffect(setEventListeners, [shortcutsActive])
+  // useEffect(toggleListeners, [shortcutsActive])
 
 
   return <>

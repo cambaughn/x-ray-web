@@ -101,6 +101,13 @@ function setFocusedCard(focusedCard) {
   }
 }
 
+function setShortcutsActive(shortcutsActive) {
+  return {
+    type: 'SET_SHORTCUTS_ACTIVE',
+    shortcutsActive
+  }
+}
+
 
 
 export {
@@ -117,5 +124,6 @@ export {
   setLanguage,
   setActionModalStatus,
   setCollectionSortOptions,
-  setFocusedCard
+  setFocusedCard,
+  setShortcutsActive
 };

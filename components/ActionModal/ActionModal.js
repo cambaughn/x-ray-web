@@ -18,6 +18,7 @@ import { setActionModalStatus } from '../../redux/actionCreators';
 
 export default function ActionModal({}) {
   const actionModalStatus = useSelector(state => state.actionModalStatus);
+  // const shortcutsActive = useSelector(state => state.shortcutsActive);
   const dispatch = useDispatch();
 
   const closeModal = () => {

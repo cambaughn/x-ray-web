@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './NavBar.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { User } from 'react-feather';
 import classNames from 'classnames';
 
@@ -13,6 +13,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import SignInButton from '../Buttons/SignInButton';
 
 // Utility functions
+import { setShortcutsActive } from '../../redux/actionCreators';
 import { searchCard, searchSets } from '../../util/algolia/algoliaHelpers';
 import analytics from '../../util/analytics/segment';
 
@@ -21,6 +22,7 @@ export default function NavBar({}) {
   const user = useSelector(state => state.user);
   const subscriptionStatus = useSelector(state => state.subscriptionStatus);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   let queryParam = router.query.search_query ? router.query.search_query.replace(/\+/g, ' ') : null;
   const [searchTerm, setSearchTerm] = useState('');
@@ -103,11 +105,18 @@ export default function NavBar({}) {
 
   const handleFocus = () => {
     // liveSearch();
+    dispatch(setShortcutsActive(false));
+    console.log('setting shortcuts not active');
 
     if (searchTerm.length > 0) {
       setSearching(true);
       updateUrl(searchTerm);
     }
+  }
+
+  const handleBlur = () => {
+    console.log('');
+    dispatch(setShortcutsActive(true));
   }
 
   const handleResultClick = () => {
@@ -142,7 +151,7 @@ export default function NavBar({}) {
         }
 
         { subscriptionStatus === 'active' &&
-          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} />
+          <SearchBar searchTerm={searchTerm} changeSearchTerm={changeSearchTerm} setSearching={setSearching} handleFocus={handleFocus} handleBlur={handleBlur} />
         }
 
 

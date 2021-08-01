@@ -53,6 +53,7 @@
 // Add to collection button - appears on Card details screen
 
 .addButton {
+  position: relative;
   padding: 5px;
   width: 100%;
   border-radius: 15px 5px 15px 5px;
@@ -65,6 +66,13 @@
   &:hover {
     background-color: black;
     color: white;
+
+    .shortcutTextWrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
@@ -75,4 +83,44 @@
 .addToCollectionText {
   font-size: 0.9em;
   margin-left: 10px;
+}
+
+// ShortcutText
+.shortcutTextWrapper, .shortcutTextWrapper:hover {
+  position: absolute;
+  top: 115%;
+  color: grey;
+
+  border-radius: 3px;
+  border: 1px solid #dfe6e9;
+  background-color: white;
+
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 8px;
+  padding-left: 8px;
+  box-sizing: border-box;
+  z-index: 1;
+
+  display: none;
+}
+
+.shortcutText {
+  font-size: 0.8em;
+  margin-right: 5px;
+}
+
+.shortcutBox {
+  background-color: #dee2e3;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.9em;
+  font-weight: bold;
 }

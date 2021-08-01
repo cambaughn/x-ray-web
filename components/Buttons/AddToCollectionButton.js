@@ -20,6 +20,11 @@ export default function AddToCollectionButton({ handleClick, showHelpText }) {
       { showHelpText &&
         <span className={styles.addToCollectionText}>Add to collection</span>
       }
+
+      <div className={styles.shortcutTextWrapper}>
+        <span className={styles.shortcutText}>shortcut:</span>
+        <span className={styles.shortcutBox}>a</span>
+      </div>
     </div>
   )
 }

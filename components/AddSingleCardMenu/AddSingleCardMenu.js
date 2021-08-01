@@ -16,7 +16,7 @@ import pokeCard from '../../util/api/card';
 import analytics from '../../util/analytics/segment';
 
 
-export default function AddSingleCardMenu({ }) {
+export default function AddSingleCardMenu({}) {
   // Finishes
   const [selectedFinish, setSelectedFinish] = useState('holo'); // holo, non-holo, reverse_holo
   const [availableFinishes, setAvailableFinishes] = useState([]);
@@ -164,7 +164,7 @@ export default function AddSingleCardMenu({ }) {
 
   useEffect(getGrades, [gradingAuthority, showHalfGrades]);
   useEffect(determineFinishes, [card]);
-  useEffect(determineVariants, []);
+  useEffect(determineVariants, [setForCard]);
 
   return (
     <div className={classNames(styles.contentWrapper, styles.container)}>

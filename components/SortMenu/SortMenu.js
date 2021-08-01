@@ -57,7 +57,7 @@ export default function SortMenu({}) {
       <div className={styles.mainContent}>
         <h3 className={menuStyles.title}>Sort & Filter</h3>
         <div className={menuStyles.toggleGroup}>
-          <span className={classNames(menuStyles.label, menuStyles.labelRightMargin)}>Group by set</span>
+          <p className={classNames(menuStyles.label, menuStyles.labelRightMargin)}>Group by set</p>
           <div className={classNames(menuStyles.checkBox, { [menuStyles.checkBoxChecked]: collectionSortOptions.groupBySet })} onClick={handleGroupToggle}>
             { collectionSortOptions.groupBySet &&
               <icons.Check className={menuStyles.checkIcon} size={18} />
@@ -65,7 +65,7 @@ export default function SortMenu({}) {
           </div>
         </div>
 
-        <span className={classNames(menuStyles.label, menuStyles.labelBottomMargin)}>Sort by:</span>
+        <p className={classNames(menuStyles.label, menuStyles.labelBottomMargin)}>Sort by:</p>
         <div className={classNames(menuStyles.flexWrapRow, styles.buttonSection)}>
           { sortButtons.map(button => {
             return (
@@ -77,8 +77,7 @@ export default function SortMenu({}) {
           })}
         </div>
 
-        <span className={classNames(menuStyles.label, menuStyles.labelBottomMargin)}>Order</span>
-
+        <p className={classNames(menuStyles.label, menuStyles.labelBottomMargin)}>Order</p>
         <div className={classNames(menuStyles.flexWrapRow, menuStyles.buttonSection)}>
           { orderButtons.map(button => {
             return (

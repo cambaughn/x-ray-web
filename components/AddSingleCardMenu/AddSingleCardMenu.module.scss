@@ -4,6 +4,11 @@
   width: 400px;
   height: 85vh;
 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
   @include media(mobile) {
     width: 90vw;
     height: 85vh;
@@ -24,33 +29,7 @@
 }
 
 .gradingAuthorityVisible {
-  height: 170px;
-}
-
-.gradingTitle {
-  margin: 0;
-  margin-bottom: 10px;
-}
-
-.gradingAuthorityButtons {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.gradingAuthorityButton {
-  margin-bottom: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-// Other grader input
-
-.otherGraderInput {
-
+  height: 75px;
 }
 
 // Grade selection - numbers 10 -> 1
@@ -66,38 +45,13 @@
   transition: 0.5s;
 }
 
-.grades {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-
-  margin-bottom: 10px;
-}
-
 .gradeButton {
   width: 15%;
   margin-bottom: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .halfGradeButton {
   width: 60%;
   font-size: 0.9em;
-}
-
-
-// Save button
-
-.saveButton {
-  position: absolute;
-  bottom: 20px;
-  width: 70%;
-
-  background-color: black;
-  color: white;
-  height: 40px;
 }

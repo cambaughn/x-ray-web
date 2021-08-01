@@ -18,8 +18,9 @@ const finishMap = {
   'holo': 'Holo'
 }
 
-export default function AddSingleCardMenu({ finishes = [] }) {
-  const [selectedFinish, setSelectedFinish] = useState(finishes[0] || 'holo'); // holo, non-holo, reverse_holo
+export default function AddSingleCardMenu({ }) {
+  const [selectedFinish, setSelectedFinish] = useState('holo'); // holo, non-holo, reverse_holo
+  const [availableFinishes, setAvailableFinishes] = useState(['holo', 'reverse_holo', 'non-holo']);
   const [graded, setGraded] = useState(false);
   const [gradingAuthority, setGradingAuthority] = useState('PSA');
   const [grade, setGrade] = useState(10);
@@ -29,8 +30,6 @@ export default function AddSingleCardMenu({ finishes = [] }) {
   const user = useSelector(state => state.user);
   const card = useSelector(state => state.focusedCard);
   const dispatch = useDispatch();
-
-  finishes = finishes.length > 0 ? finishes : ['holo', 'reverse_holo', 'non-holo'];
 
   const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
   // const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
@@ -118,7 +117,7 @@ export default function AddSingleCardMenu({ finishes = [] }) {
         <div className={styles.buttonSection}>
           <p className={classNames(styles.label, styles.labelBottomMargin)}>Finish</p>
           <div className={styles.flexRow}>
-            { finishes.map(finish => {
+            { availableFinishes.map(finish => {
               return (
                 <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: selectedFinish === finish })} onClick={() => setSelectedFinish(finish)} key={finish}>
                   <span>{finishMap[finish]}</span>
@@ -144,7 +143,7 @@ export default function AddSingleCardMenu({ finishes = [] }) {
 
         <div className={classNames(styles.buttonSection, { [styles.notVisible]: !graded })}>
           <p className={classNames(styles.label, styles.labelBottomMargin)}>Grading Company</p>
-          <div className={styles.flexRow}>
+          <div className={styles.flexWrapRow}>
             { graders.map((grader) => {
               return (
                 <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: gradingAuthority === grader })} onClick={() => setGradingAuthority(grader)} key={grader}>
@@ -168,7 +167,7 @@ export default function AddSingleCardMenu({ finishes = [] }) {
         { gradingAuthority.length > 0 && graded &&
           <div className={classNames(styles.buttonSection, styles.flexColumn, { [styles.notVisible]: gradingAuthority.length === 0 })}>
             <p className={classNames(styles.label, styles.labelBottomMargin)}>Grade</p>
-            <div className={styles.flexWrapRow}>
+            <div className={classNames(styles.flexWrapRow)}>
               { possibleGrades.map(possibleGrade => {
                 return (
                   <div className={classNames(styles.smallButton, styles.gradeButton, { [styles.buttonSelected]: possibleGrade === grade })} onClick={() => setGrade(possibleGrade)} key={possibleGrade}>
@@ -179,7 +178,7 @@ export default function AddSingleCardMenu({ finishes = [] }) {
             </div>
 
             { gradingAuthority !== 'PSA' &&
-              <div className={classNames(styles.smallButton, { [styles.buttonSelected]: showHalfGrades })} onClick={() => setShowHalfGrades(!showHalfGrades)}>
+              <div className={classNames(styles.smallButton, styles.halfGradeButton, { [styles.buttonSelected]: showHalfGrades })} onClick={() => setShowHalfGrades(!showHalfGrades)}>
                 <span>Show .5 grades</span>
               </div>
             }

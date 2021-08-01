@@ -11,7 +11,7 @@
 
   @include media(mobile) {
     width: 90vw;
-    height: 85vh;
+    height: 80vh;
   }
 }
 
@@ -52,6 +52,6 @@
 }
 
 .halfGradeButton {
-  width: 60%;
+  margin-top: 10px;
   font-size: 0.9em;
 }

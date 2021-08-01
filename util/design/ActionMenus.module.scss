@@ -7,6 +7,7 @@ $button-margin: 10px;
 .container {
   padding: 20px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .title {
@@ -70,6 +71,12 @@ $button-margin: 10px;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: flex-start;
+
+  margin-bottom: -10px;
+
+  & > div {
+    margin-bottom: 10px;
+  }
 }
 
 .flexColumn {

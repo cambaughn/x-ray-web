@@ -106,7 +106,6 @@ export default function NavBar({}) {
   const handleFocus = () => {
     // liveSearch();
     dispatch(setShortcutsActive(false));
-    console.log('setting shortcuts not active');
 
     if (searchTerm.length > 0) {
       setSearching(true);
@@ -115,7 +114,6 @@ export default function NavBar({}) {
   }
 
   const handleBlur = () => {
-    console.log('');
     dispatch(setShortcutsActive(true));
   }
 

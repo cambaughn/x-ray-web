@@ -10,7 +10,6 @@ import { setActionModalStatus } from '../../redux/actionCreators';
 export default function KeyboardShortcuts({ children, sort, addSingleCard }) {
   const shortcutsActive = useSelector(state => state.shortcutsActive);
   const dispatch = useDispatch();
-  console.log('shortcuts active ', shortcutsActive);
 
   let shortcuts = {
     83: 'sort',
@@ -18,7 +17,6 @@ export default function KeyboardShortcuts({ children, sort, addSingleCard }) {
   }
 
   const handleKeyDown = (event) => {
-    console.log('shortcuts active in listener', shortcutsActive);
     if (!!shortcutsActive) {
       // console.log(event.keyCode);
       switch (shortcuts[event.keyCode]) {
@@ -44,7 +42,6 @@ export default function KeyboardShortcuts({ children, sort, addSingleCard }) {
         document.removeEventListener("keydown", handleKeyDown);
       }
     } else if (!shortcutsActive) {
-      console.log('removing listener');
       document.removeEventListener("keydown", handleKeyDown);
     }
   }

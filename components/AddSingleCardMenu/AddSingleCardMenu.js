@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 // TODO: add base styles for the modals and combine with styles for this menu in particular
-import styles from './AddSingleCardMenu.module.scss';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
+import menuStyles from '../../util/design/ActionMenus.module.scss';
+import styles from './AddSingleCardMenu.module.scss';
 
 // Utility functions
 import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';

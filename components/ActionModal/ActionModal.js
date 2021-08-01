@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import SortMenu from './Menu/SortMenu';
+import SortMenu from '../SortMenu/SortMenu';
 import AddSingleCardMenu from '../AddSingleCardMenu/AddSingleCardMenu';
 
 // Utility functions

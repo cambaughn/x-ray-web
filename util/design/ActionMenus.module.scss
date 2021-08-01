@@ -1,28 +1,12 @@
-@import '../../../util/design/mixins.module.scss';
+@import './mixins.module.scss';
 
 $text-color: grey;
 $radius: 3px;
-
-.sortWrapper {
-  width: 350px;
-  height: 600px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-}
+$button-margin: 10px;
 
 .container {
   padding: 20px;
   box-sizing: border-box;
-}
-
-.mainContent {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
 }
 
 .title {
@@ -34,6 +18,11 @@ $radius: 3px;
   font-weight: 500;
 }
 
+.labelBottomMargin {
+  margin-bottom: 10px;
+}
+
+//Toggle group for checkbox
 .toggleGroup {
   display: flex;
   flex-direction: row;
@@ -43,7 +32,7 @@ $radius: 3px;
   margin-bottom: 20px;
 }
 
-.toggleText {
+.labelRightMargin {
   margin-right: 10px;
 }
 
@@ -59,16 +48,8 @@ $radius: 3px;
 
 }
 
-// Sorting section
-.sortLabel {
-  margin-bottom: 10px;
-}
-
-.sortSection {
-  margin-bottom: 20px;
-}
-
-.sortButtons {
+// Different types of flex containers
+.flexWrapRow {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -76,12 +57,12 @@ $radius: 3px;
   justify-content: flex-start;
 }
 
-.sortButton {
+// Button styling
+.smallButton {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: #ecf0f1;
   border-radius: $radius;
 
   padding-top: 8px;
@@ -89,12 +70,10 @@ $radius: 3px;
   padding-right: 12px;
   padding-left: 12px;
   box-sizing: border-box;
-  margin-right: 10px;
 
   cursor: pointer;
-}
 
-.sortButtonUnselected {
+  background-color: #ecf0f1;
   color: $text-color;
   transition: color 0.5s;
   transition: background-color 0.3s;
@@ -105,22 +84,27 @@ $radius: 3px;
   }
 }
 
-.sortButtonSelected {
+.buttonMarginRight {
+  margin-right: $button-margin;
+}
+
+.buttonMarginBottom {
+  margin-bottom: $button-margin;
+}
+
+.buttonSelected {
   color: #dee2e3;
   background-color: #2d3436;
+
+  &:hover {
+    color: #dee2e3;
+    background-color: #2d3436;
+  }
 }
 
-.sortIcon {
+// Icons
+.iconLeft {
   margin-right: 5px;
-}
-
-// OrderButtons
-.orderButtons {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
 }
 
 // Bottom button

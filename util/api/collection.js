@@ -46,7 +46,7 @@ collectedItem.getForUser = async (user_id) => {
     let items = await db.collection('collected_items').where('user_id', '==', user_id).get()
     items = convertSnapshot(items);
     items = items.filter(item => item.status !== 'archived');
-    items = sortCollectionByDate(items);
+    // items = sortCollectionByDate(items);
     return Promise.resolve(items);
   } catch(error) {
     console.error(error);

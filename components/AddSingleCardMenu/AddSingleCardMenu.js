@@ -5,8 +5,11 @@ import menuStyles from '../../util/design/ActionMenus.module.scss';
 import componentStyles from './AddSingleCardMenu.module.scss';
 const styles = { ...componentStyles, ...menuStyles };
 
+// Components
+import LoadingSpinner from '../Icons/LoadingSpinner';
+
 // Utility functions
-import { setCollectedItems, setCollectionDetails } from '../../redux/actionCreators';
+import { setCollectedItems, setCollectionDetails, setActionModalStatus } from '../../redux/actionCreators';
 import { getNowAsStringWithTime } from '../../util/helpers/date';
 import collectedItem from '../../util/api/collection';
 import pokeCard from '../../util/api/card';
@@ -21,8 +24,7 @@ const finishMap = {
 export default function AddSingleCardMenu({ }) {
   const [selectedFinish, setSelectedFinish] = useState('holo'); // holo, non-holo, reverse_holo
   const [availableFinishes, setAvailableFinishes] = useState(['holo', 'reverse_holo', 'non-holo']);
-  const [graded, setGraded] = useState(false);
-  const [gradingAuthority, setGradingAuthority] = useState('PSA');
+  const [gradingAuthority, setGradingAuthority] = useState('Ungraded');
   const [grade, setGrade] = useState(10);
   const [showHalfGrades, setShowHalfGrades] = useState(false);
   const [possibleGrades, setPossibleGrades] = useState([]);
@@ -31,8 +33,7 @@ export default function AddSingleCardMenu({ }) {
   const card = useSelector(state => state.focusedCard);
   const dispatch = useDispatch();
 
-  const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
-  // const graders = ['PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
+  const graders = ['Ungraded', 'PSA', 'BGS', 'CGC', 'GMA', 'SGC'];
 
   const getGrades = () => {
     let grades = [];
@@ -78,6 +79,7 @@ export default function AddSingleCardMenu({ }) {
 
   const handleSave = async () => {
     try {
+      let graded = gradingAuthority !== 'Ungraded';
       setSubmitted(true);
       let item = {
         user_id: user.id,
@@ -92,7 +94,6 @@ export default function AddSingleCardMenu({ }) {
       }
 
       await collectedItem.create(item);
-
       await getCollectedItems();
 
       analytics.track({
@@ -101,7 +102,6 @@ export default function AddSingleCardMenu({ }) {
       });
 
       dispatch(setActionModalStatus(''));
-      toggleModal();
     } catch(error) {
       console.error(error);
     }
@@ -129,20 +129,6 @@ export default function AddSingleCardMenu({ }) {
 
         <div className={styles.buttonSection}>
           <p className={classNames(styles.label, styles.labelBottomMargin)}>Grading</p>
-          <div className={styles.flexRow}>
-            <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: graded === false })} onClick={() => setGraded(false)}>
-              <span>Ungraded</span>
-            </div>
-
-            <div className={classNames({ [styles.smallButton]: true, [styles.buttonSelected]: graded === true })} onClick={() => setGraded(true)}>
-              <span>Graded</span>
-            </div>
-          </div>
-        </div>
-
-
-        <div className={classNames(styles.buttonSection, { [styles.notVisible]: !graded })}>
-          <p className={classNames(styles.label, styles.labelBottomMargin)}>Grading Company</p>
           <div className={styles.flexWrapRow}>
             { graders.map((grader) => {
               return (
@@ -164,7 +150,7 @@ export default function AddSingleCardMenu({ }) {
           } */}
         </div>
 
-        { gradingAuthority.length > 0 && graded &&
+        { gradingAuthority !== 'Ungraded' &&
           <div className={classNames(styles.buttonSection, styles.flexColumn, { [styles.notVisible]: gradingAuthority.length === 0 })}>
             <p className={classNames(styles.label, styles.labelBottomMargin)}>Grade</p>
             <div className={classNames(styles.flexWrapRow)}>
@@ -188,7 +174,11 @@ export default function AddSingleCardMenu({ }) {
 
       <div className={styles.bottomButtonWrapper}>
         <div className={styles.bottomButton} onClick={!submitted ? handleSave : null}>
-          <span>Add to collection</span>
+          { !submitted
+            ? <span>Add to collection</span>
+            : <LoadingSpinner />
+          }
+
         </div>
       </div>
 

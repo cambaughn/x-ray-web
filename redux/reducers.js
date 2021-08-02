@@ -129,6 +129,15 @@ const focusedCard = (state = {}, action) => {
   }
 }
 
+const focusedSet = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_FOCUSED_SET':
+      return action.focusedSet;
+    default:
+      return state;
+  }
+}
+
 const shortcutsActive = (state = true, action) => {
   switch (action.type) {
     case 'SET_SHORTCUTS_ACTIVE':
@@ -137,7 +146,6 @@ const shortcutsActive = (state = true, action) => {
       return state;
   }
 }
-
 
 
 const xRayApp = combineReducers({
@@ -155,6 +163,7 @@ const xRayApp = combineReducers({
   actionModalStatus,
   collectionSortOptions,
   focusedCard,
+  focusedSet,
   shortcutsActive
 });
 

@@ -18,7 +18,7 @@ import pokeSet from '../../util/api/set';
 import sale from '../../util/api/sales';
 import { isPastWeek } from '../../util/helpers/date';
 import analytics from '../../util/analytics/segment';
-import { setFocusedCard } from '../../redux/actionCreators';
+import { setFocusedCard, setFocusedSet } from '../../redux/actionCreators';
 
 export default function CardDetails({ card_id }) {
   const [card, setCard] = useState({});
@@ -33,7 +33,7 @@ export default function CardDetails({ card_id }) {
   // Redux
   const user = useSelector(state => state.user);
   const collectionDetails = useSelector(state => state.collectionDetails);
-  const isBetaUser = useSelector(state => state.isBetaUser);
+  const focusedSet = useSelector(state => state.focusedSet);
   const dispatch = useDispatch();
 
 
@@ -85,7 +85,7 @@ export default function CardDetails({ card_id }) {
       setSales(salesData || []);
 
       if (!Array.isArray(setData)) {
-        setSet(setData);
+        dispatch(setFocusedSet(setData))
       }
     } catch(error) {
       console.error(error);

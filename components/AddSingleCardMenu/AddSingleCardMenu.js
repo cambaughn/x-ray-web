@@ -31,11 +31,10 @@ export default function AddSingleCardMenu({}) {
   const [availableVariants, setAvailableVariants] = useState(['first_edition', 'shadowless', 'unlimited']);
   // Submission status
   const [submitted, setSubmitted] = useState(false);
-  // Set
-  const [setForCard, setSetForCard] = useState({});
   // Redux
   const user = useSelector(state => state.user);
   const card = useSelector(state => state.focusedCard);
+  const focusedSet = useSelector(state => state.focusedSet);
   const dispatch = useDispatch();
 
   const finishMap = {
@@ -142,15 +141,15 @@ export default function AddSingleCardMenu({}) {
     let variants = [];
     let allVariants = ['first_edition', 'shadowless', 'unlimited'];
 
-    if (setForCard.has_first_edition) {
+    if (focusedSet.has_first_edition) {
       variants.push('first_edition');
     }
 
-    if (setForCard.has_shadowless) {
+    if (focusedSet.has_shadowless) {
       variants.push('shadowless');
     }
 
-    if (setForCard.has_first_edition || setForCard.has_shadowless) {
+    if (focusedSet.has_first_edition || focusedSet.has_shadowless) {
       shouldShowVariants = true;
       variants.push('unlimited');
     }
@@ -164,7 +163,7 @@ export default function AddSingleCardMenu({}) {
 
   useEffect(getGrades, [gradingAuthority, showHalfGrades]);
   useEffect(determineFinishes, [card]);
-  useEffect(determineVariants, [setForCard]);
+  useEffect(determineVariants, [focusedSet]);
 
   return (
     <div className={classNames(styles.contentWrapper, styles.container)}>
@@ -231,7 +230,7 @@ export default function AddSingleCardMenu({}) {
         { showVariants &&
           <div className={styles.buttonSection}>
             <p className={classNames(styles.label, styles.labelBottomMargin)}>Variant</p>
-            <div className={styles.flexRow}>
+            <div className={styles.flexWrapRow}>
               { availableVariants.map(variant => {
                 return (
                   <div className={classNames(styles.smallButton, styles.buttonMarginRight, { [styles.buttonSelected]: selectedVariant === variant })} onClick={() => setSelectedVariant(variant)} key={variant}>

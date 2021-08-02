@@ -101,6 +101,13 @@ function setFocusedCard(focusedCard) {
   }
 }
 
+function setFocusedSet(focusedSet) {
+  return {
+    type: 'SET_FOCUSED_SET',
+    focusedSet
+  }
+}
+
 function setShortcutsActive(shortcutsActive) {
   return {
     type: 'SET_SHORTCUTS_ACTIVE',
@@ -125,5 +132,6 @@ export {
   setActionModalStatus,
   setCollectionSortOptions,
   setFocusedCard,
+  setFocusedSet,
   setShortcutsActive
 };

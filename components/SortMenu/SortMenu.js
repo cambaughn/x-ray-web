@@ -10,6 +10,7 @@ import { SortByAlpha } from '@material-ui/icons';
 
 // Utility functions
 import { setCollectionSortOptions, setActionModalStatus } from '../../redux/actionCreators';
+import { localStorageKeys } from '../../util/localStorage';
 
 
 export default function SortMenu({}) {
@@ -31,18 +32,21 @@ export default function SortMenu({}) {
     let updates = { ...collectionSortOptions };
     updates.groupBySet = !updates.groupBySet;
     dispatch(setCollectionSortOptions(updates));
+    saveSortOptionsLocally(updates);
   }
 
   const handleSortByClick = (sortBy) => {
     let updates = { ...collectionSortOptions };
     updates.sortBy = sortBy;
     dispatch(setCollectionSortOptions(updates));
+    saveSortOptionsLocally(updates);
   }
 
   const handleSortOrderClick = (sortOrder) => {
     let updates = { ...collectionSortOptions };
     updates.sortOrder = sortOrder;
     dispatch(setCollectionSortOptions(updates));
+    saveSortOptionsLocally(updates);
   }
 
   const saveSortOptionsLocally = (options) => {

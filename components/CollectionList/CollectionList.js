@@ -98,8 +98,8 @@ export default function CollectionList({ user, collectionDetails, collectedItems
       a = collectedItems[a.item_id];
       b = collectedItems[b.item_id];
 
-      let firstLetterA = a.name.charAt(0) ? a.name.charAt(0).toLowerCase() : null;
-      let firstLetterB = b.name.charAt(0) ? b.name.charAt(0).toLowerCase() : null;
+      let firstLetterA = a && a.name.charAt(0) ? a.name.charAt(0).toLowerCase() : null;
+      let firstLetterB = a && b.name.charAt(0) ? b.name.charAt(0).toLowerCase() : null;
 
       if (sortOrder === 'desc') {
         if (firstLetterA < firstLetterB) {
@@ -204,7 +204,7 @@ export default function CollectionList({ user, collectionDetails, collectedItems
   }
 
   useEffect(mapSets, [collectedItems, collectionDetails]);
-  useEffect(sortCollectionDetails, [collectedItems, collectionDetails, collectionSortOptions]);
+  useEffect(sortCollectionDetails, [collectedItems, collectionDetails, collectionSortOptions, sales]);
   // useEffect(mapSales, [sales]);
 
   return (

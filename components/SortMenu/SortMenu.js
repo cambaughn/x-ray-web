@@ -45,6 +45,10 @@ export default function SortMenu({}) {
     dispatch(setCollectionSortOptions(updates));
   }
 
+  const saveSortOptionsLocally = (options) => {
+    window.localStorage.setItem(localStorageKeys.collectionSortOptions, JSON.stringify(options));
+  }
+
   const renderIcon = (name) => {
     let IconComponent = icons[name];
     return <IconComponent className={menuStyles.iconLeft} size={16} />

@@ -4,6 +4,7 @@ import styles from './SortMenu.module.scss';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import * as icons from 'react-feather';
+import { SortByAlpha } from '@material-ui/icons';
 
 // Components
 
@@ -18,6 +19,7 @@ export default function SortMenu({}) {
   const sortButtons = [
     { text: 'Date added', icon: 'Calendar', sortBy: 'date' },
     { text: 'Value', icon: 'DollarSign', sortBy: 'value' },
+    { text: 'Alphabetical', icon: 'alphabet', sortBy: 'alphabetical' },
   ]
 
   const orderButtons = [
@@ -68,9 +70,14 @@ export default function SortMenu({}) {
         <p className={classNames(menuStyles.label, menuStyles.labelBottomMargin)}>Sort by:</p>
         <div className={classNames(menuStyles.flexWrapRow, styles.buttonSection)}>
           { sortButtons.map(button => {
+            let isAlphabet = button.sortBy === 'alphabetical';
+
             return (
               <div className={classNames(menuStyles.smallButton, menuStyles.buttonMarginRight, { [menuStyles.buttonSelected]: collectionSortOptions.sortBy === button.sortBy })} onClick={() => handleSortByClick(button.sortBy)} key={button.text}>
-                { renderIcon(button.icon) }
+                { !isAlphabet && renderIcon(button.icon) }
+                { isAlphabet &&
+                  <SortByAlpha className={menuStyles.iconLeft} />
+                }
                 <span className={menuStyles.smallButtonText}>{button.text}</span>
               </div>
             )

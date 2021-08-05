@@ -19,7 +19,7 @@ export default function SortMenu({}) {
   const sortButtons = [
     { text: 'Date added', icon: 'Calendar', sortBy: 'date' },
     { text: 'Value', icon: 'DollarSign', sortBy: 'value' },
-    { text: 'Alphabetical', icon: 'alphabet', sortBy: 'alphabetical' },
+    { text: 'Alphabetical', sortBy: 'alphabetical' },
   ]
 
   const orderButtons = [

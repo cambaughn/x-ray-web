@@ -86,21 +86,56 @@ export default function CollectionList({ user, collectionDetails, collectedItems
           return 1;
         }
       }
-      console.log('a sales ', aSales);
     })
 
     return sorted;
   }
 
+  const sortAlphabetically = (items) => {
+    let { sortOrder } = collectionSortOptions;
+
+    let sorted = [ ...items ].sort((a, b) => {
+      a = collectedItems[a.item_id];
+      b = collectedItems[b.item_id];
+
+      let firstLetterA = a.name.charAt(0) ? a.name.charAt(0).toLowerCase() : null;
+      let firstLetterB = b.name.charAt(0) ? b.name.charAt(0).toLowerCase() : null;
+
+      if (sortOrder === 'desc') {
+        if (firstLetterA < firstLetterB) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        if (firstLetterA > firstLetterB) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    })
+
+    return sorted;
+  }
+
+
+
   const sortCollectionDetails = () => {
     // Handle sorting collected cards
     let sorted = [ ...collectionDetails ];
 
-    if (collectionSortOptions.sortBy === 'date') {
-      sorted = sortByDateAdded(sorted);
-    } else if (collectionSortOptions.sortBy === 'value') {
-      sorted = sortByValue(sorted);
-    }
+    switch (collectionSortOptions.sortBy) {
+      case 'date':
+        sorted = sortByDateAdded(sorted);
+        break;
+      case 'value':
+        sorted = sortByValue(sorted);
+        break;
+      case 'alphabetical':
+        sorted = sortAlphabetically(sorted);
+        break;
+      }
 
     setSortedCollectionDetails(sorted);
   }

@@ -128,7 +128,7 @@ export default function CardDetails({ card_id }) {
   return (
     <KeyboardShortcuts addSingleCard>
       <div className={styles.container}>
-        <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} showHelpText={collectionDetails.length <= 1} set={set} />
+        <CardInfo card={card} editingName={editingName} setEditingName={setEditingName} cardName={cardName} setCardName={setCardName} showHelpText={collectionDetails.length <= 1} set={focusedSet} />
 
         <div className={styles.rightSection}>
           <PriceDetails card={card} finishes={finishes} setFinishes={setFinishes} />

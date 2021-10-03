@@ -3,6 +3,7 @@
 util/algolia/algoliaInit.js
 util/firebase/firebaseConfig.js
 ssl/
+util/notion/notionSecrets.js
 
 # dependencies
 /node_modules

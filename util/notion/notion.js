@@ -1,19 +1,18 @@
 import { Client } from "@notionhq/client";
-import { notion_api_key, notion_database_id } from "./notionSecrets";
+import { notion_api_key, cardsId, setsId, seriesId } from "./notionSecrets";
 
 const notion = new Client({ auth: notion_api_key });
 
-const databaseId = notion_database_id;
+console.log('ids ', cardsId, notion_api_key);
 
-console.log('ids ', databaseId, notion_api_key);
 
 const addItem = async (text) => {
   try {
     const response = await notion.pages.create({
-      parent: { database_id: databaseId },
+      parent: { database_id: seriesId },
       properties: {
         title: { 
-          title:[
+          title: [
             {
               "text": {
                 "content": text
@@ -30,4 +29,4 @@ const addItem = async (text) => {
   }
 }
 
-addItem("Yurts in Big Sur, California");
+addItem("Charizard");

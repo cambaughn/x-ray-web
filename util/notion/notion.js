@@ -3,8 +3,14 @@ import { notion_api_key, cardsId, setsId, seriesId } from "./notionSecrets";
 import pokeSeries from "../api/series";
 import pokeSet from "../api/set";
 import { releaseStringToObject } from "../helpers/date";
+import util from 'util';
+
 
 const notion = new Client({ auth: notion_api_key });
+
+const logObject = (objectToLog) => {
+  console.log(util.inspect(objectToLog, false, null, true /* enable colors */))
+}
 
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -12,6 +18,7 @@ const capitalizeFirstLetter = (string) => {
 
 
 const createTitle = (text) => {
+  !text && console.log('No title');
   return { 
     title: [
       {
@@ -24,6 +31,7 @@ const createTitle = (text) => {
 }
 
 const createRichText = (text) => {
+  !text && console.log('No rich text');
   return {
     "rich_text": [{
       "type": 'text',
@@ -58,42 +66,57 @@ const createDate = (startDate, endDate) => {
   }
 
   return dateObject;
+}
+
+const createRelation = (page_id) => {
+  return {
+    "relation": [
+      { "id": page_id }
+    ]
+  }
+}
 
 
-  const addItem = async (item) => {
-    try {
-      return notion.pages.create(item)
-  
-    } catch (error) {
-      console.error(error.body)
-    }
-  }}
+const addItem = async (item) => {
+  try {
+    return notion.pages.create(item)
 
+  } catch (error) {
+    console.error(error.body)
+  }
+}
 
 // series_id: 'Black & White JPN',
 
 // Sets
 const uploadSets = async () => {
-  // NOTE: Need to add reference to series
-  // Get series, create map of ids, then add to notion object for set
+  // Get series, create map of ids
   // Get the whole series database
   let series = await getSeriesDatabase();
-  series = series.results.map(item => item.properties.DatabaseId.rich_text);
-  console.log('got series ', series);
+  let seriesLookup = {};
+  series.results.forEach(item => {
+    seriesLookup[item.properties.DatabaseId.rich_text[0].plain_text] = item.id;
+  })
 
   let sets = await pokeSet.get();
+  sets = sets.filter(set => set.name === 'Chilling Reign');
+
   let formattedSets = sets.map(set => {
+    if (!set.name) {
+      console.log('set ', set);
+    }
     let notionObject = {
       parent: { database_id: setsId },
       properties: {
         title: createTitle(set.name),
-        "Language": set.language ? createRichText(capitalizeFirstLetter(set.language)) : 'English',
+        "Language": set.language ? createRichText(capitalizeFirstLetter(set.language)) : createRichText('English'),
         "SetId": createRichText(set.id),
         "Total Cards": createNumber(set.total),
         "Printed Total": createNumber(set.printedTotal),
         "PSA Pop Link": createUrl(set.psa_pop_urls[0] || null),
         "Pokellector Link": createUrl(set.url || null),
-        "Release Date": createDate(releaseStringToObject(set.releaseDate))
+        "Release Date": createDate(releaseStringToObject(set.releaseDate)),
+        "Series": createRelation(seriesLookup[set.series_id])
       },
       children: [
         {
@@ -112,11 +135,11 @@ const uploadSets = async () => {
     return notionObject;
   })
 
-
-  // console.log('got sets ', sets[sets.length - 5]);
+  logObject(formattedSets)
+  // console.log('got sets ', sets[sets.length - 1]);
   // console.log('got sets ', formattedSets[10]);
   // addItem(formattedSets[12]);
-
+  formattedSets.forEach(set => addItem(set));
 }
 
 // Series

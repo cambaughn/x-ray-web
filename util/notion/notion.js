@@ -58,14 +58,29 @@ const createDate = (startDate, endDate) => {
   }
 
   return dateObject;
-}
 
-// releaseDate: '2012/3/16',
+
+  const addItem = async (item) => {
+    try {
+      return notion.pages.create(item)
+  
+    } catch (error) {
+      console.error(error.body)
+    }
+  }}
+
+
 // series_id: 'Black & White JPN',
-
 
 // Sets
 const uploadSets = async () => {
+  // NOTE: Need to add reference to series
+  // Get series, create map of ids, then add to notion object for set
+  // Get the whole series database
+  let series = await getSeriesDatabase();
+  series = series.results.map(item => item.properties.DatabaseId.rich_text);
+  console.log('got series ', series);
+
   let sets = await pokeSet.get();
   let formattedSets = sets.map(set => {
     let notionObject = {
@@ -99,23 +114,16 @@ const uploadSets = async () => {
 
 
   // console.log('got sets ', sets[sets.length - 5]);
-  console.log('got sets ', formattedSets[10]);
+  // console.log('got sets ', formattedSets[10]);
   // addItem(formattedSets[12]);
-  // NOTE: Need to add reference to series
-  // Get series, create map of ids, then add to notion object for set
+
 }
 
 // Series
-const addItem = async (item) => {
-  try {
-    return notion.pages.create(item)
 
-  } catch (error) {
-    console.error(error.body)
-  }
+const getSeriesDatabase = () => {
+  return notion.databases.query({ database_id: seriesId })
 }
-
-
 
 const formatSeries = async () => {
   let allSeries = await pokeSeries.get();

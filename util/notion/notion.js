@@ -99,12 +99,8 @@ const uploadSets = async () => {
   })
 
   let sets = await pokeSet.get();
-  sets = sets.filter(set => set.name === 'Chilling Reign');
 
   let formattedSets = sets.map(set => {
-    if (!set.name) {
-      console.log('set ', set);
-    }
     let notionObject = {
       parent: { database_id: setsId },
       properties: {
@@ -135,11 +131,8 @@ const uploadSets = async () => {
     return notionObject;
   })
 
-  logObject(formattedSets)
-  // console.log('got sets ', sets[sets.length - 1]);
-  // console.log('got sets ', formattedSets[10]);
-  // addItem(formattedSets[12]);
-  formattedSets.forEach(set => addItem(set));
+
+  // formattedSets.forEach(set => addItem(set));
 }
 
 // Series
@@ -179,6 +172,6 @@ const formatSeries = async () => {
 }
 
 // formatSeries()
-uploadSets();
+// uploadSets();
 
 

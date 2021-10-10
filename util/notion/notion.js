@@ -69,7 +69,7 @@ const createNumber = (number) => {
 
 const createUrl = (url) => {
   return {
-    "url": url
+    "url": url || null
   }
 }
 
@@ -101,6 +101,16 @@ const createCheckbox = (bool) => {
   }
 }
 
+const createImageReference = (card) => {
+  let url = card.images.large || card.images.small;
+  if (url && !url.includes('firebase')) {
+    return url;
+  } else {
+
+    return card.alternate_images?.large || card.alternate_images?.small || null
+  }
+}
+
 
 const addItem = async (item) => {
   try {
@@ -125,7 +135,9 @@ const uploadCards = async () => {
   // let firstCard = await pokeCard.get('sma-SV49');
   // console.log('first card', firstCard);
   let formattedCard = formatCard(firstCard, setsLookup[firstCard.set_id])
-  // logObject(formattedCard);
+  logObject(formattedCard);
+
+  addItem(formattedCard)
 }
 
 
@@ -134,7 +146,7 @@ const formatCard = (card, setId) => {
     parent: { database_id: cardsId },
     properties: {
       title: createTitle(card.name),
-      "Language": card.language === 'japanese' ? 'Japanese' : 'English',
+      "Language": card.language === 'japanese' ? createRichText('Japanese') : createRichText('English'),
       "Number": createRichText(card.number),
       "Rarity": createRichText(card.rarity),
       "TCGPlayer URL": createUrl(card.tcgplayer_url),
@@ -148,7 +160,7 @@ const formatCard = (card, setId) => {
         "image": {
           "type": "external",
           "external": {
-              "url": card.images.large || card.images.small || null
+              "url": createImageReference(card)
           }
         }
       }

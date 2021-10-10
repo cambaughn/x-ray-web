@@ -2,11 +2,18 @@ import { Client } from "@notionhq/client";
 import { notion_api_key, cardsId, setsId, seriesId } from "./notionSecrets";
 import pokeSeries from "../api/series";
 import pokeSet from "../api/set";
+import pokeCard from '../api/card';
 import { releaseStringToObject } from "../helpers/date";
 import util from 'util';
 
 
 const notion = new Client({ auth: notion_api_key });
+
+
+const cardLanguages = {
+  en: 'English',
+  jp: 'Japanese'
+}
 
 const logObject = (objectToLog) => {
   console.log(util.inspect(objectToLog, false, null, true /* enable colors */))
@@ -16,6 +23,18 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const getNotionDatabase = async (database_id) => {
+  let results = [];
+  let start_cursor;
+
+  do {
+    let query = await notion.databases.query({ database_id, start_cursor });
+    results = [ ...results, ...query.results ];
+    start_cursor = query.next_cursor || undefined;
+  } while (start_cursor);
+
+  return Promise.resolve(results);
+}
 
 const createTitle = (text) => {
   !text && console.log('No title');
@@ -76,6 +95,12 @@ const createRelation = (page_id) => {
   }
 }
 
+const createCheckbox = (bool) => {
+  return {
+    "checkbox": bool
+  }
+}
+
 
 const addItem = async (item) => {
   try {
@@ -86,13 +111,59 @@ const addItem = async (item) => {
   }
 }
 
-// series_id: 'Black & White JPN',
+
+// Cards
+const uploadCards = async () => {
+  let sets = await getNotionDatabase(setsId);
+  let setsLookup = {};
+  sets.forEach(item => {
+    setsLookup[item.properties.SetId.rich_text[0].plain_text] = item.id;
+  })
+
+
+  let firstCard = await pokeCard.get('S4A-JPN-307');
+  // let firstCard = await pokeCard.get('sma-SV49');
+  // console.log('first card', firstCard);
+  let formattedCard = formatCard(firstCard, setsLookup[firstCard.set_id])
+  // logObject(formattedCard);
+}
+
+
+const formatCard = (card, setId) => {
+  return {
+    parent: { database_id: cardsId },
+    properties: {
+      title: createTitle(card.name),
+      "Language": card.language === 'japanese' ? 'Japanese' : 'English',
+      "Number": createRichText(card.number),
+      "Rarity": createRichText(card.rarity),
+      "TCGPlayer URL": createUrl(card.tcgplayer_url),
+      "Full Art": createCheckbox(card.full_art),
+      "Set": createRelation(setId)
+    },
+    children: [
+      {
+        object: 'block',
+        "type": "image",
+        "image": {
+          "type": "external",
+          "external": {
+              "url": card.images.large || card.images.small || null
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+
 
 // Sets
 const uploadSets = async () => {
   // Get series, create map of ids
   // Get the whole series database
-  let series = await getSeriesDatabase();
+  let series = await getNotionDatabase(seriesId);
   let seriesLookup = {};
   series.results.forEach(item => {
     seriesLookup[item.properties.DatabaseId.rich_text[0].plain_text] = item.id;
@@ -110,7 +181,6 @@ const uploadSets = async () => {
         "Total Cards": createNumber(set.total),
         "Printed Total": createNumber(set.printedTotal),
         "PSA Pop Link": createUrl(set.psa_pop_urls[0] || null),
-        "Pokellector Link": createUrl(set.url || null),
         "Release Date": createDate(releaseStringToObject(set.releaseDate)),
         "Series": createRelation(seriesLookup[set.series_id])
       },
@@ -136,10 +206,6 @@ const uploadSets = async () => {
 }
 
 // Series
-
-const getSeriesDatabase = () => {
-  return notion.databases.query({ database_id: seriesId })
-}
 
 const formatSeries = async () => {
   let allSeries = await pokeSeries.get();
@@ -171,6 +237,8 @@ const formatSeries = async () => {
   formattedSeries.forEach(series => addItem(series));
 }
 
+
+uploadCards();
 // formatSeries()
 // uploadSets();
 

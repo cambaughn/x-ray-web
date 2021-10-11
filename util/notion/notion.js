@@ -10,9 +10,8 @@ import util from 'util';
 const notion = new Client({ auth: notion_api_key });
 
 
-const cardLanguages = {
-  en: 'English',
-  jp: 'Japanese'
+const textToNumber = (text) => {
+  return parseInt(text.replace(/\D/g,'')) || null;
 }
 
 const logObject = (objectToLog) => {
@@ -130,14 +129,20 @@ const uploadCards = async () => {
     setsLookup[item.properties.SetId.rich_text[0].plain_text] = item.id;
   })
 
+  for (let i = 2; i < sets.length; i++) {
+    let set = sets[i];
+    let set_name = set.properties.Name.title[0].plain_text;
+    console.log(`Uploading cards for ${set_name}`);
+    let firebaseSetId = set.properties.SetId.rich_text[0].plain_text
+    let notionSetId = setsLookup[set.properties.SetId.rich_text[0].plain_text];
+    let cardsForSet = await pokeCard.getForSet(firebaseSetId);
+    let formattedCards = cardsForSet.map(card => formatCard(card, notionSetId));
+    let uploadRefs = formattedCards.map(card => addItem(card));
+    await Promise.all(uploadRefs);
+    console.log(`Completed uploading cards for ${set_name}`);
+    console.log('------------------');
+  }
 
-  let firstCard = await pokeCard.get('S4A-JPN-307');
-  // let firstCard = await pokeCard.get('sma-SV49');
-  // console.log('first card', firstCard);
-  let formattedCard = formatCard(firstCard, setsLookup[firstCard.set_id])
-  logObject(formattedCard);
-
-  addItem(formattedCard)
 }
 
 
@@ -147,10 +152,11 @@ const formatCard = (card, setId) => {
     properties: {
       title: createTitle(card.name),
       "Language": card.language === 'japanese' ? createRichText('Japanese') : createRichText('English'),
-      "Number": createRichText(card.number),
+      "Number": createNumber(textToNumber(card.number)),
+      "Number on Card": createRichText(card.number),
       "Rarity": createRichText(card.rarity),
       "TCGPlayer URL": createUrl(card.tcgplayer_url),
-      "Full Art": createCheckbox(card.full_art),
+      "Full Art": createCheckbox(card.full_art || false),
       "Set": createRelation(setId)
     },
     children: [
@@ -255,3 +261,4 @@ uploadCards();
 // uploadSets();
 
 
+export { textToNumber }

@@ -65,6 +65,14 @@ pokeCard.getMultiple = async (ids) => {
   }
 }
 
+pokeCard.getForSet = (set_id) => {
+  return db.collection('pokemon_cards').where('set_id', '==', set_id).get()
+  .then(function(snapshot) {
+    let cards = convertSnapshot(snapshot);
+    return cards;
+  })
+}
+
 pokeCard.search = async (key, value) => {
   try {
     return db.collection('pokemon_cards').where(key, '==', value).get()

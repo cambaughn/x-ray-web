@@ -47,28 +47,6 @@ export default function CardDetails({ card_id }) {
     }
   }
 
-  const updateCardSales = async () => {
-    try {
-      if (card.id) {
-        let updateCard = !card.last_updated || !isPastWeek(card.last_updated);
-
-        if (updateCard) {
-          setUpdatingSales(true);
-          const { data } = await axios.post(`${window.location.origin}/api/sales/update_card`, { card: card });
-
-          if (data.updated) {
-            console.log('updated!');
-            getCardDetails();
-          }
-        }
-      }
-    } catch(error) {
-      console.error(error);
-    }
-
-    setUpdatingSales(false);
-  }
-
   const getCardDetails = async () => {
     try {
       // await pokeCard.update(card_id, { last_updated: null });
@@ -122,7 +100,6 @@ export default function CardDetails({ card_id }) {
 
   useEffect(recordPageView, []);
   useEffect(getCardDetails, [card_id]);
-  // useEffect(updateCardSales, [card]);
   useEffect(updateViewCount, [card]);
 
   return (

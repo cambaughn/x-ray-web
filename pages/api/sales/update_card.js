@@ -1,5 +1,3 @@
-import { updateSalesForCard } from '../../../util/eBay/listings.js'
-
 export default async (request, response) => {
   const { card } = request.body;
 
